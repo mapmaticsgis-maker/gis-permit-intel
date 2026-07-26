@@ -8,6 +8,9 @@ on:
     - cron: "15 16 * 11,12,1,2 *"  # 10:15 CST (UTC-6) — roughly Nov-Mar
   workflow_dispatch: {}      # manual "Run workflow" button on the Actions tab, for testing
 
+permissions:
+  contents: write
+
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
@@ -38,4 +41,4 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/
           git diff --staged --quiet || git commit -m "Daily permit intel run $(date -u +%F)"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/mapmaticsgis-maker/gis-permit-intel.git master
