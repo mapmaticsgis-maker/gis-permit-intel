@@ -1,0 +1,92 @@
+# ============ PERMIT INTEL — CONFIG ============
+data_dir: ./data            # master files + daily outputs live here
+timezone: America/Chicago
+
+texas:
+  # CONFIRMED WORKING: this is RRC's constant-URL daily file (the trailing
+  # "#" some browsers show is just a URL fragment — never sent to the
+  # server, so it doesn't change the request). Verified two ways: (1) the
+  # 07-26-2026 pull from this file parsed clean through parse_rrc() with
+  # real coordinates/counties/corridor tags, (2) Zach's dashboard
+  # (rrcdashboard.zachg.org) already fetches this same link
+  # programmatically, so it's not browser-session-gated.
+  fetch_url: "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
+  # MODE B (fallback, in use today): drop your manual download into this folder,
+  # or pass the file path directly as an argument (run_daily.py does this automatically).
+  watch_dir: ./data/tx/inbox      # drop daf420.dat.MM-DD-YYYY here
+  gdb: C:\GIS\RRC_Permits\RRC_Permits.gdb
+  coord_cache: C:\GIS\RRC_Permits\rrc_coordinate_cache.csv
+  build_gdb: true
+  fields:
+    id: "STATUS_NUMBER"
+    api: "API_NO"
+    operator: "OPERATOR_NAME"
+    lease: "LEASE_NAME"
+    well: "WELL_NUMBER"
+    county: "COUNTY"
+    district: "DISTRICT"
+    issue_date: "ISSUE_DATE"
+    submitted: "RECEIVED_DATE"
+    depth: "TOTAL_DEPTH"
+    wellbore: "WELLBORE_PROFILE"
+    amend: "AMEND_FLAG"
+    shl_lat: "SHL_LAT"
+    shl_lon: "SHL_LONG"
+    bhl_lat: "BHL_LAT"
+    bhl_lon: "BHL_LONG"
+
+louisiana:
+  # CONFIRMED WORKING — this is the live service Jason's ArcGIS Pro session connects to
+  # (DNRSvc/OC = LA Dept. of Natural Resources, Office of Conservation). Layer 0 = "Oil/Gas
+  # Wells" (point layer: surface location only -- no BHL/line geometry in this service, unlike
+  # TX daf420). Good enough for permit/status new-amended tracking; horizontal wellbore lines
+  # aren't available from this endpoint.
+  rest_url: "https://sonris-gis.dnr.la.gov/arcgis/rest/services/DNRSvc/OC/MapServer/0/query"
+  date_field: "PERMIT_DATE"
+  ords_csv_url: ""
+  watch_dir: ./data/la/inbox
+  fields:
+    id: "WELL_SERIAL_NUM"
+    api: "API_NUM"
+    operator: "ORG_OPER_NAME"
+    well: "WELL_NAME"
+    well_num: "WELL_NUM"
+    parish: "PARISH_NAME"
+    field: "FIELD_NAME"
+    issue_date: "PERMIT_DATE"
+    spud: "SPUD_DATE"
+    status: "WELL_STATUS_CODE"
+    status_desc: "LEGEND_DESC"
+    depth: "MEASURED_DEPTH"
+    township: "TOWNSHIP"
+    range: "WELL_RANGE"
+    section: "SECTN"
+    dirwell: "DIRWELL"
+    lat: "SURFACE_LAT_DEC_DEG"
+    lon: "SURFACE_LONG_DEC_DEG"
+
+# -------- corridors: county/parish -> client tag (drives the digest) --------
+corridors:
+  "DLS / EOG — Giddings & Eastern Eagle Ford":
+    tx: [LEE, FAYETTE, BASTROP, WASHINGTON, GONZALES, LAVACA, DEWITT, AUSTIN, COLORADO]
+  "DOXA / Sabine — East Texas":
+    tx: [RUSK, PANOLA, SHELBY, HARRISON, NACOGDOCHES, SMITH, GREGG, CHEROKEE]
+  "DOXA / Firebird — Permian":
+    tx: [ECTOR, WINKLER, UPTON, MIDLAND, CRANE, ANDREWS]
+  "West Haynesville watch":
+    tx: [LEON, ROBERTSON, FREESTONE, HOUSTON, MADISON]
+  "RROG + DOXA — NW Louisiana Haynesville":
+    la: [CADDO, DESOTO, "RED RIVER", BOSSIER, BIENVILLE, SABINE, WEBSTER, NATCHITOCHES]
+
+# -------- operator families (corporate-intel layer) --------
+operator_families:
+  ADAMAS:        {family: "Adamas (ex-Aethon, Mitsubishi)", aliases: [ADAMAS, AETHON]}
+  APEX:          {family: "Apex (ex-Paloma, Citadel)",      aliases: [APEX, PALOMA]}
+  EXPAND:        {family: "Expand (CHK+SWN, ex-Indigo)",    aliases: [EXPAND, CHESAPEAKE, SOUTHWESTERN, INDIGO]}
+  COMSTOCK:      {family: "Comstock (Jerry Jones)",          aliases: [COMSTOCK]}
+  EOG:           {family: "EOG Resources",                   aliases: [EOG]}
+  SABINE:        {family: "Sabine Energy",                   aliases: [SABINE]}
+  FIREBIRD:      {family: "Firebird Energy",                 aliases: [FIREBIRD]}
+  DIVERSIFIED:   {family: "Diversified (legacy CV, Oaktree)",aliases: [DIVERSIFIED]}
+  MARATHON:      {family: "Marathon (eastern EF push)",      aliases: [MARATHON]}
+  IRONBLOOM:     {family: "Ironbloom (new Giddings entrant)",aliases: [IRONBLOOM]}

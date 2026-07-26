@@ -1,0 +1,41 @@
+name: Daily Permit Intel
+
+on:
+  schedule:
+    # 10:15 America/Chicago, both sides of DST (RRC's constant-URL file
+    # doesn't update until ~09:45 CST, so this gives it a 30-min buffer):
+    - cron: "15 15 * 3-10 *"   # 10:15 CDT (UTC-5) — roughly Mar-Nov
+    - cron: "15 16 * 11,12,1,2 *"  # 10:15 CST (UTC-6) — roughly Nov-Mar
+  workflow_dispatch: {}      # manual "Run workflow" button on the Actions tab, for testing
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pandas pyyaml requests pyshp openpyxl
+
+      - name: Run daily pipeline
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          ALERT_TO_EMAIL: ${{ secrets.ALERT_TO_EMAIL }}
+          HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
+        run: python run_daily_ci.py
+
+      - name: Commit updated masters + outputs + run log
+        if: always()
+        run: |
+          git config user.name "permit-intel-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "Daily permit intel run $(date -u +%F)"
+          git push
