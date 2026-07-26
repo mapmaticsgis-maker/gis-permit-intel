@@ -1,67 +1,10 @@
 # Texas RRC (daf420) Permit Intel — Sun Jul 26 2026
 
-**62 new** | **2 amended** vs master.
+**0 new** | **0 amended** vs master.
 
-## Corridor hits (client-relevant)
-
-### DLS / EOG — Giddings & Eastern Eagle Ford
-- **BURLINGTON RESOURCES O & G CO LP** — 27 (Dewitt, 17500' TD)
-- **BURLINGTON RESOURCES O & G CO LP** — 28 (Dewitt, 17500' TD)
-- **BURLINGTON RESOURCES O & G CO LP** — 41 (Dewitt, 17500' TD)
-- **BURLINGTON RESOURCES O & G CO LP** — 43 (Dewitt, 17500' TD)
-- **BURLINGTON RESOURCES O & G CO LP** — 45 (Dewitt, 17500' TD)
-- **BURLINGTON RESOURCES O & G CO LP** — 46 (Dewitt, 17500' TD)
-- **MAGNOLIA OIL & GAS OPERATING LLC** — H 02CC (Fayette, 12000' TD)
-- **MAGNOLIA OIL & GAS OPERATING LLC** — H 06CC (Fayette, 12000' TD)
-- **MAGNOLIA OIL & GAS OPERATING LLC** — H 08CC (Fayette, 12000' TD)
-- **MAGNOLIA OIL & GAS OPERATING LLC** — H 10CC (Fayette, 12000' TD)
-- **MAGNOLIA OIL & GAS OPERATING LLC** — H 12CC (Fayette, 12000' TD)
-
-### DOXA / Sabine — East Texas
-- **AGIS ENERGY LLC** — 1H (Panola, 9395' TD)
-- **AGIS ENERGY LLC** — 2H (Panola, 9395' TD)
-- **BUCKHORN OPERATING LLC** — 2H (Rusk, 10500' TD)
-- **SABINE ENERGY INC.** — 1H (Rusk, 8600' TD)  _[Sabine Energy]_
-- **SILVER HILL ENERGY OPERATING LLC** — 3H (Shelby, 13000' TD)
-- **SILVER HILL ENERGY OPERATING LLC** — 5H (Shelby, 13000' TD)
-
-## All new permits by county
-- Borden: 2 (SURGE OPERATING, LLC)
-- Cass: 1 (CHEVRON U. S. A. INC.)
-- Dewitt: 6 (BURLINGTON RESOURCES O & G CO LP)
-- Fayette: 5 (MAGNOLIA OIL & GAS OPERATING LLC)
-- Karnes: 3 (BPX OPERATING COMPANY)
-- Kent: 1 (SALIDA EXPLORATION, LLC)
-- Live Oak: 2 (BURLINGTON RESOURCES O & G CO LP)
-- Loving: 6 (ANADARKO E&P ONSHORE LLC)
-- Nolan: 1 (ENERGY TRANSFER COMPANY)
-- Panola: 2 (AGIS ENERGY LLC)
-- Reagan: 18 (DE CENTRAL OPERATING, LLC, PIONEER NATURAL RES. USA, INC.)
-- Reeves: 4 (TRP OPERATING LLC)
-- Rusk: 2 (BUCKHORN OPERATING LLC, SABINE ENERGY INC.)
-- Shelby: 2 (SILVER HILL ENERGY OPERATING LLC)
-- Tyler: 1 (DAVIS SOUTHERN OPERATING CO LLC)
-- Ward: 1 (GOODNIGHT MIDSTREAM PERMIAN, LLC)
-- Webb: 1 (KILLAM OIL CO., LTD.)
-- Wilbarger: 2 (BURK ROYALTY CO., LTD.)
-- Yoakum: 1 (OCCIDENTAL PERMIAN LTD.)
-- Young: 1 (RIDGE OIL COMPANY)
-
-## Amendments
-- DIAMONDBACK E&P LLC — 2MS (Maverick)
-- PIONEER NATURAL RES. USA, INC. — 6H (Midland)
 
 ---
 _New-entrant check: any operator above with no prior record in master is flagged NEW OPERATOR in new_permits.csv (col: first_seen)._
-
-## Resurfaced older files (issue date >7d old, new to master)
-- EOG RESOURCES, INC. — GAHAN A 1H (Gonzales), issued 2025-06-18
-- ADAMAS ENERGY LLC — BYRD-BARET A 3H (San Augustine), issued 2026-05-21
-- ADAMAS ENERGY LLC — PIKE-BARET 1H (San Augustine), issued 2026-05-29
-- ADAMAS ENERGY LLC — PIKE-ERICSSON-BARET 1H (San Augustine), issued 2026-05-29
-- ROCKCLIFF ENERGY OPERATING III — ROYAL TROON RA 1HB (San Augustine), issued 2026-06-09
-- RILEY PERMIAN OPERATING CO, LLC — ROWDY YATES 596-585 1XH (Yoakum), issued 2026-06-19
-- RILEY PERMIAN OPERATING CO, LLC — ROWDY YATES 596-585 15XH (Yoakum), issued 2026-06-18
 
 ## Month-to-date (July 2026) — 550 permits issued
 
