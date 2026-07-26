@@ -3,16 +3,11 @@ data_dir: ./data            # master files + daily outputs live here
 timezone: America/Chicago
 
 texas:
-  # CONFIRMED WORKING: this is RRC's constant-URL daily file (the trailing
-  # "#" some browsers show is just a URL fragment — never sent to the
-  # server, so it doesn't change the request). Verified two ways: (1) the
-  # 07-26-2026 pull from this file parsed clean through parse_rrc() with
-  # real coordinates/counties/corridor tags, (2) Zach's dashboard
-  # (rrcdashboard.zachg.org) already fetches this same link
-  # programmatically, so it's not browser-session-gated.
-  fetch_url: "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
-  # MODE B (fallback, in use today): drop your manual download into this folder,
-  # or pass the file path directly as an argument (run_daily.py does this automatically).
+  # fetch_url: DISABLED on GitHub Actions (Ubuntu doesn't have direct access to RRC's binary file).
+  # MODE B (fallback): drop manual download into watch_dir, or pass as argument.
+  # For local Windows runs, you can restore the RRC link:
+  #   fetch_url: "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
+  fetch_url: ""
   watch_dir: ./data/tx/inbox      # drop daf420.dat.MM-DD-YYYY here
   gdb: C:\GIS\RRC_Permits\RRC_Permits.gdb
   coord_cache: C:\GIS\RRC_Permits\rrc_coordinate_cache.csv

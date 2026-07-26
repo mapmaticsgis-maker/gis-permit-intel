@@ -41,8 +41,12 @@ diag_la.py
 diagtest/
 diagtest.gdb
 temp_csv/
-inbox/
 logs/
+
+# inbox: ignore everything except committed daf420 baseline files
+data/tx/inbox/*
+!data/tx/inbox/.gitkeep
+!data/tx/inbox/daf420.dat.*
 
 # Sensitive: environment/credentials (GitHub Secrets handle these instead)
 .env
