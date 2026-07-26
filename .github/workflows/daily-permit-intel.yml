@@ -2,10 +2,10 @@ name: Daily Permit Intel
 
 on:
   schedule:
-    # 8:00 AM America/Chicago, both sides of DST
-    # (File available ~7:45 AM, giving 15-min buffer for user download + commit)
-    - cron: "00 13 * 3-10 *"   # 8:00 AM CDT (UTC-5) — roughly Mar-Nov
-    - cron: "00 14 * 11,12,1,2 *"  # 8:00 AM CST (UTC-6) — roughly Nov-Mar
+    # 9:00 AM America/Chicago, both sides of DST
+    # (File available ~7:45 AM, giving 75-min buffer for user download + place in repo)
+    - cron: "00 14 * 3-10 *"   # 9:00 AM CDT (UTC-5) — roughly Mar-Nov
+    - cron: "00 15 * 11,12,1,2 *"  # 9:00 AM CST (UTC-6) — roughly Nov-Mar
   workflow_dispatch: {}      # manual "Run workflow" button on the Actions tab, for testing
 
 permissions:
