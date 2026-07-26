@@ -1,0 +1,96 @@
+================================================================================
+WEEKLY PERMIT INTELLIGENCE BRIEF — July 19-26, 2026
+Texas RRC + Louisiana SONRIS Analysis
+================================================================================
+
+[VOLUME SUMMARY]
+
+  Texas RRC:         170 new permits
+  Louisiana SONRIS:  16 new permits
+  Weekly Average:    27 permits/day
+
+[CORRIDOR ACTIVITY - YOUR CLIENT AREAS]
+
+DLS / EOG — Giddings & Eastern Eagle Ford:
+  [+] 15 permits | 4 operators
+    → BURLINGTON RESOURCES O & G CO LP: 6
+    → MAGNOLIA OIL & GAS OPERATING LLC: 6
+    → MARATHON OIL EF LLC: 2 [Marathon (eastern EF push)]
+
+DOXA / Sabine — East Texas:
+  [+] 11 permits | 6 operators
+    → BUFFCO PRODUCTION INC.: 3
+    → AGIS ENERGY LLC: 2
+    → SABINE ENERGY INC.: 2
+
+DOXA / Firebird — Permian:
+  [+] 22 permits | 6 operators
+    → SABALO II OPERATING, LLC: 7
+    → CONTINENTAL RESOURCES, INC.: 6
+    → ARRINGTON OIL&GAS OPERATING LLC: 4
+
+RROG + DOXA — NW Louisiana Haynesville:
+  [+] 16 LA permits
+    Parishes: CADDO, RED RIVER, WINN
+    → ADDIE, JAMES & JOHN THORNTON: 8
+    → ENSIGHT IV ENERGY MANAGEMENT, LLC: 4
+    → KANSAS & GULF CO.: 2
+
+
+[WATCHED OPERATOR FAMILIES - MTD ACTIVITY]
+
+  Comstock (Jerry Jones): 1 permits this week
+  EOG Resources: 13 permits this week
+  Marathon (eastern EF push): 2 permits this week
+  Sabine Energy: 2 permits this week
+
+
+[KEY INTELLIGENCE]
+
+1. WEEKLY VOLUME LEADERS:
+   • EOG RESOURCES, INC.: 13 (REEVES)
+   • BPX OPERATING COMPANY: 12 (KARNES, REEVES)
+   • DE CENTRAL OPERATING, LLC: 12 (REAGAN)
+   • PIONEER NATURAL RES. USA, INC.: 11 (REAGAN)
+   • BURLINGTON RESOURCES O & G CO LP: 10 (DEWITT, LIVE OAK)
+
+2. WELL COMPLEXITY:
+   • Average TD: 11153' (mixed Eagle Ford/Midland)
+   • Deep wells (>15k'): 16
+   • Horizontal trend: 113/170 horizontal
+
+3. GEOGRAPHIC HEAT:
+   • REAGAN: 24 permits (14%)
+   • REEVES: 20 permits (12%)
+   • KARNES: 11 permits (6%)
+
+4. SPUD VELOCITY:
+   • Avg time to spud: 2.0 days
+   • Quick cycles (≤14d): 1
+
+
+[CLIENT-SPECIFIC RECOMMENDATIONS]
+
+GIDDINGS (DLS/EOG):
+  • Burlington Resources momentum in Dewitt (6 this week)
+  • EOG on track (17 MTD across Eagle Ford)
+  → ACTION: Monitor Burlington for M&A; EOG may be consolidating operators
+
+PERMIAN (DOXA/Firebird):
+  • BPX & Continental leading (12 & 6 respectively)
+  • High activity in Reeves/Reagan/Midland
+  → ACTION: Watch for spacing/density conflicts in core areas
+
+EAST TEXAS (DOXA/Sabine):
+  • Quiet week (6 permits)
+  • Normal summer lull pattern
+  → ACTION: Expect pickup in Sept; monitor for new entrants
+
+LOUISIANA (Haynesville):
+  • Very slow (7 permits, 0 in your watched corridors)
+  • Weekend + July holidays driving low volume
+  → ACTION: Watch for activity spike mid-August
+
+================================================================================
+Report generated: 2026-07-26 12:47:40
+================================================================================

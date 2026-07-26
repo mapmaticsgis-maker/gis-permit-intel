@@ -3,10 +3,9 @@ data_dir: ./data            # master files + daily outputs live here
 timezone: America/Chicago
 
 texas:
-  # Automated commit monitor: user downloads to watch_dir, script auto-commits
-  # (RRC's fetch_url returns HTML login page, won't work headless)
-  fetch_url: ""
-  watch_dir: ./data/tx/inbox      # Download daf420.dat.MM-DD-YYYY here, script auto-commits
+  # Browser-based automated download: Playwright handles RRC's session/redirects
+  fetch_url: "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
+  watch_dir: ./data/tx/inbox      # daf420.dat.MM-DD-YYYY files go here (auto-download + manual fallback)
   gdb: C:\GIS\RRC_Permits\RRC_Permits.gdb
   coord_cache: C:\GIS\RRC_Permits\rrc_coordinate_cache.csv
   build_gdb: true
