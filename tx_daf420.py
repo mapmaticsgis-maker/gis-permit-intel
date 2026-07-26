@@ -76,30 +76,6 @@ def apply_coordinate_cache(df_all, cache_csv):
         df_all[c] = df_all[c].combine_first(df_all[f"{c}_c"]); df_all.drop(columns=[f"{c}_c"], inplace=True)
     return df_all
 
-# ---------- automated download (MFT link pattern) ----------
-def fetch_daily_file(cfg):
-    """Download today's file from texas.fetch_url (RRC's constant-URL daily
-    file — confirmed working: matches parse_rrc()'s expected format
-    byte-for-byte, and is already fetched programmatically by Zach's
-    dashboard) into watch_dir, named the same way the manual download is,
-    so everything downstream (date_tag regex, glob patterns) is unaffected.
-    The HTML-response guard below stays in as a cheap safety net in case
-    RRC ever changes how this link behaves."""
-    tx = cfg["texas"]
-    today = dt.date.today()
-    watch_dir = Path(tx["watch_dir"]); watch_dir.mkdir(parents=True, exist_ok=True)
-    dest = watch_dir / f"daf420.dat.{today.month:02d}-{today.day:02d}-{today.year}"
-    resp = requests.get(tx["fetch_url"], timeout=120)
-    resp.raise_for_status()
-    content_type = resp.headers.get("Content-Type", "")
-    if "text/html" in content_type and len(resp.content) < 20000:
-        raise RuntimeError(
-            "fetch_url returned an HTML page, not the data file — likely a "
-            "landing/consent page rather than a direct download. Grab the "
-            "real direct-download link from a browser network tab instead."
-        )
-    dest.write_bytes(resp.content)
-    return dest
 
 
 # ---------- diff + intel ----------
@@ -274,11 +250,9 @@ def main():
     cfg = load_cfg(); tx = cfg["texas"]
     if len(sys.argv) > 1:
         dat = Path(sys.argv[1])
-    elif tx.get("fetch_url"):
-        dat = fetch_daily_file(cfg)
     else:
         cands = sorted(glob.glob(os.path.join(tx["watch_dir"], "daf420*")), key=os.path.getmtime)
-        if not cands: sys.exit(f"No daf420 file found in {tx['watch_dir']}")
+        if not cands: sys.exit(f"No daf420 file found in {tx['watch_dir']}. Commit a dated file to inbox.")
         dat = Path(cands[-1])
     m = re.search(r"(\d{2})-(\d{2})-(\d{4})", dat.name)
     date_tag = f"{m.group(3)}{m.group(1)}{m.group(2)}" if m else dt.date.today().strftime("%Y%m%d")

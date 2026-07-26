@@ -3,12 +3,10 @@ data_dir: ./data            # master files + daily outputs live here
 timezone: America/Chicago
 
 texas:
-  # fetch_url: DISABLED on GitHub Actions (Ubuntu doesn't have direct access to RRC's binary file).
-  # MODE B (fallback): drop manual download into watch_dir, or pass as argument.
-  # For local Windows runs, you can restore the RRC link:
-  #   fetch_url: "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
+  # Primary: watch_dir for committed baseline files (most reliable for GitHub Actions)
+  # The RRC's direct link pattern requires browser session; instead, commit dated files here.
   fetch_url: ""
-  watch_dir: ./data/tx/inbox      # drop daf420.dat.MM-DD-YYYY here
+  watch_dir: ./data/tx/inbox      # daf420.dat.MM-DD-YYYY files go here
   gdb: C:\GIS\RRC_Permits\RRC_Permits.gdb
   coord_cache: C:\GIS\RRC_Permits\rrc_coordinate_cache.csv
   build_gdb: true
