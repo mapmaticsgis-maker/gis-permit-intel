@@ -1,12 +1,13 @@
 name: Daily Permit Intel
 
 on:
-  schedule:
-    # 9:00 AM America/Chicago, both sides of DST
-    # (File available ~7:45 AM, giving 75-min buffer for user download + place in repo)
-    - cron: "00 14 * 3-10 *"   # 9:00 AM CDT (UTC-5) — roughly Mar-Nov
-    - cron: "00 15 * 11,12,1,2 *"  # 9:00 AM CST (UTC-6) — roughly Nov-Mar
-  workflow_dispatch: {}      # manual "Run workflow" button on the Actions tab, for testing
+  # No `schedule:` trigger: GitHub deprioritizes cron-triggered runs on
+  # lower-traffic repos -- observed a 2h25m delay on 2026-07-27 despite a
+  # correctly configured 9:00 AM cron. Instead, trigger_github_workflow.py
+  # fires this via workflow_dispatch (the API call below) from the
+  # always-on PC's Task Scheduler at 9:00 AM CST, which has proven
+  # reliable to the second for the 7:50 AM auto-download task.
+  workflow_dispatch: {}      # also usable manually from the Actions tab
 
 permissions:
   contents: write
