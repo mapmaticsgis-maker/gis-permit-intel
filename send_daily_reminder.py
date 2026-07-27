@@ -13,13 +13,23 @@ Runs via Windows Task Scheduler.
 import os
 import smtplib
 import subprocess
+import sys
+import traceback
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 import logging
 from pathlib import Path
 
-log_dir = Path("logs")
+# Task Scheduler doesn't guarantee the -WorkingDirectory is honored the same
+# way an interactive shell does; anchor everything to this file's location.
+SCRIPT_DIR = Path(__file__).resolve().parent
+os.chdir(SCRIPT_DIR)
+
+from local_env import load_env
+load_env()
+
+log_dir = SCRIPT_DIR / "logs"
 log_dir.mkdir(exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -133,4 +143,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        logger.error("Unhandled exception:\n" + traceback.format_exc())
+        sys.exit(1)

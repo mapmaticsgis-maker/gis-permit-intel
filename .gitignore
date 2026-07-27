@@ -52,3 +52,6 @@ data/tx/inbox/*
 .env
 .env.local
 settings.local.json
+
+# Playwright browser binaries (project-local install, see auto_download_rrc.py)
+.playwright-browsers/

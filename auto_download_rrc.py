@@ -19,15 +19,23 @@ Logs: logs/rrc_download.log
 import asyncio
 import io
 import logging
+import os
 import subprocess
 import sys
+import traceback
 import zipfile
 from datetime import datetime
 from pathlib import Path
 
 import yaml
 
-log_dir = Path("logs")
+# Task Scheduler doesn't reliably honor -WorkingDirectory the way an
+# interactive shell does; anchor everything to this file's location so
+# config.yaml and the git repo are always found regardless of launch context.
+SCRIPT_DIR = Path(__file__).resolve().parent
+os.chdir(SCRIPT_DIR)
+
+log_dir = SCRIPT_DIR / "logs"
 log_dir.mkdir(exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -42,12 +50,23 @@ logger = logging.getLogger(__name__)
 GODRIVE_URL = "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
 MIN_SIZE_BYTES = 200_000  # daf420.dat is normally 1-3 MB; guard against garbage/empty files
 
+# Chrome executable, installed to a project-local folder rather than the
+# default %LOCALAPPDATA%\ms-playwright. Under Task Scheduler's S4U logon
+# session, launching a browser from the user's AppData profile path
+# reproducibly fails with a bogus "Executable doesn't exist" -- even though
+# the file is present and reads fine interactively -- while this repo
+# directory (which the S4U token already needs for git operations) works
+# without issue. Install with:
+#   $env:PLAYWRIGHT_BROWSERS_PATH = 'C:\GIS\permit_intel\.playwright-browsers'
+#   python -m playwright install chromium
+CHROMIUM_EXE = str(SCRIPT_DIR / ".playwright-browsers" / "chromium-1228" / "chrome-win64" / "chrome.exe")
+
 
 async def download_daf420(watch_dir: Path) -> Path | None:
     from playwright.async_api import async_playwright
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(headless=True, executable_path=CHROMIUM_EXE)
         page = await browser.new_page(accept_downloads=True)
         try:
             logger.info("Opening RRC GoDrive portal...")
@@ -142,4 +161,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    exit(main())
+    try:
+        exit(main())
+    except Exception:
+        logger.error("Unhandled exception:\n" + traceback.format_exc())
+        exit(1)
