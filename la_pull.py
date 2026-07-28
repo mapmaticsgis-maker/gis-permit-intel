@@ -74,6 +74,13 @@ def main():
         print("No records returned - check rest_url / where clause / date range."); return
     raw = collapse_operator_lines(raw)
     today = norm(raw, la["fields"])
+    # WELL_SERIAL_NUM comes back as an int from the ArcGIS REST JSON, while
+    # master.csv (read via load_master's dtype=str) always stores id as a
+    # string. Left uncast, the merge below's drop_duplicates("id") silently
+    # fails to match "255778" (str, from master) against 255778 (int, from
+    # today), so old and refreshed rows for the same well both survive as
+    # "different" ids -- duplicate bloat accumulates every run it happens on.
+    today["id"] = today["id"].astype(str)
     master = load_master(cfg, "la")
     new, amended, _ = diff(master, today, change_cols=("operator","depth","well","status","field"))
     known_ops = set(master["operator"].dropna()) if master is not None else set()
