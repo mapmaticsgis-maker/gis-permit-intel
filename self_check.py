@@ -65,17 +65,25 @@ def skip_note(label: str, skip: dict) -> str:
 
 
 def check_run_not_stale(run_log: Path, max_gap_hours: int = 36):
+    """Detects the pipeline going silent (Actions disabled, trigger stopped
+    firing, etc.) -- a different concern from any individual day's checks
+    failing. Previously this keyed off only fully-clean ("OK") runs, which
+    conflated the two: one caught-and-same-day-fixed data issue made this
+    fire again on every subsequent run for the next 36h, even though the
+    pipeline itself never stopped running. Now it just asks "did *a* run
+    happen recently," regardless of whether that run was perfectly clean --
+    checks_failed on any given day is already surfaced by its own alert.
+    """
     if not run_log.exists():
         return ("run_not_stale", True, "first run, no history yet")
     with open(run_log, newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
-    successes = [r for r in rows if r["status"] == "OK"]
-    if not successes:
-        return ("run_not_stale", True, "no prior successful run logged yet")
-    last = datetime.fromisoformat(successes[-1]["date"])
+    if not rows:
+        return ("run_not_stale", True, "no prior run logged yet")
+    last = datetime.fromisoformat(rows[-1]["date"])
     gap = datetime.now() - last
     ok = gap < timedelta(hours=max_gap_hours)
-    return ("run_not_stale", ok, f"last success {gap} ago")
+    return ("run_not_stale", ok, f"last run {gap} ago")
 
 
 def count_new(outd: Path) -> int | None:
