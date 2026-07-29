@@ -46,24 +46,34 @@ def check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 3)
     Calibrated against July 2026: legitimate plateaus ran to 2 days
     (07-12..07-14 all 348 headers, 07-19..07-21 all 502); the freeze held 706
     from 07-26 onward.
+
+    Moved means changed, not grew. The extract is month-to-date cumulative
+    and resets at month start, so a drop is a new cycle beginning -- evidence
+    the source is alive, not stalled.
     """
     name = "records_advancing"
     if not ledger_rows:
         return (name, False, "ledger is empty -- nothing has ever been ingested")
 
-    high_water = -1
-    last_increase = None
-    for row in sorted(ledger_rows, key=lambda r: r["ingested_at"]):
+    # Compare consecutive rows, never an all-time high. The extract resets at
+    # month start (07-02 carried 1009 headers from June, 07-03 dropped to 59,
+    # and July never re-exceeded 1009), so a high-water mark would pin
+    # last_move at the previous month's peak and alarm for the whole month.
+    # A DECREASE is a legitimate new cycle -- the source moving, not stalling.
+    ordered = sorted(ledger_rows, key=lambda r: r["ingested_at"])
+    last_move = ordered[0]["ingested_at"]
+    count = int(ordered[0]["records_parsed"])
+    for row in ordered[1:]:
         parsed = int(row["records_parsed"])
-        if parsed > high_water:
-            high_water = parsed
-            last_increase = row["ingested_at"]
+        if parsed != count:
+            last_move = row["ingested_at"]
+        count = parsed
 
-    last_date = datetime.fromisoformat(last_increase).date()
+    last_date = datetime.fromisoformat(last_move).date()
     flat_days = (today - last_date).days
     ok = flat_days < alarm_after_days
     return (name, ok,
-            f"record count last grew {last_date.isoformat()} to {high_water} "
+            f"record count last moved {last_date.isoformat()} (now {count}) "
             f"({flat_days}d ago, alarms at {alarm_after_days}d)")
 
 

@@ -76,6 +76,32 @@ def test_records_advancing_catches_the_freeze_hash_freshness_misses():
     assert "2026-07-26" in detail
 
 
+def test_month_reset_is_not_a_freeze():
+    """The extract resets at month start: 07-02 carried 1009 headers from
+    June's cycle, 07-03 dropped to 59, and July never re-exceeded 1009. A
+    high-water mark would pin the last increase at 07-02 and alarm all month
+    while permits were in fact advancing daily."""
+    _, ok, detail = invariants.check_records_advancing(
+        rows(("2026-07-02T06:00:00", 1009),
+             ("2026-07-03T06:00:00", 59),
+             ("2026-07-04T06:00:00", 111)),
+        today=date(2026, 7, 4),
+    )
+    assert ok is True
+    assert "2026-07-04" in detail
+
+
+def test_month_reset_then_genuine_freeze_still_alarms():
+    """The reset must not mask a real stall that follows it."""
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-08-01T06:00:00", 706),
+             ("2026-08-02T06:00:00", 41),
+             ("2026-08-05T06:00:00", 41)),
+        today=date(2026, 8, 5),
+    )
+    assert ok is False
+
+
 def test_records_advancing_empty_ledger_fails():
     _, ok, _ = invariants.check_records_advancing([], today=date(2026, 7, 28))
     assert ok is False
