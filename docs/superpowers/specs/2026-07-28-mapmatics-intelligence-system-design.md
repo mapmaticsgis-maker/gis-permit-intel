@@ -59,6 +59,11 @@ The **evidence pack** is the contract between halves. Deterministic side writes 
 only, no prose. Claude side reads it and composes. The seam is what makes the system
 testable without an LLM and degradable when the LLM step fails.
 
+The pack is also the eventual dashboard's data source (see *Future surface*), so it stays
+**presentation-neutral**: no brief-specific shaping, ordering, or phrasing leaks into it.
+Anything the brief states must be *derivable from the pack*, never computed only during
+composition — otherwise a second surface cannot reproduce it.
+
 Governing rule: **anything that might be shown to a client is computed deterministically;
 anything that is a judgment call is Claude's.**
 
@@ -288,6 +293,29 @@ Phase 1 is the only one that is urgent; each subsequent phase is additive.
   it directly when offered.
 - **Delivery at 08:00 CST by email**, reusing existing `send_email.py` and Task Scheduler.
 - **Rolling email window** of 14 days for job-status derivation.
+
+## Future surface — dashboard
+
+The intended end state is a dashboard the user can check from anywhere, at any time. It is
+**not built in this spec.** The brief runs in Claude Cowork until it proves itself, and
+only then does a persistent surface get built.
+
+Three constraints this imposes on the work we do now, so the dashboard is not a rewrite:
+
+1. **The evidence pack is the API.** Brief and dashboard are both consumers of the same
+   presentation-neutral pack. Keeping composition logic out of the pack is what makes a
+   second surface cheap.
+2. **Briefs are persisted, not just sent.** Each brief is written to `data/briefs/<date>.md`
+   in addition to being emailed. A dashboard needs history to render, and a brief that only
+   exists in an inbox has none. This costs nothing now and is unrecoverable later.
+3. **Two dashboards, not one.** Zach's existing dashboard consumes
+   `data/<state>/out/<date>/` and that contract is unchanged. The intel dashboard is a
+   separate, second consumer reading the evidence pack. They are not merged.
+
+**Promotion criterion.** "Proves successful" needs a definition before it can be met.
+Proposed: the brief runs unattended for four consecutive weeks with no silent-failure
+alarms, and the user acts on it — opens a client conversation, adjusts a job, or catches a
+permit they would otherwise have missed — at least weekly. To be confirmed by the user.
 
 ## Deferred, deliberately
 
