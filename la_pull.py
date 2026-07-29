@@ -96,9 +96,16 @@ def main():
     # fails to match "255778" (str, from master) against 255778 (int, from
     # today), so old and refreshed rows for the same well both survive as
     # "different" ids -- duplicate bloat accumulates every run it happens on.
-    today["id"] = today["id"].astype(str)
-
+    # Assert BEFORE casting, not after. astype(str) on pandas <=2.x renders
+    # NaN as the literal string "nan" -- not null -- so the assertion's
+    # isna() check would find nothing and a null key would sail straight
+    # through. pandas 3.0.5 happens to preserve NA through the cast, so the
+    # assertion does fire correctly on the currently installed version, but
+    # requirements.txt pins no pandas version and correctness should not
+    # depend on which one someone has. Asserting on the raw column is right
+    # on every version; the cast still happens, just after the check.
     assert_usable_key(today, "id")
+    today["id"] = today["id"].astype(str)
 
     sha = hash_text(today.sort_values("id").to_csv(index=False))
     prior = find_ingestion(cfg["data_dir"], "la", sha)
