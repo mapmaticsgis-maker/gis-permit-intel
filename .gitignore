@@ -55,3 +55,7 @@ settings.local.json
 
 # Playwright browser binaries (project-local install, see auto_download_rrc.py)
 .playwright-browsers/
+
+# W-1 plat PDFs: large binaries, user-downloaded, not needed in git history.
+# The digest.md summary (the actual intel) stays tracked.
+data/tx/w1/*/*.pdf
