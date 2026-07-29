@@ -13,17 +13,21 @@ from digest import build_digest
 
 def fetch_rest(cfg):
     la = cfg["louisiana"]
-    master = load_master(cfg, "la")
     today_ts = pd.Timestamp(dt.date.today())
-    since = None
-    if master is not None and "issue_date" in master and master["issue_date"].notna().any():
-        since = pd.to_datetime(master["issue_date"], errors="coerce").max() - pd.Timedelta(days=3)
-    # Guard against bad source data: SONRIS carries at least one legacy well with a
-    # PERMIT_DATE years in the future (garbage placeholder on an old P&A'd well). A single
-    # such record would otherwise lock "since" onto that bad date forever, starving every
-    # future pull. Clip to a sane recent window if the computed value is missing or absurd.
-    if since is None or pd.isna(since) or since > today_ts or since < today_ts - pd.Timedelta(days=120):
-        since = today_ts - pd.Timedelta(days=7 if master is not None else 60)
+    # Fixed 45-day lookback rather than deriving "since" from master's max
+    # issue_date. That approach broke two ways: (1) SONRIS carries a legacy
+    # well with a PERMIT_DATE years in the future (garbage placeholder on an
+    # old P&A'd well), which pushed the computed "since" past today and
+    # required a guard/fallback; (2) even the fallback (7 days) was too
+    # narrow -- cross-checked against an Enverus permit export on 2026-07-28
+    # and found 5 real permits (PERMIT_DATE 07-16/07-17) that SONRIS hadn't
+    # surfaced into this queryable layer until well after their nominal
+    # date, so any "since" window under ~2 weeks silently drops them forever
+    # (diff() only catches genuinely new ids -- once a pull window passes a
+    # permit by, it's never queried again). The full LA dataset is only
+    # ~100-150 wells total, so a wide fixed window costs nothing in payload
+    # size and removes this whole bug class.
+    since = today_ts - pd.Timedelta(days=45)
     since_str = since.strftime("%Y-%m-%d")
     where = f"{la['date_field']} >= DATE '{since_str}'"
     params = {"where": where, "outFields": "*", "f": "json", "returnGeometry": "false",
