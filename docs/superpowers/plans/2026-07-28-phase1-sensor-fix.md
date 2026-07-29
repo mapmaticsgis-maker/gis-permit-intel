@@ -874,6 +874,32 @@ def test_records_advancing_catches_the_freeze_hash_freshness_misses():
     assert "2026-07-26" in detail
 
 
+def test_month_reset_is_not_a_freeze():
+    """The extract resets at month start: 07-02 carried 1009 headers from
+    June's cycle, 07-03 dropped to 59, and July never re-exceeded 1009. A
+    high-water mark would pin the last increase at 07-02 and alarm all month
+    while permits were in fact advancing daily."""
+    _, ok, detail = invariants.check_records_advancing(
+        rows(("2026-07-02T06:00:00", 1009),
+             ("2026-07-03T06:00:00", 59),
+             ("2026-07-04T06:00:00", 111)),
+        today=date(2026, 7, 4),
+    )
+    assert ok is True
+    assert "2026-07-04" in detail
+
+
+def test_month_reset_then_genuine_freeze_still_alarms():
+    """The reset must not mask a real stall that follows it."""
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-08-01T06:00:00", 706),
+             ("2026-08-02T06:00:00", 41),
+             ("2026-08-05T06:00:00", 41)),
+        today=date(2026, 8, 5),
+    )
+    assert ok is False
+
+
 def test_records_advancing_empty_ledger_fails():
     _, ok, _ = invariants.check_records_advancing([], today=date(2026, 7, 28))
     assert ok is False
@@ -989,24 +1015,34 @@ def check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 3)
     Calibrated against July 2026: legitimate plateaus ran to 2 days
     (07-12..07-14 all 348 headers, 07-19..07-21 all 502); the freeze held 706
     from 07-26 onward.
+
+    "Moved" means changed, not grew. The extract is month-to-date cumulative
+    and resets at month start, so a drop is a new cycle beginning -- evidence
+    the source is alive, not stalled.
     """
     name = "records_advancing"
     if not ledger_rows:
         return (name, False, "ledger is empty -- nothing has ever been ingested")
 
-    high_water = -1
-    last_increase = None
-    for row in sorted(ledger_rows, key=lambda r: r["ingested_at"]):
+    # Compare consecutive rows, never an all-time high. The extract resets at
+    # month start (07-02 carried 1009 headers from June, 07-03 dropped to 59,
+    # and July never re-exceeded 1009), so a high-water mark would pin
+    # last_move at the previous month's peak and alarm for the whole month.
+    # A DECREASE is a legitimate new cycle -- the source moving, not stalling.
+    ordered = sorted(ledger_rows, key=lambda r: r["ingested_at"])
+    last_move = ordered[0]["ingested_at"]
+    count = int(ordered[0]["records_parsed"])
+    for row in ordered[1:]:
         parsed = int(row["records_parsed"])
-        if parsed > high_water:
-            high_water = parsed
-            last_increase = row["ingested_at"]
+        if parsed != count:
+            last_move = row["ingested_at"]
+        count = parsed
 
-    last_date = datetime.fromisoformat(last_increase).date()
+    last_date = datetime.fromisoformat(last_move).date()
     flat_days = (today - last_date).days
     ok = flat_days < alarm_after_days
     return (name, ok,
-            f"record count last grew {last_date.isoformat()} to {high_water} "
+            f"record count last moved {last_date.isoformat()} (now {count}) "
             f"({flat_days}d ago, alarms at {alarm_after_days}d)")
 
 
@@ -1543,7 +1579,7 @@ git commit -m "Record RRC source freeze diagnosis"
 
 ## Done when
 
-- [ ] `python -m pytest tests/ -v` passes (44 tests).
+- [ ] `python -m pytest tests/ -v` passes (46 tests).
 - [ ] `python scripts/replay_tx.py --from 2026-07-03 --to 2026-07-28` prints `RECONCILED` with 693 on both lines.
 - [ ] Running `tx_daf420.py` twice on the same file leaves `git status --short data/tx/out/` empty on the second run.
 - [ ] `run_daily_ci.py`'s checks include `tx_source_freshness` failing while the source remains frozen.
