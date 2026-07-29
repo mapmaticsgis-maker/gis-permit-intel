@@ -1410,10 +1410,17 @@ from core.diff import diff                            # noqa: E402
 from tx_daf420 import CHANGE_COLS, parse_rrc          # noqa: E402
 
 
+DAF420_NAME = re.compile(r"daf420\.dat\.(\d{2})-(\d{2})-(\d{4})$")
+
+
 def dated_inbox_files(watch_dir, start, end):
+    """Only exactly-named dated extracts. The pattern is anchored because an
+    unanchored search would accept daf420.dat.test-07-27-2026 -- a filename
+    that has actually existed in this repo (commit 765f938) -- and silently
+    fold test data into the recovery numbers."""
     out = []
     for p in Path(watch_dir).glob("daf420.dat.*"):
-        m = re.search(r"(\d{2})-(\d{2})-(\d{4})", p.name)
+        m = DAF420_NAME.fullmatch(p.name)
         if not m:
             continue
         d = dt.date(int(m.group(3)), int(m.group(1)), int(m.group(2)))
@@ -1438,7 +1445,7 @@ def main():
         sys.exit(f"No daf420 files between {start} and {end}")
 
     master = None
-    total_new = 0
+    seen_new = []
     print(f"{'date':12} {'parsed':>7} {'new':>6} {'amended':>8} {'master':>7}")
     for day, path in files:
         parsed = parse_rrc(path)
@@ -1454,18 +1461,33 @@ def main():
         master = (parsed if master is None
                   else pd.concat([master, parsed], ignore_index=True)
                        .drop_duplicates("Permit_Number", keep="last"))
-        total_new += len(new)
+        seen_new.extend(new["Permit_Number"].tolist())
         print(f"{day.isoformat():12} {len(parsed):>7} {len(new):>6} "
               f"{len(amended):>8} {len(master):>7}")
 
-    unique = master["Permit_Number"].nunique()
-    print(f"\nper-day new sums to : {total_new}")
-    print(f"master unique permits: {unique}")
-    if total_new == unique:
-        print("RECONCILED - every permit in master was reported new on exactly one day")
-    else:
-        print(f"MISMATCH - {total_new} != {unique}; the replay is losing or double-counting")
+    # Set identity, not count equality. Comparing only totals lets two
+    # opposite-signed errors cancel -- one permit reported new on two days
+    # while another reaches master without ever being reported -- and the
+    # replay would print RECONCILED while being wrong in both directions.
+    in_master = set(master["Permit_Number"])
+    reported = set(seen_new)
+    repeated = len(seen_new) - len(reported)
+    never_reported = in_master - reported
+    reported_not_in_master = reported - in_master
+
+    print(f"\nper-day new sums to : {len(seen_new)}")
+    print(f"master unique permits: {len(in_master)}")
+    if repeated or never_reported or reported_not_in_master:
+        print("MISMATCH -"
+              f" {repeated} permit(s) reported new on more than one day;"
+              f" {len(never_reported)} in master never reported new;"
+              f" {len(reported_not_in_master)} reported new but absent from master")
+        for label, s in (("repeat/extra", reported_not_in_master),
+                         ("never reported", never_reported)):
+            if s:
+                print(f"  {label}: {sorted(s)[:10]}")
         sys.exit(1)
+    print("RECONCILED - every permit in master was reported new on exactly one day")
 
     if args.write:
         save_master(cfg, "tx", master)
