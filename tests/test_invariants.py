@@ -24,12 +24,21 @@ def test_two_day_plateau_still_passes():
 
 
 def test_freshness_alarms_exactly_at_the_threshold():
-    """alarm_after_days=3 means 3 days is already an alarm, not the last
+    """alarm_after_days=4 means 4 days is already an alarm, not the last
     tolerated gap. Pins the boundary so it cannot drift silently."""
+    _, ok, _ = invariants.check_source_freshness(
+        rows(("2026-07-24T06:00:00", 637)), today=date(2026, 7, 28)
+    )
+    assert ok is False
+
+
+def test_freshness_tolerates_three_days():
+    """One day under the threshold must still pass -- this is the Independence
+    Day plateau shape that a threshold of 3 would have false-alarmed on."""
     _, ok, _ = invariants.check_source_freshness(
         rows(("2026-07-25T06:00:00", 669)), today=date(2026, 7, 28)
     )
-    assert ok is False
+    assert ok is True
 
 
 def test_four_day_freeze_fails():
@@ -53,11 +62,14 @@ def test_records_advancing_passes_while_count_grows():
     assert ok is True
 
 
-def test_records_advancing_tolerates_a_two_day_plateau():
-    """07-19..07-21 all held 502 headers -- last increase was 2 days back."""
+def test_records_advancing_tolerates_the_july_4th_plateau():
+    """The longest legitimate plateau in the July replay: the count moved to
+    111 on 07-04 then held through 07-05, 07-06 and 07-07 over Independence
+    Day week before advancing to 155 on 07-08. Three flat days must pass, or
+    the alarm cries wolf every 4th of July."""
     _, ok, _ = invariants.check_records_advancing(
-        rows(("2026-07-26T06:00:00", 706), ("2026-07-28T06:00:00", 706)),
-        today=date(2026, 7, 28),
+        rows(("2026-07-04T06:00:00", 111), ("2026-07-07T06:00:00", 111)),
+        today=date(2026, 7, 7),
     )
     assert ok is True
 
@@ -66,11 +78,11 @@ def test_records_advancing_catches_the_freeze_hash_freshness_misses():
     """The real 2026-07-26 freeze: the file's sha changed daily because
     coordinate records kept updating, so the newest ingestion is same-day and
     source_freshness passes -- but the permit count has not moved since 07-26."""
-    ledger_rows = rows(("2026-07-26T06:00:00", 706), ("2026-07-29T06:00:00", 706))
-    _, fresh_ok, _ = invariants.check_source_freshness(ledger_rows, today=date(2026, 7, 29))
+    ledger_rows = rows(("2026-07-26T06:00:00", 706), ("2026-07-30T06:00:00", 706))
+    _, fresh_ok, _ = invariants.check_source_freshness(ledger_rows, today=date(2026, 7, 30))
     assert fresh_ok is True
 
-    name, ok, detail = invariants.check_records_advancing(ledger_rows, today=date(2026, 7, 29))
+    name, ok, detail = invariants.check_records_advancing(ledger_rows, today=date(2026, 7, 30))
     assert name == "records_advancing"
     assert ok is False
     assert "2026-07-26" in detail
@@ -103,8 +115,8 @@ def test_month_reset_then_genuine_freeze_still_alarms():
     _, ok, _ = invariants.check_records_advancing(
         rows(("2026-08-01T06:00:00", 706),
              ("2026-08-02T06:00:00", 41),
-             ("2026-08-05T06:00:00", 41)),
-        today=date(2026, 8, 5),
+             ("2026-08-06T06:00:00", 41)),
+        today=date(2026, 8, 6),
     )
     assert ok is False
 

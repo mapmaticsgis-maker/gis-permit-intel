@@ -11,7 +11,7 @@ from datetime import date, datetime
 from core.ledger import read_ledger
 
 
-def check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 3):
+def check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 4):
     """Fail when nothing at all has been ingested recently.
 
     This catches a dead downloader -- expired MFT link, broken session,
@@ -20,7 +20,8 @@ def check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 3):
     still ingests and still records a row. check_records_advancing covers that.
 
     alarm_after_days means what it says: a gap of that many days already
-    fails. Legitimate plateaus in July 2026 ran to 2 days.
+    fails. The longest legitimate plateau in July 2026 was 3 days, over
+    Independence Day week, so the threshold is 4.
     """
     name = "source_freshness"
     if not ledger_rows:
@@ -34,7 +35,7 @@ def check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 3):
             f"({stale_days}d ago, alarms at {alarm_after_days}d)")
 
 
-def check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 3):
+def check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 4):
     """Fail when the record count has not increased for too long.
 
     This is the freeze detector, and the reason hash freshness is not enough.
@@ -43,9 +44,11 @@ def check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 3)
     daily while the permit count stands still. On 2026-07-28 the file had a
     fresh hash and 706 permits for the third consecutive day.
 
-    Calibrated against July 2026: legitimate plateaus ran to 2 days
-    (07-12..07-14 all 348 headers, 07-19..07-21 all 502); the freeze held 706
-    from 07-26 onward.
+    Calibrated against the full July 2026 replay: the longest legitimate
+    plateau is 3 days, over Independence Day week -- the count moved 07-04
+    then held at 111 through 07-05/06/07 before advancing 07-08. A threshold
+    of 3 would false-alarm every 4th of July, so it is 4. The real freeze
+    (last movement 07-26) still alarms on 07-30.
 
     Moved means changed, not grew. The extract is month-to-date cumulative
     and resets at month start, so a drop is a new cycle beginning -- evidence
