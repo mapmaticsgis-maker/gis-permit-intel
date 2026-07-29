@@ -878,15 +878,22 @@ def test_month_reset_is_not_a_freeze():
     """The extract resets at month start: 07-02 carried 1009 headers from
     June's cycle, 07-03 dropped to 59, and July never re-exceeded 1009. A
     high-water mark would pin the last increase at 07-02 and alarm all month
-    while permits were in fact advancing daily."""
+    while permits were in fact advancing daily.
+
+    `today` sits well after the reset so the old and new logic disagree on
+    `ok`, not merely on the detail string: a high-water scan pins the last
+    increase at 07-02 and reports flat_days=8 (alarm), while consecutive-row
+    comparison reports flat_days=0 (pass)."""
     _, ok, detail = invariants.check_records_advancing(
         rows(("2026-07-02T06:00:00", 1009),
              ("2026-07-03T06:00:00", 59),
-             ("2026-07-04T06:00:00", 111)),
-        today=date(2026, 7, 4),
+             ("2026-07-04T06:00:00", 111),
+             ("2026-07-08T06:00:00", 188),
+             ("2026-07-10T06:00:00", 239)),
+        today=date(2026, 7, 10),
     )
     assert ok is True
-    assert "2026-07-04" in detail
+    assert "2026-07-10" in detail
 
 
 def test_month_reset_then_genuine_freeze_still_alarms():
