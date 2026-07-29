@@ -93,6 +93,35 @@ def test_diff_does_not_mutate_its_inputs():
     pd.testing.assert_frame_equal(today, today_before)
 
 
+def test_cold_start_ignores_the_resurfaced_window():
+    """An empty master means nothing has surfaced before, so nothing can
+    resurface -- every record is new regardless of how old its Issue_Date is.
+    This is tx_daf420.diff_master's original early-return behavior."""
+    today = frame([
+        {"Permit_Number": "1", "Operator_Name": "X", "Total_Depth": 1,
+         "Issue_Date": "2026-07-27"},
+        {"Permit_Number": "2", "Operator_Name": "X", "Total_Depth": 1,
+         "Issue_Date": "2004-07-30"},
+    ])
+    new, amended, resurfaced = diff(None, today, key="Permit_Number",
+                                    change_cols=CHANGE, resurfaced_after_days=7)
+    assert list(new["Permit_Number"]) == ["1", "2"]
+    assert len(resurfaced) == 0
+
+
+def test_float_upcast_key_still_matches_master():
+    """One null in the key column upcasts it to float64; the surviving key
+    must not stringify as "255778.0" and count as new forever."""
+    master = frame([{"Permit_Number": "255778", "Operator_Name": "X", "Total_Depth": 1}])
+    today = frame([
+        {"Permit_Number": 255778, "Operator_Name": "X", "Total_Depth": 1},
+        {"Permit_Number": None, "Operator_Name": "Y", "Total_Depth": 2},
+    ])
+    assert str(today["Permit_Number"].dtype) == "float64"
+    new, amended, _ = diff(master, today, key="Permit_Number", change_cols=CHANGE)
+    assert len(new) == 0
+
+
 def test_assert_usable_key_rejects_duplicates():
     df = frame([{"Permit_Number": "1"}, {"Permit_Number": "1"}])
     with pytest.raises(UnusableKeyError):

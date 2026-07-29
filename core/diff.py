@@ -2,8 +2,10 @@
 
 Replaces two near-duplicate implementations (tx_daf420.diff_master and
 common.diff) that had drifted apart in change-column handling and resurfaced
-logic. The logic itself was correct and is preserved; the duplication was the
-liability.
+logic. TX's comparison semantics win throughout: LA's original hashed rows
+without numeric normalization, so 100 vs 100.0 read as an amendment on every
+run. Master-side duplicate keys resolve keep='last' (TX's rule) rather than
+LA's keep='first'.
 
 Pure function: no file I/O, no mutation of its arguments.
 """
@@ -35,6 +37,17 @@ def assert_usable_key(df, key: str) -> None:
         )
 
 
+def _normalize_key(series) -> pd.Series:
+    """Keys compare as strings with float artifacts stripped.
+
+    A key column holding any null makes pandas upcast the whole column to
+    float64, so 255778 stringifies as "255778.0" and never matches master's
+    clean "255778" -- the same record then counts as new forever. Plain
+    astype(str) does not close this.
+    """
+    return series.map(lambda v: str(v).removesuffix(".0").strip())
+
+
 def _normalize(series) -> pd.Series:
     """Render a column as comparable text: 100, '100', and 100.0 are equal."""
     return series.map(
@@ -51,28 +64,31 @@ def diff(master, today, *, key: str, change_cols, resurfaced_after_days: int | N
     When None, `resurfaced` is always empty.
     """
     today = today.dropna(subset=[key]).copy()
-    today[key] = today[key].astype(str)
+    today[key] = _normalize_key(today[key])
     empty = today.iloc[0:0]
 
     if master is None or master.empty:
-        new, amended = today, empty
+        # Cold start: nothing has been seen before, so "resurfaced" has no
+        # meaning -- everything is new. Matches tx_daf420.diff_master's
+        # original early return, which bypassed the resurfaced split here.
+        return today, empty, empty
+
+    master = master.copy()
+    master[key] = _normalize_key(master[key])
+    known = master.drop_duplicates(key, keep="last").set_index(key)
+    is_new = ~today[key].isin(known.index)
+    new = today[is_new].copy()
+    both = today[~is_new].copy()
+    if len(both):
+        old = known.loc[both[key]]
+        changed = pd.Series(False, index=both.index)
+        for c in change_cols:
+            old_vals = _normalize(old[c]).values if c in old.columns else ""
+            new_vals = _normalize(both[c]).values
+            changed |= pd.Series(old_vals != new_vals, index=both.index)
+        amended = both[changed]
     else:
-        master = master.copy()
-        master[key] = master[key].astype(str)
-        known = master.drop_duplicates(key, keep="last").set_index(key)
-        is_new = ~today[key].isin(known.index)
-        new = today[is_new].copy()
-        both = today[~is_new].copy()
-        if len(both):
-            old = known.loc[both[key]]
-            changed = pd.Series(False, index=both.index)
-            for c in change_cols:
-                old_vals = _normalize(old[c]).values if c in old.columns else ""
-                new_vals = _normalize(both[c]).values
-                changed |= pd.Series(old_vals != new_vals, index=both.index)
-            amended = both[changed]
-        else:
-            amended = empty
+        amended = empty
 
     if resurfaced_after_days is not None and len(new) and "Issue_Date" in new.columns:
         issued = pd.to_datetime(new["Issue_Date"], errors="coerce")
