@@ -2,7 +2,14 @@ import os, json, hashlib, datetime as dt
 import pandas as pd, yaml
 
 def load_cfg(path="config.yaml"):
-    with open(path) as f: return yaml.safe_load(f)
+    # encoding is explicit, not incidental. Python's default text encoding on
+    # Windows is the ANSI codepage (cp1252 here), so a bare open() decoded
+    # config.yaml's UTF-8 em-dash as three cp1252 chars: the corridor
+    # "RROG + DOXA — NW Louisiana Haynesville" reached digest.md as
+    # "RROG + DOXA â€" NW ...". That is not merely cosmetic -- "â€" is in
+    # self_check.MOJIBAKE_MARKERS, so check_no_mojibake failed and a failure
+    # alert fired on every day a corridor hit made it into the digest.
+    with open(path, encoding="utf-8") as f: return yaml.safe_load(f)
 
 def norm(df, fields):
     """Rename configured source columns to canonical names; keep everything else."""

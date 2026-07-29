@@ -39,7 +39,7 @@ def check_volume_sane(new_count, label: str, floor: int = 0, ceiling: int = 500)
 def check_run_not_stale(run_log: Path, max_gap_hours: int = 36):
     if not run_log.exists():
         return ("run_not_stale", True, "first run, no history yet")
-    with open(run_log) as f:
+    with open(run_log, newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     successes = [r for r in rows if r["status"] == "OK"]
     if not successes:
@@ -79,7 +79,7 @@ def log_run(run_log: Path, tx_new, la_new, checks, status: str):
         "status": status,
     }
     write_header = not run_log.exists()
-    with open(run_log, "a", newline="") as f:
+    with open(run_log, "a", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=RUN_LOG_FIELDS)
         if write_header:
             w.writeheader()

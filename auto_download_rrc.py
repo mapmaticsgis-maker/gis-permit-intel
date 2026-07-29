@@ -140,7 +140,8 @@ def main() -> int:
     logger.info("RRC daf420 Automated Download")
     logger.info("=" * 80)
 
-    cfg = yaml.safe_load(open("config.yaml"))
+    with open("config.yaml", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
     watch_dir = Path(cfg["texas"]["watch_dir"])
 
     today = datetime.now().date()
