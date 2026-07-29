@@ -270,7 +270,7 @@ A day's output file accumulates every permit newly detected **that day**, across
 **Interfaces:**
 - Consumes: nothing.
 - Produces:
-  - `class OutputWouldShrink(Exception)` — defensive post-condition, not the primary mechanism
+  - `class OutputWouldShrink(Exception)` — defensive pre-condition; refuses the write, never reports after it
   - `count_data_rows(path) -> int` — data rows excluding header; 0 if absent
   - `union_write_csv(df, path, *, key: str, replace: bool = False) -> None`
 
@@ -282,7 +282,7 @@ Create `tests/test_outputs.py`:
 import pandas as pd
 import pytest
 
-from core.outputs import count_data_rows, union_write_csv
+from core.outputs import OutputWouldShrink, count_data_rows, union_write_csv
 
 KEY = "Permit_Number"
 
@@ -354,6 +354,25 @@ def test_key_type_mismatch_does_not_duplicate(tmp_path):
     union_write_csv(permits(255778), p, key=KEY)
     union_write_csv(pd.DataFrame({KEY: [255778], "Operator_Name": ["X"]}), p, key=KEY)
     assert count_data_rows(p) == 1
+
+
+def test_shrink_guard_refuses_before_writing(tmp_path, monkeypatch):
+    """The guard must refuse the write, not report it after the fact.
+
+    Unreachable through the public path by construction, so the merge is
+    sabotaged to return fewer rows. What matters is that the file on disk is
+    untouched when the guard fires.
+    """
+    import core.outputs as outputs
+
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2, 3), p, key=KEY)
+
+    monkeypatch.setattr(outputs.pd, "concat", lambda frames, **kw: frames[1])
+    with pytest.raises(OutputWouldShrink):
+        union_write_csv(permits(9), p, key=KEY)
+
+    assert count_data_rows(p) == 3
 ```
 
 - [ ] **Step 2: Run the tests to verify they fail**
@@ -421,13 +440,16 @@ def union_write_csv(df, path, *, key: str, replace: bool = False) -> None:
         combined = (pd.concat([existing, incoming], ignore_index=True)
                     .drop_duplicates(key, keep="last"))
 
-    combined.to_csv(p, index=False)
-
-    after = count_data_rows(p)
-    if not replace and after < before:
+    # Check BEFORE writing. A guard that fires after to_csv has already
+    # overwritten the file is a re-run of the 2026-07-26 failure with an
+    # exception attached -- it must refuse the write, not report it.
+    if not replace and len(combined) < before:
         raise OutputWouldShrink(
-            f"{p}: went from {before} to {after} rows -- union logic is wrong"
+            f"{p}: merge produced {len(combined)} rows from {before} -- "
+            f"refusing to write; union logic is wrong"
         )
+
+    combined.to_csv(p, index=False)
 ```
 
 - [ ] **Step 4: Run the tests to verify they pass**
@@ -436,7 +458,7 @@ def union_write_csv(df, path, *, key: str, replace: bool = False) -> None:
 python -m pytest tests/test_outputs.py -v
 ```
 
-Expected: 9 passed.
+Expected: 10 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -891,7 +913,7 @@ def run_all(data_dir, state, today: date):
 python -m pytest tests/test_invariants.py -v
 ```
 
-Expected: 9 passed.
+Expected: 10 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -1385,7 +1407,7 @@ git commit -m "Record RRC source freeze diagnosis"
 
 ## Done when
 
-- [ ] `python -m pytest tests/ -v` passes (36 tests).
+- [ ] `python -m pytest tests/ -v` passes (37 tests).
 - [ ] `python scripts/replay_tx.py --from 2026-07-03 --to 2026-07-28` prints `RECONCILED` with 693 on both lines.
 - [ ] Running `tx_daf420.py` twice on the same file leaves `git status --short data/tx/out/` empty on the second run.
 - [ ] `run_daily_ci.py`'s checks include `tx_source_freshness` failing while the source remains frozen.
