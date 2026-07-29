@@ -4,13 +4,13 @@
 
 ## Corridor hits (client-relevant)
 
-### DOXA / Firebird â€” Permian
+### DOXA / Firebird — Permian
 - **PIONEER NATURAL RES. USA, INC.** — 206H (Upton, 10931' TD)
 - **XRI DISPOSAL HOLDINGS, LLC** — 1 (Winkler, 7500' TD)
 - **XRI DISPOSAL HOLDINGS, LLC** — 2 (Winkler, 7500' TD)
 - **XRI DISPOSAL HOLDINGS, LLC** — 3 (Winkler, 7500' TD)
 
-### DOXA / Sabine â€” East Texas
+### DOXA / Sabine — East Texas
 - **SABINE ENERGY INC.** — 2H: 2 wells (Harrison, 12000' TD)  _[Sabine Energy]_
 
 ### West Haynesville watch

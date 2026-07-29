@@ -4,7 +4,7 @@
 
 ## Corridor hits (client-relevant)
 
-### RROG + DOXA â€” NW Louisiana Haynesville
+### RROG + DOXA — NW Louisiana Haynesville
 - **BAYOU STATE OIL CORPORATION** — BAYOU STATE OWENS (Caddo, 1100' TD)
 - **BAYOU STATE OIL CORPORATION** — JOLLEY B: 2 wells (032, 033) (Caddo, 1100' TD)
 - **BAYOU STATE OIL CORPORATION** — OWENS (Caddo, 1100' TD)
