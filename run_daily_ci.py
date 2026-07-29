@@ -50,6 +50,35 @@ def run_step(cmd, label: str) -> tuple[bool, str]:
         return False, str(e)
 
 
+def collect_invariants(data_dir, states, today: dt.date) -> list:
+    """Run each state's invariants, converting a crash into a failed check.
+
+    The invariants are a sensor, and a sensor must not be able to take down
+    the thing it monitors. This loop used to call run_invariants unguarded,
+    and it runs BEFORE send_email.send_daily_brief. A ledger carrying a git
+    conflict marker makes csv.DictReader yield a row whose ingested_at is
+    None, and max(r["ingested_at"] ...) then raises TypeError straight out of
+    main() -- so the operator got no brief, no failure alert, no log_run row
+    and no healthcheck ping. The pipeline went silent in exactly the way this
+    branch exists to prevent. Both CI and the local scheduler append to and
+    commit data/<state>/ledger.csv, so conflicts are realistic.
+
+    A broken sensor is now a failed check, which still alarms and still lets
+    the brief go out, rather than an abort, which does neither.
+    """
+    out = []
+    for state in states:
+        try:
+            results = run_invariants(data_dir, state, today)
+        except Exception as e:
+            results = [("invariants_crashed", False,
+                        f"{type(e).__name__}: {e} -- ledger may be malformed; "
+                        f"check data/{state}/ledger.csv for conflict markers")]
+        for name, ok, detail in results:
+            out.append((f"{state}_{name}", ok, detail))
+    return out
+
+
 def main():
     cfg = load_cfg()
     today = dt.date.today().isoformat()
@@ -101,9 +130,7 @@ def main():
         checks.append(("la_pull_failed", False, la_out[-500:]))
     checks.append(self_check.check_run_not_stale(RUN_LOG))
 
-    for state in ("tx", "la"):
-        for name, ok, detail in run_invariants(cfg["data_dir"], state, dt.date.today()):
-            checks.append((f"{state}_{name}", ok, detail))
+    checks.extend(collect_invariants(cfg["data_dir"], ("tx", "la"), dt.date.today()))
 
     failed = [c for c in checks if not c[1]]
 
