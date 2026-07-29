@@ -4,7 +4,7 @@
 
 **Goal:** Make permit ingestion idempotent and self-monitoring so the pipeline stops destroying its own results, and recover the days already lost.
 
-**Architecture:** An ingestion ledger keyed on source content hash gates every run. Already-ingested content is skipped entirely rather than re-diffed; output writes refuse to shrink; a stale ledger is the source-freshness alarm. The existing diff logic is correct and is consolidated, not rewritten.
+**Architecture:** An ingestion ledger keyed on source content hash gates every run. Already-ingested content is skipped entirely rather than re-diffed; a day's outputs union across runs so nothing is overwritten; a stale ledger is the source-freshness alarm. The existing diff logic is correct and is consolidated, not rewritten.
 
 **Tech Stack:** Python 3.14, pandas, pytest, stdlib `csv`/`hashlib`. No new runtime dependencies.
 
@@ -26,13 +26,13 @@
 |---|---|
 | `core/__init__.py` | Package marker. Empty. |
 | `core/ledger.py` | Source hashing; read/append the ingestion ledger; look up prior ingestion by hash. |
-| `core/outputs.py` | Guarded CSV writes that refuse to shrink an existing output. |
+| `core/outputs.py` | Union CSV writes so a day's outputs accumulate across runs. |
 | `core/diff.py` | Single consolidated change-detection function, replacing the two near-duplicates. |
 | `core/invariants.py` | Freshness and contradiction checks over the ledger. |
 | `scripts/replay_tx.py` | Rebuild TX master from empty across a date range; the acceptance test harness. |
 | `tests/conftest.py` | Shared fixtures: synthetic daf420 text, temp data dirs. |
 | `tests/test_ledger.py`, `tests/test_outputs.py`, `tests/test_diff.py`, `tests/test_invariants.py` | Unit tests per module. |
-| `tx_daf420.py` (modify) | Gate on ledger; use guarded writes; record ingestion. |
+| `tx_daf420.py` (modify) | Gate on ledger; union outputs; rebuild digest from the day; record ingestion. |
 | `la_pull.py` (modify) | Same, hashing the fetched frame rather than a file. |
 | `run_daily_ci.py` (modify) | Append the new invariants to the existing `checks` list. |
 | `requirements.txt` (modify) | Add `pytest`. |
@@ -260,7 +260,9 @@ git commit -m "Add ingestion ledger keyed on source content hash"
 
 ---
 
-### Task 2: Guarded output writes
+### Task 2: Union output writes
+
+A day's output file accumulates every permit newly detected **that day**, across however many runs. RRC can publish more than once in a day; the ledger gate lets a genuine second publication through, and that run's `new` set is legitimately smaller than the morning's. Replacing would lose the morning's findings; refusing would crash a valid run. Merging on the business key is the only option that keeps `new_permits.csv` meaning "what was new on this date."
 
 **Files:**
 - Create: `core/outputs.py`, `tests/test_outputs.py`
@@ -268,9 +270,9 @@ git commit -m "Add ingestion ledger keyed on source content hash"
 **Interfaces:**
 - Consumes: nothing.
 - Produces:
-  - `class OutputWouldShrink(Exception)`
+  - `class OutputWouldShrink(Exception)` — defensive post-condition, not the primary mechanism
   - `count_data_rows(path) -> int` — data rows excluding header; 0 if absent
-  - `guarded_write_csv(df, path, *, allow_shrink: bool = False) -> None`
+  - `union_write_csv(df, path, *, key: str, replace: bool = False) -> None`
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -280,7 +282,14 @@ Create `tests/test_outputs.py`:
 import pandas as pd
 import pytest
 
-from core.outputs import OutputWouldShrink, count_data_rows, guarded_write_csv
+from core.outputs import count_data_rows, union_write_csv
+
+KEY = "Permit_Number"
+
+
+def permits(*nums, operator="EOG"):
+    return pd.DataFrame({KEY: [str(n) for n in nums],
+                         "Operator_Name": [operator] * len(nums)})
 
 
 def test_count_data_rows_absent_file_is_zero(tmp_path):
@@ -293,33 +302,58 @@ def test_count_data_rows_excludes_header(tmp_path):
     assert count_data_rows(p) == 3
 
 
-def test_write_creates_file(tmp_path):
-    p = tmp_path / "out" / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
+def test_write_creates_file_and_parent_dirs(tmp_path):
+    p = tmp_path / "out" / "2026-07-28" / "new_permits.csv"
+    union_write_csv(permits(1, 2), p, key=KEY)
     assert count_data_rows(p) == 2
 
 
-def test_write_refuses_to_shrink(tmp_path):
+def test_second_run_adds_its_new_permits(tmp_path):
+    """06:00 finds 37, 14:00 finds 4 more -- the day's file holds 41."""
     p = tmp_path / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": list(range(62))}), p)
-    with pytest.raises(OutputWouldShrink):
-        guarded_write_csv(pd.DataFrame({"a": []}), p)
+    union_write_csv(permits(*range(37)), p, key=KEY)
+    union_write_csv(permits(100, 101, 102, 103), p, key=KEY)
+    assert count_data_rows(p) == 41
+
+
+def test_repeated_permit_updates_in_place_without_duplicating(tmp_path):
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2, operator="EOG"), p, key=KEY)
+    union_write_csv(permits(2, operator="PIONEER"), p, key=KEY)
+    out = pd.read_csv(p, dtype=str)
+    assert len(out) == 2
+    assert out.loc[out[KEY] == "2", "Operator_Name"].item() == "PIONEER"
+
+
+def test_empty_result_never_erases_the_day(tmp_path):
+    """The exact 2026-07-26 failure: 62 rows must survive an empty later run."""
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(*range(62)), p, key=KEY)
+    union_write_csv(permits(), p, key=KEY)
     assert count_data_rows(p) == 62
 
 
-def test_write_allows_equal_or_larger(tmp_path):
+def test_replace_rewrites_wholesale(tmp_path):
     p = tmp_path / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
-    guarded_write_csv(pd.DataFrame({"a": [1, 2, 3]}), p)
-    assert count_data_rows(p) == 3
+    union_write_csv(permits(1, 2), p, key=KEY)
+    union_write_csv(permits(9), p, key=KEY, replace=True)
+    out = pd.read_csv(p, dtype=str)
+    assert list(out[KEY]) == ["9"]
 
 
-def test_allow_shrink_escape_hatch(tmp_path):
+def test_missing_key_column_is_rejected(tmp_path):
     p = tmp_path / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
-    guarded_write_csv(pd.DataFrame({"a": []}), p, allow_shrink=True)
-    assert count_data_rows(p) == 0
+    union_write_csv(permits(1), p, key=KEY)
+    with pytest.raises(ValueError):
+        union_write_csv(pd.DataFrame({"other": ["x"]}), p, key=KEY)
+
+
+def test_key_type_mismatch_does_not_duplicate(tmp_path):
+    """Existing rows read back as str must match an int-typed incoming key."""
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(255778), p, key=KEY)
+    union_write_csv(pd.DataFrame({KEY: [255778], "Operator_Name": ["X"]}), p, key=KEY)
+    assert count_data_rows(p) == 1
 ```
 
 - [ ] **Step 2: Run the tests to verify they fail**
@@ -335,20 +369,26 @@ Expected: collection error — `ModuleNotFoundError: No module named 'core.outpu
 Create `core/outputs.py`:
 
 ```python
-"""Output guards.
+"""Union writes for daily output files.
 
-An output file must never be replaced by a result with fewer rows. That is
-exactly how 2026-07-26's 62 detected permits were destroyed: a later same-day
-run wrote an empty new_permits.csv over the good one.
+A day's output accumulates every record newly detected that day, across all
+runs. On 2026-07-26 a later same-day run wrote an empty new_permits.csv over
+one holding 62 detected permits (commits c29c268b -> 479da72d). Replacing
+loses findings; refusing a smaller write would crash the legitimate case where
+RRC publishes twice in a day and the afternoon run's `new` set is genuinely
+smaller. Merging on the business key is the only behaviour that keeps the file
+meaning "what was new on this date".
 
-allow_shrink exists for the replay harness, which legitimately rewrites a day
-from an empty master.
+replace=True is for the replay harness, which deliberately rebuilds a day.
 """
 from pathlib import Path
 
+import pandas as pd
+
 
 class OutputWouldShrink(Exception):
-    pass
+    """Defensive post-condition. The union should make shrinkage impossible;
+    if this ever raises, the merge logic is wrong."""
 
 
 def count_data_rows(path) -> int:
@@ -359,16 +399,35 @@ def count_data_rows(path) -> int:
         return max(0, sum(1 for _ in f) - 1)
 
 
-def guarded_write_csv(df, path, *, allow_shrink: bool = False) -> None:
+def union_write_csv(df, path, *, key: str, replace: bool = False) -> None:
     p = Path(path)
-    existing = count_data_rows(p)
-    if not allow_shrink and len(df) < existing:
-        raise OutputWouldShrink(
-            f"{p}: refusing to overwrite {existing} existing rows with {len(df)}. "
-            f"Pass allow_shrink=True only if this is a deliberate rebuild."
-        )
     p.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(p, index=False)
+    before = count_data_rows(p)
+
+    if key not in df.columns:
+        raise ValueError(f"incoming frame has no key column {key!r}")
+
+    if replace or before == 0:
+        combined = df
+    else:
+        existing = pd.read_csv(p, dtype=str)
+        if key not in existing.columns:
+            raise ValueError(f"{p}: existing file has no key column {key!r}")
+        incoming = df.copy()
+        # Both sides must compare as strings: a key read back from CSV is str
+        # while an incoming key may be int, and an unmatched pair duplicates.
+        existing[key] = existing[key].astype(str)
+        incoming[key] = incoming[key].astype(str)
+        combined = (pd.concat([existing, incoming], ignore_index=True)
+                    .drop_duplicates(key, keep="last"))
+
+    combined.to_csv(p, index=False)
+
+    after = count_data_rows(p)
+    if not replace and after < before:
+        raise OutputWouldShrink(
+            f"{p}: went from {before} to {after} rows -- union logic is wrong"
+        )
 ```
 
 - [ ] **Step 4: Run the tests to verify they pass**
@@ -377,13 +436,13 @@ def guarded_write_csv(df, path, *, allow_shrink: bool = False) -> None:
 python -m pytest tests/test_outputs.py -v
 ```
 
-Expected: 6 passed.
+Expected: 9 passed.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add core/outputs.py tests/test_outputs.py
-git commit -m "Add guarded CSV writes that refuse to shrink outputs"
+git commit -m "Add union CSV writes so same-day runs accumulate"
 ```
 
 ---
@@ -849,7 +908,7 @@ git commit -m "Add source-freshness and diff-regression invariants"
 - Modify: `tx_daf420.py` — imports at line 14, `diff_master` at lines 82-114 (delete), `main()` at lines 249-302
 
 **Interfaces:**
-- Consumes: `core.ledger`, `core.outputs.guarded_write_csv`, `core.diff.diff` and `assert_usable_key`.
+- Consumes: `core.ledger`, `core.outputs.union_write_csv`, `core.diff.diff` and `assert_usable_key`.
 - Produces: `main()` exits early with code 0 and message `"source unchanged since <date> -- skipping"` when the source hash is already in the ledger.
 
 - [ ] **Step 1: Replace the imports**
@@ -866,7 +925,7 @@ with:
 from common import load_cfg, load_master, save_master
 from core.diff import assert_usable_key, diff as core_diff
 from core.ledger import append_ingestion, find_ingestion, hash_file
-from core.outputs import guarded_write_csv
+from core.outputs import union_write_csv
 ```
 
 - [ ] **Step 2: Delete the local diff and call the shared one**
@@ -897,24 +956,40 @@ In `main()`, immediately after the `date_tag` assignment (currently line 258) an
         return
 ```
 
-- [ ] **Step 4: Use guarded writes and record the ingestion**
+- [ ] **Step 4: Union the outputs, rebuild the digest from the day, record the ingestion**
 
-Replace the four output writes (currently lines 288-292):
+The digest is currently built from this run's `new` frame. Once outputs union across runs, that would make `digest.md` describe only the afternoon increment while `new_permits.csv` holds the whole day. The digest must be built from the day's file, so the writes have to happen first.
 
-```python
-    new.to_csv(outd/"new_permits.csv", index=False)
-    amended.to_csv(outd/"amendments.csv", index=False)
-    resurfaced.to_csv(outd/"resurfaced.csv", index=False)
-    (outd/"digest.md").write_text(text, encoding="utf-8")
-    save_master(cfg, "tx", new_master)
-```
-
-with:
+Delete the digest-building block (currently lines 272-284, from `# canonical names for the shared digest builder` through `text += "\n\n" + mtd_rollup(new_master, cfg)`) and the output block (lines 286-292). Replace both with:
 
 ```python
-    guarded_write_csv(new, outd / "new_permits.csv")
-    guarded_write_csv(amended, outd / "amendments.csv")
-    guarded_write_csv(resurfaced, outd / "resurfaced.csv")
+    new_master = pd.concat([master, df_all], ignore_index=True).drop_duplicates(
+        "Permit_Number", keep="last") if master is not None else df_all
+
+    day = dt.date.today().isoformat()
+    outd = Path(cfg["data_dir"]) / "tx" / "out" / day
+    union_write_csv(new, outd / "new_permits.csv", key="Permit_Number")
+    union_write_csv(amended, outd / "amendments.csv", key="Permit_Number")
+    union_write_csv(resurfaced, outd / "resurfaced.csv", key="Permit_Number")
+
+    # The digest describes the whole day, not just this run's increment --
+    # RRC can publish twice in a day and the second run's `new` is smaller.
+    day_new = pd.read_csv(outd / "new_permits.csv")
+    day_amended = pd.read_csv(outd / "amendments.csv")
+    day_resurfaced = pd.read_csv(outd / "resurfaced.csv")
+
+    # canonical names for the shared digest builder
+    ren = {"Operator_Name":"operator","County":"county","Total_Depth":"depth",
+           "Well_Number":"well","Lease_Name":"lease"}
+    text = build_digest("Texas RRC (daf420)", day_new.rename(columns=ren),
+                        day_amended.rename(columns=ren), cfg, "tx", "county")
+    if len(day_resurfaced):
+        text += "\n\n## Resurfaced older files (issue date >7d old, new to master)\n"
+        text += "\n".join(f"- {r.Operator_Name} — {r.Lease_Name} {r.Well_Number} "
+                          f"({str(r.County).title()}), issued {r.Issue_Date}"
+                          for _, r in day_resurfaced.iterrows())
+    text += "\n\n" + mtd_rollup(new_master, cfg)
+
     (outd/"digest.md").write_text(text, encoding="utf-8")
     save_master(cfg, "tx", new_master)
 
@@ -926,6 +1001,10 @@ with:
         amended=len(amended), resurfaced=len(resurfaced),
     )
 ```
+
+`union_write_csv` creates `outd`, so the existing `outd.mkdir(parents=True, exist_ok=True)` on line 287 is no longer needed — delete it. The ledger records **this run's** counts (`len(new)`), not the day's total, because the invariants compare consecutive ingestions.
+
+The `print` on line 294 and the `build_arcgis` call on lines 297-300 stay as they are; `build_arcgis` continues to receive this run's `new`/`amended`, which is correct — it tags the increment.
 
 - [ ] **Step 5: Reduce to one row per permit, then assert the key**
 
@@ -970,7 +1049,7 @@ Expected: no output. This is Bug 1 fixed — the second run is now a no-op.
 
 ```bash
 git add tx_daf420.py
-git commit -m "Gate TX ingestion on the ledger; use guarded writes"
+git commit -m "Gate TX ingestion on the ledger; union same-day outputs"
 ```
 
 ---
@@ -1306,7 +1385,7 @@ git commit -m "Record RRC source freeze diagnosis"
 
 ## Done when
 
-- [ ] `python -m pytest tests/ -v` passes (33 tests).
+- [ ] `python -m pytest tests/ -v` passes (36 tests).
 - [ ] `python scripts/replay_tx.py --from 2026-07-03 --to 2026-07-28` prints `RECONCILED` with 693 on both lines.
 - [ ] Running `tx_daf420.py` twice on the same file leaves `git status --short data/tx/out/` empty on the second run.
 - [ ] `run_daily_ci.py`'s checks include `tx_source_freshness` failing while the source remains frozen.
