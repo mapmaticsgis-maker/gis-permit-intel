@@ -16,8 +16,9 @@ import pandas as pd
 
 
 class OutputWouldShrink(Exception):
-    """Defensive post-condition. The union should make shrinkage impossible;
-    if this ever raises, the merge logic is wrong."""
+    """Defensive pre-condition. The union should make shrinkage impossible;
+    if this ever raises, the merge logic is wrong. Refuses the write to prevent
+    data loss, rather than reporting damage after the fact."""
 
 
 def count_data_rows(path) -> int:
@@ -50,10 +51,13 @@ def union_write_csv(df, path, *, key: str, replace: bool = False) -> None:
         combined = (pd.concat([existing, incoming], ignore_index=True)
                     .drop_duplicates(key, keep="last"))
 
-    combined.to_csv(p, index=False)
-
-    after = count_data_rows(p)
-    if not replace and after < before:
+    # Check BEFORE writing. A guard that fires after to_csv has already
+    # overwritten the file is a re-run of the 2026-07-26 failure with an
+    # exception attached -- it must refuse the write, not report it.
+    if not replace and len(combined) < before:
         raise OutputWouldShrink(
-            f"{p}: went from {before} to {after} rows -- union logic is wrong"
+            f"{p}: merge produced {len(combined)} rows from {before} -- "
+            f"refusing to write; union logic is wrong"
         )
+
+    combined.to_csv(p, index=False)

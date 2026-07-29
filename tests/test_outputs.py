@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from core.outputs import count_data_rows, union_write_csv
+from core.outputs import OutputWouldShrink, count_data_rows, union_write_csv
 
 KEY = "Permit_Number"
 
@@ -73,3 +73,22 @@ def test_key_type_mismatch_does_not_duplicate(tmp_path):
     union_write_csv(permits(255778), p, key=KEY)
     union_write_csv(pd.DataFrame({KEY: [255778], "Operator_Name": ["X"]}), p, key=KEY)
     assert count_data_rows(p) == 1
+
+
+def test_shrink_guard_refuses_before_writing(tmp_path, monkeypatch):
+    """The guard must refuse the write, not report it after the fact.
+
+    Unreachable through the public path by construction, so the merge is
+    sabotaged to return fewer rows. What matters is that the file on disk is
+    untouched when the guard fires.
+    """
+    import core.outputs as outputs
+
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2, 3), p, key=KEY)
+
+    monkeypatch.setattr(outputs.pd, "concat", lambda frames, **kw: frames[1])
+    with pytest.raises(OutputWouldShrink):
+        union_write_csv(permits(9), p, key=KEY)
+
+    assert count_data_rows(p) == 3
