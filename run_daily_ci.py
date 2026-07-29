@@ -18,6 +18,7 @@ import requests
 from common import load_cfg, load_master
 import self_check
 import send_email
+from core.invariants import run_all as run_invariants
 
 ROOT = Path(__file__).parent
 RUN_LOG = ROOT / "data" / "run_log.csv"
@@ -99,6 +100,10 @@ def main():
     else:
         checks.append(("la_pull_failed", False, la_out[-500:]))
     checks.append(self_check.check_run_not_stale(RUN_LOG))
+
+    for state in ("tx", "la"):
+        for name, ok, detail in run_invariants(cfg["data_dir"], state, dt.date.today()):
+            checks.append((f"{state}_{name}", ok, detail))
 
     failed = [c for c in checks if not c[1]]
 
