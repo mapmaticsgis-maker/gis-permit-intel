@@ -1,20 +1,66 @@
 # RRC source freeze: diagnosis
 
 **Investigated:** 2026-07-29, ~07:25 CDT, from worktree `phase1-sensor-fix`.
+**Revised:** 2026-07-29, later same day, after code review returned five Critical findings
+on the first draft. Corrections below are folded in; the 740-vs-706 permit-count evidence
+from the original investigation is unchanged and reproduced verbatim.
 
 ## Finding
 
-RRC has continued to publish new permit data — the source is **not** frozen upstream and
-`auto_download_rrc.py` is **not** writing stale content; the automated download simply runs
-(Task Scheduler, daily at 8:00 AM) *before* RRC's own daily refresh lands (observed at
-7/28 9:45:44 AM on the portal), so it has been capturing a same-day, pre-refresh snapshot on
-each of the last several runs. As of this check, RRC's server already holds 34 more permit
-headers (issue dates through 2026-07-27) than the committed `daf420.dat.07-28-2026`, sitting
-uncaptured.
+RRC has continued to publish new permit data — the source is **not** frozen upstream, and
+`auto_download_rrc.py` is **not** writing stale content. Every morning automation trigger on
+this machine (download 07:50, local ArcGIS pipeline 08:30, GitHub Actions dispatch 09:00)
+runs before RRC's daily refresh, so each day's capture is one publish-cycle behind — not
+just the download step. This is compounded by RRC not publishing over the weekend: 2026-07-26
+was a Sunday, so the file RRC served that morning was unchanged from Saturday, and Monday
+07-27's 07:50 capture returned the exact same bytes as Sunday's. That is why 07-26 and 07-27
+are byte-identical (confirmed below) — it is the schedule-vs-refresh gap *plus* a real
+non-publishing day landing on top of it, not the schedule gap alone.
 
-This does not cleanly match any of the three anticipated outcomes as originally framed — it
-is closest to "RRC has not published new permits **as of when the automated run executed**,"
-but is importantly *not* a multi-day upstream outage: new data exists on the server right now.
+As of this check (before today's 07:50 run), RRC's server already carries 34 more permit
+headers than the committed `daf420.dat.07-28-2026` (issue dates extending to 2026-07-27
+instead of 2026-07-24) — direct evidence the upstream source is alive and moving.
+
+Separately: `setup_task_scheduler.ps1` in this repo does **not** describe the scheduled
+tasks actually running on this machine. It registers `TX-RRC-Daily-Download` at 08:00
+AM pointing at `auto_download_txrrc.py` — a script that does not exist anywhere in this
+repository. The task that is actually live and running (`TX-RRC-Auto-Download`, confirmed
+via `Get-ScheduledTask` below) runs `auto_download_rrc.py` — the real, present script — at
+07:50, not 08:00. The checked-in setup script is stale and would not be the right place to
+apply a schedule fix; that is itself a finding worth recording, not just a footnote.
+
+## Observed vs. inferred
+
+To keep this note honest about what was actually measured versus generalized:
+
+**Observed directly (this investigation, with quoted command output):**
+- Plain GET on `fetch_url` returns HTML (200, ~298 KB) — not a data feed.
+- A full Playwright click-and-download replay of `auto_download_rrc.py`'s flow succeeds and
+  returns a `daf420.dat` with 740 `01`-records / issue dates through 2026-07-27 — more than
+  the stored 07-28 file's 706 records / issue dates through 2026-07-24.
+- `data/tx/inbox/daf420.dat.07-26-2026` and `daf420.dat.07-27-2026` are byte-identical
+  (same length, same sha256) — verified directly, shown below.
+- The live Windows Task Scheduler configuration (`Get-ScheduledTask`), showing the actual
+  running triggers and actions, not the checked-in setup script's version.
+- `auto_download_txrrc.py`, the script `setup_task_scheduler.ps1` registers, does not exist
+  in this repository (`find . -iname auto_download_txrrc.py` returns nothing).
+- The portal's "Last Modified" column for the live `daf420.dat` reads `7/28/26 9:45:44 AM`,
+  read at two points ~6h43m apart on 2026-07-29 (00:42 and ~07:25), both identical.
+- `core.invariants.check_records_advancing`'s alarm date, computed directly against the
+  known header-count history.
+
+**Inferred, not observed, and labeled as such:**
+- "RRC refreshes daily at approximately 9:45 AM." This is a generalization from **one**
+  file mtime (`7/28/26 9:45:44 AM`), observed twice on the same calendar day against the
+  same unchanged file — not two independent daily observations. It has not been confirmed
+  that this mtime will advance again on 07-29 or that 9:45 AM is a fixed daily time rather
+  than a one-off. What would confirm it: observing the live mtime advance across two or
+  more consecutive days, ideally bracketing each morning trigger to see which side of the
+  refresh each one lands on.
+- That the weekend explains the 07-26/07-27 identity (RRC not publishing on Sunday) is a
+  reasonable calendar-based inference (07-26 is a Sunday) but was not confirmed by finding
+  an explicit "no new data on weekends" statement from RRC — it is consistent with the
+  data and is the simplest explanation, not an independently verified policy.
 
 ## Evidence
 
@@ -25,11 +71,11 @@ $ python -c "import hashlib,requests,yaml; u=yaml.safe_load(open('config.yaml'))
 200 298699 f250668fa35fb408 None text/html;charset=UTF-8
 ```
 
-This is the GoDrive file-listing HTML page (~298 KB), consistent with the previous day's
-check and with the comment at the top of `auto_download_rrc.py` ("A plain HTTP GET on the
-link URL just returns the HTML file browser page, not the data"). This is normal behavior
-for this endpoint, not evidence of an expired/auth-gated link — the link only "fails" a
-plain GET because it was never meant to be fetched that way.
+This is the GoDrive file-listing HTML page (~298 KB), consistent with the comment at the
+top of `auto_download_rrc.py` ("A plain HTTP GET on the link URL just returns the HTML file
+browser page, not the data"). This is normal behavior for this endpoint, not evidence of an
+expired/auth-gated link — the link only "fails" a plain GET because it was never meant to
+be fetched that way.
 
 ### 2. Replicating the downloader's actual click-and-download flow succeeds and returns NEW content
 
@@ -129,57 +175,139 @@ lives in the main checkout the scheduled task runs from):
 
 Both runs succeeded (after unrelated earlier Playwright-executable errors on 07-27 were
 retried), produced normally-sized zips, and their "1.81 MB" size labels match the stored
-files' actual byte counts (1,900,001 B = 1.81 MiB) — there is no sign of a caching or
-stale-write bug in `auto_download_rrc.py`; it wrote exactly what the server returned to it
-at that moment.
+files' actual byte counts — there is no sign of a caching or stale-write bug in
+`auto_download_rrc.py`; it wrote exactly what the server returned to it at that moment. The
+07-27 log entry shows a run at 09:15 (a retry, after earlier same-morning Playwright
+executable-path failures also in that log, not reproduced here) rather than the scheduled
+07:50 — meaning even the *later* 07-27 attempt still returned the same 706-count content,
+which the weekend explanation (next point) accounts for independent of exact run time.
 
-### 5. The scheduled run time races RRC's daily refresh
+### 5. The live scheduled-task configuration, its mismatch with the checked-in script, and the weekend explanation
 
-`setup_task_scheduler.ps1:66` registers the download task as:
+**5a. The live Task Scheduler configuration** (`Get-ScheduledTask`, read-only, run during
+this investigation):
+
+```
+Name    : PermitIntelDaily
+State   : Ready
+Trigger : 2026-07-19T08:30:00
+Action  : "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python.exe" "C:\GIS\permit_intel\run_daily.py"
+
+Name    : TX-RRC-Auto-Download
+State   : Ready
+Trigger : 2026-07-26T07:50:00-05:00
+Action  : C:\Users\mapma\AppData\Local\Programs\Python\Python314\python.exe C:\GIS\permit_intel\auto_download_rrc.py
+
+Name    : TX-RRC-Daily-Reminder
+State   : Ready
+Trigger : 2026-07-26T08:00:00-05:00
+Action  : C:\Users\mapma\AppData\Local\Programs\Python\Python314\python.exe C:\GIS\permit_intel\send_daily_reminder.py
+
+Name    : TX-RRC-GitHub-Trigger
+State   : Ready
+Trigger : 2026-07-27T09:00:00-05:00
+Action  : C:\Users\mapma\AppData\Local\Programs\Python\Python314\python.exe C:\GIS\permit_intel\trigger_github_workflow.py
+
+Name    : TX-RRC-Inbox-AutoCommit
+State   : Ready
+Trigger : 2026-07-26T14:31:15-05:00
+Action  : C:\Users\mapma\AppData\Local\Programs\Python\Python314\python.exe C:\GIS\permit_intel\auto_commit_inbox.py
+```
+
+So the download runs at **07:50**, the local ArcGIS pipeline (`PermitIntelDaily` →
+`run_daily.py`) at **08:30**, and the GitHub Actions dispatch (`TX-RRC-GitHub-Trigger` →
+`trigger_github_workflow.py`, which fires `.github/workflows/daily-permit-intel.yml`) at
+**09:00** — all three of the morning triggers that touch TX data run before the file's
+observed `9:45:44 AM` modification time. Fixing only the download step would leave the
+08:30 local pipeline and 09:00 GitHub Actions dispatch still processing a stale inbox on
+the morning it runs early.
+
+**5b. `setup_task_scheduler.ps1` does not match this.** Line 66 registers:
 
 ```
 $trigger2 = New-ScheduledTaskTrigger -Daily -At "08:00 AM"
 ```
 
-Actual observed runs land close to that (07:50 and 09:15 above). The portal's own
-"Last Modified" column for the live `daf420.dat`, read fresh in this investigation on
-2026-07-29 at ~07:25 CDT, reads **7/28/26 9:45:44 AM** — i.e. RRC's most recent refresh
-landed *after* the 07:50 AM download run on 07-28 (and, going by the 07-27 run at 09:15 AM
-which also came back with the same 706-count content, apparently after that run too). The
-8:00 AM trigger is on the wrong side of RRC's own publish window.
+against `auto_download_txrrc.py` (line 59), a filename that does not exist in this repo —
+only `auto_download_rrc.py` does. The live `TX-RRC-Auto-Download` task runs the real script
+at 07:50, not 08:00, and was evidently registered some other way (by hand, or by an earlier
+version of the setup script) — not by the version currently checked in. Editing
+`setup_task_scheduler.ps1` and re-running it would not change the schedule that is actually
+executing; it targets a script and a time neither of which describe the live task.
 
-(Note: the prior day's investigation, reported in the task brief as run "~00:40" on
-2026-07-28, already recorded this same "7/28/26 9:45:44 AM" reading — a timestamp that
-postdates a 00:40 check on the same calendar day. That inconsistency is in the prior
-report, not something this investigation can resolve; it is flagged here rather than
-papered over.)
+**5c. The 07-26/07-27 byte-identical pair is a weekend, not an anomaly.** 2026-07-26 was a
+Sunday and 2026-07-27 a Monday (calendar: 07-24 Fri, 07-25 Sat, 07-26 Sun, 07-27 Mon, 07-28
+Tue). Direct hash comparison of the four most recent inbox files:
+
+```
+$ python -c "
+import hashlib
+for d in ['07-25','07-26','07-27','07-28']:
+    p = f'data/tx/inbox/daf420.dat.{d}-2026'
+    data = open(p,'rb').read()
+    print(d, len(data), hashlib.sha256(data).hexdigest()[:16])
+"
+07-25 1802398 ee0ff0e3efb3ed46
+07-26 1898578 3c1ec0be06714ee4
+07-27 1898578 3c1ec0be06714ee4
+07-28 1900001 f2d19627afc91656
+```
+
+07-26 and 07-27 are exactly the same file (identical length and sha256); 07-25 and 07-28
+each differ from their neighbors. If the schedule-vs-refresh gap were the only mechanism,
+each day's early capture should still differ slightly day to day (new coordinate records at
+minimum). The exact identity of the 07-26/07-27 pair specifically is explained by RRC simply
+not having anything new to publish over the Sunday-into-Monday window — the schedule gap
+explains why every capture is one cycle behind; the weekend explains why two of those
+captures, specifically, came back byte-for-byte the same.
 
 ## Remedy
 
 - **No RRC portal/share-link action needed.** The link is valid and functioning; ruling out
   bucket 1's remedy (reissuing the MFT share link).
 - **No downloader code fix needed.** `auto_download_rrc.py` is not caching or writing stale
-  content; ruling out bucket 2's remedy.
-- **This needs a scheduling change, which is in-repo/ops, not external.** Move the Windows
-  Task Scheduler trigger in `setup_task_scheduler.ps1` later than RRC's observed ~9:45 AM
-  refresh (e.g. 10:30 AM), or add a second daily run later in the morning, so the download
-  reliably lands after the day's publish instead of racing it. This is *not* something that
-  requires the repo owner to act outside this codebase (no RRC contact, no new share link)
-  — it is a config change to a file already in this repository. I have **not** made that
-  change; Task 9 is investigation-only.
-- Separately: because the 34 extra permits are already sitting on RRC's server as of this
-  morning, the *next* successful scheduled run (today, 07-29, whenever it executes) will
-  very likely capture them on its own, independent of any schedule fix — this specific
-  freeze may resolve itself before any action is taken. The schedule mismatch will keep
-  recurring on other days, though, until the trigger time is moved.
+  content; ruling out bucket 2's remedy — it correctly wrote whatever the server returned
+  at the moment each run fired.
+- **This requires re-registering scheduled tasks on the Windows machine, as Administrator —
+  an out-of-band action the repo owner must perform, not a code fix.** Because the live
+  tasks were not created by the checked-in `setup_task_scheduler.ps1` (it points at a
+  nonexistent script and a different time than what's running), changing a trigger time
+  cannot be done by editing a file in this repo and committing it. Someone with admin
+  access to that machine needs to:
+  1. Move (or duplicate with a later time) `TX-RRC-Auto-Download`, currently 07:50, to run
+     after RRC's refresh.
+  2. Move `PermitIntelDaily` (`run_daily.py`, currently 08:30) to run after the download,
+     not just after RRC's refresh — the local pipeline needs the *download* to have already
+     picked up the fresh file that morning, not just to postdate RRC's own refresh.
+  3. Move `TX-RRC-GitHub-Trigger` (`trigger_github_workflow.py` → dispatches
+     `.github/workflows/daily-permit-intel.yml`, currently 09:00) correspondingly later, so
+     the GitHub Actions run also sees a same-day-fresh inbox.
+  All three should be checked against the actual refresh time once it's confirmed (see
+  "Observed vs. inferred" above) rather than against the single 9:45:44 AM reading alone —
+  the reading is only one data point.
+  - Separately, whoever does this should also either fix or retire
+    `setup_task_scheduler.ps1` so it reflects reality (correct script name, correct time) —
+    right now it would silently fail to change anything if someone ran it expecting it to
+    fix the live schedule.
+- Independent of the schedule fix: because the 34 extra permits are already sitting on
+  RRC's server as of this morning, the *next* successful `TX-RRC-Auto-Download` run (today,
+  07-29, 07:50, before this note's revision was even finished) may already have captured
+  them — that would resolve this specific episode without waiting on the admin action
+  above. The schedule-vs-refresh gap will keep recurring on other mornings, though, until
+  the tasks are re-registered.
 
 ## What the new alarm will do
 
-`core.invariants.check_records_advancing` (see `core/invariants.py:38-80`) treats a flat
-record count as frozen once it has held for `alarm_after_days` (default 4) days. The
-module's own docstring states: *"The real freeze (last movement 07-26) still alarms on
-07-30."* Verified independently by calling the function directly with the known header
-counts (567/602/637/669/706/706/706 for 07-22 through 07-28):
+`core.invariants.check_records_advancing` (`core/invariants.py:38-80`) treats a flat record
+count as frozen once it has held for `alarm_after_days` (4) days. Per the module's own
+docstring, this threshold was recalibrated from an original value of 3 after a full replay
+of July 2026 showed a legitimate 3-day plateau (111 permits held 07-05 through 07-07 over
+the Independence Day week) that a threshold of 3 would have false-alarmed on; 4 was chosen
+specifically so that plateau passes and a real freeze still catches. Docstring: *"The real
+freeze (last movement 07-26) still alarms on 07-30."*
+
+Verified independently by calling the function directly with the known header counts
+(567/602/637/669/706/706/706 for 07-22 through 07-28):
 
 ```
 2026-07-28 -> ok= True | record count last moved 2026-07-26 (now 706) (2d ago, alarms at 4d)
@@ -190,18 +318,21 @@ counts (567/602/637/669/706/706/706 for 07-22 through 07-28):
 
 **It will fire starting 2026-07-30**, if the count is still 706 by then.
 
-Given the evidence above, that is the *correct* backstop behavior, but it may never actually
-fire for this specific episode: the 740-record file already sitting on RRC's server means
-the next successful automated run should move the ledger's last-moved date to on/after
-07-29, resetting the flat-day counter before it reaches 4. If a run is missed or fails and
-the count is still 706 on 07-30, the alarm firing is the right outcome — it is a genuine
-(if resolvable) gap between what RRC has published and what this pipeline has captured.
+Given the evidence above, that is the *correct* backstop behavior, but it may never
+actually fire for this specific episode: the 740-record file already sitting on RRC's
+server means the next successful automated run should move the ledger's last-moved date to
+on/after 07-29, resetting the flat-day counter before it reaches 4. If a run is missed, or
+the schedule-vs-refresh gap causes another stale capture, and the count is still 706 on
+07-30, the alarm firing is the right outcome — a genuine (if resolvable) gap between what
+RRC has published and what this pipeline has captured, exactly the class of silent failure
+this check exists to catch.
 
 ## Scope note
 
 The task brief's header states "Bug 2 is upstream of this repo and cannot be fixed by
-changing the pipeline." This investigation does not fully bear that out: the evidence
-points to a schedule mismatch between an in-repo Task Scheduler trigger and RRC's publish
-time, which *is* fixable by changing something in this repo (the trigger time), not by
-contacting RRC or reissuing the share link. Flagging this discrepancy rather than forcing
-the finding to fit the original framing.
+changing the pipeline." This investigation does not bear that out cleanly: the mechanism is
+a schedule-vs-refresh gap across three separate morning triggers, compounded by a weekend
+non-publish, and the remedy is an operational change (re-registering Windows Scheduled
+Tasks) rather than an RRC portal action or a code fix to the parsing/diff pipeline. It *is*
+an out-of-band action the repo owner must perform on the machine — just not the kind of
+"contact RRC / reissue a share link" action the brief's framing suggested.
