@@ -31,11 +31,37 @@ def check_no_mojibake(text: str, label: str):
             "clean" if ok else "mojibake markers found in digest text")
 
 
-def check_volume_sane(new_count, label: str, floor: int = 0, ceiling: int = 500):
+def check_volume_sane(new_count, label: str, floor: int = 0, ceiling: int = 500,
+                      skip: dict | None = None):
+    """skip: the day's skip marker, when the run correctly did no work.
+
+    Absent this, a skipped run was indistinguishable from a failed one. The
+    ledger gate is keyed on content hash globally rather than per-day, so an
+    unchanged source (daf420.dat.07-26-2026 and .07-27-2026 are byte-identical)
+    made the run return without creating an output directory -- and this check
+    then reported "run likely failed" on a run that behaved exactly right.
+    That recurs every weekend.
+    """
+    if skip:
+        return (f"{label}_volume_sane", True,
+                f"skipped: {skip.get('reason', 'source unchanged')}")
     if new_count is None:
         return (f"{label}_volume_sane", False, "no new_permits.csv found — run likely failed")
     ok = floor <= new_count <= ceiling
     return (f"{label}_volume_sane", ok, f"{new_count} new (expected {floor}-{ceiling})")
+
+
+def skip_note(label: str, skip: dict) -> str:
+    """The brief must say plainly why a state's section is empty."""
+    prior = skip.get("prior_ingested_at")
+    records = skip.get("records_parsed")
+    detail = f" It was already ingested {prior}" if prior else ""
+    if records:
+        detail += f" ({records} records)"
+    return (f"# {label}\n\n"
+            f"_No new data today: {skip.get('reason', 'source unchanged')}._\n\n"
+            f"_The source file was byte-identical to one already processed, so this "
+            f"run correctly did no work.{detail}. This is a skip, not a failure._")
 
 
 def check_run_not_stale(run_log: Path, max_gap_hours: int = 36):

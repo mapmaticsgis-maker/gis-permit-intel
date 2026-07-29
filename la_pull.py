@@ -11,6 +11,7 @@ except Exception:
 from common import load_cfg, norm, load_master, save_master, write_outputs
 from core.diff import assert_usable_key, diff as core_diff
 from core.ledger import append_ingestion, find_ingestion, hash_text
+from core.outputs import write_skip_marker
 from digest import build_digest
 
 LA_CHANGE_COLS = ["operator", "depth", "well", "status", "field"]
@@ -110,8 +111,13 @@ def main():
     sha = hash_text(today.sort_values("id").to_csv(index=False))
     prior = find_ingestion(cfg["data_dir"], "la", sha)
     if prior:
-        print(f"source unchanged since {prior['ingested_at']} "
-              f"({prior['records_parsed']} records) -- skipping. No outputs written.")
+        reason = (f"source unchanged since {prior['ingested_at']} "
+                  f"({prior['records_parsed']} records)")
+        # Same marker as TX: downstream must be able to tell a correct skip
+        # from a failed run.
+        outd = os.path.join(cfg["data_dir"], "la", "out", dt.date.today().isoformat())
+        write_skip_marker(outd, source_name=src, reason=reason, prior=prior)
+        print(f"{reason} -- skipping. No new outputs written.")
         return
 
     master = load_master(cfg, "la")

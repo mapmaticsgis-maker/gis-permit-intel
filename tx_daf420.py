@@ -14,7 +14,7 @@ import pandas as pd
 from common import load_cfg, load_master, save_master
 from core.diff import assert_usable_key, diff as core_diff
 from core.ledger import append_ingestion, find_ingestion, hash_file
-from core.outputs import union_write_csv
+from core.outputs import clear_skip_marker, union_write_csv, write_skip_marker
 from digest import build_digest
 from county_lookup import COUNTY_LOOKUP
 
@@ -234,12 +234,19 @@ def main():
     m = re.search(r"(\d{2})-(\d{2})-(\d{4})", dat.name)
     date_tag = f"{m.group(3)}{m.group(1)}{m.group(2)}" if m else dt.date.today().strftime("%Y%m%d")
 
+    day = dt.date.today().isoformat()
+    outd = Path(cfg["data_dir"]) / "tx" / "out" / day
+
     sha = hash_file(dat)
     prior = find_ingestion(cfg["data_dir"], "tx", sha)
     if prior:
-        print(f"source unchanged since {prior['ingested_at']} "
-              f"({prior['source_name']}, {prior['records_parsed']} records) -- skipping. "
-              f"No outputs written.")
+        reason = (f"source unchanged since {prior['ingested_at']} "
+                  f"({prior['source_name']}, {prior['records_parsed']} records)")
+        # Leave a marker so downstream can tell "correctly skipped, source
+        # unchanged" from "run failed". daf420.dat.07-26-2026 and
+        # .07-27-2026 are byte-identical, so this fires every weekend.
+        write_skip_marker(outd, source_name=dat.name, reason=reason, prior=prior)
+        print(f"{reason} -- skipping. No new outputs written.")
         return
 
     df_all = parse_rrc(dat)
@@ -259,8 +266,9 @@ def main():
     new_master = pd.concat([master, df_all], ignore_index=True).drop_duplicates(
         "Permit_Number", keep="last") if master is not None else df_all
 
-    day = dt.date.today().isoformat()
-    outd = Path(cfg["data_dir"]) / "tx" / "out" / day
+    # This run produced real output, so any earlier same-day skip marker no
+    # longer describes the day.
+    clear_skip_marker(outd)
     union_write_csv(new, outd / "new_permits.csv", key="Permit_Number")
     union_write_csv(amended, outd / "amendments.csv", key="Permit_Number")
     union_write_csv(resurfaced, outd / "resurfaced.csv", key="Permit_Number")

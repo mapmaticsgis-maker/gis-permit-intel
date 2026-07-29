@@ -1,7 +1,7 @@
 import os, json, hashlib, datetime as dt
 import pandas as pd, yaml
 
-from core.outputs import union_write_csv
+from core.outputs import clear_skip_marker, union_write_csv
 
 def load_cfg(path="config.yaml"):
     # encoding is explicit, not incidental. Python's default text encoding on
@@ -93,6 +93,8 @@ def write_outputs(cfg, state, new, amended, digest_fn, *, key, id_cols=None):
     new_p = os.path.join(outd, "new_permits.csv")
     amended_p = os.path.join(outd, "amendments.csv")
 
+    # Real output supersedes any earlier same-day skip marker.
+    clear_skip_marker(outd)
     union_write_csv(new, new_p, key=key)
     union_write_csv(amended, amended_p, key=key)
 
