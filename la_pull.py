@@ -8,8 +8,12 @@ try:
     sys.stdout.reconfigure(encoding="utf-8")  # clean em-dashes on Windows consoles
 except Exception:
     pass
-from common import load_cfg, norm, load_master, save_master, diff, write_outputs
+from common import load_cfg, norm, load_master, save_master, write_outputs
+from core.diff import assert_usable_key, diff as core_diff
+from core.ledger import append_ingestion, find_ingestion, hash_text
 from digest import build_digest
+
+LA_CHANGE_COLS = ["operator", "depth", "well", "status", "field"]
 
 def fetch_rest(cfg):
     la = cfg["louisiana"]
@@ -85,8 +89,20 @@ def main():
     # today), so old and refreshed rows for the same well both survive as
     # "different" ids -- duplicate bloat accumulates every run it happens on.
     today["id"] = today["id"].astype(str)
+
+    assert_usable_key(today, "id")
+
+    sha = hash_text(today.sort_values("id").to_csv(index=False))
+    prior = find_ingestion(cfg["data_dir"], "la", sha)
+    if prior:
+        print(f"source unchanged since {prior['ingested_at']} "
+              f"({prior['records_parsed']} records) -- skipping. No outputs written.")
+        return
+
     master = load_master(cfg, "la")
-    new, amended, _ = diff(master, today, change_cols=("operator","depth","well","status","field"))
+    new, amended, _ = core_diff(master, today, key="id",
+                                change_cols=LA_CHANGE_COLS,
+                                resurfaced_after_days=None)
     known_ops = set(master["operator"].dropna()) if master is not None else set()
     new["first_seen"] = ~new["operator"].isin(known_ops)
     text = build_digest("Louisiana SONRIS", new, amended, cfg, "la", "parish")
@@ -94,6 +110,13 @@ def main():
     base = master if master is not None else today.iloc[0:0]
     updated_master = pd.concat([base, today], ignore_index=True).drop_duplicates("id", keep="last")
     save_master(cfg, "la", updated_master)
+    append_ingestion(
+        cfg["data_dir"], "la",
+        source_name=src, sha256=sha,
+        ingested_at=dt.datetime.now().isoformat(timespec="seconds"),
+        records_parsed=len(today), new=len(new),
+        amended=len(amended), resurfaced=0,
+    )
     print(f"source: {src}\nparsed: {len(today)}  new: {len(new)}  amended: {len(amended)}\noutputs: {outd}")
     print("\n" + text)
 
