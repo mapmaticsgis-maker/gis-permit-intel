@@ -48,6 +48,38 @@ def find_ingestion(data_dir, state, sha256: str) -> dict | None:
     return None
 
 
+def record_replay_ingestion(data_dir, state, *, source_path, records_parsed,
+                            new, amended, ingested_at=None) -> dict:
+    """Record that a recovery replay persisted master, so the two stay a unit.
+
+    Master and the ledger are a unit -- that is this branch's hard-won lesson,
+    and replay_tx.py --write violated exactly it. --write is the documented
+    recovery path: after a real recovery master was full while the ledger
+    still ended at the last pre-incident run, so check_source_freshness and
+    check_records_advancing both went red on the next run, while an operator
+    was mid-incident and least able to afford a spurious alarm.
+
+    One row is appended for the newest replayed file. Its sha256 is the real
+    file hash, so the ledger gate correctly skips that file on the next run --
+    master already contains it. source_name is prefixed "replay:" so the row
+    is never mistaken for a normal ingestion when reading history.
+    """
+    from datetime import datetime
+
+    sha = hash_file(source_path)
+    row = {
+        "source_name": f"replay:{Path(source_path).name}",
+        "sha256": sha,
+        "ingested_at": ingested_at or datetime.now().isoformat(timespec="seconds"),
+        "records_parsed": records_parsed,
+        "new": new,
+        "amended": amended,
+        "resurfaced": 0,
+    }
+    append_ingestion(data_dir, state, **row)
+    return row
+
+
 def append_ingestion(data_dir, state, *, source_name, sha256, ingested_at,
                      records_parsed, new, amended, resurfaced) -> None:
     p = ledger_path(data_dir, state)

@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from common import load_cfg, save_master              # noqa: E402
 from core.diff import diff                            # noqa: E402
+from core.ledger import record_replay_ingestion       # noqa: E402
 from tx_daf420 import CHANGE_COLS, parse_rrc          # noqa: E402
 
 
@@ -63,6 +64,7 @@ def main():
 
     master = None
     seen_new = []
+    last = None
     print(f"{'date':12} {'parsed':>7} {'new':>6} {'amended':>8} {'master':>7}")
     for day, path in files:
         parsed = parse_rrc(path)
@@ -79,6 +81,8 @@ def main():
                   else pd.concat([master, parsed], ignore_index=True)
                        .drop_duplicates("Permit_Number", keep="last"))
         seen_new.extend(new["Permit_Number"].tolist())
+        last = {"path": path, "parsed": len(parsed),
+                "new": len(new), "amended": len(amended)}
         print(f"{day.isoformat():12} {len(parsed):>7} {len(new):>6} "
               f"{len(amended):>8} {len(master):>7}")
 
@@ -109,6 +113,19 @@ def main():
     if args.write:
         save_master(cfg, "tx", master)
         print(f"master written: {len(master)} rows")
+        # Master and the ledger are a unit. Persisting one without the other
+        # is the very failure this branch exists to fix: without this row the
+        # ledger still ends at the last pre-incident run, so source_freshness
+        # and records_advancing both go red on the next run -- while an
+        # operator is mid-incident and least able to afford a false alarm.
+        row = record_replay_ingestion(
+            cfg["data_dir"], "tx",
+            source_path=last["path"], records_parsed=last["parsed"],
+            new=last["new"], amended=last["amended"])
+        print(f"ledger row appended: {row['source_name']} "
+              f"@ {row['ingested_at']} ({row['records_parsed']} records)")
+        print("master and ledger are now consistent; the next scheduled run "
+              "will correctly skip this source.")
 
 
 if __name__ == "__main__":
