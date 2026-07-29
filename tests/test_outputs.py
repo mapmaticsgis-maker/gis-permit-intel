@@ -1,0 +1,116 @@
+import pandas as pd
+import pytest
+
+from core.outputs import OutputWouldShrink, count_data_rows, union_write_csv
+
+KEY = "Permit_Number"
+
+
+def permits(*nums, operator="EOG"):
+    return pd.DataFrame({KEY: [str(n) for n in nums],
+                         "Operator_Name": [operator] * len(nums)})
+
+
+def test_count_data_rows_absent_file_is_zero(tmp_path):
+    assert count_data_rows(tmp_path / "nope.csv") == 0
+
+
+def test_count_data_rows_excludes_header(tmp_path):
+    p = tmp_path / "x.csv"
+    pd.DataFrame({"a": [1, 2, 3]}).to_csv(p, index=False)
+    assert count_data_rows(p) == 3
+
+
+def test_count_data_rows_counts_records_not_lines(tmp_path):
+    """LA's SONRIS LOCATION/COMMENTS are free text and carry embedded
+    newlines inside quoted values. Counting physical lines inflated `before`,
+    which made a correct union look like a shrink and raised
+    OutputWouldShrink on a write that was never wrong."""
+    p = tmp_path / "new_permits.csv"
+    pd.DataFrame({KEY: ["1", "2"],
+                  "LOCATION": ["Sec 12\nT15N R14W", "plain"]}).to_csv(p, index=False)
+    assert len(pd.read_csv(p)) == 2
+    assert count_data_rows(p) == 2
+
+
+def test_embedded_newline_does_not_trip_the_shrink_guard(tmp_path):
+    """End to end: a multiline field must survive a same-day second run."""
+    p = tmp_path / "new_permits.csv"
+    first = pd.DataFrame({KEY: ["1", "2"],
+                          "LOCATION": ["Sec 12\nT15N R14W", "plain"]})
+    union_write_csv(first, p, key=KEY)
+    union_write_csv(pd.DataFrame({KEY: ["3"], "LOCATION": ["x"]}), p, key=KEY)
+    assert count_data_rows(p) == 3
+
+
+def test_write_creates_file_and_parent_dirs(tmp_path):
+    p = tmp_path / "out" / "2026-07-28" / "new_permits.csv"
+    union_write_csv(permits(1, 2), p, key=KEY)
+    assert count_data_rows(p) == 2
+
+
+def test_second_run_adds_its_new_permits(tmp_path):
+    """06:00 finds 37, 14:00 finds 4 more -- the day's file holds 41."""
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(*range(37)), p, key=KEY)
+    union_write_csv(permits(100, 101, 102, 103), p, key=KEY)
+    assert count_data_rows(p) == 41
+
+
+def test_repeated_permit_updates_in_place_without_duplicating(tmp_path):
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2, operator="EOG"), p, key=KEY)
+    union_write_csv(permits(2, operator="PIONEER"), p, key=KEY)
+    out = pd.read_csv(p, dtype=str)
+    assert len(out) == 2
+    assert out.loc[out[KEY] == "2", "Operator_Name"].item() == "PIONEER"
+
+
+def test_empty_result_never_erases_the_day(tmp_path):
+    """The exact 2026-07-26 failure: 62 rows must survive an empty later run."""
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(*range(62)), p, key=KEY)
+    union_write_csv(permits(), p, key=KEY)
+    assert count_data_rows(p) == 62
+
+
+def test_replace_rewrites_wholesale(tmp_path):
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2), p, key=KEY)
+    union_write_csv(permits(9), p, key=KEY, replace=True)
+    out = pd.read_csv(p, dtype=str)
+    assert list(out[KEY]) == ["9"]
+
+
+def test_missing_key_column_is_rejected(tmp_path):
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1), p, key=KEY)
+    with pytest.raises(ValueError):
+        union_write_csv(pd.DataFrame({"other": ["x"]}), p, key=KEY)
+
+
+def test_key_type_mismatch_does_not_duplicate(tmp_path):
+    """Existing rows read back as str must match an int-typed incoming key."""
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(255778), p, key=KEY)
+    union_write_csv(pd.DataFrame({KEY: [255778], "Operator_Name": ["X"]}), p, key=KEY)
+    assert count_data_rows(p) == 1
+
+
+def test_shrink_guard_refuses_before_writing(tmp_path, monkeypatch):
+    """The guard must refuse the write, not report it after the fact.
+
+    Unreachable through the public path by construction, so the merge is
+    sabotaged to return fewer rows. What matters is that the file on disk is
+    untouched when the guard fires.
+    """
+    import core.outputs as outputs
+
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2, 3), p, key=KEY)
+
+    monkeypatch.setattr(outputs.pd, "concat", lambda frames, **kw: frames[1])
+    with pytest.raises(OutputWouldShrink):
+        union_write_csv(permits(9), p, key=KEY)
+
+    assert count_data_rows(p) == 3

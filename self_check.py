@@ -11,6 +11,8 @@ import csv
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from core.outputs import count_data_rows
+
 MOJIBAKE_MARKERS = ("â€", "Ã©", "Ã¢", "\ufffd")
 
 
@@ -29,17 +31,43 @@ def check_no_mojibake(text: str, label: str):
             "clean" if ok else "mojibake markers found in digest text")
 
 
-def check_volume_sane(new_count, label: str, floor: int = 0, ceiling: int = 500):
+def check_volume_sane(new_count, label: str, floor: int = 0, ceiling: int = 500,
+                      skip: dict | None = None):
+    """skip: the day's skip marker, when the run correctly did no work.
+
+    Absent this, a skipped run was indistinguishable from a failed one. The
+    ledger gate is keyed on content hash globally rather than per-day, so an
+    unchanged source (daf420.dat.07-26-2026 and .07-27-2026 are byte-identical)
+    made the run return without creating an output directory -- and this check
+    then reported "run likely failed" on a run that behaved exactly right.
+    That recurs every weekend.
+    """
+    if skip:
+        return (f"{label}_volume_sane", True,
+                f"skipped: {skip.get('reason', 'source unchanged')}")
     if new_count is None:
         return (f"{label}_volume_sane", False, "no new_permits.csv found — run likely failed")
     ok = floor <= new_count <= ceiling
     return (f"{label}_volume_sane", ok, f"{new_count} new (expected {floor}-{ceiling})")
 
 
+def skip_note(label: str, skip: dict) -> str:
+    """The brief must say plainly why a state's section is empty."""
+    prior = skip.get("prior_ingested_at")
+    records = skip.get("records_parsed")
+    detail = f" It was already ingested {prior}" if prior else ""
+    if records:
+        detail += f" ({records} records)"
+    return (f"# {label}\n\n"
+            f"_No new data today: {skip.get('reason', 'source unchanged')}._\n\n"
+            f"_The source file was byte-identical to one already processed, so this "
+            f"run correctly did no work.{detail}. This is a skip, not a failure._")
+
+
 def check_run_not_stale(run_log: Path, max_gap_hours: int = 36):
     if not run_log.exists():
         return ("run_not_stale", True, "first run, no history yet")
-    with open(run_log) as f:
+    with open(run_log, newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     successes = [r for r in rows if r["status"] == "OK"]
     if not successes:
@@ -51,11 +79,19 @@ def check_run_not_stale(run_log: Path, max_gap_hours: int = 36):
 
 
 def count_new(outd: Path) -> int | None:
+    """None means "no file" -- see check_volume_sane, which distinguishes that
+    from a skipped run.
+
+    Counts parsed CSV records, not physical lines. This had the same embedded-
+    newline flaw as core.outputs.count_data_rows, and it is the one that
+    actually reaches the operator: its result is what check_volume_sane
+    reports and what the run log stores, so a quoted newline in a SONRIS
+    LOCATION field inflated the LA count in the daily brief.
+    """
     p = outd / "new_permits.csv"
     if not p.exists():
         return None
-    with open(p) as f:
-        return max(sum(1 for _ in f) - 1, 0)  # minus header
+    return count_data_rows(p)
 
 
 def read_digest(outd: Path) -> str:
@@ -79,7 +115,7 @@ def log_run(run_log: Path, tx_new, la_new, checks, status: str):
         "status": status,
     }
     write_header = not run_log.exists()
-    with open(run_log, "a", newline="") as f:
+    with open(run_log, "a", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=RUN_LOG_FIELDS)
         if write_header:
             w.writeheader()

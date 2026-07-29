@@ -8,8 +8,21 @@ try:
     sys.stdout.reconfigure(encoding="utf-8")  # clean em-dashes on Windows consoles
 except Exception:
     pass
-from common import load_cfg, norm, load_master, save_master, diff, write_outputs
+from common import load_cfg, norm, load_master, save_master, write_outputs
+from core.diff import assert_usable_key, diff as core_diff
+from core.ledger import append_ingestion, find_ingestion, hash_text
+from core.outputs import write_skip_marker
 from digest import build_digest
+
+LA_CHANGE_COLS = ["operator", "depth", "well", "status", "field"]
+
+# Identifier columns must survive the day-file round-trip as text. A well
+# serial number, API number, or section/township/range read back as a number
+# loses leading zeros and gains a ".0"; both reach digest.md and the dashboard.
+# `depth` is deliberately absent -- digest._fmt_depth formats it with :.0f and
+# raises ValueError on a string.
+LA_ID_COLS = {"id": str, "api": str, "well_num": str,
+              "section": str, "township": str, "range": str}
 
 def fetch_rest(cfg):
     la = cfg["louisiana"]
@@ -84,16 +97,53 @@ def main():
     # fails to match "255778" (str, from master) against 255778 (int, from
     # today), so old and refreshed rows for the same well both survive as
     # "different" ids -- duplicate bloat accumulates every run it happens on.
+    # Assert BEFORE casting, not after. astype(str) on pandas <=2.x renders
+    # NaN as the literal string "nan" -- not null -- so the assertion's
+    # isna() check would find nothing and a null key would sail straight
+    # through. pandas 3.0.5 happens to preserve NA through the cast, so the
+    # assertion does fire correctly on the currently installed version, but
+    # requirements.txt pins no pandas version and correctness should not
+    # depend on which one someone has. Asserting on the raw column is right
+    # on every version; the cast still happens, just after the check.
+    assert_usable_key(today, "id")
     today["id"] = today["id"].astype(str)
+
+    sha = hash_text(today.sort_values("id").to_csv(index=False))
+    prior = find_ingestion(cfg["data_dir"], "la", sha)
+    if prior:
+        reason = (f"source unchanged since {prior['ingested_at']} "
+                  f"({prior['records_parsed']} records)")
+        # Same marker as TX: downstream must be able to tell a correct skip
+        # from a failed run.
+        outd = os.path.join(cfg["data_dir"], "la", "out", dt.date.today().isoformat())
+        write_skip_marker(outd, source_name=src, reason=reason, prior=prior)
+        print(f"{reason} -- skipping. No new outputs written.")
+        return
+
     master = load_master(cfg, "la")
-    new, amended, _ = diff(master, today, change_cols=("operator","depth","well","status","field"))
+    new, amended, _ = core_diff(master, today, key="id",
+                                change_cols=LA_CHANGE_COLS,
+                                resurfaced_after_days=None)
     known_ops = set(master["operator"].dropna()) if master is not None else set()
     new["first_seen"] = ~new["operator"].isin(known_ops)
-    text = build_digest("Louisiana SONRIS", new, amended, cfg, "la", "parish")
-    outd = write_outputs(cfg, "la", new, amended, text)
+    # The digest describes the whole day, not this run's increment: it is
+    # built from the day's unioned files after the CSVs are merged, which is
+    # why write_outputs takes a builder rather than finished text.
+    outd, text = write_outputs(
+        cfg, "la", new, amended,
+        lambda day_new, day_amended: build_digest(
+            "Louisiana SONRIS", day_new, day_amended, cfg, "la", "parish"),
+        key="id", id_cols=LA_ID_COLS)
     base = master if master is not None else today.iloc[0:0]
     updated_master = pd.concat([base, today], ignore_index=True).drop_duplicates("id", keep="last")
     save_master(cfg, "la", updated_master)
+    append_ingestion(
+        cfg["data_dir"], "la",
+        source_name=src, sha256=sha,
+        ingested_at=dt.datetime.now().isoformat(timespec="seconds"),
+        records_parsed=len(today), new=len(new),
+        amended=len(amended), resurfaced=0,
+    )
     print(f"source: {src}\nparsed: {len(today)}  new: {len(new)}  amended: {len(amended)}\noutputs: {outd}")
     print("\n" + text)
 

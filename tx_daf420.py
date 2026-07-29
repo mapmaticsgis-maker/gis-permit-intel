@@ -12,6 +12,9 @@ import requests
 from pathlib import Path
 import pandas as pd
 from common import load_cfg, load_master, save_master
+from core.diff import assert_usable_key, diff as core_diff
+from core.ledger import append_ingestion, find_ingestion, hash_file
+from core.outputs import clear_skip_marker, union_write_csv, write_skip_marker
 from digest import build_digest
 from county_lookup import COUNTY_LOOKUP
 
@@ -79,39 +82,13 @@ def apply_coordinate_cache(df_all, cache_csv):
 
 
 # ---------- diff + intel ----------
-CHANGE_COLS = ["Operator_Name","Well_Number","Total_Depth","Issue_Date","Spud_Date","Lease_Name"]
+CHANGE_COLS = ["Operator_Name", "Well_Number", "Total_Depth",
+               "Issue_Date", "Spud_Date", "Lease_Name"]
+
+
 def diff_master(master, today):
-    key = "Permit_Number"
-    today = today.copy(); today[key] = today[key].astype(str)
-    if master is None or master.empty:
-        return today, today.iloc[0:0], today.iloc[0:0]
-    master = master.copy(); master[key] = master[key].astype(str)
-    known = master.drop_duplicates(key, keep="last").set_index(key)
-    is_new = ~today[key].isin(known.index)
-    new = today[is_new].copy()
-    both = today[~is_new].copy()
-    def _n(series):
-        return series.map(lambda v: "" if pd.isna(v) or str(v) in ("None","nan","")
-                          else str(v).removesuffix(".0").strip())
-    if len(both):
-        old = known.loc[both[key]]
-        chg = pd.Series(False, index=both.index)
-        for c in CHANGE_COLS:
-            o = _n(old[c]).values if c in old else ""
-            n = _n(both[c]).values
-            chg |= pd.Series(o != n, index=both.index)
-        amended = both[chg]
-    else:
-        amended = today.iloc[0:0]
-    # resurfaced: new to master but issue date older than 7 days
-    if len(new):
-        iss = pd.to_datetime(new["Issue_Date"], errors="coerce")
-        old_mask = iss < (pd.Timestamp.now() - pd.Timedelta(days=7))
-        resurfaced = new[old_mask.fillna(False)]
-        new = new[~old_mask.fillna(False)]
-    else:
-        resurfaced = new
-    return new, amended, resurfaced
+    return core_diff(master, today, key="Permit_Number",
+                     change_cols=CHANGE_COLS, resurfaced_after_days=7)
 
 def mtd_rollup(master, cfg):
     from common import family_of
@@ -257,11 +234,28 @@ def main():
     m = re.search(r"(\d{2})-(\d{2})-(\d{4})", dat.name)
     date_tag = f"{m.group(3)}{m.group(1)}{m.group(2)}" if m else dt.date.today().strftime("%Y%m%d")
 
+    day = dt.date.today().isoformat()
+    outd = Path(cfg["data_dir"]) / "tx" / "out" / day
+
+    sha = hash_file(dat)
+    prior = find_ingestion(cfg["data_dir"], "tx", sha)
+    if prior:
+        reason = (f"source unchanged since {prior['ingested_at']} "
+                  f"({prior['source_name']}, {prior['records_parsed']} records)")
+        # Leave a marker so downstream can tell "correctly skipped, source
+        # unchanged" from "run failed". daf420.dat.07-26-2026 and
+        # .07-27-2026 are byte-identical, so this fires every weekend.
+        write_skip_marker(outd, source_name=dat.name, reason=reason, prior=prior)
+        print(f"{reason} -- skipping. No new outputs written.")
+        return
+
     df_all = parse_rrc(dat)
     if df_all.empty: sys.exit("No permit headers parsed — check file.")
     df_all = df_all.drop_duplicates(
         subset=["Permit_Number","CountyCode","Lease_Name","Operator_Number","Well_Number","Issue_Date","Spud_Date"],
         keep="first").copy()
+    df_all = df_all.drop_duplicates("Permit_Number", keep="last").copy()
+    assert_usable_key(df_all, "Permit_Number")
     df_all = apply_coordinate_cache(df_all, tx.get("coord_cache", "./data/tx/rrc_coordinate_cache.csv"))
 
     master = load_master(cfg, "tx")
@@ -269,27 +263,53 @@ def main():
     known_ops = set(master["Operator_Name"].dropna()) if master is not None else set()
     new["first_seen"] = ~new["Operator_Name"].isin(known_ops)
 
+    new_master = pd.concat([master, df_all], ignore_index=True).drop_duplicates(
+        "Permit_Number", keep="last") if master is not None else df_all
+
+    # This run produced real output, so any earlier same-day skip marker no
+    # longer describes the day.
+    clear_skip_marker(outd)
+    union_write_csv(new, outd / "new_permits.csv", key="Permit_Number")
+    union_write_csv(amended, outd / "amendments.csv", key="Permit_Number")
+    union_write_csv(resurfaced, outd / "resurfaced.csv", key="Permit_Number")
+
+    # The digest describes the whole day, not just this run's increment --
+    # RRC can publish twice in a day and the second run's `new` is smaller.
+    # Identifier columns must stay text. Every permit number carries a leading
+    # zero (0917214 -> 917214 if inferred), as do CountyCode (001) and
+    # District (06); 693 of 693 permits are affected. Stripping them would
+    # reach digest.md, which the dashboard consumes.
+    # Total_Depth is deliberately NOT in this dict: digest._fmt_depth formats
+    # it with :.0f and raises ValueError on a string, so a blanket dtype=str
+    # would trade one bug for another.
+    ID_COLS = {"Permit_Number": str, "CountyCode": str, "District": str,
+               "Operator_Number": str, "Well_Number": str}
+    day_new = pd.read_csv(outd / "new_permits.csv", dtype=ID_COLS)
+    day_amended = pd.read_csv(outd / "amendments.csv", dtype=ID_COLS)
+    day_resurfaced = pd.read_csv(outd / "resurfaced.csv", dtype=ID_COLS)
+
     # canonical names for the shared digest builder
     ren = {"Operator_Name":"operator","County":"county","Total_Depth":"depth",
            "Well_Number":"well","Lease_Name":"lease"}
-    text = build_digest("Texas RRC (daf420)", new.rename(columns=ren),
-                        amended.rename(columns=ren), cfg, "tx", "county")
-    if len(resurfaced):
+    text = build_digest("Texas RRC (daf420)", day_new.rename(columns=ren),
+                        day_amended.rename(columns=ren), cfg, "tx", "county")
+    if len(day_resurfaced):
         text += "\n\n## Resurfaced older files (issue date >7d old, new to master)\n"
         text += "\n".join(f"- {r.Operator_Name} — {r.Lease_Name} {r.Well_Number} "
                           f"({str(r.County).title()}), issued {r.Issue_Date}"
-                          for _, r in resurfaced.iterrows())
-    new_master = pd.concat([master, df_all], ignore_index=True).drop_duplicates(
-        "Permit_Number", keep="last") if master is not None else df_all
+                          for _, r in day_resurfaced.iterrows())
     text += "\n\n" + mtd_rollup(new_master, cfg)
 
-    day = dt.date.today().isoformat()
-    outd = Path(cfg["data_dir"]) / "tx" / "out" / day; outd.mkdir(parents=True, exist_ok=True)
-    new.to_csv(outd/"new_permits.csv", index=False)
-    amended.to_csv(outd/"amendments.csv", index=False)
-    resurfaced.to_csv(outd/"resurfaced.csv", index=False)
     (outd/"digest.md").write_text(text, encoding="utf-8")
     save_master(cfg, "tx", new_master)
+
+    append_ingestion(
+        cfg["data_dir"], "tx",
+        source_name=dat.name, sha256=sha,
+        ingested_at=dt.datetime.now().isoformat(timespec="seconds"),
+        records_parsed=len(df_all), new=len(new),
+        amended=len(amended), resurfaced=len(resurfaced),
+    )
 
     print(f"parsed {len(df_all)} | new {len(new)} | amended {len(amended)} | resurfaced {len(resurfaced)}")
     print(f"outputs: {outd}\n")

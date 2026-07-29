@@ -18,6 +18,8 @@ import requests
 from common import load_cfg, load_master
 import self_check
 import send_email
+from core.invariants import run_all as run_invariants
+from core.outputs import read_skip_marker
 
 ROOT = Path(__file__).parent
 RUN_LOG = ROOT / "data" / "run_log.csv"
@@ -47,6 +49,53 @@ def run_step(cmd, label: str) -> tuple[bool, str]:
     except Exception as e:
         print(f"!!! {label} failed to launch: {e}")
         return False, str(e)
+
+
+def brief_section(label: str, ok: bool, digest: str, skip: dict | None) -> str:
+    """One state's slice of the daily brief, always self-describing.
+
+    An empty section used to be ambiguous: the pull could have failed, or it
+    could have correctly skipped an unchanged source. The operator could not
+    tell which, and on a skip tx_ok was True so no alert explained it.
+    """
+    if not ok:
+        return (f"# {label}\n\n_The {label} pull FAILED this run — "
+                f"see the alert email for details._")
+    if skip:
+        return self_check.skip_note(label, skip)
+    if not digest.strip():
+        return (f"# {label}\n\n_No digest was produced this run and no skip was "
+                f"recorded — this is unexpected; check the run log._")
+    return digest
+
+
+def collect_invariants(data_dir, states, today: dt.date) -> list:
+    """Run each state's invariants, converting a crash into a failed check.
+
+    The invariants are a sensor, and a sensor must not be able to take down
+    the thing it monitors. This loop used to call run_invariants unguarded,
+    and it runs BEFORE send_email.send_daily_brief. A ledger carrying a git
+    conflict marker makes csv.DictReader yield a row whose ingested_at is
+    None, and max(r["ingested_at"] ...) then raises TypeError straight out of
+    main() -- so the operator got no brief, no failure alert, no log_run row
+    and no healthcheck ping. The pipeline went silent in exactly the way this
+    branch exists to prevent. Both CI and the local scheduler append to and
+    commit data/<state>/ledger.csv, so conflicts are realistic.
+
+    A broken sensor is now a failed check, which still alarms and still lets
+    the brief go out, rather than an abort, which does neither.
+    """
+    out = []
+    for state in states:
+        try:
+            results = run_invariants(data_dir, state, today)
+        except Exception as e:
+            results = [("invariants_crashed", False,
+                        f"{type(e).__name__}: {e} -- ledger may be malformed; "
+                        f"check data/{state}/ledger.csv for conflict markers")]
+        for name, ok, detail in results:
+            out.append((f"{state}_{name}", ok, detail))
+    return out
 
 
 def main():
@@ -80,6 +129,12 @@ def main():
     tx_digest = self_check.read_digest(outd_tx) if tx_ok else ""
     la_digest = self_check.read_digest(outd_la) if la_ok else ""
 
+    # A skip marker only describes the day when the day has no new_permits.csv.
+    # If an earlier run that day produced real output, that output is the truth
+    # and a leftover marker must not override it.
+    tx_skip = read_skip_marker(outd_tx) if (tx_ok and tx_new is None) else None
+    la_skip = read_skip_marker(outd_la) if (la_ok and la_new is None) else None
+
     new_tx_master = load_master(cfg, "tx")
     new_la_master = load_master(cfg, "la")
     new_tx_rows = len(new_tx_master) if new_tx_master is not None else prev_tx_rows
@@ -89,22 +144,31 @@ def main():
     if tx_ok:
         checks.append(self_check.check_master_grew(prev_tx_rows, new_tx_rows, "tx"))
         checks.append(self_check.check_no_mojibake(tx_digest, "tx"))
-        checks.append(self_check.check_volume_sane(tx_new, "tx", floor=0, ceiling=300))
+        checks.append(self_check.check_volume_sane(tx_new, "tx", floor=0, ceiling=300,
+                                                   skip=tx_skip))
     else:
         checks.append(("tx_pull_failed", False, tx_out[-500:]))
     if la_ok:
         checks.append(self_check.check_master_grew(prev_la_rows, new_la_rows, "la"))
         checks.append(self_check.check_no_mojibake(la_digest, "la"))
-        checks.append(self_check.check_volume_sane(la_new, "la", floor=0, ceiling=50))
+        checks.append(self_check.check_volume_sane(la_new, "la", floor=0, ceiling=50,
+                                                   skip=la_skip))
     else:
         checks.append(("la_pull_failed", False, la_out[-500:]))
     checks.append(self_check.check_run_not_stale(RUN_LOG))
 
+    checks.extend(collect_invariants(cfg["data_dir"], ("tx", "la"), dt.date.today()))
+
     failed = [c for c in checks if not c[1]]
 
-    brief = f"{tx_digest}\n\n---\n\n{la_digest}" if tx_ok else (
-        f"_TX pull skipped or failed this run — see alert email if one arrived._\n\n---\n\n{la_digest}"
-    )
+    # Each section states its own status. The old text lumped "skipped" and
+    # "failed" into one sentence for TX and said nothing at all for LA, so a
+    # correctly-skipped weekend run produced a blank section the operator had
+    # no way to interpret.
+    brief = "\n\n---\n\n".join([
+        brief_section("Texas RRC (daf420)", tx_ok, tx_digest, tx_skip),
+        brief_section("Louisiana SONRIS", la_ok, la_digest, la_skip),
+    ])
     send_email.send_daily_brief(brief, today)
     if failed:
         send_email.send_failure_alert(checks, today)

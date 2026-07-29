@@ -7,7 +7,8 @@ from datetime import datetime
 # Load data
 tx = pd.read_csv("data/tx/master.csv")
 la = pd.read_csv("data/la/master.csv")
-cfg = yaml.safe_load(open("config.yaml"))
+with open("config.yaml", encoding="utf-8") as f:
+    cfg = yaml.safe_load(f)
 
 # Parse dates
 tx["Issue_Date"] = pd.to_datetime(tx["Issue_Date"], errors="coerce")

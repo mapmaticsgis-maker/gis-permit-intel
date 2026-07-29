@@ -4,7 +4,7 @@
 
 **Goal:** Make permit ingestion idempotent and self-monitoring so the pipeline stops destroying its own results, and recover the days already lost.
 
-**Architecture:** An ingestion ledger keyed on source content hash gates every run. Already-ingested content is skipped entirely rather than re-diffed; output writes refuse to shrink; a stale ledger is the source-freshness alarm. The existing diff logic is correct and is consolidated, not rewritten.
+**Architecture:** An ingestion ledger keyed on source content hash gates every run. Already-ingested content is skipped entirely rather than re-diffed; a day's outputs union across runs so nothing is overwritten; a stale ledger is the source-freshness alarm. The existing diff logic is correct and is consolidated, not rewritten.
 
 **Tech Stack:** Python 3.14, pandas, pytest, stdlib `csv`/`hashlib`. No new runtime dependencies.
 
@@ -26,13 +26,13 @@
 |---|---|
 | `core/__init__.py` | Package marker. Empty. |
 | `core/ledger.py` | Source hashing; read/append the ingestion ledger; look up prior ingestion by hash. |
-| `core/outputs.py` | Guarded CSV writes that refuse to shrink an existing output. |
+| `core/outputs.py` | Union CSV writes so a day's outputs accumulate across runs. |
 | `core/diff.py` | Single consolidated change-detection function, replacing the two near-duplicates. |
 | `core/invariants.py` | Freshness and contradiction checks over the ledger. |
 | `scripts/replay_tx.py` | Rebuild TX master from empty across a date range; the acceptance test harness. |
 | `tests/conftest.py` | Shared fixtures: synthetic daf420 text, temp data dirs. |
 | `tests/test_ledger.py`, `tests/test_outputs.py`, `tests/test_diff.py`, `tests/test_invariants.py` | Unit tests per module. |
-| `tx_daf420.py` (modify) | Gate on ledger; use guarded writes; record ingestion. |
+| `tx_daf420.py` (modify) | Gate on ledger; union outputs; rebuild digest from the day; record ingestion. |
 | `la_pull.py` (modify) | Same, hashing the fetched frame rather than a file. |
 | `run_daily_ci.py` (modify) | Append the new invariants to the existing `checks` list. |
 | `requirements.txt` (modify) | Add `pytest`. |
@@ -260,7 +260,9 @@ git commit -m "Add ingestion ledger keyed on source content hash"
 
 ---
 
-### Task 2: Guarded output writes
+### Task 2: Union output writes
+
+A day's output file accumulates every permit newly detected **that day**, across however many runs. RRC can publish more than once in a day; the ledger gate lets a genuine second publication through, and that run's `new` set is legitimately smaller than the morning's. Replacing would lose the morning's findings; refusing would crash a valid run. Merging on the business key is the only option that keeps `new_permits.csv` meaning "what was new on this date."
 
 **Files:**
 - Create: `core/outputs.py`, `tests/test_outputs.py`
@@ -268,9 +270,9 @@ git commit -m "Add ingestion ledger keyed on source content hash"
 **Interfaces:**
 - Consumes: nothing.
 - Produces:
-  - `class OutputWouldShrink(Exception)`
+  - `class OutputWouldShrink(Exception)` — defensive pre-condition; refuses the write, never reports after it
   - `count_data_rows(path) -> int` — data rows excluding header; 0 if absent
-  - `guarded_write_csv(df, path, *, allow_shrink: bool = False) -> None`
+  - `union_write_csv(df, path, *, key: str, replace: bool = False) -> None`
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -280,7 +282,14 @@ Create `tests/test_outputs.py`:
 import pandas as pd
 import pytest
 
-from core.outputs import OutputWouldShrink, count_data_rows, guarded_write_csv
+from core.outputs import OutputWouldShrink, count_data_rows, union_write_csv
+
+KEY = "Permit_Number"
+
+
+def permits(*nums, operator="EOG"):
+    return pd.DataFrame({KEY: [str(n) for n in nums],
+                         "Operator_Name": [operator] * len(nums)})
 
 
 def test_count_data_rows_absent_file_is_zero(tmp_path):
@@ -293,33 +302,77 @@ def test_count_data_rows_excludes_header(tmp_path):
     assert count_data_rows(p) == 3
 
 
-def test_write_creates_file(tmp_path):
-    p = tmp_path / "out" / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
+def test_write_creates_file_and_parent_dirs(tmp_path):
+    p = tmp_path / "out" / "2026-07-28" / "new_permits.csv"
+    union_write_csv(permits(1, 2), p, key=KEY)
     assert count_data_rows(p) == 2
 
 
-def test_write_refuses_to_shrink(tmp_path):
+def test_second_run_adds_its_new_permits(tmp_path):
+    """06:00 finds 37, 14:00 finds 4 more -- the day's file holds 41."""
     p = tmp_path / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": list(range(62))}), p)
-    with pytest.raises(OutputWouldShrink):
-        guarded_write_csv(pd.DataFrame({"a": []}), p)
+    union_write_csv(permits(*range(37)), p, key=KEY)
+    union_write_csv(permits(100, 101, 102, 103), p, key=KEY)
+    assert count_data_rows(p) == 41
+
+
+def test_repeated_permit_updates_in_place_without_duplicating(tmp_path):
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2, operator="EOG"), p, key=KEY)
+    union_write_csv(permits(2, operator="PIONEER"), p, key=KEY)
+    out = pd.read_csv(p, dtype=str)
+    assert len(out) == 2
+    assert out.loc[out[KEY] == "2", "Operator_Name"].item() == "PIONEER"
+
+
+def test_empty_result_never_erases_the_day(tmp_path):
+    """The exact 2026-07-26 failure: 62 rows must survive an empty later run."""
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(*range(62)), p, key=KEY)
+    union_write_csv(permits(), p, key=KEY)
     assert count_data_rows(p) == 62
 
 
-def test_write_allows_equal_or_larger(tmp_path):
+def test_replace_rewrites_wholesale(tmp_path):
     p = tmp_path / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
-    guarded_write_csv(pd.DataFrame({"a": [1, 2, 3]}), p)
+    union_write_csv(permits(1, 2), p, key=KEY)
+    union_write_csv(permits(9), p, key=KEY, replace=True)
+    out = pd.read_csv(p, dtype=str)
+    assert list(out[KEY]) == ["9"]
+
+
+def test_missing_key_column_is_rejected(tmp_path):
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1), p, key=KEY)
+    with pytest.raises(ValueError):
+        union_write_csv(pd.DataFrame({"other": ["x"]}), p, key=KEY)
+
+
+def test_key_type_mismatch_does_not_duplicate(tmp_path):
+    """Existing rows read back as str must match an int-typed incoming key."""
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(255778), p, key=KEY)
+    union_write_csv(pd.DataFrame({KEY: [255778], "Operator_Name": ["X"]}), p, key=KEY)
+    assert count_data_rows(p) == 1
+
+
+def test_shrink_guard_refuses_before_writing(tmp_path, monkeypatch):
+    """The guard must refuse the write, not report it after the fact.
+
+    Unreachable through the public path by construction, so the merge is
+    sabotaged to return fewer rows. What matters is that the file on disk is
+    untouched when the guard fires.
+    """
+    import core.outputs as outputs
+
+    p = tmp_path / "new_permits.csv"
+    union_write_csv(permits(1, 2, 3), p, key=KEY)
+
+    monkeypatch.setattr(outputs.pd, "concat", lambda frames, **kw: frames[1])
+    with pytest.raises(OutputWouldShrink):
+        union_write_csv(permits(9), p, key=KEY)
+
     assert count_data_rows(p) == 3
-
-
-def test_allow_shrink_escape_hatch(tmp_path):
-    p = tmp_path / "new_permits.csv"
-    guarded_write_csv(pd.DataFrame({"a": [1, 2]}), p)
-    guarded_write_csv(pd.DataFrame({"a": []}), p, allow_shrink=True)
-    assert count_data_rows(p) == 0
 ```
 
 - [ ] **Step 2: Run the tests to verify they fail**
@@ -335,20 +388,26 @@ Expected: collection error — `ModuleNotFoundError: No module named 'core.outpu
 Create `core/outputs.py`:
 
 ```python
-"""Output guards.
+"""Union writes for daily output files.
 
-An output file must never be replaced by a result with fewer rows. That is
-exactly how 2026-07-26's 62 detected permits were destroyed: a later same-day
-run wrote an empty new_permits.csv over the good one.
+A day's output accumulates every record newly detected that day, across all
+runs. On 2026-07-26 a later same-day run wrote an empty new_permits.csv over
+one holding 62 detected permits (commits c29c268b -> 479da72d). Replacing
+loses findings; refusing a smaller write would crash the legitimate case where
+RRC publishes twice in a day and the afternoon run's `new` set is genuinely
+smaller. Merging on the business key is the only behaviour that keeps the file
+meaning "what was new on this date".
 
-allow_shrink exists for the replay harness, which legitimately rewrites a day
-from an empty master.
+replace=True is for the replay harness, which deliberately rebuilds a day.
 """
 from pathlib import Path
 
+import pandas as pd
+
 
 class OutputWouldShrink(Exception):
-    pass
+    """Defensive post-condition. The union should make shrinkage impossible;
+    if this ever raises, the merge logic is wrong."""
 
 
 def count_data_rows(path) -> int:
@@ -359,16 +418,38 @@ def count_data_rows(path) -> int:
         return max(0, sum(1 for _ in f) - 1)
 
 
-def guarded_write_csv(df, path, *, allow_shrink: bool = False) -> None:
+def union_write_csv(df, path, *, key: str, replace: bool = False) -> None:
     p = Path(path)
-    existing = count_data_rows(p)
-    if not allow_shrink and len(df) < existing:
-        raise OutputWouldShrink(
-            f"{p}: refusing to overwrite {existing} existing rows with {len(df)}. "
-            f"Pass allow_shrink=True only if this is a deliberate rebuild."
-        )
     p.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(p, index=False)
+    before = count_data_rows(p)
+
+    if key not in df.columns:
+        raise ValueError(f"incoming frame has no key column {key!r}")
+
+    if replace or before == 0:
+        combined = df
+    else:
+        existing = pd.read_csv(p, dtype=str)
+        if key not in existing.columns:
+            raise ValueError(f"{p}: existing file has no key column {key!r}")
+        incoming = df.copy()
+        # Both sides must compare as strings: a key read back from CSV is str
+        # while an incoming key may be int, and an unmatched pair duplicates.
+        existing[key] = existing[key].astype(str)
+        incoming[key] = incoming[key].astype(str)
+        combined = (pd.concat([existing, incoming], ignore_index=True)
+                    .drop_duplicates(key, keep="last"))
+
+    # Check BEFORE writing. A guard that fires after to_csv has already
+    # overwritten the file is a re-run of the 2026-07-26 failure with an
+    # exception attached -- it must refuse the write, not report it.
+    if not replace and len(combined) < before:
+        raise OutputWouldShrink(
+            f"{p}: merge produced {len(combined)} rows from {before} -- "
+            f"refusing to write; union logic is wrong"
+        )
+
+    combined.to_csv(p, index=False)
 ```
 
 - [ ] **Step 4: Run the tests to verify they pass**
@@ -377,13 +458,13 @@ def guarded_write_csv(df, path, *, allow_shrink: bool = False) -> None:
 python -m pytest tests/test_outputs.py -v
 ```
 
-Expected: 6 passed.
+Expected: 10 passed.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add core/outputs.py tests/test_outputs.py
-git commit -m "Add guarded CSV writes that refuse to shrink outputs"
+git commit -m "Add union CSV writes so same-day runs accumulate"
 ```
 
 ---
@@ -506,6 +587,35 @@ def test_diff_does_not_mutate_its_inputs():
     pd.testing.assert_frame_equal(today, today_before)
 
 
+def test_cold_start_ignores_the_resurfaced_window():
+    """An empty master means nothing has surfaced before, so nothing can
+    resurface -- every record is new regardless of how old its Issue_Date is.
+    This is tx_daf420.diff_master's original early-return behavior."""
+    today = frame([
+        {"Permit_Number": "1", "Operator_Name": "X", "Total_Depth": 1,
+         "Issue_Date": "2026-07-27"},
+        {"Permit_Number": "2", "Operator_Name": "X", "Total_Depth": 1,
+         "Issue_Date": "2004-07-30"},
+    ])
+    new, amended, resurfaced = diff(None, today, key="Permit_Number",
+                                    change_cols=CHANGE, resurfaced_after_days=7)
+    assert list(new["Permit_Number"]) == ["1", "2"]
+    assert len(resurfaced) == 0
+
+
+def test_float_upcast_key_still_matches_master():
+    """One null in the key column upcasts it to float64; the surviving key
+    must not stringify as "255778.0" and count as new forever."""
+    master = frame([{"Permit_Number": "255778", "Operator_Name": "X", "Total_Depth": 1}])
+    today = frame([
+        {"Permit_Number": 255778, "Operator_Name": "X", "Total_Depth": 1},
+        {"Permit_Number": None, "Operator_Name": "Y", "Total_Depth": 2},
+    ])
+    assert str(today["Permit_Number"].dtype) == "float64"
+    new, amended, _ = diff(master, today, key="Permit_Number", change_cols=CHANGE)
+    assert len(new) == 0
+
+
 def test_assert_usable_key_rejects_duplicates():
     df = frame([{"Permit_Number": "1"}, {"Permit_Number": "1"}])
     with pytest.raises(UnusableKeyError):
@@ -545,8 +655,10 @@ Create `core/diff.py`:
 
 Replaces two near-duplicate implementations (tx_daf420.diff_master and
 common.diff) that had drifted apart in change-column handling and resurfaced
-logic. The logic itself was correct and is preserved; the duplication was the
-liability.
+logic. TX's comparison semantics win throughout: LA's original hashed rows
+without numeric normalization, so 100 vs 100.0 read as an amendment on every
+run. Master-side duplicate keys resolve keep='last' (TX's rule) rather than
+LA's keep='first'.
 
 Pure function: no file I/O, no mutation of its arguments.
 """
@@ -586,6 +698,17 @@ def _normalize(series) -> pd.Series:
     )
 
 
+def _normalize_key(series) -> pd.Series:
+    """Keys compare as strings with float artifacts stripped.
+
+    A key column holding any null makes pandas upcast the whole column to
+    float64, so 255778 stringifies as "255778.0" and never matches master's
+    clean "255778" -- the same record then counts as new forever. Plain
+    astype(str) does not close this.
+    """
+    return series.map(lambda v: str(v).removesuffix(".0").strip())
+
+
 def diff(master, today, *, key: str, change_cols, resurfaced_after_days: int | None = None):
     """Return (new, amended, resurfaced) for today's records against master.
 
@@ -594,28 +717,31 @@ def diff(master, today, *, key: str, change_cols, resurfaced_after_days: int | N
     When None, `resurfaced` is always empty.
     """
     today = today.dropna(subset=[key]).copy()
-    today[key] = today[key].astype(str)
+    today[key] = _normalize_key(today[key])
     empty = today.iloc[0:0]
 
     if master is None or master.empty:
-        new, amended = today, empty
+        # Cold start: nothing has been seen before, so "resurfaced" has no
+        # meaning -- everything is new. Matches tx_daf420.diff_master's
+        # original early return, which bypassed the resurfaced split here.
+        return today, empty, empty
+
+    master = master.copy()
+    master[key] = _normalize_key(master[key])
+    known = master.drop_duplicates(key, keep="last").set_index(key)
+    is_new = ~today[key].isin(known.index)
+    new = today[is_new].copy()
+    both = today[~is_new].copy()
+    if len(both):
+        old = known.loc[both[key]]
+        changed = pd.Series(False, index=both.index)
+        for c in change_cols:
+            old_vals = _normalize(old[c]).values if c in old.columns else ""
+            new_vals = _normalize(both[c]).values
+            changed |= pd.Series(old_vals != new_vals, index=both.index)
+        amended = both[changed]
     else:
-        master = master.copy()
-        master[key] = master[key].astype(str)
-        known = master.drop_duplicates(key, keep="last").set_index(key)
-        is_new = ~today[key].isin(known.index)
-        new = today[is_new].copy()
-        both = today[~is_new].copy()
-        if len(both):
-            old = known.loc[both[key]]
-            changed = pd.Series(False, index=both.index)
-            for c in change_cols:
-                old_vals = _normalize(old[c]).values if c in old.columns else ""
-                new_vals = _normalize(both[c]).values
-                changed |= pd.Series(old_vals != new_vals, index=both.index)
-            amended = both[changed]
-        else:
-            amended = empty
+        amended = empty
 
     if resurfaced_after_days is not None and len(new) and "Issue_Date" in new.columns:
         issued = pd.to_datetime(new["Issue_Date"], errors="coerce")
@@ -634,7 +760,7 @@ def diff(master, today, *, key: str, change_cols, resurfaced_after_days: int | N
 python -m pytest tests/test_diff.py -v
 ```
 
-Expected: 13 passed.
+Expected: 15 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -653,9 +779,22 @@ git commit -m "Consolidate TX and LA change detection into core/diff.py"
 **Interfaces:**
 - Consumes: `core.ledger.read_ledger` (Task 1).
 - Produces, each returning `(name: str, ok: bool, detail: str)` to match the tuple shape `self_check.py` already uses:
-  - `check_source_freshness(ledger_rows, today: date, max_stale_days: int = 3)`
+  - `check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 4)`
+  - `check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 4)`
   - `check_advance_produced_records(records_parsed: int, prev_records_parsed: int, new_count: int)`
-  - `run_all(data_dir, state, today) -> list[tuple]` — derives both checks from the ledger itself, so callers pass no counts
+  - `run_all(data_dir, state, today) -> list[tuple]` — derives every check from the ledger itself, so callers pass no counts
+
+**Why two source checks and not one.** They watch different signals and catch different failures:
+
+- `check_source_freshness` watches whether *anything* ingested recently. It catches a dead downloader — expired MFT link, broken Playwright session, network down.
+- `check_records_advancing` watches whether the *permit count* grew. It catches a frozen source, which hash freshness structurally cannot see: the daf420 extract keeps appending coordinate records (`14`/`15`) to a fixed set of permit headers, so its sha256 changes daily while permits stay frozen. On 2026-07-28 the file had a new hash and 706 permits for the third day running — hash freshness would have passed.
+
+`alarm_after_days` means what it says: the check fails once the gap reaches that many days. Both default to **4**, recalibrated against the full July replay. An earlier reading of a
+partial slice suggested legitimate plateaus topped out at 2 days; the complete replay shows a
+**3-day plateau** over Independence Day week — the count moved on 07-04 and stayed flat
+through 07-05, 07-06 and 07-07 before advancing again on 07-08. A threshold of 3 would fire a
+false alarm every 4th of July. At 4 the holiday plateau passes cleanly and the real freeze
+(last movement 07-26) still alarms on 07-30.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -687,6 +826,24 @@ def test_two_day_plateau_still_passes():
     assert ok is True
 
 
+def test_freshness_alarms_exactly_at_the_threshold():
+    """alarm_after_days=4 means 4 days is already an alarm, not the last
+    tolerated gap. Pins the boundary so it cannot drift silently."""
+    _, ok, _ = invariants.check_source_freshness(
+        rows(("2026-07-24T06:00:00", 637)), today=date(2026, 7, 28)
+    )
+    assert ok is False
+
+
+def test_freshness_tolerates_three_days():
+    """One day under the threshold must still pass -- this is the Independence
+    Day plateau shape that a threshold of 3 would have false-alarmed on."""
+    _, ok, _ = invariants.check_source_freshness(
+        rows(("2026-07-25T06:00:00", 669)), today=date(2026, 7, 28)
+    )
+    assert ok is True
+
+
 def test_four_day_freeze_fails():
     _, ok, detail = invariants.check_source_freshness(
         rows(("2026-07-24T06:00:00", 637)), today=date(2026, 7, 28)
@@ -697,6 +854,78 @@ def test_four_day_freeze_fails():
 
 def test_empty_ledger_fails():
     _, ok, _ = invariants.check_source_freshness([], today=date(2026, 7, 28))
+    assert ok is False
+
+
+def test_records_advancing_passes_while_count_grows():
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-07-26T06:00:00", 669), ("2026-07-28T06:00:00", 706)),
+        today=date(2026, 7, 28),
+    )
+    assert ok is True
+
+
+def test_records_advancing_tolerates_the_july_4th_plateau():
+    """The longest legitimate plateau in the July replay: the count moved to
+    111 on 07-04 then held through 07-05, 07-06 and 07-07 over Independence
+    Day week before advancing to 155 on 07-08. Three flat days must pass, or
+    the alarm cries wolf every 4th of July."""
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-07-04T06:00:00", 111), ("2026-07-07T06:00:00", 111)),
+        today=date(2026, 7, 7),
+    )
+    assert ok is True
+
+
+def test_records_advancing_catches_the_freeze_hash_freshness_misses():
+    """The real 2026-07-26 freeze: the file's sha changed daily because
+    coordinate records kept updating, so the newest ingestion is same-day and
+    source_freshness passes -- but the permit count has not moved since 07-26."""
+    ledger_rows = rows(("2026-07-26T06:00:00", 706), ("2026-07-30T06:00:00", 706))
+    _, fresh_ok, _ = invariants.check_source_freshness(ledger_rows, today=date(2026, 7, 30))
+    assert fresh_ok is True
+
+    name, ok, detail = invariants.check_records_advancing(ledger_rows, today=date(2026, 7, 30))
+    assert name == "records_advancing"
+    assert ok is False
+    assert "2026-07-26" in detail
+
+
+def test_month_reset_is_not_a_freeze():
+    """The extract resets at month start: 07-02 carried 1009 headers from
+    June's cycle, 07-03 dropped to 59, and July never re-exceeded 1009. A
+    high-water mark would pin the last increase at 07-02 and alarm all month
+    while permits were in fact advancing daily.
+
+    `today` sits well after the reset so the old and new logic disagree on
+    `ok`, not merely on the detail string: a high-water scan pins the last
+    increase at 07-02 and reports flat_days=8 (alarm), while consecutive-row
+    comparison reports flat_days=0 (pass)."""
+    _, ok, detail = invariants.check_records_advancing(
+        rows(("2026-07-02T06:00:00", 1009),
+             ("2026-07-03T06:00:00", 59),
+             ("2026-07-04T06:00:00", 111),
+             ("2026-07-08T06:00:00", 188),
+             ("2026-07-10T06:00:00", 239)),
+        today=date(2026, 7, 10),
+    )
+    assert ok is True
+    assert "2026-07-10" in detail
+
+
+def test_month_reset_then_genuine_freeze_still_alarms():
+    """The reset must not mask a real stall that follows it."""
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-08-01T06:00:00", 706),
+             ("2026-08-02T06:00:00", 41),
+             ("2026-08-06T06:00:00", 41)),
+        today=date(2026, 8, 6),
+    )
+    assert ok is False
+
+
+def test_records_advancing_empty_ledger_fails():
+    _, ok, _ = invariants.check_records_advancing([], today=date(2026, 7, 28))
     assert ok is False
 
 
@@ -731,7 +960,7 @@ def test_run_all_returns_named_tuples(data_dir):
     )
     results = invariants.run_all(data_dir, "tx", today=date(2026, 7, 28))
     assert all(len(r) == 3 for r in results)
-    assert any(r[0] == "source_freshness" for r in results)
+    assert {"source_freshness", "records_advancing"} <= {r[0] for r in results}
 
 
 def test_run_all_compares_last_two_ledger_rows(data_dir):
@@ -775,12 +1004,17 @@ from datetime import date, datetime
 from core.ledger import read_ledger
 
 
-def check_source_freshness(ledger_rows, today: date, max_stale_days: int = 3):
-    """Fail when no new source content has been ingested recently.
+def check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 4):
+    """Fail when nothing at all has been ingested recently.
 
-    Threshold is 3 days because the source has legitimately flat days --
-    07-19/07-20 both carried 502 permit headers, 07-13/07-14 both 348. Three
-    days spans a weekend plateau without tolerating an indefinite freeze.
+    This catches a dead downloader -- expired MFT link, broken session,
+    network down. It does NOT catch a frozen source: the daf420 extract's
+    sha256 changes daily because coordinate records keep updating, so a run
+    still ingests and still records a row. check_records_advancing covers that.
+
+    alarm_after_days means what it says: a gap of that many days already
+    fails. The longest legitimate plateau in July 2026 was 3 days, over
+    Independence Day week, so the threshold is 4.
     """
     name = "source_freshness"
     if not ledger_rows:
@@ -788,10 +1022,55 @@ def check_source_freshness(ledger_rows, today: date, max_stale_days: int = 3):
     latest = max(r["ingested_at"] for r in ledger_rows)
     latest_date = datetime.fromisoformat(latest).date()
     stale_days = (today - latest_date).days
-    ok = stale_days < max_stale_days
+    ok = stale_days < alarm_after_days
     return (name, ok,
-            f"last new source content {latest_date.isoformat()} "
-            f"({stale_days}d ago, threshold {max_stale_days}d)")
+            f"last ingestion {latest_date.isoformat()} "
+            f"({stale_days}d ago, alarms at {alarm_after_days}d)")
+
+
+def check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 4):
+    """Fail when the record count has not increased for too long.
+
+    This is the freeze detector, and the reason hash freshness is not enough.
+    The RRC extract is month-to-date cumulative: it keeps appending coordinate
+    records (14/15) to a fixed set of permit headers, so the file hash moves
+    daily while the permit count stands still. On 2026-07-28 the file had a
+    fresh hash and 706 permits for the third consecutive day.
+
+    Calibrated against the full July 2026 replay: the longest legitimate
+    plateau is 3 days, over Independence Day week -- the count moved 07-04
+    then held at 111 through 07-05/06/07 before advancing 07-08. A threshold
+    of 3 would false-alarm every 4th of July, so it is 4. The real freeze
+    (last movement 07-26) still alarms on 07-30.
+
+    "Moved" means changed, not grew. The extract is month-to-date cumulative
+    and resets at month start, so a drop is a new cycle beginning -- evidence
+    the source is alive, not stalled.
+    """
+    name = "records_advancing"
+    if not ledger_rows:
+        return (name, False, "ledger is empty -- nothing has ever been ingested")
+
+    # Compare consecutive rows, never an all-time high. The extract resets at
+    # month start (07-02 carried 1009 headers from June, 07-03 dropped to 59,
+    # and July never re-exceeded 1009), so a high-water mark would pin
+    # last_move at the previous month's peak and alarm for the whole month.
+    # A DECREASE is a legitimate new cycle -- the source moving, not stalling.
+    ordered = sorted(ledger_rows, key=lambda r: r["ingested_at"])
+    last_move = ordered[0]["ingested_at"]
+    count = int(ordered[0]["records_parsed"])
+    for row in ordered[1:]:
+        parsed = int(row["records_parsed"])
+        if parsed != count:
+            last_move = row["ingested_at"]
+        count = parsed
+
+    last_date = datetime.fromisoformat(last_move).date()
+    flat_days = (today - last_date).days
+    ok = flat_days < alarm_after_days
+    return (name, ok,
+            f"record count last moved {last_date.isoformat()} (now {count}) "
+            f"({flat_days}d ago, alarms at {alarm_after_days}d)")
 
 
 def check_advance_produced_records(records_parsed: int, prev_records_parsed: int,
@@ -816,7 +1095,8 @@ def run_all(data_dir, state, today: date):
     consecutive rows are always genuinely different source content.
     """
     rows = read_ledger(data_dir, state)
-    results = [check_source_freshness(rows, today)]
+    results = [check_source_freshness(rows, today),
+               check_records_advancing(rows, today)]
     if len(rows) >= 2:
         results.append(check_advance_produced_records(
             records_parsed=int(rows[-1]["records_parsed"]),
@@ -832,7 +1112,7 @@ def run_all(data_dir, state, today: date):
 python -m pytest tests/test_invariants.py -v
 ```
 
-Expected: 9 passed.
+Expected: 10 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -849,7 +1129,7 @@ git commit -m "Add source-freshness and diff-regression invariants"
 - Modify: `tx_daf420.py` — imports at line 14, `diff_master` at lines 82-114 (delete), `main()` at lines 249-302
 
 **Interfaces:**
-- Consumes: `core.ledger`, `core.outputs.guarded_write_csv`, `core.diff.diff` and `assert_usable_key`.
+- Consumes: `core.ledger`, `core.outputs.union_write_csv`, `core.diff.diff` and `assert_usable_key`.
 - Produces: `main()` exits early with code 0 and message `"source unchanged since <date> -- skipping"` when the source hash is already in the ledger.
 
 - [ ] **Step 1: Replace the imports**
@@ -866,7 +1146,7 @@ with:
 from common import load_cfg, load_master, save_master
 from core.diff import assert_usable_key, diff as core_diff
 from core.ledger import append_ingestion, find_ingestion, hash_file
-from core.outputs import guarded_write_csv
+from core.outputs import union_write_csv
 ```
 
 - [ ] **Step 2: Delete the local diff and call the shared one**
@@ -897,24 +1177,49 @@ In `main()`, immediately after the `date_tag` assignment (currently line 258) an
         return
 ```
 
-- [ ] **Step 4: Use guarded writes and record the ingestion**
+- [ ] **Step 4: Union the outputs, rebuild the digest from the day, record the ingestion**
 
-Replace the four output writes (currently lines 288-292):
+The digest is currently built from this run's `new` frame. Once outputs union across runs, that would make `digest.md` describe only the afternoon increment while `new_permits.csv` holds the whole day. The digest must be built from the day's file, so the writes have to happen first.
 
-```python
-    new.to_csv(outd/"new_permits.csv", index=False)
-    amended.to_csv(outd/"amendments.csv", index=False)
-    resurfaced.to_csv(outd/"resurfaced.csv", index=False)
-    (outd/"digest.md").write_text(text, encoding="utf-8")
-    save_master(cfg, "tx", new_master)
-```
-
-with:
+Delete the digest-building block (currently lines 272-284, from `# canonical names for the shared digest builder` through `text += "\n\n" + mtd_rollup(new_master, cfg)`) and the output block (lines 286-292). Replace both with:
 
 ```python
-    guarded_write_csv(new, outd / "new_permits.csv")
-    guarded_write_csv(amended, outd / "amendments.csv")
-    guarded_write_csv(resurfaced, outd / "resurfaced.csv")
+    new_master = pd.concat([master, df_all], ignore_index=True).drop_duplicates(
+        "Permit_Number", keep="last") if master is not None else df_all
+
+    day = dt.date.today().isoformat()
+    outd = Path(cfg["data_dir"]) / "tx" / "out" / day
+    union_write_csv(new, outd / "new_permits.csv", key="Permit_Number")
+    union_write_csv(amended, outd / "amendments.csv", key="Permit_Number")
+    union_write_csv(resurfaced, outd / "resurfaced.csv", key="Permit_Number")
+
+    # The digest describes the whole day, not just this run's increment --
+    # RRC can publish twice in a day and the second run's `new` is smaller.
+    # Identifier columns must stay text. Every permit number carries a leading
+    # zero (0917214 -> 917214 if inferred), as do CountyCode (001) and
+    # District (06); 693 of 693 permits are affected. Stripping them would
+    # reach digest.md, which the dashboard consumes.
+    # Total_Depth is deliberately NOT in this dict: digest._fmt_depth formats
+    # it with :.0f and raises ValueError on a string, so a blanket dtype=str
+    # would trade one bug for another.
+    ID_COLS = {"Permit_Number": str, "CountyCode": str, "District": str,
+               "Operator_Number": str, "Well_Number": str}
+    day_new = pd.read_csv(outd / "new_permits.csv", dtype=ID_COLS)
+    day_amended = pd.read_csv(outd / "amendments.csv", dtype=ID_COLS)
+    day_resurfaced = pd.read_csv(outd / "resurfaced.csv", dtype=ID_COLS)
+
+    # canonical names for the shared digest builder
+    ren = {"Operator_Name":"operator","County":"county","Total_Depth":"depth",
+           "Well_Number":"well","Lease_Name":"lease"}
+    text = build_digest("Texas RRC (daf420)", day_new.rename(columns=ren),
+                        day_amended.rename(columns=ren), cfg, "tx", "county")
+    if len(day_resurfaced):
+        text += "\n\n## Resurfaced older files (issue date >7d old, new to master)\n"
+        text += "\n".join(f"- {r.Operator_Name} — {r.Lease_Name} {r.Well_Number} "
+                          f"({str(r.County).title()}), issued {r.Issue_Date}"
+                          for _, r in day_resurfaced.iterrows())
+    text += "\n\n" + mtd_rollup(new_master, cfg)
+
     (outd/"digest.md").write_text(text, encoding="utf-8")
     save_master(cfg, "tx", new_master)
 
@@ -926,6 +1231,10 @@ with:
         amended=len(amended), resurfaced=len(resurfaced),
     )
 ```
+
+`union_write_csv` creates `outd`, so the existing `outd.mkdir(parents=True, exist_ok=True)` on line 287 is no longer needed — delete it. The ledger records **this run's** counts (`len(new)`), not the day's total, because the invariants compare consecutive ingestions.
+
+The `print` on line 294 and the `build_arcgis` call on lines 297-300 stay as they are; `build_arcgis` continues to receive this run's `new`/`amended`, which is correct — it tags the increment.
 
 - [ ] **Step 5: Reduce to one row per permit, then assert the key**
 
@@ -970,7 +1279,7 @@ Expected: no output. This is Bug 1 fixed — the second run is now a no-op.
 
 ```bash
 git add tx_daf420.py
-git commit -m "Gate TX ingestion on the ledger; use guarded writes"
+git commit -m "Gate TX ingestion on the ledger; union same-day outputs"
 ```
 
 ---
@@ -1121,10 +1430,17 @@ from core.diff import diff                            # noqa: E402
 from tx_daf420 import CHANGE_COLS, parse_rrc          # noqa: E402
 
 
+DAF420_NAME = re.compile(r"daf420\.dat\.(\d{2})-(\d{2})-(\d{4})$")
+
+
 def dated_inbox_files(watch_dir, start, end):
+    """Only exactly-named dated extracts. The pattern is anchored because an
+    unanchored search would accept daf420.dat.test-07-27-2026 -- a filename
+    that has actually existed in this repo (commit 765f938) -- and silently
+    fold test data into the recovery numbers."""
     out = []
     for p in Path(watch_dir).glob("daf420.dat.*"):
-        m = re.search(r"(\d{2})-(\d{2})-(\d{4})", p.name)
+        m = DAF420_NAME.fullmatch(p.name)
         if not m:
             continue
         d = dt.date(int(m.group(3)), int(m.group(1)), int(m.group(2)))
@@ -1149,7 +1465,7 @@ def main():
         sys.exit(f"No daf420 files between {start} and {end}")
 
     master = None
-    total_new = 0
+    seen_new = []
     print(f"{'date':12} {'parsed':>7} {'new':>6} {'amended':>8} {'master':>7}")
     for day, path in files:
         parsed = parse_rrc(path)
@@ -1165,18 +1481,33 @@ def main():
         master = (parsed if master is None
                   else pd.concat([master, parsed], ignore_index=True)
                        .drop_duplicates("Permit_Number", keep="last"))
-        total_new += len(new)
+        seen_new.extend(new["Permit_Number"].tolist())
         print(f"{day.isoformat():12} {len(parsed):>7} {len(new):>6} "
               f"{len(amended):>8} {len(master):>7}")
 
-    unique = master["Permit_Number"].nunique()
-    print(f"\nper-day new sums to : {total_new}")
-    print(f"master unique permits: {unique}")
-    if total_new == unique:
-        print("RECONCILED - every permit in master was reported new on exactly one day")
-    else:
-        print(f"MISMATCH - {total_new} != {unique}; the replay is losing or double-counting")
+    # Set identity, not count equality. Comparing only totals lets two
+    # opposite-signed errors cancel -- one permit reported new on two days
+    # while another reaches master without ever being reported -- and the
+    # replay would print RECONCILED while being wrong in both directions.
+    in_master = set(master["Permit_Number"])
+    reported = set(seen_new)
+    repeated = len(seen_new) - len(reported)
+    never_reported = in_master - reported
+    reported_not_in_master = reported - in_master
+
+    print(f"\nper-day new sums to : {len(seen_new)}")
+    print(f"master unique permits: {len(in_master)}")
+    if repeated or never_reported or reported_not_in_master:
+        print("MISMATCH -"
+              f" {repeated} permit(s) reported new on more than one day;"
+              f" {len(never_reported)} in master never reported new;"
+              f" {len(reported_not_in_master)} reported new but absent from master")
+        for label, s in (("repeat/extra", reported_not_in_master),
+                         ("never reported", never_reported)):
+            if s:
+                print(f"  {label}: {sorted(s)[:10]}")
         sys.exit(1)
+    print("RECONCILED - every permit in master was reported new on exactly one day")
 
     if args.write:
         save_master(cfg, "tx", master)
@@ -1306,7 +1637,7 @@ git commit -m "Record RRC source freeze diagnosis"
 
 ## Done when
 
-- [ ] `python -m pytest tests/ -v` passes (33 tests).
+- [ ] `python -m pytest tests/ -v` passes (47 tests).
 - [ ] `python scripts/replay_tx.py --from 2026-07-03 --to 2026-07-28` prints `RECONCILED` with 693 on both lines.
 - [ ] Running `tx_daf420.py` twice on the same file leaves `git status --short data/tx/out/` empty on the second run.
 - [ ] `run_daily_ci.py`'s checks include `tx_source_freshness` failing while the source remains frozen.
