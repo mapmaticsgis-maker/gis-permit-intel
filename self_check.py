@@ -11,6 +11,8 @@ import csv
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from core.outputs import count_data_rows
+
 MOJIBAKE_MARKERS = ("â€", "Ã©", "Ã¢", "\ufffd")
 
 
@@ -51,11 +53,19 @@ def check_run_not_stale(run_log: Path, max_gap_hours: int = 36):
 
 
 def count_new(outd: Path) -> int | None:
+    """None means "no file" -- see check_volume_sane, which distinguishes that
+    from a skipped run.
+
+    Counts parsed CSV records, not physical lines. This had the same embedded-
+    newline flaw as core.outputs.count_data_rows, and it is the one that
+    actually reaches the operator: its result is what check_volume_sane
+    reports and what the run log stores, so a quoted newline in a SONRIS
+    LOCATION field inflated the LA count in the daily brief.
+    """
     p = outd / "new_permits.csv"
     if not p.exists():
         return None
-    with open(p) as f:
-        return max(sum(1 for _ in f) - 1, 0)  # minus header
+    return count_data_rows(p)
 
 
 def read_digest(outd: Path) -> str:

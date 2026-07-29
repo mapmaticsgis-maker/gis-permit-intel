@@ -21,6 +21,28 @@ def test_count_data_rows_excludes_header(tmp_path):
     assert count_data_rows(p) == 3
 
 
+def test_count_data_rows_counts_records_not_lines(tmp_path):
+    """LA's SONRIS LOCATION/COMMENTS are free text and carry embedded
+    newlines inside quoted values. Counting physical lines inflated `before`,
+    which made a correct union look like a shrink and raised
+    OutputWouldShrink on a write that was never wrong."""
+    p = tmp_path / "new_permits.csv"
+    pd.DataFrame({KEY: ["1", "2"],
+                  "LOCATION": ["Sec 12\nT15N R14W", "plain"]}).to_csv(p, index=False)
+    assert len(pd.read_csv(p)) == 2
+    assert count_data_rows(p) == 2
+
+
+def test_embedded_newline_does_not_trip_the_shrink_guard(tmp_path):
+    """End to end: a multiline field must survive a same-day second run."""
+    p = tmp_path / "new_permits.csv"
+    first = pd.DataFrame({KEY: ["1", "2"],
+                          "LOCATION": ["Sec 12\nT15N R14W", "plain"]})
+    union_write_csv(first, p, key=KEY)
+    union_write_csv(pd.DataFrame({KEY: ["3"], "LOCATION": ["x"]}), p, key=KEY)
+    assert count_data_rows(p) == 3
+
+
 def test_write_creates_file_and_parent_dirs(tmp_path):
     p = tmp_path / "out" / "2026-07-28" / "new_permits.csv"
     union_write_csv(permits(1, 2), p, key=KEY)

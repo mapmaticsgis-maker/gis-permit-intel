@@ -15,6 +15,14 @@ from digest import build_digest
 
 LA_CHANGE_COLS = ["operator", "depth", "well", "status", "field"]
 
+# Identifier columns must survive the day-file round-trip as text. A well
+# serial number, API number, or section/township/range read back as a number
+# loses leading zeros and gains a ".0"; both reach digest.md and the dashboard.
+# `depth` is deliberately absent -- digest._fmt_depth formats it with :.0f and
+# raises ValueError on a string.
+LA_ID_COLS = {"id": str, "api": str, "well_num": str,
+              "section": str, "township": str, "range": str}
+
 def fetch_rest(cfg):
     la = cfg["louisiana"]
     today_ts = pd.Timestamp(dt.date.today())
@@ -105,8 +113,14 @@ def main():
                                 resurfaced_after_days=None)
     known_ops = set(master["operator"].dropna()) if master is not None else set()
     new["first_seen"] = ~new["operator"].isin(known_ops)
-    text = build_digest("Louisiana SONRIS", new, amended, cfg, "la", "parish")
-    outd = write_outputs(cfg, "la", new, amended, text)
+    # The digest describes the whole day, not this run's increment: it is
+    # built from the day's unioned files after the CSVs are merged, which is
+    # why write_outputs takes a builder rather than finished text.
+    outd, text = write_outputs(
+        cfg, "la", new, amended,
+        lambda day_new, day_amended: build_digest(
+            "Louisiana SONRIS", day_new, day_amended, cfg, "la", "parish"),
+        key="id", id_cols=LA_ID_COLS)
     base = master if master is not None else today.iloc[0:0]
     updated_master = pd.concat([base, today], ignore_index=True).drop_duplicates("id", keep="last")
     save_master(cfg, "la", updated_master)

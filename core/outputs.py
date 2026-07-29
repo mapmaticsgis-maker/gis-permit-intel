@@ -10,6 +10,7 @@ meaning "what was new on this date".
 
 replace=True is for the replay harness, which deliberately rebuilds a day.
 """
+import csv
 from pathlib import Path
 
 import pandas as pd
@@ -22,11 +23,21 @@ class OutputWouldShrink(Exception):
 
 
 def count_data_rows(path) -> int:
+    """Count CSV *records*, not physical lines.
+
+    A quoted field may legally contain a newline, and one physical line then
+    counts as one record. This is inert for TX -- daf420 is fixed-width and
+    parse_rrc's clean() collapses whitespace -- but LA's SONRIS LOCATION and
+    COMMENTS fields are free text and do carry embedded newlines. Counting
+    lines inflated `before`, which union_write_csv compares against the
+    merged row count: an inflated `before` makes a correct union look like a
+    shrink and raises OutputWouldShrink on a write that was never wrong.
+    """
     p = Path(path)
     if not p.exists():
         return 0
     with open(p, newline="", encoding="utf-8") as f:
-        return max(0, sum(1 for _ in f) - 1)
+        return max(0, sum(1 for row in csv.reader(f) if row) - 1)
 
 
 def union_write_csv(df, path, *, key: str, replace: bool = False) -> None:

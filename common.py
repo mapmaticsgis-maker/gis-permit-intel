@@ -1,6 +1,8 @@
 import os, json, hashlib, datetime as dt
 import pandas as pd, yaml
 
+from core.outputs import union_write_csv
+
 def load_cfg(path="config.yaml"):
     # encoding is explicit, not incidental. Python's default text encoding on
     # Windows is the ANSI codepage (cp1252 here), so a bare open() decoded
@@ -37,25 +39,13 @@ def row_hash(df, cols):
     joined = df[use].apply(lambda row: "|".join(_cell(v) for v in row), axis=1)
     return joined.map(lambda s: hashlib.md5(s.encode()).hexdigest())
 
-def diff(master, today, key="id", change_cols=("operator","depth","wellbore","well","lease")):
-    """Return (new_records, amended_records, resurfaced) vs master."""
-    today = today.dropna(subset=[key]).copy()
-    today[key] = today[key].astype(str)
-    if master is None or master.empty:
-        return today, today.iloc[0:0], today.iloc[0:0]
-    master = master.copy(); master[key] = master[key].astype(str)
-    known = set(master[key])
-    new = today[~today[key].isin(known)].copy()
-    both = today[today[key].isin(known)].copy()
-    if len(both):
-        mh = master.set_index(key); mh = mh[~mh.index.duplicated()]
-        both["_h_new"] = row_hash(both, change_cols)
-        old = mh.loc[both[key]].reset_index()
-        both["_h_old"] = row_hash(old, change_cols).values
-        amended = both[both["_h_new"] != both["_h_old"]].drop(columns=["_h_new","_h_old"])
-    else:
-        amended = today.iloc[0:0]
-    return new, amended, today.iloc[0:0]
+# common.diff removed -- core.diff.diff is the single implementation.
+# core/diff.py's docstring already claimed to replace this one, but the
+# consolidation left it in place with tx_pull.py still importing it, so the
+# two "drifted apart" implementations the consolidation existed to merge were
+# both still live. tx_pull.py now uses core.diff like every other caller.
+# row_hash above is retained: it is this module's public helper and the
+# removed function was its only in-repo caller, but it is not diff-specific.
 
 def family_of(op, fams):
     if not isinstance(op, str): return None
@@ -69,20 +59,57 @@ def corridor_of(row, corridors, state_key, area_field):
         if a in [str(x).upper() for x in m.get(state_key, [])]: return name
     return None
 
-def write_outputs(cfg, state, new, amended, digest_text):
+def write_outputs(cfg, state, new, amended, digest_fn, *, key, id_cols=None):
+    """Write a day's outputs by UNION, then derive digest+geojson from the union.
+
+    This was the original 2026-07-26 bug, still live on the LA path: bare
+    to_csv replaced the day's files, so a second same-day run whose SONRIS
+    content differed at all passed the ledger gate and overwrote the
+    morning's findings with its own smaller increment. TX was fixed
+    (tx_daf420.main); LA was not.
+
+    Three things have to move together, which is why this function now owns
+    all of them:
+
+      1. The CSVs union on `key`, so a day's file means "everything detected
+         on this date" rather than "whatever the last run happened to see".
+      2. digest.md is built from the day's UNIONED frames, not from this
+         run's increment -- otherwise the CSV says 41 and the digest says 4.
+         Hence digest_fn(day_new, day_amended) rather than a pre-built string:
+         the caller cannot build the right text before the union has happened.
+      3. new_permits.geojson is rewritten UNCONDITIONALLY. It used to be
+         written only `if len(pts)`, so a stale 12-feature geojson could sit
+         beside a freshly-unioned CSV and misreport the map for the rest of
+         the day. An empty FeatureCollection is a true statement; a stale one
+         is not.
+
+    id_cols: dtype map applied when re-reading the day's files. Identifier
+    columns must survive as text (LA well serial numbers, section/township/
+    range), while depth must stay numeric because digest._fmt_depth formats
+    it with :.0f and raises ValueError on a string.
+    """
     day = dt.date.today().isoformat()
     outd = os.path.join(cfg["data_dir"], state, "out", day); os.makedirs(outd, exist_ok=True)
-    new.to_csv(os.path.join(outd, "new_permits.csv"), index=False)
-    amended.to_csv(os.path.join(outd, "amendments.csv"), index=False)
+    new_p = os.path.join(outd, "new_permits.csv")
+    amended_p = os.path.join(outd, "amendments.csv")
+
+    union_write_csv(new, new_p, key=key)
+    union_write_csv(amended, amended_p, key=key)
+
+    day_new = pd.read_csv(new_p, dtype=id_cols or {})
+    day_amended = pd.read_csv(amended_p, dtype=id_cols or {})
+
+    digest_text = digest_fn(day_new, day_amended)
     with open(os.path.join(outd, "digest.md"), "w", encoding="utf-8") as f: f.write(digest_text)
-    # GeoJSON when coordinates exist
-    latc = "shl_lat" if "shl_lat" in new.columns else "lat"
-    lonc = "shl_lon" if "shl_lon" in new.columns else "lon"
-    pts = new.dropna(subset=[latc, lonc]) if latc in new.columns else new.iloc[0:0]
-    if len(pts):
-        gj = {"type":"FeatureCollection","features":[
-            {"type":"Feature","geometry":{"type":"Point","coordinates":[float(r[lonc]),float(r[latc])]},
-             "properties":{k:(None if pd.isna(v) else str(v)) for k,v in r.items() if not k.startswith("_")}}
-            for _, r in pts.iterrows()]}
-        with open(os.path.join(outd,"new_permits.geojson"),"w") as f: json.dump(gj,f)
-    return outd
+
+    # GeoJSON, rebuilt from the day's unioned rows
+    latc = "shl_lat" if "shl_lat" in day_new.columns else "lat"
+    lonc = "shl_lon" if "shl_lon" in day_new.columns else "lon"
+    pts = (day_new.dropna(subset=[latc, lonc])
+           if latc in day_new.columns and lonc in day_new.columns else day_new.iloc[0:0])
+    gj = {"type":"FeatureCollection","features":[
+        {"type":"Feature","geometry":{"type":"Point","coordinates":[float(r[lonc]),float(r[latc])]},
+         "properties":{k:(None if pd.isna(v) else str(v)) for k,v in r.items() if not k.startswith("_")}}
+        for _, r in pts.iterrows()]}
+    with open(os.path.join(outd,"new_permits.geojson"),"w",encoding="utf-8") as f: json.dump(gj,f)
+    return outd, digest_text
