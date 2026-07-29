@@ -142,3 +142,49 @@ def test_assert_usable_key_rejects_missing_column():
 
 def test_assert_usable_key_accepts_unique():
     assert_usable_key(frame([{"Permit_Number": "1"}, {"Permit_Number": "2"}]), "Permit_Number")
+
+
+def test_assert_usable_key_rejects_keys_that_only_differ_by_float_artifact():
+    """The assertion and diff() must agree on what a key is.
+
+    astype(str) saw '255778' and 255778.0 as two distinct keys, so the frame
+    passed -- then diff()'s _normalize_key collapsed both to '255778' and
+    emitted two `new` rows under one key. union_write_csv deduped them, and
+    every later run that day tripped OutputWouldShrink.
+    """
+    df = frame([{"Permit_Number": "255778"}, {"Permit_Number": 255778.0}])
+    with pytest.raises(UnusableKeyError):
+        assert_usable_key(df, "Permit_Number")
+
+
+def test_float_artifact_duplicate_would_reach_diff_as_one_key():
+    """Demonstrates the consequence the assertion above now prevents."""
+    df = frame([{"Permit_Number": "255778", "Operator_Name": "X", "Total_Depth": 1},
+                {"Permit_Number": 255778.0, "Operator_Name": "Y", "Total_Depth": 2}])
+    new, _, _ = diff(None, df, key="Permit_Number", change_cols=CHANGE)
+    assert list(new["Permit_Number"]) == ["255778", "255778"]
+
+
+def test_assert_usable_key_rejects_empty_string():
+    """parse_rrc's clean() yields "" for a blank field, never NaN. isna()
+    misses it, so a blank-keyed record entered master under key "" and the
+    next blank-keyed record matched it and was classified not-new -- a real
+    new permit going undetected."""
+    df = frame([{"Permit_Number": "1"}, {"Permit_Number": ""}])
+    with pytest.raises(UnusableKeyError):
+        assert_usable_key(df, "Permit_Number")
+
+
+def test_assert_usable_key_rejects_whitespace_only():
+    df = frame([{"Permit_Number": "1"}, {"Permit_Number": "   "}])
+    with pytest.raises(UnusableKeyError):
+        assert_usable_key(df, "Permit_Number")
+
+
+def test_blank_keys_collide_in_diff_when_unguarded():
+    """Why the blank check matters: two DIFFERENT permits with blank keys.
+    The second is silently classified not-new against the first."""
+    master = frame([{"Permit_Number": "", "Operator_Name": "FIRST", "Total_Depth": 1}])
+    today = frame([{"Permit_Number": "", "Operator_Name": "SECOND", "Total_Depth": 1}])
+    new, _, _ = diff(master, today, key="Permit_Number", change_cols=CHANGE)
+    assert len(new) == 0  # a genuinely new permit, reported as already known

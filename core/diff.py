@@ -29,7 +29,27 @@ def assert_usable_key(df, key: str) -> None:
     nulls = int(df[key].isna().sum())
     if nulls:
         raise UnusableKeyError(f"{nulls} null value(s) in key {key!r}")
-    keyed = df[key].astype(str)
+
+    # Blank is not null. parse_rrc's clean() renders a missing field as "",
+    # never NaN, so isna() above sees nothing and diff()'s dropna misses it
+    # too. A blank-keyed record then enters master under key "" -- and the
+    # NEXT blank-keyed record matches it and is classified not-new. That is a
+    # genuinely new permit going undetected, the exact failure mode this
+    # branch exists to close.
+    keyed = _normalize_key(df[key])
+    blanks = int((keyed == "").sum())
+    if blanks:
+        raise UnusableKeyError(
+            f"{blanks} empty or whitespace-only value(s) in key {key!r}"
+        )
+
+    # Normalize the same way diff() does. astype(str) left the assertion and
+    # diff() disagreeing about identity: keys ['255778', 255778.0] are two
+    # distinct strings to astype but both normalize to '255778', so the frame
+    # passed the uniqueness check and diff() then emitted two `new` rows
+    # sharing one key. union_write_csv's drop_duplicates collapsed them, and
+    # every later run that day saw len(combined) < before and raised
+    # OutputWouldShrink. One definition of a key, used by both.
     dupes = keyed[keyed.duplicated()].unique()
     if len(dupes):
         raise UnusableKeyError(
