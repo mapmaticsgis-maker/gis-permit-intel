@@ -587,6 +587,35 @@ def test_diff_does_not_mutate_its_inputs():
     pd.testing.assert_frame_equal(today, today_before)
 
 
+def test_cold_start_ignores_the_resurfaced_window():
+    """An empty master means nothing has surfaced before, so nothing can
+    resurface -- every record is new regardless of how old its Issue_Date is.
+    This is tx_daf420.diff_master's original early-return behavior."""
+    today = frame([
+        {"Permit_Number": "1", "Operator_Name": "X", "Total_Depth": 1,
+         "Issue_Date": "2026-07-27"},
+        {"Permit_Number": "2", "Operator_Name": "X", "Total_Depth": 1,
+         "Issue_Date": "2004-07-30"},
+    ])
+    new, amended, resurfaced = diff(None, today, key="Permit_Number",
+                                    change_cols=CHANGE, resurfaced_after_days=7)
+    assert list(new["Permit_Number"]) == ["1", "2"]
+    assert len(resurfaced) == 0
+
+
+def test_float_upcast_key_still_matches_master():
+    """One null in the key column upcasts it to float64; the surviving key
+    must not stringify as "255778.0" and count as new forever."""
+    master = frame([{"Permit_Number": "255778", "Operator_Name": "X", "Total_Depth": 1}])
+    today = frame([
+        {"Permit_Number": 255778, "Operator_Name": "X", "Total_Depth": 1},
+        {"Permit_Number": None, "Operator_Name": "Y", "Total_Depth": 2},
+    ])
+    assert str(today["Permit_Number"].dtype) == "float64"
+    new, amended, _ = diff(master, today, key="Permit_Number", change_cols=CHANGE)
+    assert len(new) == 0
+
+
 def test_assert_usable_key_rejects_duplicates():
     df = frame([{"Permit_Number": "1"}, {"Permit_Number": "1"}])
     with pytest.raises(UnusableKeyError):
@@ -626,8 +655,10 @@ Create `core/diff.py`:
 
 Replaces two near-duplicate implementations (tx_daf420.diff_master and
 common.diff) that had drifted apart in change-column handling and resurfaced
-logic. The logic itself was correct and is preserved; the duplication was the
-liability.
+logic. TX's comparison semantics win throughout: LA's original hashed rows
+without numeric normalization, so 100 vs 100.0 read as an amendment on every
+run. Master-side duplicate keys resolve keep='last' (TX's rule) rather than
+LA's keep='first'.
 
 Pure function: no file I/O, no mutation of its arguments.
 """
@@ -667,6 +698,17 @@ def _normalize(series) -> pd.Series:
     )
 
 
+def _normalize_key(series) -> pd.Series:
+    """Keys compare as strings with float artifacts stripped.
+
+    A key column holding any null makes pandas upcast the whole column to
+    float64, so 255778 stringifies as "255778.0" and never matches master's
+    clean "255778" -- the same record then counts as new forever. Plain
+    astype(str) does not close this.
+    """
+    return series.map(lambda v: str(v).removesuffix(".0").strip())
+
+
 def diff(master, today, *, key: str, change_cols, resurfaced_after_days: int | None = None):
     """Return (new, amended, resurfaced) for today's records against master.
 
@@ -675,28 +717,31 @@ def diff(master, today, *, key: str, change_cols, resurfaced_after_days: int | N
     When None, `resurfaced` is always empty.
     """
     today = today.dropna(subset=[key]).copy()
-    today[key] = today[key].astype(str)
+    today[key] = _normalize_key(today[key])
     empty = today.iloc[0:0]
 
     if master is None or master.empty:
-        new, amended = today, empty
+        # Cold start: nothing has been seen before, so "resurfaced" has no
+        # meaning -- everything is new. Matches tx_daf420.diff_master's
+        # original early return, which bypassed the resurfaced split here.
+        return today, empty, empty
+
+    master = master.copy()
+    master[key] = _normalize_key(master[key])
+    known = master.drop_duplicates(key, keep="last").set_index(key)
+    is_new = ~today[key].isin(known.index)
+    new = today[is_new].copy()
+    both = today[~is_new].copy()
+    if len(both):
+        old = known.loc[both[key]]
+        changed = pd.Series(False, index=both.index)
+        for c in change_cols:
+            old_vals = _normalize(old[c]).values if c in old.columns else ""
+            new_vals = _normalize(both[c]).values
+            changed |= pd.Series(old_vals != new_vals, index=both.index)
+        amended = both[changed]
     else:
-        master = master.copy()
-        master[key] = master[key].astype(str)
-        known = master.drop_duplicates(key, keep="last").set_index(key)
-        is_new = ~today[key].isin(known.index)
-        new = today[is_new].copy()
-        both = today[~is_new].copy()
-        if len(both):
-            old = known.loc[both[key]]
-            changed = pd.Series(False, index=both.index)
-            for c in change_cols:
-                old_vals = _normalize(old[c]).values if c in old.columns else ""
-                new_vals = _normalize(both[c]).values
-                changed |= pd.Series(old_vals != new_vals, index=both.index)
-            amended = both[changed]
-        else:
-            amended = empty
+        amended = empty
 
     if resurfaced_after_days is not None and len(new) and "Issue_Date" in new.columns:
         issued = pd.to_datetime(new["Issue_Date"], errors="coerce")
@@ -715,7 +760,7 @@ def diff(master, today, *, key: str, change_cols, resurfaced_after_days: int | N
 python -m pytest tests/test_diff.py -v
 ```
 
-Expected: 13 passed.
+Expected: 15 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -1407,7 +1452,7 @@ git commit -m "Record RRC source freeze diagnosis"
 
 ## Done when
 
-- [ ] `python -m pytest tests/ -v` passes (37 tests).
+- [ ] `python -m pytest tests/ -v` passes (39 tests).
 - [ ] `python scripts/replay_tx.py --from 2026-07-03 --to 2026-07-28` prints `RECONCILED` with 693 on both lines.
 - [ ] Running `tx_daf420.py` twice on the same file leaves `git status --short data/tx/out/` empty on the second run.
 - [ ] `run_daily_ci.py`'s checks include `tx_source_freshness` failing while the source remains frozen.
