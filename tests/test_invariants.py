@@ -23,6 +23,15 @@ def test_two_day_plateau_still_passes():
     assert ok is True
 
 
+def test_freshness_alarms_exactly_at_the_threshold():
+    """alarm_after_days=3 means 3 days is already an alarm, not the last
+    tolerated gap. Pins the boundary so it cannot drift silently."""
+    _, ok, _ = invariants.check_source_freshness(
+        rows(("2026-07-25T06:00:00", 669)), today=date(2026, 7, 28)
+    )
+    assert ok is False
+
+
 def test_four_day_freeze_fails():
     _, ok, detail = invariants.check_source_freshness(
         rows(("2026-07-24T06:00:00", 637)), today=date(2026, 7, 28)
@@ -33,6 +42,42 @@ def test_four_day_freeze_fails():
 
 def test_empty_ledger_fails():
     _, ok, _ = invariants.check_source_freshness([], today=date(2026, 7, 28))
+    assert ok is False
+
+
+def test_records_advancing_passes_while_count_grows():
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-07-26T06:00:00", 669), ("2026-07-28T06:00:00", 706)),
+        today=date(2026, 7, 28),
+    )
+    assert ok is True
+
+
+def test_records_advancing_tolerates_a_two_day_plateau():
+    """07-19..07-21 all held 502 headers -- last increase was 2 days back."""
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-07-26T06:00:00", 706), ("2026-07-28T06:00:00", 706)),
+        today=date(2026, 7, 28),
+    )
+    assert ok is True
+
+
+def test_records_advancing_catches_the_freeze_hash_freshness_misses():
+    """The real 2026-07-26 freeze: the file's sha changed daily because
+    coordinate records kept updating, so the newest ingestion is same-day and
+    source_freshness passes -- but the permit count has not moved since 07-26."""
+    ledger_rows = rows(("2026-07-26T06:00:00", 706), ("2026-07-29T06:00:00", 706))
+    _, fresh_ok, _ = invariants.check_source_freshness(ledger_rows, today=date(2026, 7, 29))
+    assert fresh_ok is True
+
+    name, ok, detail = invariants.check_records_advancing(ledger_rows, today=date(2026, 7, 29))
+    assert name == "records_advancing"
+    assert ok is False
+    assert "2026-07-26" in detail
+
+
+def test_records_advancing_empty_ledger_fails():
+    _, ok, _ = invariants.check_records_advancing([], today=date(2026, 7, 28))
     assert ok is False
 
 
@@ -67,7 +112,7 @@ def test_run_all_returns_named_tuples(data_dir):
     )
     results = invariants.run_all(data_dir, "tx", today=date(2026, 7, 28))
     assert all(len(r) == 3 for r in results)
-    assert any(r[0] == "source_freshness" for r in results)
+    assert {"source_freshness", "records_advancing"} <= {r[0] for r in results}
 
 
 def test_run_all_compares_last_two_ledger_rows(data_dir):
