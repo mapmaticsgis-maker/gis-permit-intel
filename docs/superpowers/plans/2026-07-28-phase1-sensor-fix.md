@@ -1175,9 +1175,18 @@ Delete the digest-building block (currently lines 272-284, from `# canonical nam
 
     # The digest describes the whole day, not just this run's increment --
     # RRC can publish twice in a day and the second run's `new` is smaller.
-    day_new = pd.read_csv(outd / "new_permits.csv")
-    day_amended = pd.read_csv(outd / "amendments.csv")
-    day_resurfaced = pd.read_csv(outd / "resurfaced.csv")
+    # Identifier columns must stay text. Every permit number carries a leading
+    # zero (0917214 -> 917214 if inferred), as do CountyCode (001) and
+    # District (06); 693 of 693 permits are affected. Stripping them would
+    # reach digest.md, which the dashboard consumes.
+    # Total_Depth is deliberately NOT in this dict: digest._fmt_depth formats
+    # it with :.0f and raises ValueError on a string, so a blanket dtype=str
+    # would trade one bug for another.
+    ID_COLS = {"Permit_Number": str, "CountyCode": str, "District": str,
+               "Operator_Number": str, "Well_Number": str}
+    day_new = pd.read_csv(outd / "new_permits.csv", dtype=ID_COLS)
+    day_amended = pd.read_csv(outd / "amendments.csv", dtype=ID_COLS)
+    day_resurfaced = pd.read_csv(outd / "resurfaced.csv", dtype=ID_COLS)
 
     # canonical names for the shared digest builder
     ren = {"Operator_Name":"operator","County":"county","Total_Depth":"depth",
