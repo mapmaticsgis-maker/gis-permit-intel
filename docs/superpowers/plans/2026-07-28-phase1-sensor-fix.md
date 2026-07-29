@@ -779,9 +779,17 @@ git commit -m "Consolidate TX and LA change detection into core/diff.py"
 **Interfaces:**
 - Consumes: `core.ledger.read_ledger` (Task 1).
 - Produces, each returning `(name: str, ok: bool, detail: str)` to match the tuple shape `self_check.py` already uses:
-  - `check_source_freshness(ledger_rows, today: date, max_stale_days: int = 3)`
+  - `check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 3)`
+  - `check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 3)`
   - `check_advance_produced_records(records_parsed: int, prev_records_parsed: int, new_count: int)`
-  - `run_all(data_dir, state, today) -> list[tuple]` — derives both checks from the ledger itself, so callers pass no counts
+  - `run_all(data_dir, state, today) -> list[tuple]` — derives every check from the ledger itself, so callers pass no counts
+
+**Why two source checks and not one.** They watch different signals and catch different failures:
+
+- `check_source_freshness` watches whether *anything* ingested recently. It catches a dead downloader — expired MFT link, broken Playwright session, network down.
+- `check_records_advancing` watches whether the *permit count* grew. It catches a frozen source, which hash freshness structurally cannot see: the daf420 extract keeps appending coordinate records (`14`/`15`) to a fixed set of permit headers, so its sha256 changes daily while permits stay frozen. On 2026-07-28 the file had a new hash and 706 permits for the third day running — hash freshness would have passed.
+
+`alarm_after_days` means what it says: the check fails once the gap reaches that many days. Both default to 3, calibrated against July 2026, where legitimate plateaus ran to 2 days (07-12..07-14 all 348 headers; 07-19..07-21 all 502) while the real freeze held 706 from 07-26 onward.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -813,6 +821,15 @@ def test_two_day_plateau_still_passes():
     assert ok is True
 
 
+def test_freshness_alarms_exactly_at_the_threshold():
+    """alarm_after_days=3 means 3 days is already an alarm, not the last
+    tolerated gap. Pins the boundary so it cannot drift silently."""
+    _, ok, _ = invariants.check_source_freshness(
+        rows(("2026-07-25T06:00:00", 669)), today=date(2026, 7, 28)
+    )
+    assert ok is False
+
+
 def test_four_day_freeze_fails():
     _, ok, detail = invariants.check_source_freshness(
         rows(("2026-07-24T06:00:00", 637)), today=date(2026, 7, 28)
@@ -823,6 +840,42 @@ def test_four_day_freeze_fails():
 
 def test_empty_ledger_fails():
     _, ok, _ = invariants.check_source_freshness([], today=date(2026, 7, 28))
+    assert ok is False
+
+
+def test_records_advancing_passes_while_count_grows():
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-07-26T06:00:00", 669), ("2026-07-28T06:00:00", 706)),
+        today=date(2026, 7, 28),
+    )
+    assert ok is True
+
+
+def test_records_advancing_tolerates_a_two_day_plateau():
+    """07-19..07-21 all held 502 headers -- last increase was 2 days back."""
+    _, ok, _ = invariants.check_records_advancing(
+        rows(("2026-07-26T06:00:00", 706), ("2026-07-28T06:00:00", 706)),
+        today=date(2026, 7, 28),
+    )
+    assert ok is True
+
+
+def test_records_advancing_catches_the_freeze_hash_freshness_misses():
+    """The real 2026-07-26 freeze: the file's sha changed daily because
+    coordinate records kept updating, so the newest ingestion is same-day and
+    source_freshness passes -- but the permit count has not moved since 07-26."""
+    ledger_rows = rows(("2026-07-26T06:00:00", 706), ("2026-07-29T06:00:00", 706))
+    _, fresh_ok, _ = invariants.check_source_freshness(ledger_rows, today=date(2026, 7, 29))
+    assert fresh_ok is True
+
+    name, ok, detail = invariants.check_records_advancing(ledger_rows, today=date(2026, 7, 29))
+    assert name == "records_advancing"
+    assert ok is False
+    assert "2026-07-26" in detail
+
+
+def test_records_advancing_empty_ledger_fails():
+    _, ok, _ = invariants.check_records_advancing([], today=date(2026, 7, 28))
     assert ok is False
 
 
@@ -857,7 +910,7 @@ def test_run_all_returns_named_tuples(data_dir):
     )
     results = invariants.run_all(data_dir, "tx", today=date(2026, 7, 28))
     assert all(len(r) == 3 for r in results)
-    assert any(r[0] == "source_freshness" for r in results)
+    assert {"source_freshness", "records_advancing"} <= {r[0] for r in results}
 
 
 def test_run_all_compares_last_two_ledger_rows(data_dir):
@@ -901,12 +954,16 @@ from datetime import date, datetime
 from core.ledger import read_ledger
 
 
-def check_source_freshness(ledger_rows, today: date, max_stale_days: int = 3):
-    """Fail when no new source content has been ingested recently.
+def check_source_freshness(ledger_rows, today: date, alarm_after_days: int = 3):
+    """Fail when nothing at all has been ingested recently.
 
-    Threshold is 3 days because the source has legitimately flat days --
-    07-19/07-20 both carried 502 permit headers, 07-13/07-14 both 348. Three
-    days spans a weekend plateau without tolerating an indefinite freeze.
+    This catches a dead downloader -- expired MFT link, broken session,
+    network down. It does NOT catch a frozen source: the daf420 extract's
+    sha256 changes daily because coordinate records keep updating, so a run
+    still ingests and still records a row. check_records_advancing covers that.
+
+    alarm_after_days means what it says: a gap of that many days already
+    fails. Legitimate plateaus in July 2026 ran to 2 days.
     """
     name = "source_freshness"
     if not ledger_rows:
@@ -914,10 +971,43 @@ def check_source_freshness(ledger_rows, today: date, max_stale_days: int = 3):
     latest = max(r["ingested_at"] for r in ledger_rows)
     latest_date = datetime.fromisoformat(latest).date()
     stale_days = (today - latest_date).days
-    ok = stale_days < max_stale_days
+    ok = stale_days < alarm_after_days
     return (name, ok,
-            f"last new source content {latest_date.isoformat()} "
-            f"({stale_days}d ago, threshold {max_stale_days}d)")
+            f"last ingestion {latest_date.isoformat()} "
+            f"({stale_days}d ago, alarms at {alarm_after_days}d)")
+
+
+def check_records_advancing(ledger_rows, today: date, alarm_after_days: int = 3):
+    """Fail when the record count has not increased for too long.
+
+    This is the freeze detector, and the reason hash freshness is not enough.
+    The RRC extract is month-to-date cumulative: it keeps appending coordinate
+    records (14/15) to a fixed set of permit headers, so the file hash moves
+    daily while the permit count stands still. On 2026-07-28 the file had a
+    fresh hash and 706 permits for the third consecutive day.
+
+    Calibrated against July 2026: legitimate plateaus ran to 2 days
+    (07-12..07-14 all 348 headers, 07-19..07-21 all 502); the freeze held 706
+    from 07-26 onward.
+    """
+    name = "records_advancing"
+    if not ledger_rows:
+        return (name, False, "ledger is empty -- nothing has ever been ingested")
+
+    high_water = -1
+    last_increase = None
+    for row in sorted(ledger_rows, key=lambda r: r["ingested_at"]):
+        parsed = int(row["records_parsed"])
+        if parsed > high_water:
+            high_water = parsed
+            last_increase = row["ingested_at"]
+
+    last_date = datetime.fromisoformat(last_increase).date()
+    flat_days = (today - last_date).days
+    ok = flat_days < alarm_after_days
+    return (name, ok,
+            f"record count last grew {last_date.isoformat()} to {high_water} "
+            f"({flat_days}d ago, alarms at {alarm_after_days}d)")
 
 
 def check_advance_produced_records(records_parsed: int, prev_records_parsed: int,
@@ -942,7 +1032,8 @@ def run_all(data_dir, state, today: date):
     consecutive rows are always genuinely different source content.
     """
     rows = read_ledger(data_dir, state)
-    results = [check_source_freshness(rows, today)]
+    results = [check_source_freshness(rows, today),
+               check_records_advancing(rows, today)]
     if len(rows) >= 2:
         results.append(check_advance_produced_records(
             records_parsed=int(rows[-1]["records_parsed"]),
@@ -1452,7 +1543,7 @@ git commit -m "Record RRC source freeze diagnosis"
 
 ## Done when
 
-- [ ] `python -m pytest tests/ -v` passes (39 tests).
+- [ ] `python -m pytest tests/ -v` passes (44 tests).
 - [ ] `python scripts/replay_tx.py --from 2026-07-03 --to 2026-07-28` prints `RECONCILED` with 693 on both lines.
 - [ ] Running `tx_daf420.py` twice on the same file leaves `git status --short data/tx/out/` empty on the second run.
 - [ ] `run_daily_ci.py`'s checks include `tx_source_freshness` failing while the source remains frozen.
