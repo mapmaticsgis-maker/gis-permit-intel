@@ -9,8 +9,55 @@
 The permit pipeline runs but produces nothing. Every daily `new_permits.csv` on record —
 TX for 07-19, 07-20, 07-21, 07-26, 07-27, 07-28 and LA for 07-19, 07-20, 07-21, 07-27,
 07-28 — contains a header row and no data, while the same TX digest reports 550 permits
-issued month-to-date. Fetch, parse, master accumulation, MTD rollup, scheduling and email
-delivery all work. The diff does not, and it has failed silently for at least ten days.
+issued month-to-date.
+
+**Diagnosed 2026-07-28. The diff logic is correct and has been working.** An initial
+hypothesis that master absorbed the day's records before comparison was investigated and
+disproved: both `tx_daf420.py:267-268` and `la_pull.py:88-89` diff before updating master.
+Two distinct bugs are responsible.
+
+### Bug 1 — same-day re-runs overwrite the day's results with empties
+
+Proven by consecutive commits on 2026-07-26:
+
+```
+c29c268b   data/tx/out/2026-07-26/new_permits.csv = 62 rows   master = 693
+479da72d   data/tx/out/2026-07-26/new_permits.csv =  0 rows   master = 693
+```
+
+Run 1 correctly detected 62 new permits and updated master. A later run the same day
+diffed against the updated master, correctly found zero, and wrote an empty
+`new_permits.csv` over the good one. Outputs are keyed on `date.today()` and replaced
+wholesale on every run.
+
+The pipeline has three redundant triggers — Windows Task Scheduler, a GitHub Actions
+workflow, and a local API trigger (`trigger_github_workflow.py`) — producing three "Daily
+permit intel run" commits on 07-26 and three more on 07-27. The intelligence was computed
+and then deleted, daily, by the pipeline's own redundancy.
+
+The 62 permits from 07-26 are recoverable from git history.
+
+### Bug 2 — the TX source has been frozen since 2026-07-26
+
+`01` (permit header) record counts across the July inbox files:
+
+```
+07-03:  59   07-19: 502   07-24: 637
+07-12: 348   07-21: 502   07-25: 669
+07-16: 415   07-22: 567   07-26: 706
+07-18: 478   07-23: 602   07-27: 706   ← byte-identical to 07-26
+                          07-28: 706   ← only 14/15 coord records changed
+```
+
+The daf420 extract is month-to-date cumulative and resets at month start (59 permits on
+07-03, climbing to 706 by 07-26). It then stopped advancing. Only coordinate records are
+still changing, and issue dates stop at 2026-07-24 in a file dated 07-28. Either the MFT
+link in `texas.fetch_url` no longer refreshes, or the downloader is being served a cached
+copy.
+
+Note that the flat stretches at 07-19/07-20 (502, 502) and 07-13/07-14 (348, 348) show the
+source has legitimately-flat days, so freshness detection must tolerate short plateaus
+without tolerating indefinite ones.
 
 Separately, the pipeline produces counts, not intelligence. It cannot say which permits
 matter, because nothing in the RRC or SONRIS feed knows where Mapmatics has work.
@@ -96,15 +143,36 @@ permit_intel/
 
 ### Change detection
 
-Extracted from the pull scripts into a pure function:
+The existing diff logic is correct and is retained. It is consolidated out of
+`tx_daf420.py:diff_master` and `common.py:diff` into one tested `core/diff.py` — not
+because it is broken, but because two near-duplicate implementations with different
+change-column sets and different resurfaced-handling is a latent divergence:
 
 ```
-diff(today_records, master, key) → {new, amended, resurfaced}
+diff(today_records, master, key, change_cols) → {new, amended, resurfaced}
 ```
 
-No file I/O, no side effects, no master mutation. The caller updates master *after*
-consuming the result. This structurally prevents the current failure, in which master
-absorbs the day's records before comparison so nothing is ever new.
+### Ingestion ledger — the fix for Bug 1
+
+The real defect is that ingestion is not idempotent. An **ingestion ledger** at
+`data/<state>/ledger.csv` records one row per ingested source:
+
+```
+source_name, sha256, ingested_at, records_parsed, new, amended, resurfaced
+```
+
+Before ingesting, hash the source. Two rules follow:
+
+- **Already-ingested content is never re-ingested.** If the hash is in the ledger, the run
+  exits reporting "source unchanged since `<ingested_at>`" and **touches no outputs.** This
+  makes redundant triggers harmless, which matters because the three existing triggers are
+  not going away.
+- **Outputs are never replaced by an emptier result.** Writing `new_permits.csv` for a date
+  that already holds more rows than the incoming result is an error condition, not a
+  silent overwrite.
+
+The same hash check is the Bug 2 detector: an unchanged source hash across consecutive
+days *is* the freshness alarm, so one mechanism covers both defects.
 
 **The diff key is the business key, never `OBJECTID`.** TX keys on `STATUS_NUMBER`, LA on
 `WELL_SERIAL_NUM`. The LA master currently carries both `OBJECTID` and `id`; SONRIS
@@ -117,12 +185,19 @@ non-nullity are asserted before the diff runs.
 No signal is lost. `data/tx/inbox/` retains 29 daily `daf420.dat` files back to
 2026-07-01, so TX replays completely: rebuild master from empty, walk files in date
 order, regenerate every missed day. LA retains no raw files but SONRIS is queryable by
-`PERMIT_DATE`, so LA rebuilds from source.
+`PERMIT_DATE`, so LA rebuilds from source. The 62 permits detected on 07-26 and
+subsequently overwritten are additionally recoverable from commit `c29c268b`.
 
-The replay doubles as the acceptance test: replaying July 2026 must yield a new-permit
-count equal to the MTD total the digest independently computes for the same period (550
-as of 07-28), reconciled exactly rather than approximately. The current implementation
-yields zero.
+**The replay must handle the month boundary.** The extract is month-to-date cumulative and
+resets at month start: `07-01` and `07-02` carry June's accumulation (974 and 1009 permit
+headers), then `07-03` resets to 59. A replay that treats the series as monotonic will
+misclassify the entire June carry-over. Replay starts at `07-03`; the `07-01`/`07-02`
+files belong to June's cycle.
+
+**Acceptance test.** Replaying `07-03` through `07-28` from an empty master must yield a
+master of exactly **693 unique permits**, and the per-day `new` counts must sum to 693.
+This is exact and mechanically checkable, and the current pipeline fails it by producing
+zeros from `07-27` onward.
 
 ### Spatial join
 
@@ -220,11 +295,19 @@ handling is therefore about detecting *plausible* wrongness, not exceptions.
 
 **Invariants that alarm:**
 
-- Zero new permits across both states for 2 consecutive days (would have fired 2026-07-20)
+- **Source hash unchanged for 3 consecutive days** — the Bug 2 detector. Threshold is 3,
+  not 2, because the source has legitimately-flat days (07-19/07-20 both 502 headers,
+  07-13/07-14 both 348). Three days spans a weekend plateau without tolerating a freeze.
+- **Source content advanced but zero new permits detected** — contradiction; the diff or
+  the parser is wrong. This is the check that catches a genuine diff regression.
+- **An output file would shrink** — refuse to write `new_permits.csv` for a date that
+  already holds more rows. The Bug 1 backstop.
 - Master row count flat across a rolling week
 - Expected `daf420` file absent for the run date
 - Any record with a null or duplicate business key — alert, never silently drop
 - Workbook snapshot older than 7 days
+
+Both bugs found on 2026-07-28 would have fired within 72 hours under these rules.
 
 **The provably-empty rule.** An empty brief must state the evidence for its emptiness —
 "0 new permits, verified against N master records and today's daf420" — or state that it
@@ -275,9 +358,11 @@ correction (John Bowman sole principal; Brad Ryan contractor, not principal).
 This spec covers five components and is too large for a single implementation plan. It
 decomposes into four phases, each independently valuable and separately plannable:
 
-1. **Fix the sensor.** `diff.py` as a pure function, business-key assertions, July replay
-   and backfill, invariants and alarms. Delivers real daily signal and stops the bleeding.
-   Everything else depends on this.
+1. **Fix the sensor.** Ingestion ledger and idempotent outputs (Bug 1), source-freshness
+   alarms (Bug 2), consolidated `core/diff.py`, July replay and backfill. Delivers real
+   daily signal and stops the bleeding. Everything else depends on this.
+   *Bug 2 additionally requires an out-of-band fix — confirming whether the RRC MFT link
+   still refreshes — which is investigation, not code, and is tracked separately.*
 2. **Registry + spatial.** Workbook snapshot reader, job-name → geometry resolution, the
    spatial join, evidence pack. Delivers proximity-ranked permits with no email involved.
 3. **Analyst + brief.** Email layer, `compose-morning-brief` skill, fallback renderer,
