@@ -192,7 +192,8 @@ def main():
         print(f"No W-1 folder for {day} yet ({w1_dir}) -- nothing downloaded today.")
         return 0
 
-    pdfs = sorted(w1_dir.glob("*.pdf"))
+    # Search recursively for PDFs (they may be in nested subdirectories from subscription ZIPs)
+    pdfs = sorted(w1_dir.glob("**/*.pdf"))
     if not pdfs:
         print(f"{w1_dir} exists but has no PDFs yet.")
         return 0
