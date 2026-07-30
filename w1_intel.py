@@ -40,6 +40,8 @@ STOPWORDS = {
     "h", "hc", "estate", "ranch", "farm", "farms", "heirs", "permit",
     "proposed", "location", "drilling", "survey", "texas", "county",
     "prepared", "for", "sheet", "job", "scale", "date", "revised",
+    "rrc", "operating", "energy", "oil", "resources", "llc", "inc", "co",
+    "operator", "operators", "company", "map", "maps",
 }
 MIN_MATCH_TOKENS = 2  # a single coincidental token (e.g. a county-ish word) isn't enough to attribute an operator
 
