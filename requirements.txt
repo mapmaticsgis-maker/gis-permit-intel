@@ -5,3 +5,11 @@ pyshp
 openpyxl
 playwright
 pytest
+pytesseract
+pdf2image
+Pillow
+
+# pytesseract/pdf2image also need system binaries, not covered by pip:
+#   winget install --id UB-Mannheim.TesseractOCR -e
+#   winget install --id oschwartz10612.Poppler -e
+# See w1_intel.py for the exact install paths it expects.

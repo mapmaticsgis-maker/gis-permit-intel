@@ -8,16 +8,23 @@ approved-permit extract (confirmed 2026-07-29: 0/6 same-day plats were yet
 in master.csv). Filenames follow RRC's convention:
     <permit_number>_Plat_<well/unit name>_<surveyor code>.pdf
 
-The plats themselves are CAD-exported with outlined/vector text (no
-extractable text layer -- pdfplumber finds zero words), so this doesn't
-attempt to read the PDF content. Instead it works from the filename
-(permit number + well/unit name are always present and reliable) and
-infers operator/county by fuzzy-matching well-name tokens against
-historical Lease_Name entries in master.csv. This is a real limitation:
-inference, not a read of the document. A brand-new operator/area with no
-matching history in master.csv will come back "unknown" rather than a
-guess -- OCR (Tesseract+poppler) would remove this gap but isn't
-installed on this machine as of 2026-07-29.
+Primary extraction is OCR (Tesseract + poppler, installed 2026-07-30):
+plats are CAD-exported with outlined/vector text, so pdfplumber finds
+zero extractable words -- the page has to be rasterized and read as an
+image. Title blocks are often rotated 90/180 degrees along a page
+margin (confirmed on a KSA-template plat), so each page is OCR'd at all
+four rotations and results are merged. Validated against 12 real plats
+across two days: 10/12 got both operator and county cleanly, the other
+2 got one field each (never a wrong answer, matching the same
+conservative philosophy as the fallback below).
+
+Falls back to fuzzy-matching well-name tokens against historical
+Lease_Name entries in master.csv when OCR finds nothing for a field --
+weaker, but still useful when it clears MIN_MATCH_TOKENS. A single
+coincidental token is not enough evidence to name an operator (confirmed
+on real data: filename-only tokens once matched a well to a completely
+unrelated Lewis Petro/Webb lease) -- better to say "unknown" than guess
+wrong with a straight face.
 
 Run: python w1_intel.py [YYYYMMDD]   (defaults to today)
 """
@@ -29,10 +36,19 @@ from pathlib import Path
 
 import openpyxl
 import pandas as pd
+import pytesseract
 import yaml
+from pdf2image import convert_from_path
 
 ROOT = Path(__file__).resolve().parent
 CLIENT_WORKBOOK = Path(r"C:\GIS\Mapmatics_Client_Master_UPDATED.xlsx")
+
+TESSERACT_EXE = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+POPPLER_PATH = (
+    r"C:\Users\mapma\AppData\Local\Microsoft\WinGet\Packages"
+    r"\oschwartz10612.Poppler_Microsoft.Winget.Source_8wekyb3d8bbwe\poppler-25.07.0\Library\bin"
+)
+pytesseract.pytesseract.tesseract_cmd = TESSERACT_EXE
 
 STOPWORDS = {
     "unit", "gas", "well", "wells", "no", "trust", "plat", "final", "npz",
@@ -43,7 +59,48 @@ STOPWORDS = {
     "rrc", "operating", "energy", "oil", "resources", "llc", "inc", "co",
     "operator", "operators", "company", "map", "maps",
 }
-MIN_MATCH_TOKENS = 2  # a single coincidental token (e.g. a county-ish word) isn't enough to attribute an operator
+MIN_MATCH_TOKENS = 2  # a single coincidental token isn't enough to attribute an operator
+
+COUNTY_RE = re.compile(r"\b([A-Z]{2,}(?:[ \t]+[A-Z]{2,}){0,2})[ \t]+COUNTY,?[ \t]*TEXAS\b")
+SOLE_USE_RE = re.compile(
+    r"(?:sole use of|prepared for)[ \t]+([A-Z][A-Za-z0-9&\-'.]*(?:[ \t]+[A-Z][A-Za-z0-9&\-'.]*){0,5})",
+    re.IGNORECASE,
+)
+SUFFIX_LINE_RE = re.compile(
+    r"^([A-Z][A-Za-z0-9&\-'.]*(?:[ \t]+[A-Z][A-Za-z0-9&\-'.]*){0,5}),?[ \t]+"
+    r"(INC\.?|LLC\.?|L\.L\.C\.?|LP\.?|L\.P\.?|LTD\.?|CORP\.?)$"
+)
+EXCLUDE_RE = re.compile(
+    r"SURVEY|ENGINEERING|SURVEYOR|CIVIL|TBPLS|TBPE|RPLS|BOWMAN|KSA|CRAFTON",
+    re.IGNORECASE,
+)
+
+
+def ocr_extract(pdf_path: Path, dpi: int = 200):
+    """OCR the first page at 0/90/180/270 degrees and pull county + operator
+    candidates from the combined text. Returns (county, operator) -- either
+    may be None if not found."""
+    pages = convert_from_path(str(pdf_path), dpi=dpi, poppler_path=POPPLER_PATH)
+    img = pages[0]
+
+    counties, operators = [], []
+    for angle in (0, 90, 180, 270):
+        rotated = img.rotate(angle, expand=True) if angle else img
+        text = pytesseract.image_to_string(rotated)
+        counties += [c.strip().upper() for c in COUNTY_RE.findall(text)]
+        for line in text.splitlines():
+            line = line.strip()
+            if not line or EXCLUDE_RE.search(line):
+                continue
+            m = SOLE_USE_RE.search(line)
+            if m:
+                operators.append(m.group(1).strip().rstrip("."))
+            if SUFFIX_LINE_RE.match(line):
+                operators.append(line.rstrip("."))
+
+    county = Counter(counties).most_common(1)[0][0] if counties else None
+    operator = Counter(operators).most_common(1)[0][0] if operators else None
+    return county, operator
 
 
 def load_client_prospects():
@@ -77,19 +134,13 @@ def parse_filename(fname: str):
     if len(parts) < 3 or not parts[0].isdigit():
         return None, stem
     permit_raw, _plat, rest = parts
-    # strip a trailing surveyor code segment like "_LGR" or "_LTR" if present
     well_name = re.sub(r"_(LGR|LTR)$", "", rest, flags=re.IGNORECASE)
     return permit_raw, well_name
 
 
-def infer_operator_county(well_tokens: set[str], master: pd.DataFrame):
-    """Score master.csv leases by token overlap with the well name; return
-    the (operator, county, match_count) of the strongest match, or
-    (None, None, 0) if nothing clears MIN_MATCH_TOKENS. A single coincidental
-    token (confirmed on real data: "mesa" alone matched an unrelated Lewis
-    Petro/Webb lease, misattributing a Panola/TGNR well) is not enough
-    evidence to name an operator -- better to say "unknown" than guess wrong
-    with a straight face."""
+def infer_operator_county_fallback(well_tokens: set[str], master: pd.DataFrame):
+    """Fuzzy-match fallback for when OCR finds nothing. See module docstring
+    for why this requires MIN_MATCH_TOKENS rather than any overlap at all."""
     if not well_tokens:
         return None, None, 0
     lease_tokens = master["Lease_Name"].fillna("").map(tokenize)
@@ -161,18 +212,33 @@ def main():
         permit_padded = permit_raw.zfill(7)
         already_known = permit_padded in known_permits or permit_raw in known_permits
 
+        try:
+            county, op = ocr_extract(pdf)
+        except Exception as e:
+            county, op = None, None
+            print(f"  [WARN] OCR failed for {pdf.name}: {e}", file=sys.stderr)
+        source = "OCR" if (county or op) else None
+
         tokens = tokenize(well_name)
-        op, county, score = infer_operator_county(tokens, master)
+        if not op and not county:
+            op, county, score = infer_operator_county_fallback(tokens, master)
+            if op or county:
+                source = f"fallback, {score} token overlap"
+        elif not op or not county:
+            fb_op, fb_county, score = infer_operator_county_fallback(tokens, master)
+            op = op or fb_op
+            county = county or fb_county
+
         fam = family_of(op, families)
         client_hits = match_clients(tokens, op, county, prospects)
 
         lines.append(f"## {well_name}  (Permit #{permit_raw})")
         lines.append(f"- **Status:** {'ALREADY in master.csv (not early anymore)' if already_known else '**NOT yet in master.csv — early signal**'}")
-        if op:
-            conf = "strong" if score >= 3 else "weak" if score >= 1 else "none"
-            lines.append(f"- **Inferred operator:** {op} ({county})  _[match confidence: {conf}, {score} token overlap]_")
+        if op or county:
+            detail = f"{op or 'unknown operator'} ({county or 'unknown county'})"
+            lines.append(f"- **Operator/county:** {detail}  _[source: {source}]_")
         else:
-            lines.append("- **Inferred operator:** unknown — no historical lease-name match; needs manual check")
+            lines.append("- **Operator/county:** unknown — OCR and filename inference both came up empty; needs manual check")
         if fam:
             lines.append(f"- **Watched family:** {fam}")
         if client_hits:
