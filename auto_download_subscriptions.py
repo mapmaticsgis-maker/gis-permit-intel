@@ -38,6 +38,12 @@ logger = logging.getLogger(__name__)
 PORTAL_URL = "https://mft.rrc.texas.gov/link/f11363bb-8120-4e8c-bbc0-a253ec0a85d4"
 DISTRICTS = ["03", "06"]
 
+# Task Scheduler's S4U logon session can't resolve %LOCALAPPDATA%\ms-playwright
+# the way an interactive session does, so the default browser install is
+# invisible to it (same issue solved for auto_download_rrc.py). Use the
+# project-local Chromium install instead, which S4U already has access to.
+CHROMIUM_EXE = str(SCRIPT_DIR / ".playwright-browsers" / "chromium-1228" / "chrome-win64" / "chrome.exe")
+
 
 def should_run_today():
     """Skip Monday (0) and Tuesday (1) -- no filings over weekend."""
@@ -128,17 +134,22 @@ def main() -> int:
         logger.info(f"Skipping {day_name} (no filings over weekend)")
         return 0
 
-    # Files posted today contain YESTERDAY's W-1 data
+    # Files posted today contain YESTERDAY's W-1 data. The RRC filename uses
+    # dashed dates (subscriptions_2026-07-30_district03.zip), but the shared
+    # W-1 folder convention -- used by manual drops and w1_intel.py's own
+    # default -- is undashed YYYYMMDD. Keep both: dashed for the portal
+    # search, undashed for anywhere the two sources need to land in the
+    # same per-day folder.
     yesterday = date.today() - timedelta(days=1)
     yesterday_str = yesterday.strftime("%Y-%m-%d")
-    today_str = date.today().strftime("%Y-%m-%d")
+    yesterday_nodash = yesterday.strftime("%Y%m%d")
 
     download_dir = Path(SCRIPT_DIR / ".subscriptions_temp")
     download_dir.mkdir(exist_ok=True)
 
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=True, executable_path=CHROMIUM_EXE)
             page = browser.new_page()
             page.on("download", lambda download: None)  # Let expect_download handle it
 
@@ -150,7 +161,7 @@ def main() -> int:
                 logger.warning(f"No district 3 or 6 files found for {yesterday_str}")
                 return 0
 
-            w1_dir = unzip_to_w1(zip_files, yesterday_str)
+            w1_dir = unzip_to_w1(zip_files, yesterday_nodash)
             logger.info(f"All files extracted to {w1_dir}")
 
             # List extracted plats
@@ -162,7 +173,7 @@ def main() -> int:
                 # Run W-1 intel analysis on the extracted files
                 import subprocess
                 result = subprocess.run(
-                    [sys.executable, "w1_intel.py", yesterday_str],
+                    [sys.executable, "w1_intel.py", yesterday_nodash],
                     capture_output=True,
                     text=True,
                 )
