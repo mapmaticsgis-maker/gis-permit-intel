@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 """
-Daily 8:00 AM CST check: did the automated RRC download (auto_download_rrc.py,
-runs at 7:50 AM) succeed?
+Daily 8:45 AM CST check: did the automated RRC download (auto_download_rrc.py,
+runs at 8:30 AM) succeed?
 
 Silent on success -- only sends an email if today's daf420 file is missing
 or wasn't pushed to GitHub, so you know to grab it manually before the
 9:00 AM workflow run.
+
+Must run AFTER auto_download_rrc.py's scheduled time, with enough buffer
+for it to complete -- confirmed via logs that a same-time-or-earlier check
+produces a false "ACTION NEEDED" alert every day even when the download
+succeeds moments later (e.g. 2026-08-01: reminder fired 08:33:16, download
+succeeded 08:33:18 -- 2 seconds afterward). This is not a duplicate
+process; it's this same task racing the download it's meant to verify.
 
 Runs via Windows Task Scheduler.
 """
@@ -115,7 +122,7 @@ def main():
         logger.warning("No daf420 file found for today -- auto-download likely failed")
         send_alert(
             "ACTION NEEDED: RRC auto-download failed",
-            "The 7:50 AM automated download did not produce today's daf420 file.\n\n"
+            "The 8:30 AM automated download did not produce today's daf420 file.\n\n"
             "Grab it manually before 9:00 AM:\n"
             "1. https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc\n"
             "2. Download today's file, drop into C:\\GIS\\permit_intel\\data\\tx\\inbox\\\n"
