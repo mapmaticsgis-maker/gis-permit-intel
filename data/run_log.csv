@@ -13,3 +13,4 @@ date,tx_new,la_new,checks_passed,checks_failed,status
 2026-08-01T16:03:23,17,0,13,0,OK
 2026-08-02T16:00:27,36,,13,0,OK
 2026-08-03T16:00:22,,,13,0,OK
+2026-08-04T16:00:23,,0,12,1,SOFT_FAIL
