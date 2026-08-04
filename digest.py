@@ -51,8 +51,12 @@ def build_digest(state_label, new, amended, cfg, state_key, area_field):
                 L.append(f"- {r0['_fam']}: {r0['operator']} — {str(r0.get(area_field,'')).title()}{count}")
         L.append("\n## All new permits by " + area_field)
         for a, g in new.groupby(new[area_field].astype(str).str.upper()):
-            ops = ", ".join(sorted(set(g['operator'].dropna())))[:120]
-            L.append(f"- {a.title()}: {len(g)} ({ops})")
+            L.append(f"\n### {a.title()} ({len(g)})")
+            for _, r in g.iterrows():
+                name = r.get("well") or r.get("lease", "") or ""
+                well_num = r.get("well_num")
+                well_num_str = f" ({well_num})" if pd.notna(well_num) and str(well_num).strip() else ""
+                L.append(f"- {r['operator']} — {name}{well_num_str}")
     if len(amended):
         L.append("\n## Amendments")
         for _, r in amended.head(40).iterrows():
