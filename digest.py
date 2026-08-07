@@ -8,11 +8,19 @@ def _fmt_depth(vals):
     return f", {min(vals):.0f}-{max(vals):.0f}' TD"
 
 def _identifiers(r):
-    """API number, Section-Township-Range, field name, and a SONRIS
-    well-profile link when those columns are present (LA data only --
-    TX's renamed columns don't include them, so this is silently empty
-    there). Mirrors the identifying info SONRIS's own well-information
-    page shows, so a flagged well can be looked up directly."""
+    """API number, Section-Township-Range, field name, and SONRIS links
+    when those columns are present (LA data only -- TX's renamed columns
+    don't include them, so this is silently empty there). Mirrors the
+    identifying info SONRIS's own well-information page shows, so a
+    flagged well can be looked up directly.
+
+    Two separate links, both from SONRIS's own REST data (not
+    hand-constructed): HYPERLINK is the well-profile page. DOC_ACCESS is
+    the digital well-file search (what "Well Status Description Code:
+    PERMITTED" links to on SONRIS's UI) -- the plat/W-1-equivalent docs
+    usually aren't posted yet the day a permit first appears, based on
+    a few days of observed lag, so this is a "check back" link rather
+    than a guarantee something's there yet."""
     parts = []
     api = r.get("api")
     if pd.notna(api) and str(api).strip():
@@ -26,9 +34,12 @@ def _identifiers(r):
     if not parts:
         return ""
     line = "  ".join(parts)
-    link = r.get("HYPERLINK")
-    if pd.notna(link) and str(link).strip():
-        line += f"  \n  {link}"
+    profile_link = r.get("HYPERLINK")
+    if pd.notna(profile_link) and str(profile_link).strip():
+        line += f"  \n  Well profile: {profile_link}"
+    doc_link = r.get("DOC_ACCESS")
+    if pd.notna(doc_link) and str(doc_link).strip():
+        line += f"  \n  Well docs (check back -- often not posted yet at permit time): {doc_link}"
     return f"\n  _{line}_"
 
 def _group_line(g, area_field, fams=None):
