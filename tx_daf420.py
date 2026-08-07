@@ -288,9 +288,14 @@ def main():
     day_amended = pd.read_csv(outd / "amendments.csv", dtype=ID_COLS)
     day_resurfaced = pd.read_csv(outd / "resurfaced.csv", dtype=ID_COLS)
 
-    # canonical names for the shared digest builder
+    # canonical names for the shared digest builder. "well" must be the
+    # descriptive name (Lease_Name) and "well_num" the distinguishing suffix
+    # (Well_Number) to match LA's convention -- these were swapped before,
+    # so _group_line's `well or lease` fallback always picked the bare
+    # well number ("15H") over the actual lease/unit name ("FOUR WINDS
+    # 26-20 D"), even though Lease_Name was being pulled the whole time.
     ren = {"Operator_Name":"operator","County":"county","Total_Depth":"depth",
-           "Well_Number":"well","Lease_Name":"lease"}
+           "Well_Number":"well_num","Lease_Name":"well"}
     text = build_digest("Texas RRC (daf420)", day_new.rename(columns=ren),
                         day_amended.rename(columns=ren), cfg, "tx", "county")
     if len(day_resurfaced):
