@@ -1,8 +1,29 @@
 # Mapmatics Intelligence System — Design
 
 **Date:** 2026-07-28
-**Status:** Approved for planning
+**Status:** Phase 1 implemented. Phases 2-4 not pursued — see reconciliation note below.
 **Supersedes:** ad-hoc daily digest in `run_daily.py` / `digest.py`
+
+> **Reconciliation note (added 2026-08-07, after this doc sat unread for over a week
+> while other work happened):** Phase 1 ("Fix the sensor") was built exactly as designed
+> — `core/diff.py`, `core/invariants.py`, `core/ledger.py`, `data/<state>/ledger.csv`
+> with this doc's exact schema, and `self_check.py` extended with invariant checks all
+> exist and match this spec. **Phases 2-4 were never started:** no `data/evidence/`
+> pack, no `core/spatial.py` / `registry.py` / `evidence.py`, no `repertoire/` folder,
+> `operator_families` is still in `config.yaml` (never migrated to the workbook), no
+> email analyst, no client-ranked brief format.
+>
+> Instead of continuing this spec's phases, work went in a different direction not
+> covered here: TX RRC W-1 early-signal plats (OCR'd, cross-referenced against the
+> client workbook), automated subscription-ZIP downloads, and LA SONRIS digest
+> enhancements (well identifiers, API/STR, direct SONRIS document links). None of that
+> is a rejection of this design — it's simply a different thread of work that happened
+> instead, and this doc was never revisited to say so.
+>
+> Treat everything below this note as the historical Phase 1-4 design, still valid as
+> reference if the dashboard/evidence-pack/email-analyst vision gets picked back up. For
+> what's actually running today, `[[gis-permit-intel-project]]` memory is the current
+> source of truth, not this file.
 
 ## Problem
 
