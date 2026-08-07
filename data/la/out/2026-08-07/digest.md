@@ -2,10 +2,14 @@
 
 **3 new** | **0 amended** vs master.
 
+## Corridor hits (client-relevant)
 
-## Watched-family activity outside corridors
-- Adamas (ex-Aethon, Mitsubishi): ADAMAS ENERGY LLC — Bienville
-- Adamas (ex-Aethon, Mitsubishi): ADAMAS ENERGY LLC — Bienville: 2 wells (001-ALT, 002-ALT)
+### RROG + DOXA — NW Louisiana Haynesville
+- **ADAMAS ENERGY LLC** — HA RA SUEE; RALEY 14-11-2HC (Bienville, 27900' TD)  _[Adamas (ex-Aethon, Mitsubishi)]_
+  _API 17013223600000  Sec 023-15N-10W  Field: WOODARDVILLE  
+  Well profile: https://sonlite.dnr.state.la.us/ords/apex/r/sonris_pub/sonris_data_portal/well-profile?clear=CR,9000&ig[ig_master]_well_serial_num=255802  
+  Well docs (check back -- often not posted yet at permit time): https://sonlite.dnr.state.la.us/ords/r/sonris/ucmsearch/finddocuments?qtype=eq&idx=xwellserialnumber&val=255802_
+- **ADAMAS ENERGY LLC** — HA RA SUEE;RALEY 14-11-2HC: 2 wells (001-ALT, 002-ALT) (Bienville, 27900' TD)  _[Adamas (ex-Aethon, Mitsubishi)]_
 
 ## All new permits by parish
 
