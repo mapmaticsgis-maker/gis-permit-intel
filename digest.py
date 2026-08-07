@@ -7,6 +7,30 @@ def _fmt_depth(vals):
     if len(vals) == 1: return f", {vals[0]:.0f}' TD"
     return f", {min(vals):.0f}-{max(vals):.0f}' TD"
 
+def _identifiers(r):
+    """API number, Section-Township-Range, field name, and a SONRIS
+    well-profile link when those columns are present (LA data only --
+    TX's renamed columns don't include them, so this is silently empty
+    there). Mirrors the identifying info SONRIS's own well-information
+    page shows, so a flagged well can be looked up directly."""
+    parts = []
+    api = r.get("api")
+    if pd.notna(api) and str(api).strip():
+        parts.append(f"API {api}")
+    sec, twn, rge = r.get("section"), r.get("township"), r.get("range")
+    if all(pd.notna(v) and str(v).strip() for v in (sec, twn, rge)):
+        parts.append(f"Sec {sec}-{twn}-{rge}")
+    field = r.get("field")
+    if pd.notna(field) and str(field).strip():
+        parts.append(f"Field: {field}")
+    if not parts:
+        return ""
+    line = "  ".join(parts)
+    link = r.get("HYPERLINK")
+    if pd.notna(link) and str(link).strip():
+        line += f"  \n  {link}"
+    return f"\n  _{line}_"
+
 def _group_line(g, area_field, fams=None):
     r0 = g.iloc[0]
     n = len(g)
@@ -20,7 +44,7 @@ def _group_line(g, area_field, fams=None):
     fam_str = f"  _[{fam}]_" if pd.notna(fam) else ""
     name = r0.get("well") or r0.get("lease", "")
     if n == 1:
-        return f"- **{r0['operator']}** — {name} ({area}{depth}){fam_str}"
+        return f"- **{r0['operator']}** — {name} ({area}{depth}){fam_str}{_identifiers(r0)}"
     well_list = f" ({', '.join(wells)})" if wells else ""
     return f"- **{r0['operator']}** — {name}: {n} wells{well_list} ({area}{depth}){fam_str}"
 
@@ -56,7 +80,7 @@ def build_digest(state_label, new, amended, cfg, state_key, area_field):
                 name = r.get("well") or r.get("lease", "") or ""
                 well_num = r.get("well_num")
                 well_num_str = f" ({well_num})" if pd.notna(well_num) and str(well_num).strip() else ""
-                L.append(f"- {r['operator']} — {name}{well_num_str}")
+                L.append(f"- {r['operator']} — {name}{well_num_str}{_identifiers(r)}")
     if len(amended):
         L.append("\n## Amendments")
         for _, r in amended.head(40).iterrows():
