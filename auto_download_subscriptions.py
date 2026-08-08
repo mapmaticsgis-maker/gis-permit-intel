@@ -12,6 +12,7 @@ Logs: logs/subscriptions_download.log
 import logging
 import os
 import shutil
+import subprocess
 import sys
 import traceback
 import zipfile
@@ -48,6 +49,25 @@ CHROMIUM_EXE = str(SCRIPT_DIR / ".playwright-browsers" / "chromium-1228" / "chro
 def should_run_today():
     """Skip Monday (0) and Tuesday (1) -- no filings over weekend."""
     return date.today().weekday() not in (0, 1)
+
+
+def git_commit_and_push(file_path: Path) -> bool:
+    try:
+        subprocess.run(["git", "add", str(file_path)], check=True, capture_output=True, timeout=30)
+        result = subprocess.run(["git", "diff", "--staged", "--quiet"], capture_output=True, timeout=10)
+        if result.returncode == 0:
+            logger.info("Nothing new to commit (digest unchanged or already committed)")
+            return True
+        subprocess.run(
+            ["git", "commit", "-m", f"W-1 early signal: {file_path.parent.name} (auto-downloaded)"],
+            check=True, capture_output=True, timeout=30,
+        )
+        subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
+        return True
+    except subprocess.CalledProcessError as e:
+        stderr = e.stderr.decode(errors="replace") if e.stderr else str(e)
+        logger.error(f"Git operation failed: {stderr}")
+        return False
 
 
 def download_files(page, target_date_str: str, download_dir: Path):
@@ -171,7 +191,6 @@ def main() -> int:
             if plat_files:
                 logger.info(f"SUCCESS -- running W-1 analysis on {len(plat_files)} plats")
                 # Run W-1 intel analysis on the extracted files
-                import subprocess
                 result = subprocess.run(
                     [sys.executable, "w1_intel.py", yesterday_nodash],
                     capture_output=True,
@@ -184,10 +203,21 @@ def main() -> int:
                         for line in result.stdout.split('\n')[:20]:  # First 20 lines
                             if line.strip():
                                 logger.info(f"  {line}")
-                    return 0
                 else:
                     logger.error(f"W-1 analysis failed: {result.stderr}")
                     return 1
+
+                # Without this, the digest sat local-only every day and never
+                # reached the repo -- GitHub Actions runs remotely and builds
+                # the email from committed files, so a local-only digest is
+                # invisible to it no matter how correct the local run was.
+                digest_path = w1_dir / "digest.md"
+                if digest_path.exists() and git_commit_and_push(digest_path):
+                    logger.info("W-1 digest committed and pushed")
+                else:
+                    logger.error("W-1 digest was NOT committed -- today's email will not include it")
+                    return 1
+                return 0
             else:
                 logger.warning("No PDF files found in downloaded ZIPs")
                 return 0

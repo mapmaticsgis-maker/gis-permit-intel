@@ -129,6 +129,24 @@ def main():
     tx_digest = self_check.read_digest(outd_tx) if tx_ok else ""
     la_digest = self_check.read_digest(outd_la) if la_ok else ""
 
+    # W-1 subscription digest: written locally by auto_download_subscriptions.py
+    # (Playwright + OCR, can't run on GitHub Actions' runner) and committed
+    # from there, so this step only has to read whatever landed in the repo.
+    # Files posted today carry yesterday's date (RRC's own convention), so the
+    # folder to check is dated yesterday, not today.
+    yesterday_nodash = (dt.date.today() - dt.timedelta(days=1)).strftime("%Y%m%d")
+    outd_w1 = ROOT / cfg["data_dir"] / "tx" / "w1" / yesterday_nodash
+    w1_digest = self_check.read_digest(outd_w1)
+    if w1_digest.strip():
+        w1_section = f"# TX RRC W-1 Early Signal ({yesterday_nodash})\n\n{w1_digest}"
+    else:
+        w1_section = (
+            f"# TX RRC W-1 Early Signal ({yesterday_nodash})\n\n"
+            "_No W-1 subscription digest found for this date -- either RRC hadn't "
+            "posted it yet, it's a Mon/Tue skip day, or the local download step "
+            "didn't commit in time before this run._"
+        )
+
     # A skip marker only describes the day when the day has no new_permits.csv.
     # If an earlier run that day produced real output, that output is the truth
     # and a leftover marker must not override it.
@@ -168,6 +186,7 @@ def main():
     brief = "\n\n---\n\n".join([
         brief_section("Texas RRC (daf420)", tx_ok, tx_digest, tx_skip),
         brief_section("Louisiana SONRIS", la_ok, la_digest, la_skip),
+        w1_section,
     ])
     send_email.send_daily_brief(brief, today)
     if failed:
