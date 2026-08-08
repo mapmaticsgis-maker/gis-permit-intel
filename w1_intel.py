@@ -184,6 +184,40 @@ def match_clients(well_tokens: set[str], operator: str, county: str, prospects):
     return hits
 
 
+GENERIC_TITLE_RE = re.compile(r"^(AsApprovedW1|rev\d+plat)", re.IGNORECASE)
+LEGAL_SUFFIX_RE = re.compile(r"\b(LLC|INC|CORP|CO|LP|LTD)\b\.?", re.IGNORECASE)
+
+
+def _best_title(titles):
+    """Subscription ZIPs bundle a plat drawing, an AsApproved cover sheet,
+    and sometimes a revision PDF per permit -- AsApprovedW1-* and revNNNplat
+    filenames carry no well-identifying info, so prefer any title that
+    isn't one of those generic patterns."""
+    descriptive = [t for t in titles if not GENERIC_TITLE_RE.match(t)]
+    pool = descriptive or titles
+    return max(pool, key=len)
+
+
+def _best_operator(ops):
+    """Multiple OCR reads of the same permit sometimes differ in
+    completeness (confirmed on real data: "CATURUS" vs "CATURUS ENERGY,
+    LLC" for the same permit) -- prefer a read containing a legal-entity
+    suffix as evidence it's the complete name, then prefer the longest."""
+    ops = [o for o in ops if o]
+    if not ops:
+        return None
+    with_suffix = [o for o in ops if LEGAL_SUFFIX_RE.search(o)]
+    pool = with_suffix or ops
+    return max(pool, key=len)
+
+
+def _best_county(counties):
+    counties = [c for c in counties if c]
+    if not counties:
+        return None
+    return Counter(counties).most_common(1)[0][0]
+
+
 def main():
     day = sys.argv[1] if len(sys.argv) > 1 else date.today().strftime("%Y%m%d")
     w1_dir = ROOT / "data" / "tx" / "w1" / day
@@ -203,37 +237,56 @@ def main():
     families = load_operator_families()
     prospects = load_client_prospects()
 
-    lines = [f"# W-1 Early Intel — {day}\n", f"{len(pdfs)} plat(s) found.\n"]
-
+    # Subscription ZIPs bundle multiple PDFs per permit (plat, AsApproved
+    # cover sheet, sometimes a revision) -- collect all per-PDF reads first,
+    # then merge to one entry per permit rather than listing each PDF
+    # separately (confirmed on real data: 17 PDFs collapsed to 5 permits).
+    by_permit = {}
+    skipped = []
     for pdf in pdfs:
         permit_raw, well_name = parse_filename(pdf.name)
         if permit_raw is None:
-            lines.append(f"## {pdf.name}\n_Filename doesn't match expected pattern, skipped._\n")
+            skipped.append(pdf.name)
             continue
-        permit_padded = permit_raw.zfill(7)
-        already_known = permit_padded in known_permits or permit_raw in known_permits
 
         try:
             county, op = ocr_extract(pdf)
         except Exception as e:
             county, op = None, None
             print(f"  [WARN] OCR failed for {pdf.name}: {e}", file=sys.stderr)
-        source = "OCR" if (county or op) else None
 
         tokens = tokenize(well_name)
         if not op and not county:
-            op, county, score = infer_operator_county_fallback(tokens, master)
-            if op or county:
-                source = f"fallback, {score} token overlap"
+            op, county, _ = infer_operator_county_fallback(tokens, master)
         elif not op or not county:
-            fb_op, fb_county, score = infer_operator_county_fallback(tokens, master)
+            fb_op, fb_county, _ = infer_operator_county_fallback(tokens, master)
             op = op or fb_op
             county = county or fb_county
 
+        by_permit.setdefault(permit_raw, []).append(
+            {"title": well_name, "op": op, "county": county}
+        )
+
+    lines = [f"# W-1 Early Intel — {day}\n", f"{len(pdfs)} plat(s) found across {len(by_permit)} permits.\n"]
+    for name in skipped:
+        lines.append(f"## {name}\n_Filename doesn't match expected pattern, skipped._\n")
+
+    for permit_raw, records in sorted(by_permit.items()):
+        permit_padded = permit_raw.zfill(7)
+        already_known = permit_padded in known_permits or permit_raw in known_permits
+
+        title = _best_title([r["title"] for r in records])
+        op = _best_operator([r["op"] for r in records])
+        county = _best_county([r["county"] for r in records])
+        source = "OCR/fallback merged from multiple plat documents" if len(records) > 1 else (
+            "OCR" if (op or county) else None
+        )
+
+        tokens = tokenize(title)
         fam = family_of(op, families)
         client_hits = match_clients(tokens, op, county, prospects)
 
-        lines.append(f"## {well_name}  (Permit #{permit_raw})")
+        lines.append(f"## {title}  (Permit #{permit_raw})")
         lines.append(f"- **Status:** {'ALREADY in master.csv (not early anymore)' if already_known else '**NOT yet in master.csv — early signal**'}")
         if op or county:
             detail = f"{op or 'unknown operator'} ({county or 'unknown county'})"

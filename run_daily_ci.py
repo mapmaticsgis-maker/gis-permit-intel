@@ -13,6 +13,7 @@ import sys
 import datetime as dt
 from pathlib import Path
 
+import pandas as pd
 import requests
 
 from common import load_cfg, load_master
@@ -96,6 +97,58 @@ def collect_invariants(data_dir, states, today: dt.date) -> list:
         for name, ok, detail in results:
             out.append((f"{state}_{name}", ok, detail))
     return out
+
+
+def la_recheck_list(cfg, root: Path, days: int = 14) -> str:
+    """Wells flagged in the past N days, with SONRIS's doc-access link, so
+    the user can quickly click through and see whether a plat/application
+    has posted since. SONRIS's document-access page is CAPTCHA-gated --
+    confirmed via a direct HTTP request (not just browser automation), so
+    this can't be checked automatically. A compiled list with links is the
+    honest alternative to pretending the status was verified."""
+    la_out = root / cfg["data_dir"] / "la" / "out"
+    cutoff = dt.date.today() - dt.timedelta(days=days)
+    rows = []
+    for day_dir in sorted(la_out.glob("2*")):
+        try:
+            day = dt.date.fromisoformat(day_dir.name)
+        except ValueError:
+            continue
+        if day < cutoff:
+            continue
+        f = day_dir / "new_permits.csv"
+        if not f.exists() or f.stat().st_size == 0:
+            continue
+        try:
+            df = pd.read_csv(f, dtype=str)
+        except pd.errors.EmptyDataError:
+            continue
+        for _, r in df.iterrows():
+            link = r.get("DOC_ACCESS")
+            if pd.isna(link) or not str(link).strip():
+                continue
+            rows.append({
+                "date": day.isoformat(),
+                "operator": r.get("operator", "") or "",
+                "well": r.get("well", "") or "",
+                "well_num": r.get("well_num", "") or "",
+                "parish": str(r.get("parish", "") or "").title(),
+                "link": link,
+            })
+
+    header = f"# LA Well-Docs Recheck List (past {days} days)\n"
+    if not rows:
+        return header + f"\n_No LA permits with doc-check links found in the past {days} days._"
+    body = [
+        "Wells flagged recently -- click to check if a plat/application has "
+        "posted since (SONRIS is CAPTCHA-gated, so this can't be checked "
+        "automatically):\n"
+    ]
+    for row in rows:
+        body.append(f"- **{row['operator']}** — {row['well']} ({row['well_num']}), "
+                     f"{row['parish']} — flagged {row['date']}")
+        body.append(f"  {row['link']}")
+    return header + "\n" + "\n".join(body)
 
 
 def main():
@@ -187,6 +240,7 @@ def main():
         brief_section("Texas RRC (daf420)", tx_ok, tx_digest, tx_skip),
         brief_section("Louisiana SONRIS", la_ok, la_digest, la_skip),
         w1_section,
+        la_recheck_list(cfg, ROOT),
     ])
     send_email.send_daily_brief(brief, today)
     if failed:
