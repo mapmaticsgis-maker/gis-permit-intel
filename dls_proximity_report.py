@@ -118,21 +118,38 @@ def load_confirmed_geometries(cache: dict) -> dict:
             continue
         try:
             geometries[job_name] = load_shapefile_rings(Path(entry["shapefile_path"]))
-        except GeometryLoadError:
+        except (GeometryLoadError, KeyError, TypeError):
             continue
     return geometries
 
 
+def _parse_coord(value) -> float | None:
+    try:
+        if value is None or (isinstance(value, float) and value != value):  # NaN check without pandas import
+            return None
+        f = float(value)
+        return f
+    except (TypeError, ValueError):
+        return None
+
+
 def nearest_job_distances(permit_row: dict, geometries: dict) -> list[tuple[str, float]]:
-    surface_lon, surface_lat = float(permit_row["Surface_Lon"]), float(permit_row["Surface_Lat"])
-    bhl_lon, bhl_lat = float(permit_row["BHL_Lon"]), float(permit_row["BHL_Lat"])
-    (sx, sy), (bx, by) = reproject_points(
-        [(surface_lon, surface_lat), (bhl_lon, bhl_lat)], PERMIT_CRS_WKT
-    )
+    candidate_points = []
+    surface_lon, surface_lat = _parse_coord(permit_row.get("Surface_Lon")), _parse_coord(permit_row.get("Surface_Lat"))
+    if surface_lon is not None and surface_lat is not None:
+        candidate_points.append((surface_lon, surface_lat))
+    bhl_lon, bhl_lat = _parse_coord(permit_row.get("BHL_Lon")), _parse_coord(permit_row.get("BHL_Lat"))
+    if bhl_lon is not None and bhl_lat is not None:
+        candidate_points.append((bhl_lon, bhl_lat))
+
+    if not candidate_points:
+        return []
+
+    projected_points = reproject_points(candidate_points, PERMIT_CRS_WKT)
 
     results = []
     for job_name, geometry in geometries.items():
-        d = min(distance_miles(sx, sy, geometry), distance_miles(bx, by, geometry))
+        d = min(distance_miles(x, y, geometry) for x, y in projected_points)
         results.append((job_name, d))
 
     results.sort(key=lambda pair: pair[1])

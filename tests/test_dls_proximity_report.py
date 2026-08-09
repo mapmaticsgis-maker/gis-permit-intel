@@ -209,3 +209,38 @@ def test_nearest_job_distances_uses_closer_of_surface_or_bhl(tmp_path):
     result = nearest_job_distances(permit_row, geometries)
 
     assert result == [("Flatland", 0.0)]
+
+
+def test_load_confirmed_geometries_skips_entry_missing_shapefile_path(tmp_path):
+    cache = {"Flatland": {"status": "confirmed"}}
+    assert load_confirmed_geometries(cache) == {}
+
+
+def test_load_confirmed_geometries_skips_entry_with_none_shapefile_path(tmp_path):
+    cache = {"Flatland": {"status": "confirmed", "shapefile_path": None}}
+    assert load_confirmed_geometries(cache) == {}
+
+
+def test_nearest_job_distances_returns_empty_when_both_points_missing(tmp_path):
+    shp_path = tmp_path / "flatland.shp"
+    _write_square_near_giddings(shp_path)
+    geometries = load_confirmed_geometries(
+        {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
+    )
+    permit_row = {"Surface_Lat": "", "Surface_Lon": "", "BHL_Lat": "", "BHL_Lon": ""}
+    assert nearest_job_distances(permit_row, geometries) == []
+
+
+def test_nearest_job_distances_uses_surface_only_when_bhl_missing(tmp_path):
+    shp_path = tmp_path / "flatland.shp"
+    _write_square_near_giddings(shp_path)
+    geometries = load_confirmed_geometries(
+        {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
+    )
+    # Surface point inside the test square, BHL fields blank (common in real
+    # TX daf420 data -- confirmed 47% of a real day's permits lack BHL).
+    permit_row = {
+        "Surface_Lat": "30.105", "Surface_Lon": "-96.905",
+        "BHL_Lat": "", "BHL_Lon": "",
+    }
+    assert nearest_job_distances(permit_row, geometries) == [("Flatland", 0.0)]
