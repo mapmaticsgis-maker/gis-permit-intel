@@ -136,3 +136,76 @@ def test_update_cache_marks_unresolved_when_no_candidates(tmp_path):
     updated = update_cache_with_new_jobs({}, ["Completely Unmatchable Xyz"], tmp_path / "search")
     assert updated["Completely Unmatchable Xyz"]["status"] == "unconfirmed"
     assert updated["Completely Unmatchable Xyz"]["candidates"] == []
+
+
+import shapefile as pyshp
+
+from dls_proximity_report import load_confirmed_geometries, nearest_job_distances
+
+WGS84_WKT_FOR_TEST = (
+    'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],'
+    'PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
+)
+
+
+def _write_square_near_giddings(shp_path: Path):
+    shp_path.parent.mkdir(parents=True, exist_ok=True)
+    with pyshp.Writer(str(shp_path)) as w:
+        w.field("name", "C")
+        w.poly([[(-96.91, 30.10), (-96.90, 30.10), (-96.90, 30.11), (-96.91, 30.11), (-96.91, 30.10)]])
+        w.record("test")
+    shp_path.with_suffix(".prj").write_text(WGS84_WKT_FOR_TEST, encoding="utf-8")
+
+
+def test_load_confirmed_geometries_skips_unconfirmed_entries(tmp_path):
+    cache = {"Flatland": {"status": "unconfirmed", "candidates": []}}
+    assert load_confirmed_geometries(cache) == {}
+
+
+def test_load_confirmed_geometries_loads_confirmed_shapefile(tmp_path):
+    shp_path = tmp_path / "flatland.shp"
+    _write_square_near_giddings(shp_path)
+    cache = {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
+
+    geometries = load_confirmed_geometries(cache)
+
+    assert "Flatland" in geometries
+
+
+def test_load_confirmed_geometries_skips_unreadable_shapefile(tmp_path):
+    cache = {"Flatland": {"status": "confirmed", "shapefile_path": str(tmp_path / "missing.shp")}}
+    assert load_confirmed_geometries(cache) == {}
+
+
+def test_nearest_job_distances_permit_inside_job_boundary(tmp_path):
+    shp_path = tmp_path / "flatland.shp"
+    _write_square_near_giddings(shp_path)
+    geometries = load_confirmed_geometries(
+        {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
+    )
+    permit_row = {
+        "Surface_Lat": "30.105", "Surface_Lon": "-96.905",
+        "BHL_Lat": "30.105", "BHL_Lon": "-96.905",
+    }
+
+    result = nearest_job_distances(permit_row, geometries)
+
+    assert result == [("Flatland", 0.0)]
+
+
+def test_nearest_job_distances_uses_closer_of_surface_or_bhl(tmp_path):
+    shp_path = tmp_path / "flatland.shp"
+    _write_square_near_giddings(shp_path)
+    geometries = load_confirmed_geometries(
+        {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
+    )
+    # Surface point far away, bottomhole point inside the square -- the
+    # wellbore's BHL end is what should register as "in the job."
+    permit_row = {
+        "Surface_Lat": "31.0", "Surface_Lon": "-97.5",
+        "BHL_Lat": "30.105", "BHL_Lon": "-96.905",
+    }
+
+    result = nearest_job_distances(permit_row, geometries)
+
+    assert result == [("Flatland", 0.0)]

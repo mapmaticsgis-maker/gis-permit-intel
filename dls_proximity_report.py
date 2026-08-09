@@ -14,6 +14,8 @@ import json
 import re
 from pathlib import Path
 
+from core.geometry import GeometryLoadError, distance_miles, load_shapefile_rings, reproject_points
+
 NON_JOB_KEYWORDS = {"report", "dashboard", "update", "updates", "shapefile"}
 
 
@@ -96,3 +98,42 @@ def update_cache_with_new_jobs(cache: dict, job_names: list[str], search_dir: Pa
             "candidates": [str(p) for p in candidates],
         }
     return cache
+
+
+# RRC's public daf420 extract is standard NAD83 geographic -- assumed, not
+# verified against an authoritative RRC source. If proximity results look
+# systematically off by a small but consistent amount, this is the first
+# thing to check.
+PERMIT_CRS_WKT = (
+    'GEOGCS["NAD83",DATUM["North_American_Datum_1983",'
+    'SPHEROID["GRS 1980",6378137,298.257222101]],'
+    'PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
+)
+
+
+def load_confirmed_geometries(cache: dict) -> dict:
+    geometries = {}
+    for job_name, entry in cache.items():
+        if entry.get("status") != "confirmed":
+            continue
+        try:
+            geometries[job_name] = load_shapefile_rings(Path(entry["shapefile_path"]))
+        except GeometryLoadError:
+            continue
+    return geometries
+
+
+def nearest_job_distances(permit_row: dict, geometries: dict) -> list[tuple[str, float]]:
+    surface_lon, surface_lat = float(permit_row["Surface_Lon"]), float(permit_row["Surface_Lat"])
+    bhl_lon, bhl_lat = float(permit_row["BHL_Lon"]), float(permit_row["BHL_Lat"])
+    (sx, sy), (bx, by) = reproject_points(
+        [(surface_lon, surface_lat), (bhl_lon, bhl_lat)], PERMIT_CRS_WKT
+    )
+
+    results = []
+    for job_name, geometry in geometries.items():
+        d = min(distance_miles(sx, sy, geometry), distance_miles(bx, by, geometry))
+        results.append((job_name, d))
+
+    results.sort(key=lambda pair: pair[1])
+    return results
