@@ -73,7 +73,7 @@ def test_distance_for_point_diagonally_outside_square():
 
 import shapefile as pyshp
 
-from core.geometry import GeometryLoadError, distance_miles, load_shapefile_rings
+from core.geometry import GeometryLoadError, distance_miles, load_shapefile_rings, point_in_rings
 
 WGS84_WKT = (
     'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],'
@@ -127,3 +127,31 @@ def test_distance_miles_positive_for_point_outside_loaded_polygon(tmp_path):
     # Roughly 50 miles east -- far outside the test square.
     fx, fy = reproject_points([(-96.0, 30.105)], WGS84_WKT)[0]
     assert distance_miles(fx, fy, geometry) > 10.0
+
+
+def test_point_in_rings_handles_donut_hole():
+    outer = [(-2000, -2000), (2000, -2000), (2000, 2000), (-2000, 2000), (-2000, -2000)]
+    hole = [(-500, -500), (500, -500), (500, 500), (-500, 500), (-500, -500)]
+    # Point in the hole -- must NOT be inside the donut shape.
+    assert point_in_rings(0, 0, [outer, hole]) is False
+    # Point in the donut's "meat" (between hole and outer boundary) -- inside.
+    assert point_in_rings(1000, 1000, [outer, hole]) is True
+    # Point outside the outer ring entirely -- not inside.
+    assert point_in_rings(5000, 5000, [outer, hole]) is False
+
+
+def test_distance_miles_nonzero_for_point_inside_polygon_hole(tmp_path):
+    with pyshp.Writer(str(tmp_path / "donut.shp")) as w:
+        w.field("name", "C")
+        w.poly([
+            [(-96.93, 30.08), (-96.87, 30.08), (-96.87, 30.12), (-96.93, 30.12), (-96.93, 30.08)],
+            [(-96.905, 30.095), (-96.895, 30.095), (-96.895, 30.105), (-96.905, 30.105), (-96.905, 30.095)],
+        ])
+        w.record("donut")
+    (tmp_path / "donut.prj").write_text(WGS84_WKT, encoding="utf-8")
+
+    geometry = load_shapefile_rings(tmp_path / "donut.shp")
+    # Center of the hole -- reprojected the same way as the shapefile.
+    hx, hy = reproject_points([(-96.9, 30.1)], WGS84_WKT)[0]
+
+    assert distance_miles(hx, hy, geometry) > 0.0

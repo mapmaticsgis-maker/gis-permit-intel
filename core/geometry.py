@@ -59,6 +59,28 @@ def point_in_ring(x: float, y: float, ring: list[tuple[float, float]]) -> bool:
     return inside
 
 
+def point_in_rings(x: float, y: float, rings: list[list[tuple[float, float]]]) -> bool:
+    """Even-odd containment across every ring of a shape combined -- unlike
+    point_in_ring (single ring only), this correctly handles multi-part
+    polygons where interior rings are holes: a point inside a hole is NOT
+    "inside" the shape, even though it may be inside the exterior ring.
+    A point on the boundary of any ring counts as inside (matches
+    point_in_ring's boundary-inclusion behavior)."""
+    inside = False
+    for ring in rings:
+        n = len(ring)
+        for i in range(n - 1):
+            x1, y1 = ring[i]
+            x2, y2 = ring[i + 1]
+            if _on_segment(x, y, x1, y1, x2, y2):
+                return True
+            if (y1 > y) != (y2 > y):
+                x_intersect = x1 + (y - y1) * (x2 - x1) / (y2 - y1)
+                if x < x_intersect:
+                    inside = not inside
+    return inside
+
+
 def _on_segment(px, py, x1, y1, x2, y2, tol=1e-6) -> bool:
     return _dist_point_to_segment(px, py, x1, y1, x2, y2) <= tol
 
@@ -121,6 +143,18 @@ def load_shapefile_rings(shp_path: Path) -> Geometry:
 
 
 def distance_miles(x: float, y: float, geometry: Geometry) -> float:
-    if geometry.is_polygon and any(point_in_ring(x, y, ring) for ring in geometry.rings):
+    if geometry.is_polygon and point_in_rings(x, y, geometry.rings):
         return 0.0
+    if geometry.is_polygon and geometry.rings:
+        # Point is outside the polygon (using even-odd rule across all rings).
+        # When a point is outside, it may be inside an interior ring (hole), so
+        # always compute distance to all ring boundaries, not just the exterior.
+        distances = []
+        for ring in geometry.rings:
+            min_dist_m = min(
+                _dist_point_to_segment(x, y, ring[i][0], ring[i][1], ring[i + 1][0], ring[i + 1][1])
+                for i in range(len(ring) - 1)
+            )
+            distances.append(min_dist_m / METERS_PER_MILE)
+        return min(distances)
     return min(distance_point_to_ring_miles(x, y, ring) for ring in geometry.rings)
