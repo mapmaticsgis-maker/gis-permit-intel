@@ -62,7 +62,15 @@ def git_commit_and_push(file_path: Path) -> bool:
             ["git", "commit", "-m", f"W-1 early signal: {file_path.parent.name} (auto-downloaded)"],
             check=True, capture_output=True, timeout=30,
         )
-        subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
+        try:
+            subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
+        except subprocess.CalledProcessError:
+            # Same non-fast-forward pattern as auto_download_rrc.py -- GitHub
+            # Actions' own commit routinely lands on origin first. Merge pull
+            # resolves the common case; a real conflict still raises.
+            logger.warning("Push rejected (likely non-fast-forward) -- pulling and retrying")
+            subprocess.run(["git", "pull", "--no-edit"], check=True, capture_output=True, timeout=60)
+            subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
         return True
     except subprocess.CalledProcessError as e:
         stderr = e.stderr.decode(errors="replace") if e.stderr else str(e)

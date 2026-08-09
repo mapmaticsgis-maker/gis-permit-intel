@@ -126,7 +126,19 @@ def git_commit_and_push(file_path: Path) -> bool:
             ["git", "commit", "-m", f"Daily TX data: {file_path.name} (auto-downloaded)"],
             check=True, capture_output=True, timeout=30,
         )
-        subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
+        try:
+            subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
+        except subprocess.CalledProcessError:
+            # Non-fast-forward is the common case here, not a network blip --
+            # GitHub Actions' own daily commit routinely lands on origin
+            # before this runs (confirmed 2026-08-09: origin had moved ahead
+            # by one commit, rejecting a blind push every time it happens).
+            # A plain merge pull resolves it without a human in the loop for
+            # the common case; a real conflict still surfaces via the
+            # exception below so the existing reminder-alert catches it.
+            logger.warning("Push rejected (likely non-fast-forward) -- pulling and retrying")
+            subprocess.run(["git", "pull", "--no-edit"], check=True, capture_output=True, timeout=60)
+            subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
         logger.info("Committed and pushed to GitHub")
         return True
     except subprocess.CalledProcessError as e:
