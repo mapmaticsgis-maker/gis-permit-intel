@@ -51,10 +51,15 @@ def test_numeric_formatting_difference_is_not_an_amendment():
 
 
 def test_old_issue_dates_split_into_resurfaced_when_window_set():
+    # "Recent" must stay inside the 7-day window regardless of when this
+    # test runs -- a hardcoded date here rotted stale after 13 days and
+    # started failing (confirmed 2026-08-09), since the window is measured
+    # against pd.Timestamp.now() at call time, not a fixed calendar date.
+    recent_date = (pd.Timestamp.now() - pd.Timedelta(days=1)).strftime("%Y-%m-%d")
     master = frame([{"Permit_Number": "0", "Operator_Name": "X", "Total_Depth": 1,
-                     "Issue_Date": "2026-07-27"}])
+                     "Issue_Date": recent_date}])
     today = frame([
-        {"Permit_Number": "1", "Operator_Name": "X", "Total_Depth": 1, "Issue_Date": "2026-07-27"},
+        {"Permit_Number": "1", "Operator_Name": "X", "Total_Depth": 1, "Issue_Date": recent_date},
         {"Permit_Number": "2", "Operator_Name": "X", "Total_Depth": 1, "Issue_Date": "2020-01-01"},
     ])
     new, _, resurfaced = diff(master, today, key="Permit_Number",
