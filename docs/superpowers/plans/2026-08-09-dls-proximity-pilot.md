@@ -939,9 +939,11 @@ from dls_proximity_report import build_report
 
 def test_build_report_lists_unresolved_jobs_first():
     report = build_report("2026-08-09", unresolved_jobs=["Zoch"], hits=[])
-    assert report.index("Zoch") < report.index("---") if "---" in report else True
     assert "Zoch" in report
     assert "unresolved" in report.lower()
+    # With no hits, the only other content is the "no permits found" line --
+    # unresolved jobs must appear before it, not after.
+    assert report.index("Zoch") < report.index("No new permits")
 
 
 def test_build_report_lists_hits_grouped_by_job():
