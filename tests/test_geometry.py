@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from core.geometry import read_prj_wkt, reproject_points
+from core.geometry import distance_point_to_ring_miles, point_in_ring, read_prj_wkt, reproject_points
 
 NAD27_GEOGRAPHIC_WKT = (
     'GEOGCS["GCS_North_American_1927",'
@@ -34,3 +34,38 @@ def test_read_prj_wkt_reads_file_contents(tmp_path):
     prj_path = tmp_path / "test.prj"
     prj_path.write_text(NAD27_GEOGRAPHIC_WKT, encoding="utf-8")
     assert read_prj_wkt(prj_path) == NAD27_GEOGRAPHIC_WKT
+
+
+# A 2000m x 2000m square in EPSG:5070 meters, centered at the origin.
+SQUARE_RING = [(-1000, -1000), (1000, -1000), (1000, 1000), (-1000, 1000), (-1000, -1000)]
+
+
+def test_point_inside_square_is_in_ring():
+    assert point_in_ring(0, 0, SQUARE_RING) is True
+
+
+def test_point_outside_square_is_not_in_ring():
+    assert point_in_ring(5000, 5000, SQUARE_RING) is False
+
+
+def test_point_on_boundary_counts_as_inside():
+    assert point_in_ring(1000, 0, SQUARE_RING) is True
+
+
+def test_distance_zero_for_point_inside():
+    assert distance_point_to_ring_miles(0, 0, SQUARE_RING) == 0.0
+
+
+def test_distance_for_point_outside_square():
+    # 1000m due east of the square's right edge (edge at x=1000, y=0 is on
+    # the boundary) -> straight-line distance is exactly 1000m = 0.6214 mi.
+    result = distance_point_to_ring_miles(2000, 0, SQUARE_RING)
+    assert result == pytest.approx(0.6214, abs=0.001)
+
+
+def test_distance_for_point_diagonally_outside_square():
+    # 1000m past the top-right corner (1000,1000) in both x and y ->
+    # nearest point on the ring is the corner itself. Distance =
+    # sqrt(1000^2 + 1000^2) meters = 1414.2m = 0.8788 mi.
+    result = distance_point_to_ring_miles(2000, 2000, SQUARE_RING)
+    assert result == pytest.approx(0.8788, abs=0.001)
