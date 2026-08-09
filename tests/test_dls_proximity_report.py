@@ -38,3 +38,13 @@ def test_real_dls_cell_produces_expected_job_count():
 
 def test_strips_whitespace_around_each_job():
     assert parse_dls_jobs("Zoch,  Rosewood ,Peebles") == ["Zoch", "Rosewood", "Peebles"]
+
+
+def test_keyword_filter_uses_word_boundaries_not_substrings():
+    # "Reporter Ranch" contains "report" as a substring but is not a report
+    # description -- must NOT be filtered. "weekly report" IS a real
+    # deliverable description and must still be filtered.
+    result = parse_dls_jobs("Reporter Ranch, weekly report, Zoch")
+    assert "Reporter Ranch" in result
+    assert "weekly report" not in result
+    assert "Zoch" in result

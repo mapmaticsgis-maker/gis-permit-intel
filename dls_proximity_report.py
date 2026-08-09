@@ -44,5 +44,5 @@ def parse_dls_jobs(cell_text: str) -> list[str]:
 
     return [
         job for job in jobs
-        if job and not any(kw in job.lower() for kw in NON_JOB_KEYWORDS)
+        if job and not any(re.search(rf"\b{kw}\b", job.lower()) for kw in NON_JOB_KEYWORDS)
     ]
