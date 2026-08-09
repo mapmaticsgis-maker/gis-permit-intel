@@ -2,7 +2,7 @@
   "skipped": true,
   "reason": "source unchanged since 2026-08-08T16:00:22 (97 records)",
   "source_name": "REST",
-  "written_at": "2026-08-08T16:12:21",
+  "written_at": "2026-08-08T16:22:58",
   "prior_ingested_at": "2026-08-08T16:00:22",
   "prior_source_name": "REST",
   "records_parsed": "97"
