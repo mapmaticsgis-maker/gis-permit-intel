@@ -69,3 +69,61 @@ def test_distance_for_point_diagonally_outside_square():
     # sqrt(1000^2 + 1000^2) meters = 1414.2m = 0.8788 mi.
     result = distance_point_to_ring_miles(2000, 2000, SQUARE_RING)
     assert result == pytest.approx(0.8788, abs=0.001)
+
+
+import shapefile as pyshp
+
+from core.geometry import GeometryLoadError, distance_miles, load_shapefile_rings
+
+WGS84_WKT = (
+    'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],'
+    'PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433]]'
+)
+
+
+def _write_test_polygon_shapefile(base_path: Path):
+    """A small square polygon roughly 500m on a side near Giddings, TX,
+    written in WGS84 lon/lat -- mirrors how a real DLS AOI shapefile looks
+    (geographic CRS, not already projected)."""
+    with pyshp.Writer(str(base_path)) as w:
+        w.field("name", "C")
+        w.poly([[(-96.91, 30.10), (-96.90, 30.10), (-96.90, 30.11), (-96.91, 30.11), (-96.91, 30.10)]])
+        w.record("test_aoi")
+    (base_path.with_suffix(".prj")).write_text(WGS84_WKT, encoding="utf-8")
+
+
+def test_load_shapefile_rings_reprojects_polygon(tmp_path):
+    shp_path = tmp_path / "test_aoi.shp"
+    _write_test_polygon_shapefile(shp_path)
+    geometry = load_shapefile_rings(shp_path)
+    assert geometry.is_polygon is True
+    assert len(geometry.rings) == 1
+    # Reprojected coordinates should be in EPSG:5070 meters, not raw
+    # lon/lat degrees -- a sanity range check, not an exact value, since
+    # the exact projected position isn't the point of this test.
+    x, y = geometry.rings[0][0]
+    assert abs(x) > 1000
+    assert abs(y) > 1000
+
+
+def test_load_shapefile_missing_file_raises_geometry_load_error(tmp_path):
+    with pytest.raises(GeometryLoadError):
+        load_shapefile_rings(tmp_path / "does_not_exist.shp")
+
+
+def test_distance_miles_zero_for_point_inside_loaded_polygon(tmp_path):
+    shp_path = tmp_path / "test_aoi.shp"
+    _write_test_polygon_shapefile(shp_path)
+    geometry = load_shapefile_rings(shp_path)
+    # Center of the test square, reprojected the same way.
+    cx, cy = reproject_points([(-96.905, 30.105)], WGS84_WKT)[0]
+    assert distance_miles(cx, cy, geometry) == 0.0
+
+
+def test_distance_miles_positive_for_point_outside_loaded_polygon(tmp_path):
+    shp_path = tmp_path / "test_aoi.shp"
+    _write_test_polygon_shapefile(shp_path)
+    geometry = load_shapefile_rings(shp_path)
+    # Roughly 50 miles east -- far outside the test square.
+    fx, fy = reproject_points([(-96.0, 30.105)], WGS84_WKT)[0]
+    assert distance_miles(fx, fy, geometry) > 10.0

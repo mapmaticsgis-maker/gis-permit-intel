@@ -81,3 +81,46 @@ def distance_point_to_ring_miles(x: float, y: float, ring: list[tuple[float, flo
         for i in range(len(ring) - 1)
     )
     return min_dist_m / METERS_PER_MILE
+
+
+from typing import NamedTuple
+
+import shapefile as pyshp
+
+
+class Geometry(NamedTuple):
+    rings: list[list[tuple[float, float]]]
+    is_polygon: bool
+
+
+class GeometryLoadError(Exception):
+    pass
+
+
+def load_shapefile_rings(shp_path: Path) -> Geometry:
+    prj_path = shp_path.with_suffix(".prj")
+    try:
+        source_wkt = read_prj_wkt(prj_path)
+        reader = pyshp.Reader(str(shp_path))
+        shapes = reader.shapes()
+    except Exception as e:
+        raise GeometryLoadError(f"Failed to load {shp_path}: {e}") from e
+
+    if not shapes:
+        raise GeometryLoadError(f"{shp_path} has no shapes")
+
+    is_polygon = shapes[0].shapeType in (pyshp.POLYGON, pyshp.POLYGONZ, pyshp.POLYGONM)
+    rings: list[list[tuple[float, float]]] = []
+    for shape in shapes:
+        points = list(shape.points)
+        parts = list(shape.parts) + [len(points)]
+        for i in range(len(parts) - 1):
+            ring = points[parts[i]:parts[i + 1]]
+            rings.append(reproject_points(ring, source_wkt))
+    return Geometry(rings=rings, is_polygon=is_polygon)
+
+
+def distance_miles(x: float, y: float, geometry: Geometry) -> float:
+    if geometry.is_polygon and any(point_in_ring(x, y, ring) for ring in geometry.rings):
+        return 0.0
+    return min(distance_point_to_ring_miles(x, y, ring) for ring in geometry.rings)
