@@ -48,3 +48,48 @@ def test_keyword_filter_uses_word_boundaries_not_substrings():
     assert "Reporter Ranch" in result
     assert "weekly report" not in result
     assert "Zoch" in result
+
+
+from pathlib import Path
+
+from dls_proximity_report import resolve_candidates, tokenize_for_match
+
+
+def test_tokenize_lowercases_and_splits_on_non_alnum():
+    assert tokenize_for_match("Lee Co (Giddings, Sage)") == {"lee", "giddings", "sage"}
+
+
+def test_tokenize_drops_short_tokens():
+    # "Co" is 2 chars, dropped; this matters because "Co" appears in many
+    # unrelated folder names and would otherwise cause false-positive matches.
+    assert "co" not in tokenize_for_match("Lee Co")
+
+
+def _touch(path: Path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(b"")
+
+
+def test_resolve_candidates_ranks_by_token_overlap(tmp_path):
+    _touch(tmp_path / "FLATLAND_NORTH" / "AOI_NEW.shp")
+    _touch(tmp_path / "TURNPIKE_LGL" / "turnpike_boundary.shp")
+    _touch(tmp_path / "unrelated_folder" / "random.shp")
+
+    result = resolve_candidates("Flatland (N/S, Tier 1-2)", tmp_path)
+
+    assert len(result) >= 1
+    assert result[0].name == "AOI_NEW.shp"
+    assert "unrelated_folder" not in str(result[0])
+
+
+def test_resolve_candidates_empty_when_nothing_matches(tmp_path):
+    _touch(tmp_path / "completely_unrelated" / "random.shp")
+    result = resolve_candidates("Flatland", tmp_path)
+    assert result == []
+
+
+def test_resolve_candidates_respects_limit(tmp_path):
+    for i in range(10):
+        _touch(tmp_path / f"turnpike_v{i}" / "turnpike.shp")
+    result = resolve_candidates("Turnpike", tmp_path, limit=3)
+    assert len(result) == 3
