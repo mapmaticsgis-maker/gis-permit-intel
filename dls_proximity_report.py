@@ -10,6 +10,7 @@ data itself.
 
 Run: python dls_proximity_report.py [YYYY-MM-DD]   (defaults to today)
 """
+import json
 import re
 from pathlib import Path
 
@@ -72,3 +73,26 @@ def resolve_candidates(job_name: str, search_dir: Path, limit: int = 5) -> list[
 
     scored.sort(key=lambda pair: pair[0], reverse=True)
     return [path for _, path in scored[:limit]]
+
+
+def load_cache(cache_path: Path) -> dict:
+    if not cache_path.exists():
+        return {}
+    return json.loads(cache_path.read_text(encoding="utf-8"))
+
+
+def save_cache(cache_path: Path, cache: dict) -> None:
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    cache_path.write_text(json.dumps(cache, indent=2, sort_keys=True), encoding="utf-8")
+
+
+def update_cache_with_new_jobs(cache: dict, job_names: list[str], search_dir: Path) -> dict:
+    for job_name in job_names:
+        if job_name in cache:
+            continue
+        candidates = resolve_candidates(job_name, search_dir)
+        cache[job_name] = {
+            "status": "unconfirmed",
+            "candidates": [str(p) for p in candidates],
+        }
+    return cache

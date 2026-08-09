@@ -93,3 +93,46 @@ def test_resolve_candidates_respects_limit(tmp_path):
         _touch(tmp_path / f"turnpike_v{i}" / "turnpike.shp")
     result = resolve_candidates("Turnpike", tmp_path, limit=3)
     assert len(result) == 3
+
+
+import json
+
+from dls_proximity_report import load_cache, save_cache, update_cache_with_new_jobs
+
+
+def test_load_cache_returns_empty_dict_when_file_missing(tmp_path):
+    assert load_cache(tmp_path / "does_not_exist.json") == {}
+
+
+def test_save_and_load_cache_round_trip(tmp_path):
+    cache_path = tmp_path / "cache.json"
+    original = {"Zoch": {"status": "confirmed", "shapefile_path": "/x/zoch.shp"}}
+    save_cache(cache_path, original)
+    assert load_cache(cache_path) == original
+
+
+def test_update_cache_adds_unconfirmed_entry_for_new_job(tmp_path):
+    _touch_shp = tmp_path / "search" / "FLATLAND_NORTH" / "AOI_NEW.shp"
+    _touch_shp.parent.mkdir(parents=True)
+    _touch_shp.write_bytes(b"")
+
+    cache = {}
+    updated = update_cache_with_new_jobs(cache, ["Flatland (N/S, Tier 1-2)"], tmp_path / "search")
+
+    assert "Flatland (N/S, Tier 1-2)" in updated
+    entry = updated["Flatland (N/S, Tier 1-2)"]
+    assert entry["status"] == "unconfirmed"
+    assert any("AOI_NEW.shp" in c for c in entry["candidates"])
+
+
+def test_update_cache_does_not_touch_existing_confirmed_entry(tmp_path):
+    cache = {"Zoch": {"status": "confirmed", "shapefile_path": "/x/zoch.shp"}}
+    updated = update_cache_with_new_jobs(cache, ["Zoch"], tmp_path)
+    assert updated["Zoch"] == {"status": "confirmed", "shapefile_path": "/x/zoch.shp"}
+
+
+def test_update_cache_marks_unresolved_when_no_candidates(tmp_path):
+    (tmp_path / "search").mkdir()
+    updated = update_cache_with_new_jobs({}, ["Completely Unmatchable Xyz"], tmp_path / "search")
+    assert updated["Completely Unmatchable Xyz"]["status"] == "unconfirmed"
+    assert updated["Completely Unmatchable Xyz"]["candidates"] == []
