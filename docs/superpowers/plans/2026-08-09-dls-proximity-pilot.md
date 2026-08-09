@@ -1034,8 +1034,13 @@ def main() -> int:
     if permits_path.exists():
         permits = pd.read_csv(permits_path, dtype=str)
         for _, row in permits.iterrows():
-            if pd.isna(row.get("Surface_Lat")) or pd.isna(row.get("BHL_Lat")):
-                continue
+            # No pre-filter on missing lat/lon here: nearest_job_distances
+            # (Task 7, fixed after a reviewer found it crashing on the 47%
+            # of a real day's TX permits missing BHL) already handles a
+            # permit with only one usable point, returning [] only when
+            # NEITHER point parses. Filtering here on "either missing" would
+            # silently discard exactly the permits that fix was built to
+            # still process.
             distances = nearest_job_distances(row.to_dict(), geometries)
             for job_name, distance in distances:
                 if distance <= RADIUS_MILES:
