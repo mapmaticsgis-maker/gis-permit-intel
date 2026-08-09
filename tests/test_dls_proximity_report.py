@@ -244,3 +244,32 @@ def test_nearest_job_distances_uses_surface_only_when_bhl_missing(tmp_path):
         "BHL_Lat": "", "BHL_Lon": "",
     }
     assert nearest_job_distances(permit_row, geometries) == [("Flatland", 0.0)]
+
+
+from dls_proximity_report import build_report
+
+
+def test_build_report_lists_unresolved_jobs_first():
+    report = build_report("2026-08-09", unresolved_jobs=["Zoch"], hits=[])
+    assert "Zoch" in report
+    assert "unresolved" in report.lower()
+    # With no hits, the only other content is the "no permits found" line --
+    # unresolved jobs must appear before it, not after.
+    assert report.index("Zoch") < report.index("No new permits")
+
+
+def test_build_report_lists_hits_grouped_by_job():
+    hits = [
+        {"permit": "917410", "operator": "TGNR PANOLA LLC", "job_name": "Flatland", "distance": 1.2},
+        {"permit": "917999", "operator": "EOG RESOURCES, INC.", "job_name": "Flatland", "distance": 3.8},
+    ]
+    report = build_report("2026-08-09", unresolved_jobs=[], hits=hits)
+    assert "Flatland" in report
+    assert "917410" in report
+    assert "1.2" in report
+    assert "917999" in report
+
+
+def test_build_report_states_when_no_hits_found():
+    report = build_report("2026-08-09", unresolved_jobs=[], hits=[])
+    assert "no" in report.lower() and "5" in report
