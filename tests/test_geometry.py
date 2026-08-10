@@ -97,11 +97,12 @@ def test_load_shapefile_rings_reprojects_polygon(tmp_path):
     _write_test_polygon_shapefile(shp_path)
     geometry = load_shapefile_rings(shp_path)
     assert geometry.is_polygon is True
-    assert len(geometry.rings) == 1
+    assert len(geometry.shapes) == 1
+    assert len(geometry.shapes[0]) == 1
     # Reprojected coordinates should be in EPSG:5070 meters, not raw
     # lon/lat degrees -- a sanity range check, not an exact value, since
     # the exact projected position isn't the point of this test.
-    x, y = geometry.rings[0][0]
+    x, y = geometry.shapes[0][0][0]
     assert abs(x) > 1000
     assert abs(y) > 1000
 
@@ -155,3 +156,51 @@ def test_distance_miles_nonzero_for_point_inside_polygon_hole(tmp_path):
     hx, hy = reproject_points([(-96.9, 30.1)], WGS84_WKT)[0]
 
     assert distance_miles(hx, hy, geometry) > 0.0
+
+
+def test_distance_miles_correct_for_two_separate_nested_polygon_shapes(tmp_path):
+    """Regression test for finding #5: two separate, non-overlapping-as-a-
+    single-shape polygons (each its own shape record -- NOT one shape with a
+    hole) in ONE shapefile. Flattening both shapes' rings into a single pool
+    and applying even-odd across all of them (the old, buggy behavior) treats
+    the inner shape's ring as if it were a hole in the outer shape, so a
+    point genuinely inside both shapes incorrectly reads as outside. Each
+    shape's containment must be evaluated independently."""
+    shp_path = tmp_path / "nested_shapes.shp"
+    with pyshp.Writer(str(shp_path)) as w:
+        w.field("name", "C")
+        # Shape A: a large square.
+        w.poly([[(-96.95, 30.05), (-96.85, 30.05), (-96.85, 30.15), (-96.95, 30.15), (-96.95, 30.05)]])
+        w.record("shape_a")
+        # Shape B: a small square nested entirely inside shape A's extent,
+        # but written as a SEPARATE shape -- not a hole ring of shape A.
+        w.poly([[(-96.905, 30.095), (-96.895, 30.095), (-96.895, 30.105), (-96.905, 30.105), (-96.905, 30.095)]])
+        w.record("shape_b")
+    (shp_path.with_suffix(".prj")).write_text(WGS84_WKT, encoding="utf-8")
+
+    geometry = load_shapefile_rings(shp_path)
+    assert len(geometry.shapes) == 2
+
+    # Center of shape B -- inside both shape A and shape B.
+    cx, cy = reproject_points([(-96.9, 30.1)], WGS84_WKT)[0]
+    assert distance_miles(cx, cy, geometry) == 0.0
+
+
+def test_distance_miles_positive_for_point_near_open_polyline(tmp_path):
+    """Regression test for finding #6: a line geometry (is_polygon=False)
+    must never be given a phantom "interior" via a containment check. A point
+    near but not on any segment of an open polyline must return its real
+    distance to the nearest segment, not 0.0."""
+    shp_path = tmp_path / "line.shp"
+    with pyshp.Writer(str(shp_path)) as w:
+        w.field("name", "C")
+        w.line([[(-96.91, 30.10), (-96.90, 30.10), (-96.90, 30.11)]])
+        w.record("test_line")
+    (shp_path.with_suffix(".prj")).write_text(WGS84_WKT, encoding="utf-8")
+
+    geometry = load_shapefile_rings(shp_path)
+    assert geometry.is_polygon is False
+
+    # Roughly the centroid of the line's points -- not exactly on any segment.
+    cx, cy = reproject_points([(-96.905, 30.103)], WGS84_WKT)[0]
+    assert distance_miles(cx, cy, geometry) > 0.0

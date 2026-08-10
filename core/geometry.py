@@ -95,14 +95,22 @@ def _dist_point_to_segment(px, py, x1, y1, x2, y2) -> float:
     return ((px - nearest_x) ** 2 + (py - nearest_y) ** 2) ** 0.5
 
 
-def distance_point_to_ring_miles(x: float, y: float, ring: list[tuple[float, float]]) -> float:
-    if point_in_ring(x, y, ring):
-        return 0.0
+def _ring_boundary_distance_miles(x: float, y: float, ring: list[tuple[float, float]]) -> float:
+    """Minimum distance in miles from (x, y) to the nearest segment of ring,
+    with no containment/"inside" concept at all. Used as the boundary-distance
+    fallback once we already know a point isn't inside any polygon shape, and
+    unconditionally for lines (which have no interior to test for)."""
     min_dist_m = min(
         _dist_point_to_segment(x, y, ring[i][0], ring[i][1], ring[i + 1][0], ring[i + 1][1])
         for i in range(len(ring) - 1)
     )
     return min_dist_m / METERS_PER_MILE
+
+
+def distance_point_to_ring_miles(x: float, y: float, ring: list[tuple[float, float]]) -> float:
+    if point_in_ring(x, y, ring):
+        return 0.0
+    return _ring_boundary_distance_miles(x, y, ring)
 
 
 from typing import NamedTuple
@@ -111,7 +119,15 @@ import shapefile as pyshp
 
 
 class Geometry(NamedTuple):
-    rings: list[list[tuple[float, float]]]
+    # One entry per shape (feature) in the shapefile; each entry is that
+    # shape's own list of rings (exterior + any holes), each ring a list of
+    # (x, y). Grouped by shape -- NOT flattened -- because even-odd
+    # containment must be evaluated within a single shape's own rings only.
+    # Pooling rings from multiple separate shapes into one flat list breaks
+    # containment: two distinct (e.g. nested-but-separate) polygons would
+    # cancel each other out under even-odd, exactly as a hole cancels its
+    # exterior ring within a single shape.
+    shapes: list[list[list[tuple[float, float]]]]
     is_polygon: bool
 
 
@@ -124,37 +140,40 @@ def load_shapefile_rings(shp_path: Path) -> Geometry:
     try:
         source_wkt = read_prj_wkt(prj_path)
         reader = pyshp.Reader(str(shp_path))
-        shapes = reader.shapes()
+        shapefile_shapes = reader.shapes()
     except Exception as e:
         raise GeometryLoadError(f"Failed to load {shp_path}: {e}") from e
 
-    if not shapes:
+    if not shapefile_shapes:
         raise GeometryLoadError(f"{shp_path} has no shapes")
 
-    is_polygon = shapes[0].shapeType in (pyshp.POLYGON, pyshp.POLYGONZ, pyshp.POLYGONM)
-    rings: list[list[tuple[float, float]]] = []
-    for shape in shapes:
+    is_polygon = shapefile_shapes[0].shapeType in (pyshp.POLYGON, pyshp.POLYGONZ, pyshp.POLYGONM)
+    shapes: list[list[list[tuple[float, float]]]] = []
+    for shape in shapefile_shapes:
         points = list(shape.points)
         parts = list(shape.parts) + [len(points)]
+        shape_rings: list[list[tuple[float, float]]] = []
         for i in range(len(parts) - 1):
             ring = points[parts[i]:parts[i + 1]]
-            rings.append(reproject_points(ring, source_wkt))
-    return Geometry(rings=rings, is_polygon=is_polygon)
+            shape_rings.append(reproject_points(ring, source_wkt))
+        shapes.append(shape_rings)
+    return Geometry(shapes=shapes, is_polygon=is_polygon)
 
 
 def distance_miles(x: float, y: float, geometry: Geometry) -> float:
-    if geometry.is_polygon and point_in_rings(x, y, geometry.rings):
-        return 0.0
-    if geometry.is_polygon and geometry.rings:
-        # Point is outside the polygon (using even-odd rule across all rings).
-        # When a point is outside, it may be inside an interior ring (hole), so
-        # always compute distance to all ring boundaries, not just the exterior.
-        distances = []
-        for ring in geometry.rings:
-            min_dist_m = min(
-                _dist_point_to_segment(x, y, ring[i][0], ring[i][1], ring[i + 1][0], ring[i + 1][1])
-                for i in range(len(ring) - 1)
-            )
-            distances.append(min_dist_m / METERS_PER_MILE)
-        return min(distances)
-    return min(distance_point_to_ring_miles(x, y, ring) for ring in geometry.rings)
+    if geometry.is_polygon:
+        # Containment is per-shape: a point is "inside" this geometry if
+        # it's inside ANY single shape's own even-odd ring-set. This is what
+        # keeps two separate shapes from cancelling each other out (finding
+        # #5) while still correctly excluding holes within one shape.
+        for shape_rings in geometry.shapes:
+            if point_in_rings(x, y, shape_rings):
+                return 0.0
+    # Not inside any shape (or this is a line, which has no interior at all
+    # -- finding #6: lines must never go through a containment check).
+    # Boundary distance is the min pure segment-distance across every ring
+    # of every shape.
+    all_rings = [ring for shape_rings in geometry.shapes for ring in shape_rings]
+    if not all_rings:
+        raise GeometryLoadError("Geometry has no rings to measure distance against")
+    return min(_ring_boundary_distance_miles(x, y, ring) for ring in all_rings)
