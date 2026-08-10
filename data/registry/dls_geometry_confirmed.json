@@ -1,0 +1,112 @@
+{
+  "Barter Ranch": {
+    "candidates": [],
+    "status": "unconfirmed"
+  },
+  "Blackshear": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\0731-BLACKSHEAR_TRACTS.shp",
+      "C:\\GIS\\CLIENT\\DLS\\0807-BLACKSHEAR_TRACTS-CUT.shp",
+      "C:\\GIS\\CLIENT\\DLS\\0807-BLACKSHEAR_TRACTS.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20240829-BLACKSHEAR_TRACTS-AERIAL.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20240829-BLACKSHEAR_TRACTS.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Flatland (N/S, Tier 1-2)": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\2025\\20250220\\Flatland Tier 1 Buy Area 20Feb2025.shp",
+      "C:\\GIS\\CLIENT\\DLS\\FLATLAND-AOI_30K.shp",
+      "C:\\GIS\\CLIENT\\DLS\\Tier 2 Unit Outlines.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260204_FLATLAND_UNITS.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260420_FLATLAND_UNITS.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Flywheel": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260205\\20260205-DLS_FL-PARTIAL_HBP-NO_FLYWHEEL.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Lee Co (Giddings, Sage, Crescent Pass)": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\CRESCENT_PASS-LEE_CO\\Shapefiles\\CPE Giddings Units.shp",
+      "C:\\GIS\\CLIENT\\DLS\\CRESCENT_PASS-LEE_CO\\20260312CPELeeWellsDIShape_BottomLocation.shp",
+      "C:\\GIS\\CLIENT\\DLS\\CRESCENT_PASS-LEE_CO\\20260312CPELeeWellsDIShape_Line.shp",
+      "C:\\GIS\\CLIENT\\DLS\\CRESCENT_PASS-LEE_CO\\20260402-CPE_LEASEHOLD-JOINED.shp",
+      "C:\\GIS\\CLIENT\\DLS\\CRESCENT_PASS-LEE_CO\\5.7.26_CPE_Area_Box_In.SHP"
+    ],
+    "shapefile_path": "C:\\GIS\\CLIENT\\DLS\\CRESCENT_PASS-LEE_CO\\5.7.26_CPE_Area_Box_In.SHP",
+    "status": "confirmed"
+  },
+  "Meteor Impact units (War Admiral, Robert Grimm, Skater, Fountain, Spectre, Velocity)": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260708\\METEOR_IMPACT_SEGMENT-CHOP.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260708\\METEOR_IMPACT_SEGMENT-CHOP_DIM_ARROW.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260708\\METEOR_IMPACT_SEGMENT-CHOP_DIM_LABEL.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260708\\METEOR_IMPACT_SEGMENT-CHOP_DIM_LINE.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260708\\METEOR_IMPACT_SEGMENT.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Monster Rock": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\2025\\20250716\\20250715_Monster Rock(15k)_DLS.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2025\\20250716\\20250715_Monster Rock(Opt.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2025\\20250716\\20250715_Monster Rock_DLS.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2025\\20250718\\20250626_Monster Rock Pilot.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2025\\20250718\\20250715_Monster Rock(15k)_DLS.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Parr": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\Parr Buy Area 4 Apr 2024.shp",
+      "C:\\GIS\\CLIENT\\DLS\\PARR_BLACKSHEAR_TRACTS.shp",
+      "C:\\GIS\\CLIENT\\DLS\\PARR_LSE-RS_SHAPEUP.shp",
+      "C:\\GIS\\CLIENT\\DLS\\PARR_RS_SHAPEUP.shp",
+      "C:\\GIS\\CLIENT\\DLS\\PARR_UNIT-1260.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Peebles": {
+    "candidates": [],
+    "status": "unconfirmed"
+  },
+  "Rosewood": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\HiRes_Unit_by_Op\\__ROSEWOOD.shp",
+      "C:\\GIS\\CLIENT\\DLS\\HiRes_Unit_by_Op\\0\\__ROSEWOOD.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260727\\SAGE_MEASURE\\__ROSEWOOD.shp",
+      "C:\\GIS\\CLIENT\\DLS\\2025\\UNIT\\AC_COUNT\\__ROSEWOOD.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Turnpike": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\20230713-DLS_TURNPIKE_LSE.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20230719-DLS_TURNPIKE_LSE.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20230719-SANLUIS_TURNPIKE_LSE.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20230720-DLS_TURNPIKE_LSE.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20230724-DLS_TURNPIKE_LSE.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Updip/Caveman": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\20240731-UPDIP_LEASE.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20240731-UPDIP_UNIT.shp",
+      "C:\\GIS\\CLIENT\\DLS\\20250208-DLS_UPDIP_JOINED.shp",
+      "C:\\GIS\\CLIENT\\DLS\\DLS_UPDIP-MASTER_TRACT-20250116_JOINED.shp",
+      "C:\\GIS\\CLIENT\\DLS\\DLS_UPDIP-MASTER_TRACT-20250117_JOINED.shp"
+    ],
+    "status": "unconfirmed"
+  },
+  "Zoch": {
+    "candidates": [
+      "C:\\GIS\\CLIENT\\DLS\\2026\\20260710\\ZOCH.shp"
+    ],
+    "status": "unconfirmed"
+  }
+}
