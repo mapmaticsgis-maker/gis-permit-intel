@@ -159,7 +159,9 @@ def _write_square_near_giddings(shp_path: Path):
 
 def test_load_confirmed_geometries_skips_unconfirmed_entries(tmp_path):
     cache = {"Flatland": {"status": "unconfirmed", "candidates": []}}
-    assert load_confirmed_geometries(cache) == {}
+    geometries, failed = load_confirmed_geometries(cache)
+    assert geometries == {}
+    assert failed == []
 
 
 def test_load_confirmed_geometries_loads_confirmed_shapefile(tmp_path):
@@ -167,20 +169,26 @@ def test_load_confirmed_geometries_loads_confirmed_shapefile(tmp_path):
     _write_square_near_giddings(shp_path)
     cache = {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
 
-    geometries = load_confirmed_geometries(cache)
+    geometries, failed = load_confirmed_geometries(cache)
 
     assert "Flatland" in geometries
+    assert failed == []
 
 
-def test_load_confirmed_geometries_skips_unreadable_shapefile(tmp_path):
+def test_load_confirmed_geometries_reports_unreadable_shapefile_as_failed(tmp_path):
+    # Regression test for finding #2: a "confirmed" job whose shapefile
+    # can't actually be loaded must not just vanish -- it must come back in
+    # failed_job_names so the report can call it out.
     cache = {"Flatland": {"status": "confirmed", "shapefile_path": str(tmp_path / "missing.shp")}}
-    assert load_confirmed_geometries(cache) == {}
+    geometries, failed = load_confirmed_geometries(cache)
+    assert geometries == {}
+    assert failed == ["Flatland"]
 
 
 def test_nearest_job_distances_permit_inside_job_boundary(tmp_path):
     shp_path = tmp_path / "flatland.shp"
     _write_square_near_giddings(shp_path)
-    geometries = load_confirmed_geometries(
+    geometries, _ = load_confirmed_geometries(
         {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
     )
     permit_row = {
@@ -196,7 +204,7 @@ def test_nearest_job_distances_permit_inside_job_boundary(tmp_path):
 def test_nearest_job_distances_uses_closer_of_surface_or_bhl(tmp_path):
     shp_path = tmp_path / "flatland.shp"
     _write_square_near_giddings(shp_path)
-    geometries = load_confirmed_geometries(
+    geometries, _ = load_confirmed_geometries(
         {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
     )
     # Surface point far away, bottomhole point inside the square -- the
@@ -213,18 +221,22 @@ def test_nearest_job_distances_uses_closer_of_surface_or_bhl(tmp_path):
 
 def test_load_confirmed_geometries_skips_entry_missing_shapefile_path(tmp_path):
     cache = {"Flatland": {"status": "confirmed"}}
-    assert load_confirmed_geometries(cache) == {}
+    geometries, failed = load_confirmed_geometries(cache)
+    assert geometries == {}
+    assert failed == ["Flatland"]
 
 
 def test_load_confirmed_geometries_skips_entry_with_none_shapefile_path(tmp_path):
     cache = {"Flatland": {"status": "confirmed", "shapefile_path": None}}
-    assert load_confirmed_geometries(cache) == {}
+    geometries, failed = load_confirmed_geometries(cache)
+    assert geometries == {}
+    assert failed == ["Flatland"]
 
 
 def test_nearest_job_distances_returns_empty_when_both_points_missing(tmp_path):
     shp_path = tmp_path / "flatland.shp"
     _write_square_near_giddings(shp_path)
-    geometries = load_confirmed_geometries(
+    geometries, _ = load_confirmed_geometries(
         {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
     )
     permit_row = {"Surface_Lat": "", "Surface_Lon": "", "BHL_Lat": "", "BHL_Lon": ""}
@@ -234,7 +246,7 @@ def test_nearest_job_distances_returns_empty_when_both_points_missing(tmp_path):
 def test_nearest_job_distances_uses_surface_only_when_bhl_missing(tmp_path):
     shp_path = tmp_path / "flatland.shp"
     _write_square_near_giddings(shp_path)
-    geometries = load_confirmed_geometries(
+    geometries, _ = load_confirmed_geometries(
         {"Flatland": {"status": "confirmed", "shapefile_path": str(shp_path)}}
     )
     # Surface point inside the test square, BHL fields blank (common in real
@@ -273,3 +285,48 @@ def test_build_report_lists_hits_grouped_by_job():
 def test_build_report_states_when_no_hits_found():
     report = build_report("2026-08-09", unresolved_jobs=[], hits=[])
     assert "no" in report.lower() and "5" in report
+
+
+def test_build_report_shows_failed_to_load_jobs_in_separate_section():
+    # Regression test for finding #2: a confirmed job whose shapefile failed
+    # to load must be visible and visually distinguishable from genuinely
+    # unresolved jobs, not silently dropped.
+    report = build_report(
+        "2026-08-09", unresolved_jobs=["Zoch"], hits=[], failed_to_load_jobs=["Turnpike"]
+    )
+    assert "Turnpike" in report
+    assert "failed to load" in report.lower()
+    # Distinct sections -- Turnpike must not be listed under "Unresolved".
+    unresolved_section = report[report.index("Unresolved"):report.index("failed to load")]
+    assert "Turnpike" not in unresolved_section
+
+
+def test_build_report_says_no_permit_file_found_when_missing():
+    # Regression test for finding #3: a missing permits CSV must be reported
+    # distinctly from a real clean negative ("no hits").
+    report = build_report("2026-08-09", unresolved_jobs=[], hits=[], permits_file_found=False)
+    assert "no tx permit file found" in report.lower()
+    assert "2026-08-09" in report
+    assert "no new permits found" not in report.lower()
+
+
+def test_build_report_counts_permits_with_no_usable_coordinates():
+    # Regression test for finding #4: permits skipped by nearest_job_distances
+    # because neither point parsed must be counted and surfaced.
+    report = build_report(
+        "2026-08-09", unresolved_jobs=[], hits=[], no_coords_count=15, total_permits=34
+    )
+    assert "15" in report
+    assert "34" in report
+    assert "no usable coordinates" in report.lower()
+
+
+def test_build_report_sorts_job_groups_by_nearest_hit():
+    # Regression test for finding #13: job groups themselves must be sorted
+    # by their nearest hit, not left in insertion order.
+    hits = [
+        {"permit": "1", "operator": "FAR OPERATOR", "job_name": "FarJob", "distance": 4.0},
+        {"permit": "2", "operator": "NEAR OPERATOR", "job_name": "NearJob", "distance": 0.5},
+    ]
+    report = build_report("2026-08-09", unresolved_jobs=[], hits=hits)
+    assert report.index("NearJob") < report.index("FarJob")
