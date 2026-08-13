@@ -81,4 +81,5 @@ operator_families:
   FIREBIRD:      {family: "Firebird Energy",                 aliases: [FIREBIRD]}
   DIVERSIFIED:   {family: "Diversified (legacy CV, Oaktree)",aliases: [DIVERSIFIED]}
   MARATHON:      {family: "Marathon (eastern EF push)",      aliases: [MARATHON]}
+  MAGNOLIA:      {family: "Magnolia (EOG-contiguous, Lee Co)",aliases: [MAGNOLIA]}
   IRONBLOOM:     {family: "Ironbloom (new Giddings entrant)",aliases: [IRONBLOOM]}
