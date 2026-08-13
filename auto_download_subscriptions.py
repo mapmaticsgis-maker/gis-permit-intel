@@ -51,6 +51,25 @@ def should_run_today():
     return date.today().weekday() not in (0, 1)
 
 
+KNOWN_DRIFT_PATHS = ["data/tx/master.csv", "data/tx/ledger.csv",
+                      "data/la/master.csv", "data/la/ledger.csv"]
+
+
+def _clear_known_local_drift():
+    """A separate local task (PermitIntelDaily, an arcpy GDB builder) pulls
+    the same TX/LA source data independently and routinely leaves these
+    specific files locally modified -- confirmed safe to discard throughout
+    manual operation all project: same underlying source, not separate
+    work. Left uncleared, this blocks `git pull` outright (confirmed
+    2026-08-13: this script's push retry failed and the digest sat
+    unpushed all day, alongside the same failure in auto_download_rrc.py),
+    which is a stronger failure than the non-fast-forward case this retry
+    was originally built for -- a blocked pull never even reaches the
+    retry push."""
+    subprocess.run(["git", "checkout", "--", *KNOWN_DRIFT_PATHS],
+                    capture_output=True, timeout=30)
+
+
 def git_commit_and_push(file_path: Path) -> bool:
     try:
         subprocess.run(["git", "add", str(file_path)], check=True, capture_output=True, timeout=30)
@@ -68,7 +87,8 @@ def git_commit_and_push(file_path: Path) -> bool:
             # Same non-fast-forward pattern as auto_download_rrc.py -- GitHub
             # Actions' own commit routinely lands on origin first. Merge pull
             # resolves the common case; a real conflict still raises.
-            logger.warning("Push rejected (likely non-fast-forward) -- pulling and retrying")
+            logger.warning("Push rejected (likely non-fast-forward) -- clearing known local drift and retrying")
+            _clear_known_local_drift()
             subprocess.run(["git", "pull", "--no-edit"], check=True, capture_output=True, timeout=60)
             subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
         return True

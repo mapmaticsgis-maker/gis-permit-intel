@@ -58,5 +58,11 @@ settings.local.json
 
 # W-1 plat files (PDF and occasional TIFF scans): large binaries, not needed
 # in git history. The digest.md summary (the actual intel) stays tracked.
-data/tx/w1/*/*.pdf
-data/tx/w1/*/*.tif
+# ** (not a single *) because subscription-ZIP unzips create a nested
+# <date>/<district>/ structure, not flat files directly under the day
+# folder -- a single-* pattern here missed that depth entirely, leaving
+# these untracked-but-visible nested folders to repeatedly reappear and
+# block `git pull` with "would be overwritten by merge" (cleaned up
+# manually several times before this was traced to the actual cause).
+data/tx/w1/**/*.pdf
+data/tx/w1/**/*.tif

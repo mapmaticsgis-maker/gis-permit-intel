@@ -115,6 +115,24 @@ async def download_daf420(watch_dir: Path) -> Path | None:
         return dest
 
 
+KNOWN_DRIFT_PATHS = ["data/tx/master.csv", "data/tx/ledger.csv",
+                      "data/la/master.csv", "data/la/ledger.csv"]
+
+
+def _clear_known_local_drift():
+    """A separate local task (PermitIntelDaily, an arcpy GDB builder) pulls
+    the same TX/LA source data independently and routinely leaves these
+    specific files locally modified -- confirmed safe to discard throughout
+    manual operation all project: same underlying source, not separate
+    work. Left uncleared, this blocks `git pull` outright (confirmed
+    2026-08-13: both this script's and the W-1 subscription script's push
+    retries failed the same morning because of it), which is a stronger
+    failure than the non-fast-forward case this retry was originally built
+    for -- a blocked pull never even reaches the retry push."""
+    subprocess.run(["git", "checkout", "--", *KNOWN_DRIFT_PATHS],
+                    capture_output=True, timeout=30)
+
+
 def git_commit_and_push(file_path: Path) -> bool:
     try:
         subprocess.run(["git", "add", str(file_path)], check=True, capture_output=True, timeout=30)
@@ -136,7 +154,8 @@ def git_commit_and_push(file_path: Path) -> bool:
             # A plain merge pull resolves it without a human in the loop for
             # the common case; a real conflict still surfaces via the
             # exception below so the existing reminder-alert catches it.
-            logger.warning("Push rejected (likely non-fast-forward) -- pulling and retrying")
+            logger.warning("Push rejected (likely non-fast-forward) -- clearing known local drift and retrying")
+            _clear_known_local_drift()
             subprocess.run(["git", "pull", "--no-edit"], check=True, capture_output=True, timeout=60)
             subprocess.run(["git", "push"], check=True, capture_output=True, timeout=60)
         logger.info("Committed and pushed to GitHub")

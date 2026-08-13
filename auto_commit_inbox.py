@@ -66,6 +66,24 @@ def find_uncommitted_dat_files():
         return []
 
 
+KNOWN_DRIFT_PATHS = ["data/tx/master.csv", "data/tx/ledger.csv",
+                      "data/la/master.csv", "data/la/ledger.csv"]
+
+
+def _clear_known_local_drift():
+    """A separate local task (PermitIntelDaily, an arcpy GDB builder) pulls
+    the same TX/LA source data independently and routinely leaves these
+    specific files locally modified -- confirmed safe to discard throughout
+    manual operation all project: same underlying source, not separate
+    work. This script runs every 15 minutes, more often than any other
+    committer here, so it's the most likely to hit this and previously had
+    no self-heal at all (confirmed 2026-08-13: two sibling scripts with a
+    pull-retry still failed the same morning because the retry itself
+    didn't clear this drift first)."""
+    subprocess.run(["git", "checkout", "--", *KNOWN_DRIFT_PATHS],
+                    cwd=".", capture_output=True, timeout=30)
+
+
 def git_commit_and_push(file_paths):
     """Commit and push file(s) to GitHub."""
     try:
@@ -98,13 +116,21 @@ def git_commit_and_push(file_paths):
         logger.info(f"Committed: {msg}")
 
         # Push
-        subprocess.run(
-            ["git", "push"],
-            cwd=".",
-            check=True,
-            capture_output=True,
-            timeout=60
-        )
+        try:
+            subprocess.run(
+                ["git", "push"],
+                cwd=".",
+                check=True,
+                capture_output=True,
+                timeout=60
+            )
+        except subprocess.CalledProcessError:
+            logger.warning("Push rejected -- clearing known local drift and retrying")
+            _clear_known_local_drift()
+            subprocess.run(["git", "pull", "--no-edit"], cwd=".", check=True,
+                            capture_output=True, timeout=60)
+            subprocess.run(["git", "push"], cwd=".", check=True,
+                            capture_output=True, timeout=60)
         logger.info("Pushed to GitHub")
 
         return True
