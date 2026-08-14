@@ -8,6 +8,7 @@ version, so that script is left alone; this is the CI-specific one.
 Called by .github/workflows/daily-permit-intel.yml.
 """
 import os
+import re
 import subprocess
 import sys
 import datetime as dt
@@ -98,6 +99,76 @@ def collect_invariants(data_dir, states, today: dt.date) -> list:
         for name, ok, detail in results:
             out.append((f"{state}_{name}", ok, detail))
     return out
+
+
+W1_ATTACHMENT_BUDGET = 14 * 1024 * 1024  # base64 adds ~37% overhead (measured: 16.5MB raw -> 22.3MB encoded),
+                                          # so 14MB raw stays well clear of Gmail's 25MB message cap
+
+# Corridor counties worth attaching plats for. Narrows attachment volume to
+# client-relevant areas -- both a Gmail-cap mitigation and a relevance filter,
+# since most days' full plat set is well outside any watched corridor.
+W1_ATTACH_COUNTIES = {
+    "LEE", "LAVACA", "FAYETTE",  # Giddings
+    "PANOLA", "RUSK", "HARRISON", "CHEROKEE", "SHELBY",
+    "SAN AUGUSTINE", "SMITH", "NACOGDOCHES", "GREGG",  # East Texas
+}
+
+
+def _permit_counties_from_digest(digest_text: str) -> dict[str, str]:
+    """Map permit number -> county (uppercased) from a W-1 digest.md's
+    '**Operator/county:** OP (COUNTY)' lines. w1_intel.py's OCR only runs
+    locally (not on GitHub Actions), so this reads its already-committed
+    output rather than re-deriving county here.
+
+    Permits where OCR/fallback couldn't resolve a county read as
+    "unknown county" in the digest and are absent from the returned dict --
+    those plats are excluded from attachment even if the well is plausibly
+    in-corridor, since there's nothing here to check it against.
+    """
+    counties = {}
+    for block in re.split(r"(?=^## )", digest_text, flags=re.MULTILINE):
+        m_permit = re.search(r"\(Permit #(\d+)\)", block)
+        if not m_permit:
+            continue
+        m_county = re.search(r"Operator/county:\*\*\s*[^(\n]*\(([^)]+)\)", block)
+        if not m_county:
+            continue
+        county = m_county.group(1).strip().upper()
+        if county != "UNKNOWN COUNTY":
+            counties[m_permit.group(1)] = county
+    return counties
+
+
+def w1_plat_attachments(w1_dir: Path, digest_text: str = "") -> tuple[list[Path], str | None]:
+    """Collect this run's plat drawings (not the generic AsApproved cover
+    sheet) for email attachment, restricted to W1_ATTACH_COUNTIES. Filenames
+    follow RRC's convention: <permit>_Plat_<well name>_<code>.<pdf|tif> --
+    see w1_intel.py's docstring.
+
+    Returns (files, skip_note). skip_note is set instead of files when the
+    corridor-filtered plats still exceed W1_ATTACHMENT_BUDGET, so a heavy
+    day degrades to "no attachments, here's why" rather than a failed or
+    oversized send.
+    """
+    if not w1_dir.exists():
+        return [], None
+    plats = sorted(p for p in w1_dir.glob("**/*")
+                    if p.is_file() and "_plat_" in p.name.lower())
+    if not plats:
+        return [], None
+
+    permit_counties = _permit_counties_from_digest(digest_text)
+    plats = [p for p in plats
+             if permit_counties.get(p.name.split("_", 1)[0]) in W1_ATTACH_COUNTIES]
+    if not plats:
+        return [], None
+
+    total = sum(p.stat().st_size for p in plats)
+    if total > W1_ATTACHMENT_BUDGET:
+        return [], (f"{len(plats)} corridor plat(s) found ({total / 1024 / 1024:.1f} MB) but skipped "
+                    f"as email attachments -- over the {W1_ATTACHMENT_BUDGET / 1024 / 1024:.0f} MB budget. "
+                    f"See {w1_dir} locally.")
+    return plats, None
 
 
 def la_recheck_list(cfg, root: Path, days: int = 14) -> str:
@@ -210,6 +281,7 @@ def main():
     yesterday_nodash = (dt.date.today() - dt.timedelta(days=1)).strftime("%Y%m%d")
     outd_w1 = ROOT / cfg["data_dir"] / "tx" / "w1" / yesterday_nodash
     w1_digest = self_check.read_digest(outd_w1)
+    w1_attachments, w1_attach_skip_note = w1_plat_attachments(outd_w1, w1_digest)
     if w1_digest.strip():
         w1_section = f"# TX RRC W-1 Early Signal ({yesterday_nodash})\n\n{w1_digest}"
     else:
@@ -219,6 +291,10 @@ def main():
             "posted it yet, it's a Mon/Tue skip day, or the local download step "
             "didn't commit in time before this run._"
         )
+    if w1_attachments:
+        w1_section += f"\n\n_{len(w1_attachments)} plat drawing(s) attached to this email._"
+    elif w1_attach_skip_note:
+        w1_section += f"\n\n_{w1_attach_skip_note}_"
 
     # A skip marker only describes the day when the day has no new_permits.csv.
     # If an earlier run that day produced real output, that output is the truth
@@ -262,7 +338,7 @@ def main():
         w1_section,
         la_recheck_list(cfg, ROOT),
     ])
-    send_email.send_daily_brief(brief, today)
+    send_email.send_daily_brief(brief, today, attachments=w1_attachments)
     if failed:
         send_email.send_failure_alert(checks, today)
 
