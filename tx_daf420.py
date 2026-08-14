@@ -30,6 +30,26 @@ def coord_from_line(line):
     return (float(m.group(2)), float(m.group(1))) if m else None
 
 def parse_rrc(dat):
+    """Parse a daf420.dat file into a permit dataframe.
+
+    Currently reads 16 fields from records 01, 02, 14, 15. Tier-1 extended fields
+    documented in daf420-field-map.md are not yet read — their offsets are UNVERIFIED.
+    When verified against a real file, add these fields:
+
+    Record 01 (after Received_Date / before Operator_Name):
+      - "Application_Status": line[100:101]  (P/A/W/D/E/C/O/X/Z)
+    Record 02 (add after issue/spud parsing):
+      - "Type_of_Application": line[65:67]   (01/05/07/09/14/15)
+      - "Permit_Expired_Date": line[178:186] (YYYYMMDD)
+      - "Well_Status": line[169:170]
+      - "Well_Status_Date": line[170:178]
+      - "Horizontal_Flag": line[493:494]     (Y/N)
+      - "Directional_Flag": line[481:482]    (Y/N)
+      - "Sidetrack_Flag": line[482:483]      (Y/N)
+      - "API_Number": line[502:510]
+
+    Run: python tx_daf420.py --verify [file.dat] to inspect raw values during testing.
+    """
     rows, current = [], None
     with open(dat, "r", encoding="utf8", errors="ignore") as f:
         for raw in f:

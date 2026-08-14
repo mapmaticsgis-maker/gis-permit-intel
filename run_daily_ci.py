@@ -19,6 +19,7 @@ import requests
 from common import load_cfg, load_master
 import self_check
 import send_email
+import market_brief
 from core.invariants import run_all as run_invariants
 from core.outputs import read_skip_marker
 
@@ -162,6 +163,25 @@ def main():
 
     tx_ok, tx_out = run_step([sys.executable, "tx_daf420.py"], "TX RRC pull")
     la_ok, la_out = run_step([sys.executable, "la_pull.py"], "LA SONRIS pull")
+
+    # Generate market brief after both masters are updated
+    brief_ok = False
+    brief_out = ""
+    if tx_ok:
+        try:
+            cfg = load_cfg()
+            asof = pd.Timestamp(dt.date.today())
+            brief_text = market_brief.build_brief(cfg, asof)
+            outd_tx = ROOT / cfg["data_dir"] / "tx" / "out" / today
+            outd_tx.mkdir(parents=True, exist_ok=True)
+            brief_path = outd_tx / "market_brief.md"
+            brief_path.write_text(brief_text, encoding="utf-8")
+            brief_ok = True
+            brief_out = f"Brief written to {brief_path}"
+        except Exception as e:
+            brief_ok = False
+            brief_out = f"Market brief failed: {e}"
+            print(f"--- Market Brief ---\n{brief_out}")
 
     if not tx_ok and not la_ok:
         # Both steps failed outright — hard crash, alert immediately and stop.

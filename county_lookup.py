@@ -1,3 +1,19 @@
+# Texas county FIPS codes, odd 001-507 (onshore).
+#
+# Codes 307-323 were previously shifted two slots. Texas FIPS assigns codes in
+# alphabetical order treating "Mc" as "Mac", so McCulloch/McLennan/McMullen
+# precede Madison rather than following Matagorda. The old table put the three
+# Mc counties at 319/321/323 and pushed Madison through Maverick down by two.
+#
+# Effect: 269 of 4,843 records in the historical GDB carried the wrong county --
+# most consequentially 207 Martin County (317) wells labeled Maverick and 35
+# McMullen (311) labeled Martin, which moved Permian wells into South Texas and
+# vice versa in every downstream digest and corridor rollup.
+#
+# Verified against RRC publication OGA049M Appendix A and against surface
+# coordinates in the GDB: code 317 records plot in the Midland Basin, not on
+# the Rio Grande; code 311 records plot in South Texas.
+
 COUNTY_LOOKUP = {
     "001": "ANDERSON",
     "003": "ANDREWS",
@@ -152,15 +168,15 @@ COUNTY_LOOKUP = {
     "301": "LOVING",
     "303": "LUBBOCK",
     "305": "LYNN",
-    "307": "MADISON",
-    "309": "MARION",
-    "311": "MARTIN",
-    "313": "MASON",
-    "315": "MATAGORDA",
-    "317": "MAVERICK",
-    "319": "MCCULLOCH",
-    "321": "MCLENNAN",
-    "323": "MCMULLEN",
+    "307": "MCCULLOCH",
+    "309": "MCLENNAN",
+    "311": "MCMULLEN",
+    "313": "MADISON",
+    "315": "MARION",
+    "317": "MARTIN",
+    "319": "MASON",
+    "321": "MATAGORDA",
+    "323": "MAVERICK",
     "325": "MEDINA",
     "327": "MENARD",
     "329": "MIDLAND",

@@ -70,7 +70,18 @@ def main():
 
     sections = ["# Combined Daily Permit Intel\n"]
 
-    sections.append("## Confirmed New Permits -- Texas RRC\n")
+    sections.append("## Market Brief\n")
+    if tx_dir:
+        brief_path = tx_dir / "market_brief.md"
+        if brief_path.exists():
+            text = brief_path.read_text(encoding="utf-8")
+            sections.append(f"{text}\n")
+        else:
+            sections.append("_No market brief generated this run._\n")
+    else:
+        sections.append("_No TX output folder found._\n")
+
+    sections.append("\n## Confirmed New Permits -- Texas RRC\n")
     if tx_dir:
         text = (tx_dir / "digest.md").read_text(encoding="utf-8")
         sections.append(f"_Source: {tx_dir.name}_\n\n{text}\n")
