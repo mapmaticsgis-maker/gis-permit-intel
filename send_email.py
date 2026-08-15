@@ -49,6 +49,14 @@ def send_daily_brief(body: str, run_date: str, attachments: list | None = None):
     _send(f"Permit Intel — {run_date}", body, attachments)
 
 
+def send_insight_brief(body: str, run_date: str, attachments: list | None = None):
+    """Separate subject line from the mechanical daily brief -- this is the
+    narrative/judgment layer (pad tracking, campaigns, watchlist), composed
+    from intel_insight_evidence.py's deterministic evidence pack, not the
+    corridor rollup digest."""
+    _send(f"Intel Insight — {run_date}", body, attachments)
+
+
 def send_failure_alert(failed_checks: list, run_date: str, extra: str = ""):
     """Distinct subject line from the daily brief on purpose, so a broken
     run never gets mistaken for a quiet day."""
