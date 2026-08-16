@@ -49,6 +49,13 @@ logger = logging.getLogger(__name__)
 
 GODRIVE_URL = "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
 MIN_SIZE_BYTES = 200_000  # daf420.dat is normally 1-3 MB; guard against garbage/empty files
+MAX_DOWNLOAD_ATTEMPTS = 3
+RETRY_DELAY_SECONDS = 20  # confirmed 2026-08-16: ERR_CONNECTION_REFUSED on the MFT link,
+                          # same URL that worked cleanly the two days before and after --
+                          # a transient network blip, not a broken link or page-structure
+                          # change. This whole script has a ~15-minute budget before the
+                          # 8:45 AM reminder check, so 3 attempts at 20s apart stays well
+                          # inside that without risking a real failure looking like success.
 
 # Chrome executable, installed to a project-local folder rather than the
 # default %LOCALAPPDATA%\ms-playwright. Under Task Scheduler's S4U logon
@@ -63,6 +70,18 @@ CHROMIUM_EXE = str(SCRIPT_DIR / ".playwright-browsers" / "chromium-1228" / "chro
 
 
 async def download_daf420(watch_dir: Path) -> Path | None:
+    for attempt in range(1, MAX_DOWNLOAD_ATTEMPTS + 1):
+        try:
+            return await _download_attempt(watch_dir)
+        except Exception as e:
+            logger.warning(f"Download attempt {attempt}/{MAX_DOWNLOAD_ATTEMPTS} failed: {e}")
+            if attempt < MAX_DOWNLOAD_ATTEMPTS:
+                await asyncio.sleep(RETRY_DELAY_SECONDS)
+    logger.error(f"All {MAX_DOWNLOAD_ATTEMPTS} download attempts failed")
+    return None
+
+
+async def _download_attempt(watch_dir: Path) -> Path | None:
     from playwright.async_api import async_playwright
 
     async with async_playwright() as p:
