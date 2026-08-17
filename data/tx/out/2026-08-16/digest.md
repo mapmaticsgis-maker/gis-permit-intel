@@ -1,0 +1,178 @@
+# Texas RRC (daf420) Permit Intel — Sun Aug 16 2026
+
+**42 new** | **1 amended** vs master.
+
+## Corridor hits (client-relevant)
+
+### DLS / EOG — Giddings & Eastern Eagle Ford
+- **MAGNOLIA OIL & GAS OPERATING LLC** — MAC ARTHUR UNIT (Washington, 12000' TD)  _[Magnolia (EOG-contiguous, Lee Co)]_
+
+### DOXA / Firebird — Permian
+- **AQUA TERRA PERMIAN, LLC** — NEAL '14-B' (Upton, 6500' TD)
+- **FIREBIRD ENERGY II LLC** — GOSIER 0416 (Ector, 12000' TD)  _[Firebird Energy]_
+- **FIREBIRD ENERGY II LLC** — GOSIER 0508 (Ector, 12000' TD)  _[Firebird Energy]_
+- **FIREBIRD ENERGY II LLC** — JAKE P A (Ector, 12000' TD)  _[Firebird Energy]_
+- **FIREBIRD ENERGY II LLC** — JAKE P B (Ector, 12000' TD)  _[Firebird Energy]_
+- **SABALO II OPERATING, LLC** — UL WILD CARD 3-15 A (Andrews, 8300' TD)
+
+### DOXA / Sabine — East Texas
+- **SABINE ENERGY INC.** — HELVENSTON D CV (AW) (Rusk, 12000' TD)  _[Sabine Energy]_
+
+### West Haynesville watch
+- **WILDFIRE ENERGY OPERATING LLC** — GREAT EAGLE B (Robertson, 7000' TD)
+
+## Watched-family activity outside corridors
+- Apex (ex-Paloma, Citadel): PALOMA OPERATING, LLC — Wilson
+
+## All new permits by county
+
+### Andrews (1)
+- SABALO II OPERATING, LLC — UL WILD CARD 3-15 A (1CF)
+
+### Culberson (8)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (1H)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (2H)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (3H)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (4H)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (5H)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (6H)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (7H)
+- COTERRA ENERGY OPERATING CO. — STATE LUCKY DEBONAIR UNIT (8H)
+
+### Dawson (1)
+- LAGUNA TEXAS RESOURCES, LLC — OVERTON A UNIT (L 5H)
+
+### Dimmit (2)
+- JONAH ENERGY LLC — SAN PEDRO RANCH (4505CH)
+- ROSEWOOD RESOURCES, INC. — BEINHORN AC C A (1H)
+
+### Ector (4)
+- FIREBIRD ENERGY II LLC — GOSIER 0416 (804H)
+- FIREBIRD ENERGY II LLC — GOSIER 0508 (801H)
+- FIREBIRD ENERGY II LLC — JAKE P A (801H)
+- FIREBIRD ENERGY II LLC — JAKE P B (802H)
+
+### Gaines (2)
+- MCCLURE OIL COMPANY, INC. — SWALLOWTAIL (5)
+- MCCLURE OIL COMPANY, INC. — SWALLOWTAIL (7)
+
+### Hardin (1)
+- WHITEHEAD RESOURCES, LTD. — ARRIOLA FEE (197)
+
+### Hemphill (1)
+- MEWBOURNE OIL COMPANY — JONES TRUST 21/20 A (C001GB)
+
+### Jack (1)
+- B.O.L.D. OIL AND GAS, LLC — WISE STEWART (9S)
+
+### Jasper (1)
+- DAVIS SOUTHERN OPERATING CO LLC — JOHNSON (4)
+
+### Reagan (1)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27R (18HM)
+
+### Reeves (4)
+- MEWBOURNE OIL COMPANY — STATE FIREWALKER 8/20 (W102CN)
+- MEWBOURNE OIL COMPANY — STATE FIREWALKER 8/20 (W102DM)
+- MEWBOURNE OIL COMPANY — STATE GAGE 2/5 A1 (W102AP)
+- MEWBOURNE OIL COMPANY — STATE GAGE 2/5 A2 (W201AP)
+
+### Robertson (1)
+- WILDFIRE ENERGY OPERATING LLC — GREAT EAGLE B (2HA)
+
+### Rusk (1)
+- SABINE ENERGY INC. — HELVENSTON D CV (AW) (4H)
+
+### Scurry (1)
+- OCCIDENTAL PERMIAN LTD. — FULLER (6028)
+
+### Taylor (1)
+- DELEK CRUDE LOGISTICS, LLC — TYE-SOUTH STREET (1)
+
+### Upton (1)
+- AQUA TERRA PERMIAN, LLC — NEAL '14-B' (3903)
+
+### Ward (5)
+- MCM OPERATING, LLC — VULCAN 2-3 F (302H)
+- MCM OPERATING, LLC — VULCAN 2-3 G (403H)
+- MCM OPERATING, LLC — VULCAN 2-3 H (303H)
+- MCM OPERATING, LLC — VULCAN 2-3 I (404H)
+- MCM OPERATING, LLC — VULCAN 2-3 J (304H)
+
+### Washington (1)
+- MAGNOLIA OIL & GAS OPERATING LLC — MAC ARTHUR UNIT (H 04TM)
+
+### Wilson (1)
+- PALOMA OPERATING, LLC — WISEMAN (1H)
+
+### Yoakum (3)
+- OCCIDENTAL PERMIAN LTD. — WASSON ODC UNIT (919H)
+- OCCIDENTAL PERMIAN LTD. — YOAKUM WASSON CLEARFORK UNIT (8653H)
+- RILEY PERMIAN OPERATING CO, LLC — CLEVELAND A 601 (5H)
+
+## Amendments
+- CYTEX SOUTH TEXAS OPERATING LLC — ARSENAL B (Dimmit)
+
+---
+_New-entrant check: any operator above with no prior record in master is flagged NEW OPERATOR in new_permits.csv (col: first_seen)._
+
+## Resurfaced older files (issue date >7d old, new to master)
+- RING ENERGY, INC. — LEA, P.J. ET AL 4023MH (Crane), issued 2026-06-24
+- RING ENERGY, INC. — LEA, P.J. ET AL 4024TH (Crane), issued 2026-06-24
+- RFE OPERATING, LLC — THUNDER VALLEY 2 (AW) 2H (Harrison), issued 2026-05-07
+- RFE OPERATING, LLC — THUNDER VALLEY 8 (AW) 8H (Harrison), issued 2026-05-06
+- SM ENERGY COMPANY — ZISSOU 32-41 A 3245WA (Howard), issued 2026-04-20
+- APACHE CORPORATION — BOB 3HM (Midland), issued 2026-06-25
+- APACHE CORPORATION — BOB 9HJ (Midland), issued 2026-06-26
+- APACHE CORPORATION — BOB U 6HS (Midland), issued 2026-06-25
+- CHEVRON U. S. A. INC. — MIDLAND 'AC/AF' FEE 6B 0171LS (Midland), issued 2017-08-18
+- CONTINENTAL RESOURCES, INC. — FOSTER 1201C 03H (Midland), issued 2026-04-08
+- CONTINENTAL RESOURCES, INC. — FOSTER 1201D 04H (Midland), issued 2026-04-08
+- DIAMONDBACK E&P LLC — PEGGY 20-17 C 3WD (Midland), issued 2025-09-15
+- DIAMONDBACK E&P LLC — PEGGY 20-8 A 1WD (Midland), issued 2025-12-29
+- DIAMONDBACK E&P LLC — PEGGY 20-8 B 2WD (Midland), issued 2025-08-20
+- DIAMONDBACK E&P LLC — PEGGY 20-8 D 4WD (Midland), issued 2025-12-29
+
+## Month-to-date (August 2026) — 384 permits issued
+
+**By county (top 12):**
+- Reagan: 32
+- Midland: 31
+- Martin: 27
+- Reeves: 27
+- Webb: 20
+- Upton: 19
+- Yoakum: 17
+- Andrews: 13
+- Ector: 13
+- Wilbarger: 11
+- Gaines: 10
+- Howard: 9
+
+**By operator (top 12):**
+- PIONEER NATURAL RES. USA, INC.: 44
+- DIAMONDBACK E&P LLC: 38
+- DE CENTRAL OPERATING, LLC: 13
+- SM ENERGY COMPANY: 12
+- EOG RESOURCES, INC.: 12
+- OCCIDENTAL PERMIAN LTD.: 11
+- BURK ROYALTY CO., LTD.: 10
+- BURLINGTON RESOURCES O & G CO LP: 9
+- COTERRA ENERGY OPERATING CO.: 8
+- CONTINENTAL RESOURCES, INC.: 8
+- OXY USA INC.: 8
+- BPX OPERATING COMPANY: 8
+
+**Watched families MTD:**
+- EOG Resources: 12
+- Magnolia (EOG-contiguous, Lee Co): 5
+- Firebird Energy: 4
+- Sabine Energy: 3
+- Apex (ex-Paloma, Citadel): 2
+- Adamas (ex-Aethon, Mitsubishi): 2
+
+**Hot cycles (spud <=14 days after issue):**
+- WBI ENERGY MIDSTREAM, LLC — HF SINCLAIR T006MP (Baylor): issued 08/05, spud 08/10 (5d)
+- FELDERHOFF PRODUCTION COMPANY — KLEMENT, ROBERT 1 (Cooke): issued 08/07, spud 08/12 (5d)
+- DE CENTRAL OPERATING, LLC — SIDEWINDER WEST A 12-8 4201H (Reagan): issued 08/11, spud 08/11 (0d)
+- L.C.S. PRODUCTION COMPANY — KISSELL UNIT 29 (Taylor): issued 08/04, spud 08/07 (3d)
