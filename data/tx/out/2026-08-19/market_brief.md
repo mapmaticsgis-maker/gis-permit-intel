@@ -6,22 +6,22 @@
 
 ## Today
 
-- Permits issued: **0** (30-day average 30/business day, baseline ~35)
+- Permits issued: **0** (30-day average 32/business day, baseline ~35)
 - New spud postings dated today: **0**
 
 No permits carry today's issue date. If the prior pull was identical, check tx_daf420.py's ingestion ledger — it already distinguishes a genuine RRC posting gap from a stale fetch; this brief does not re-derive that.
 
 ## Rolling week
 
-- 7-day issuance: **89** (prior 7-day: 182, -51% vs prior week)
+- 7-day issuance: **131** (prior 7-day: 182, -28% vs prior week)
 
 **Accelerating**
 
+- EOG RESOURCES, INC. — 12 this week (+10)
+- OCCIDENTAL PERMIAN LTD. — 11 this week (+9)
+- FASKEN OIL AND RANCH, LTD. — 8 this week (+8)
 - COTERRA ENERGY OPERATING CO. — 8 this week (+8)
 - MEWBOURNE OIL COMPANY — 6 this week (+6)
-- OCCIDENTAL PERMIAN LTD. — 8 this week (+6)
-- EOG RESOURCES, INC. — 7 this week (+5)
-- MCM OPERATING, LLC — 5 this week (+5)
 
 **Decelerating**
 
@@ -29,11 +29,12 @@ No permits carry today's issue date. If the prior pull was identical, check tx_d
 - PIONEER NATURAL RES. USA, INC. — 11 this week (-7)
 - BPX OPERATING COMPANY — 0 this week (-8)
 - DE CENTRAL OPERATING, LLC — 0 this week (-12)
-- DIAMONDBACK E&P LLC — 1 this week (-29)
+- DIAMONDBACK E&P LLC — 2 this week (-28)
 
 **New entrants this week** (no permits in prior 30 days — check operator_families first; a rebrand or merged alias should not read as new)
 
 - AQUA TERRA PERMIAN, LLC (UPTON)
+- ARROW OIL & GAS, LLC (OLDHAM)
 - COTERRA ENERGY OPERATING CO. (CULBERSON)
 - DELEK CRUDE LOGISTICS, LLC (TAYLOR)
 - ENHANCED ENERGY PARTNERS CORP (AUSTIN)
@@ -41,17 +42,18 @@ No permits carry today's issue date. If the prior pull was identical, check tx_d
 - FIREBIRD ENERGY II LLC (ECTOR)
 - G & F OIL, INC. (PALO PINTO)
 - LAGUNA TEXAS RESOURCES, LLC (DAWSON)
-- MCM OPERATING, LLC (WARD)
-- WHITEHEAD RESOURCES, LTD. (HARDIN)
+- LYNCO OILFIELD SERVICES LLC (CALDWELL)
+
+- Wells spudded this week: **2**, median permit-to-spud **8 days**
 
 ## Month to date
 
-- MTD issuance: **384** over 13 business days, tracking to ~**620** (baseline ~750)
-- Basin mix: Permian 62%, Other 20%, Eagle Ford 14%, East Texas gas 4%
+- MTD issuance: **426** over 13 business days, tracking to ~**688** (baseline ~750)
+- Basin mix: Permian 63%, Other 19%, Eagle Ford 14%, East Texas gas 4%
 
 **Watched families, MTD**
 
-- EOG Resources: 12
+- EOG Resources: 17
 - Magnolia (EOG-contiguous, Lee Co): 5
 - Firebird Energy: 4
 - Sabine Energy: 3
@@ -60,13 +62,13 @@ No permits carry today's issue date. If the prior pull was identical, check tx_d
 
 **Spud conversion by issue cohort** *(floor, not a true rate — see Data notes)*
 
-- 2026-04: 16/31 (52%)
-- 2026-05: 8/58 (14%)
-- 2026-06: 11/47 (23%)
+- 2026-04: 17/32 (53%)
+- 2026-05: 9/61 (15%)
+- 2026-06: 12/51 (24%)
 - 2026-07: 30/693 (4%)  *(inside spud-reporting lag)*
-- 2026-08: 4/384 (1%)  *(inside spud-reporting lag)*
+- 2026-08: 6/426 (1%)  *(inside spud-reporting lag)*
 
-- Aging inventory: **209** permits issued 45+ days ago, still unspudded
+- Aging inventory: **217** permits issued 45+ days ago, still unspudded
 - Ultra-deep (16,000'+) permits MTD: **22**
 
 ## Pattern candidates
@@ -86,9 +88,9 @@ No permits carry today's issue date. If the prior pull was identical, check tx_d
 > Floor, not a rate. Confirm against a direct well-status query before reporting a ratio to anyone.
 
 - PIONEER NATURAL RES. USA, INC. — 98 permits, 8 spuds seen
-- DIAMONDBACK E&P LLC — 57 permits, 0 spuds seen
+- DIAMONDBACK E&P LLC — 58 permits, 0 spuds seen
 - COG OPERATING LLC — 45 permits, 0 spuds seen
-- EOG RESOURCES, INC. — 40 permits, 0 spuds seen
+- EOG RESOURCES, INC. — 45 permits, 0 spuds seen
 - CONTINENTAL RESOURCES, INC. — 33 permits, 0 spuds seen
 - DE CENTRAL OPERATING, LLC — 32 permits, 1 spuds seen
 - BURLINGTON RESOURCES O & G CO LP — 28 permits, 0 spuds seen
@@ -122,10 +124,10 @@ New in this corridor this week: 3
 - REVENANT ENERGY OPERATING LLC — 2 (NACOGDOCHES)
 - AGIS ENERGY LLC — 2 (PANOLA)
 - SILVER HILL ENERGY OPERATING LLC — 2 (SHELBY)
+- ARENOS ENERGY — 2 (NACOGDOCHES)
 - BUCKHORN OPERATING LLC — 1 (RUSK)
 - TANOS EXPLORATION IV, LLC — 1 (RUSK)
 - SELECT WATER SOLUTIONS, LLC — 1 (SHELBY)
-- ARENOS ENERGY — 1 (NACOGDOCHES)
 - XTO ENERGY INC. — 1 (SHELBY)
 
 New in this corridor this week: 4
@@ -137,13 +139,13 @@ New in this corridor this week: 4
 - DIAMONDBACK E&P LLC — 35 (ECTOR, MIDLAND)
 - CONTINENTAL RESOURCES, INC. — 26 (ECTOR, MIDLAND, WINKLER)
 - CHEVRON U. S. A. INC. — 18 (UPTON)
-- APACHE CORPORATION — 12 (MIDLAND, UPTON)
+- APACHE CORPORATION — 15 (MIDLAND, UPTON)
+- FASKEN OIL AND RANCH, LTD. — 14 (ANDREWS)
+- SABALO II OPERATING, LLC — 12 (ANDREWS)
 - ARRINGTON OIL&GAS OPERATING LLC — 10 (ECTOR)
 - FIREBIRD ENERGY II LLC — 10 (ECTOR)
 - BASIN OIL & GAS OPERATING, LLC — 9 (ECTOR, WINKLER)
-- SABALO II OPERATING, LLC — 8 (ANDREWS)
 - SUMMIT PETROLEUM LLC — 8 (UPTON)
-- FASKEN OIL AND RANCH, LTD. — 6 (ANDREWS)
 - BLACKBEARD OPERATING, LLC — 6 (CRANE, WINKLER)
 - OVINTIV USA INC. — 5 (ANDREWS)
 - MEWBOURNE OIL COMPANY — 4 (WINKLER)
@@ -151,6 +153,7 @@ New in this corridor this week: 4
 - XRI DISPOSAL HOLDINGS, LLC — 3 (WINKLER)
 - SM ENERGY COMPANY — 3 (CRANE)
 - BTA OIL PRODUCERS, LLC — 2 (CRANE)
+- MID-STATES OPERATING COMPANY — 2 (MIDLAND)
 - PERMIAN DEEP ROCK OIL CO., LLC — 2 (MIDLAND)
 - OLSEN ENERGY INC. — 1 (ANDREWS)
 - GREEN CENTURY EXP & PROD, LLC — 1 (CRANE)
@@ -162,7 +165,7 @@ New in this corridor this week: 4
 - PETX OPERATING LLC — 1 (UPTON)
 - ZARVONA ENERGY LLC — 1 (UPTON)
 
-New in this corridor this week: 12
+New in this corridor this week: 29
 
 **Corridor — West Haynesville watch, trailing 90 days**
 
@@ -183,7 +186,7 @@ New in this corridor this week: 1
 
 - County labels check out against county_lookup.py (Mc-block self-check passed)
 - 3 records excluded from cycle statistics (spud predates issue — wellbore re-entries)
-- Newest issue date in master: 2026-08-14 (5 day(s) behind as-of date)
+- Newest issue date in master: 2026-08-17 (2 day(s) behind as-of date)
 - Permits age out of the rolling daily source pull after ~30 days; a permit's disappearance from new activity is coverage boundary, not inactivity
 - **Spud conversion and permit-banking figures are floors.** A permit that ages past the rolling window before spudding never posts its spud date back to the source, so every conversion figure here understates reality. Confirm against a direct well-status query before either reaches a client.
 - Spud reporting lags ~21 days; silence inside that window is not a signal
