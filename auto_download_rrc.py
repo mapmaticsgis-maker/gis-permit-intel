@@ -136,6 +136,7 @@ async def _download_attempt(watch_dir: Path) -> Path | None:
 
 KNOWN_DRIFT_PATHS = ["data/tx/master.csv", "data/tx/ledger.csv",
                       "data/la/master.csv", "data/la/ledger.csv"]
+KNOWN_DRIFT_OUTPUT_DIRS = ["data/la/out/", "data/tx/out/"]
 
 
 def _clear_known_local_drift():
@@ -147,8 +148,21 @@ def _clear_known_local_drift():
     2026-08-13: both this script's and the W-1 subscription script's push
     retries failed the same morning because of it), which is a stronger
     failure than the non-fast-forward case this retry was originally built
-    for -- a blocked pull never even reaches the retry push."""
+    for -- a blocked pull never even reaches the retry push.
+
+    `git checkout --` above only resets TRACKED files with local edits; it
+    does nothing for UNTRACKED files, which is a different failure mode
+    that resurfaced 2026-08-18/19: the same local task leaves same-day
+    output CSVs (data/la/out/<date>/*.csv etc.) on disk without committing
+    them, and when the day's real GitHub Actions commit later tries to
+    create tracked files at those exact paths, git refuses to overwrite
+    untracked ones and aborts the merge outright -- silently losing that
+    day's daf420/W-1 push two days running before this was caught. `git
+    clean` (not `checkout`) is what removes untracked files; scoped to
+    these two known-regenerated output dirs, never run bare."""
     subprocess.run(["git", "checkout", "--", *KNOWN_DRIFT_PATHS],
+                    capture_output=True, timeout=30)
+    subprocess.run(["git", "clean", "-fd", "--", *KNOWN_DRIFT_OUTPUT_DIRS],
                     capture_output=True, timeout=30)
 
 
