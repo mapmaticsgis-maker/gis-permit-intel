@@ -1,0 +1,150 @@
+# Texas RRC (daf420) Permit Intel — Thu Aug 20 2026
+
+**31 new** | **0 amended** vs master.
+
+## Corridor hits (client-relevant)
+
+### DLS / EOG — Giddings & Eastern Eagle Ford
+- **MAGNOLIA OIL & GAS OPERATING LLC** — TRUMAN FIVE (Washington, 12000' TD)  _[Magnolia (EOG-contiguous, Lee Co)]_
+- **MAGNOLIA OIL & GAS OPERATING LLC** — TRUMAN THREE (Washington, 12000' TD)  _[Magnolia (EOG-contiguous, Lee Co)]_
+
+### DOXA / Firebird — Permian
+- **DIAMONDBACK E&P LLC** — GEORGIA 37-32 B (Midland, 13000' TD)
+- **DIAMONDBACK E&P LLC** — GEORGIA 37-32 C (Midland, 13000' TD)
+- **DIAMONDBACK E&P LLC** — GEORGIA 37-32 D (Midland, 13000' TD)
+- **DIAMONDBACK E&P LLC** — RIO TRINITY 22-23 F (Midland, 13000' TD)
+- **DIAMONDBACK E&P LLC** — RIVERCREST 2-11 D (Midland, 12500' TD)
+- **OVINTIV USA INC.** — UL CHATFIELD 36E: 2 wells (101HF, 102HD) (Andrews, 10500' TD)
+- **TEXLAND PETROLEUM, L.P.** — LOGSDON, ETAL -B- (Andrews, 7569' TD)
+
+## All new permits by county
+
+### Andrews (3)
+- OVINTIV USA INC. — UL CHATFIELD 36E (101HF)
+- OVINTIV USA INC. — UL CHATFIELD 36E (102HD)
+- TEXLAND PETROLEUM, L.P. — LOGSDON, ETAL -B- (22)
+
+### Borden (2)
+- HIGHPEAK ENERGY HOLDINGS, LLC — MCDOWELL (1)
+- HIGHPEAK ENERGY HOLDINGS, LLC — W. D. EVERETT (1)
+
+### Dawson (1)
+- LAGUNA TEXAS RESOURCES, LLC — OVERTON B UNIT (L 6H)
+
+### Gaines (1)
+- OXY USA INC. — SEMINOLE SAN ANDRES UNIT (1004)
+
+### Hemphill (1)
+- MEWBOURNE OIL COMPANY — JONES TRUST 21/22 A (C001JO)
+
+### Howard (2)
+- SM ENERGY COMPANY — WILLIE SCOTT AA (0841WA)
+- SM ENERGY COMPANY — WILLIE SCOTT AA (0882WD)
+
+### Karnes (3)
+- SILVER HILL ENERGY OPERATING LLC — CHRISTINE (4H)
+- SILVER HILL ENERGY OPERATING LLC — CHRISTINE (103H)
+- SILVER HILL ENERGY OPERATING LLC — CHRISTINE (104H)
+
+### La Salle (2)
+- INEOS USA OIL & GAS LLC — KINSEL D HC6 (6H)
+- INEOS USA OIL & GAS LLC — KINSEL D HC7 (7H)
+
+### Martin (1)
+- PIONEER NATURAL RES. USA, INC. — UNIVERSITY 7-28 PU (221H)
+
+### Midland (5)
+- DIAMONDBACK E&P LLC — GEORGIA 37-32 B (2BN)
+- DIAMONDBACK E&P LLC — GEORGIA 37-32 C (3BN)
+- DIAMONDBACK E&P LLC — GEORGIA 37-32 D (4BN)
+- DIAMONDBACK E&P LLC — RIO TRINITY 22-23 F (2WB)
+- DIAMONDBACK E&P LLC — RIVERCREST 2-11 D (2LS)
+
+### Ochiltree (1)
+- CARSON BUCKLES EXPLORATION LLC — LANCE (2011)
+
+### Reagan (1)
+- HANNATHON PETROLEUM II, LLC — BODINE E2 09 (9H)
+
+### Washington (2)
+- MAGNOLIA OIL & GAS OPERATING LLC — TRUMAN FIVE (H 05TM)
+- MAGNOLIA OIL & GAS OPERATING LLC — TRUMAN THREE (H 03TM)
+
+### Webb (5)
+- CRESCENT ENERGY OPERATING, LLC — FASKEN STATE (223H)
+- CRESCENT ENERGY OPERATING, LLC — FASKEN STATE (224H)
+- CRESCENT ENERGY OPERATING, LLC — FASKEN STATE (225H)
+- SM ENERGY COMPANY — BRISCOE C (0129H)
+- SM ENERGY COMPANY — BRISCOE C (0139H)
+
+### Wilbarger (1)
+- BURK ROYALTY CO., LTD. — SUMNER (2)
+
+---
+_New-entrant check: any operator above with no prior record in master is flagged NEW OPERATOR in new_permits.csv (col: first_seen)._
+
+## Resurfaced older files (issue date >7d old, new to master)
+- MARATHON OIL EF LLC — MAUCH-WRIGHT HENKE SA1 1H (Atascosa), issued 2026-05-04
+- COTERRA ENERGY OPERATING CO. — STREET SENSE 40 UNIT 13H (Culberson), issued 2024-11-04
+- COTERRA ENERGY OPERATING CO. — STREET SENSE 40 UNIT 14H (Culberson), issued 2024-11-04
+- COTERRA ENERGY OPERATING CO. — STREET SENSE 40 UNIT 15H (Culberson), issued 2024-11-04
+- COTERRA ENERGY OPERATING CO. — STREET SENSE 40 UNIT 16H (Culberson), issued 2024-11-04
+- EOG RESOURCES, INC. — ROOSEVELT A 1H (Gonzales), issued 2025-07-08
+- EOG RESOURCES, INC. — ROOSEVELT B 2H (Gonzales), issued 2025-07-08
+- EOG RESOURCES, INC. — ROOSEVELT C 3H (Gonzales), issued 2025-07-08
+- EOG RESOURCES, INC. — ROOSEVELT D 4H (Gonzales), issued 2025-07-08
+- EOG RESOURCES, INC. — ROOSEVELT E 5H (Gonzales), issued 2025-07-08
+- EOG RESOURCES, INC. — ROOSEVELT F 6H (Gonzales), issued 2025-07-08
+- EOG RESOURCES, INC. — ROOSEVELT G 7H (Gonzales), issued 2025-07-08
+- EOG RESOURCES, INC. — ROOSEVELT H 8H (Gonzales), issued 2025-07-08
+- THREE SPAN OIL & GAS, INC. — MAPACHE GRANDE 008B 1H (Scurry), issued 2026-01-09
+- SUMMIT PETROLEUM LLC — ARIA 3 05MS (Upton), issued 2025-01-17
+- PERMIAN RESOURCES OPERATING, LLC — DAVIS 201-200-199 UNIT 331H (Ward), issued 2026-04-30
+- MITSUI E&P USA LLC — JUSTAPOR A 102H (Webb), issued 2026-02-12
+- BLACKBRUSH O & G, LLC — CHITTIM HEIRS 405H (Zavala), issued 2026-06-12
+
+## Month-to-date (August 2026) — 457 permits issued
+
+**By county (top 12):**
+- Midland: 38
+- Reagan: 33
+- Reeves: 32
+- Webb: 30
+- Martin: 29
+- Andrews: 28
+- Upton: 22
+- Yoakum: 19
+- Ector: 13
+- Wilbarger: 12
+- Gaines: 11
+- Howard: 11
+
+**By operator (top 12):**
+- PIONEER NATURAL RES. USA, INC.: 45
+- DIAMONDBACK E&P LLC: 44
+- EOG RESOURCES, INC.: 17
+- SM ENERGY COMPANY: 16
+- OCCIDENTAL PERMIAN LTD.: 14
+- DE CENTRAL OPERATING, LLC: 13
+- BURK ROYALTY CO., LTD.: 11
+- OXY USA INC.: 9
+- BURLINGTON RESOURCES O & G CO LP: 9
+- FASKEN OIL AND RANCH, LTD.: 8
+- COTERRA ENERGY OPERATING CO.: 8
+- CONTINENTAL RESOURCES, INC.: 8
+
+**Watched families MTD:**
+- EOG Resources: 17
+- Magnolia (EOG-contiguous, Lee Co): 7
+- Firebird Energy: 4
+- Sabine Energy: 3
+- Apex (ex-Paloma, Citadel): 2
+- Adamas (ex-Aethon, Mitsubishi): 2
+
+**Hot cycles (spud <=14 days after issue):**
+- WBI ENERGY MIDSTREAM, LLC — HF SINCLAIR T006MP (Baylor): issued 08/05, spud 08/10 (5d)
+- FELDERHOFF PRODUCTION COMPANY — KLEMENT, ROBERT 1 (Cooke): issued 08/07, spud 08/12 (5d)
+- STAR PRODUCTION, INC. — BAUCUM 3 (Jones): issued 08/12, spud 08/17 (5d)
+- DE CENTRAL OPERATING, LLC — SIDEWINDER WEST A 12-8 4201H (Reagan): issued 08/11, spud 08/11 (0d)
+- PATTON EXPLORATION, INC. — WOOD 1 (Stonewall): issued 08/03, spud 08/15 (12d)
+- L.C.S. PRODUCTION COMPANY — KISSELL UNIT 29 (Taylor): issued 08/04, spud 08/07 (3d)
