@@ -139,15 +139,37 @@ def _permit_counties_from_digest(digest_text: str) -> dict[str, str]:
     return counties
 
 
+def _permits_with_active_client_match(digest_text: str) -> set[str]:
+    """Permit numbers whose digest block has at least one
+    '**Client match:** <client> [Active] -- matched on: ...' line
+    (w1_intel.py's match_clients output). A real client-name hit is a
+    stronger relevance signal than county alone -- confirmed 2026-08-21:
+    two Adamas/DOXA-matched permits with unresolved ("unknown") county
+    were skipped for attachment under county-only filtering despite a
+    genuine Active client match."""
+    permits = set()
+    for block in re.split(r"(?=^## )", digest_text, flags=re.MULTILINE):
+        m_permit = re.search(r"\(Permit #(\d+)\)", block)
+        if not m_permit:
+            continue
+        if re.search(r"Client match:\*\*.*\[Active\]", block):
+            permits.add(m_permit.group(1))
+    return permits
+
+
 def w1_plat_attachments(w1_dir: Path, digest_text: str = "") -> tuple[list[Path], str | None]:
     """Collect this run's plat drawings (not the generic AsApproved cover
-    sheet) for email attachment, restricted to W1_ATTACH_COUNTIES. Filenames
-    follow RRC's convention: <permit>_Plat_<well name>_<code>.<pdf|tif> --
-    see w1_intel.py's docstring.
+    sheet) for email attachment: either the permit's county is in
+    W1_ATTACH_COUNTIES, or w1_intel.py found a genuine Active client-name
+    match for it regardless of county (county is often "unknown" -- OCR
+    doesn't always resolve it -- so requiring both would silently drop
+    real client hits, which is what motivated adding this second path).
+    Filenames follow RRC's convention: <permit>_Plat_<well name>_<code>.
+    <pdf|tif> -- see w1_intel.py's docstring.
 
     Returns (files, skip_note). skip_note is set instead of files when the
-    corridor-filtered plats still exceed W1_ATTACHMENT_BUDGET, so a heavy
-    day degrades to "no attachments, here's why" rather than a failed or
+    filtered plats still exceed W1_ATTACHMENT_BUDGET, so a heavy day
+    degrades to "no attachments, here's why" rather than a failed or
     oversized send.
     """
     if not w1_dir.exists():
@@ -158,8 +180,10 @@ def w1_plat_attachments(w1_dir: Path, digest_text: str = "") -> tuple[list[Path]
         return [], None
 
     permit_counties = _permit_counties_from_digest(digest_text)
+    client_matched = _permits_with_active_client_match(digest_text)
     plats = [p for p in plats
-             if permit_counties.get(p.name.split("_", 1)[0]) in W1_ATTACH_COUNTIES]
+             if permit_counties.get(p.name.split("_", 1)[0]) in W1_ATTACH_COUNTIES
+             or p.name.split("_", 1)[0] in client_matched]
     if not plats:
         return [], None
 
