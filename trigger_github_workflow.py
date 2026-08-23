@@ -17,6 +17,7 @@ Logs: logs/github_trigger.log
 import logging
 import os
 import sys
+import time
 import traceback
 from pathlib import Path
 
@@ -44,6 +45,11 @@ OWNER = "mapmaticsgis-maker"
 REPO = "gis-permit-intel"
 WORKFLOW_FILE = "daily-permit-intel.yml"
 BRANCH = "master"
+MAX_ATTEMPTS = 3
+RETRY_DELAY_SECONDS = 20  # confirmed 2026-08-23: ConnectTimeout reaching api.github.com --
+                          # a single failed attempt here means NOTHING downstream runs (no TX/LA
+                          # pull, no email) with no other safety net catching it, unlike the RRC
+                          # download step's 8:45 AM reminder check. Same fix shape as ae04f83.
 
 
 def main() -> int:
@@ -64,14 +70,24 @@ def main() -> int:
     }
     payload = {"ref": BRANCH}
 
-    resp = requests.post(url, headers=headers, json=payload, timeout=30)
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            resp = requests.post(url, headers=headers, json=payload, timeout=30)
+        except requests.exceptions.RequestException as e:
+            logger.warning(f"Attempt {attempt}/{MAX_ATTEMPTS} failed: {e}")
+            if attempt < MAX_ATTEMPTS:
+                time.sleep(RETRY_DELAY_SECONDS)
+            continue
 
-    if resp.status_code == 204:
-        logger.info("SUCCESS: workflow run dispatched")
-        return 0
-    else:
-        logger.error(f"FAILED: HTTP {resp.status_code} -- {resp.text}")
-        return 1
+        if resp.status_code == 204:
+            logger.info("SUCCESS: workflow run dispatched")
+            return 0
+        logger.warning(f"Attempt {attempt}/{MAX_ATTEMPTS} failed: HTTP {resp.status_code} -- {resp.text}")
+        if attempt < MAX_ATTEMPTS:
+            time.sleep(RETRY_DELAY_SECONDS)
+
+    logger.error(f"FAILED after {MAX_ATTEMPTS} attempts")
+    return 1
 
 
 if __name__ == "__main__":
