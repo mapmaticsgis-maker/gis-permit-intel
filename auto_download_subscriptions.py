@@ -47,8 +47,15 @@ CHROMIUM_EXE = str(SCRIPT_DIR / ".playwright-browsers" / "chromium-1228" / "chro
 
 
 def should_run_today():
-    """Skip Monday (0) and Tuesday (1) -- no filings over weekend."""
-    return date.today().weekday() not in (0, 1)
+    """Skip only Monday. The script always fetches YESTERDAY's filings
+    (see target_date below), so the real question is whether *yesterday*
+    was a weekend day, not today. Monday's target is Sunday (no filings,
+    correctly skipped) -- but Tuesday's target is Monday, a full business
+    day with real filings. Confirmed 2026-08-25: skipping Tuesday too (the
+    original rule) silently dropped a real district 03 posting the user
+    found manually on RRC's own portal by 10:15 AM the same morning this
+    script decided not to even look."""
+    return date.today().weekday() != 0
 
 
 KNOWN_DRIFT_PATHS = ["data/tx/master.csv", "data/tx/ledger.csv",
