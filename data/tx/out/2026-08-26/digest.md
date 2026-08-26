@@ -1,0 +1,130 @@
+# Texas RRC (daf420) Permit Intel — Wed Aug 26 2026
+
+**17 new** | **16 amended** vs master.
+
+## Corridor hits (client-relevant)
+
+### DOXA / Firebird — Permian
+- **APACHE CORPORATION** — CONNELL 3847 A (Upton, 8500' TD)
+- **APACHE CORPORATION** — CONNELL 3847 D (Upton, 8500' TD)
+- **APACHE CORPORATION** — CONNELL 3847 F (Upton, 8500' TD)
+- **APACHE CORPORATION** — CONNELL 3847 I (Upton, 8500' TD)
+- **PIONEER NATURAL RES. USA, INC.** — ODANIEL-FLOYD 1E (Midland, 10349' TD)
+- **PIONEER NATURAL RES. USA, INC.** — ODANIEL-FLOYD 60B (Midland, 10349' TD)
+
+## All new permits by county
+
+### Anderson (1)
+- UPSTREAM RESOURCE PARTNERS, LLC — MAY WX (1)
+
+### Jasper (1)
+- DAVIS SOUTHERN OPERATING CO LLC — JOHNSON (7)
+
+### Loving (2)
+- PDEH LLC — CYCLONE 54-2 STATE UNIT (2241H)
+- PDEH LLC — CYCLONE 54-2 STATE UNIT (2242H)
+
+### Midland (2)
+- PIONEER NATURAL RES. USA, INC. — ODANIEL-FLOYD 1E (105H)
+- PIONEER NATURAL RES. USA, INC. — ODANIEL-FLOYD 60B (102H)
+
+### Oldham (1)
+- ARROW OIL & GAS, LLC — W. RIFT (2)
+
+### Reeves (4)
+- COTERRA ENERGY OPERATING CO. — STATE BLACK DIAMOND UNIT (4H)
+- COTERRA ENERGY OPERATING CO. — STATE BLACK DIAMOND UNIT (6H)
+- COTERRA ENERGY OPERATING CO. — STATE BLACK DIAMOND UNIT (7H)
+- U.S. ENERGY DEVELOPMENT CORP — W STATE B (2BH)
+
+### Upton (4)
+- APACHE CORPORATION — CONNELL 3847 A (1JM)
+- APACHE CORPORATION — CONNELL 3847 D (5JM)
+- APACHE CORPORATION — CONNELL 3847 F (8JM)
+- APACHE CORPORATION — CONNELL 3847 I (11JM)
+
+### Wichita (1)
+- KODIAK OIL & GAS, INC. — THROCKMORTON (1)
+
+### Young (1)
+- BORDERLINE OPERATING CORP. — LOVING RANCH (11)
+
+## Amendments
+- DIAMONDBACK E&P LLC — SHERIFF 2-38 B (Ector)
+- DIAMONDBACK E&P LLC — SHERIFF 2-38 D (Ector)
+- WBI ENERGY MIDSTREAM, LLC — HF SINCLAIR (Jones)
+- DE CENTRAL OPERATING, LLC — MERCHANT DANIEL EAST K 14-7 (Reagan)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27AB (Reagan)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27AC (Reagan)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27AD (Reagan)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27AE (Reagan)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27F (Reagan)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27G (Reagan)
+- PIONEER NATURAL RES. USA, INC. — DRIVER S27H (Reagan)
+- APACHE CORPORATION — CONNELL 3847 B (Upton)
+- APACHE CORPORATION — CONNELL 3847 B (Upton)
+- APACHE CORPORATION — CONNELL 3847 C (Upton)
+- APACHE CORPORATION — CONNELL 3847 E (Upton)
+- APACHE CORPORATION — LATZEL 3946 A (Upton)
+
+---
+_New-entrant check: any operator above with no prior record in master is flagged NEW OPERATOR in new_permits.csv (col: first_seen)._
+
+## Resurfaced older files (issue date >7d old, new to master)
+- WPX ENERGY PERMIAN, LLC — CROSS MOUNTAIN 4045-28 314H (Loving), issued 2026-06-30
+- PERMIAN DEEP ROCK OIL CO., LLC — REBEL H115NB (Midland), issued 2026-06-22
+- ROCKCLIFF ENERGY OPERATING III — HATCH 'C' 3HB (San Augustine), issued 2026-04-02
+- APACHE CORPORATION — CC 4144 D 6HS (Upton), issued 2026-05-27
+- LEWIS PETRO PROPERTIES, INC. — LAUREL SA C 1004H (Webb), issued 2026-06-03
+
+## Month-to-date (August 2026) — 568 permits issued
+
+**By county (top 12):**
+- Midland: 51
+- Reeves: 50
+- Andrews: 43
+- Reagan: 33
+- Webb: 31
+- Martin: 29
+- Upton: 26
+- Yoakum: 20
+- Ector: 18
+- Gaines: 15
+- Dimmit: 12
+- Ward: 12
+
+**By operator (top 12):**
+- PIONEER NATURAL RES. USA, INC.: 59
+- DIAMONDBACK E&P LLC: 51
+- EOG RESOURCES, INC.: 18
+- OCCIDENTAL PERMIAN LTD.: 17
+- SM ENERGY COMPANY: 16
+- COTERRA ENERGY OPERATING CO.: 13
+- OXY USA INC.: 13
+- DE CENTRAL OPERATING, LLC: 13
+- APACHE CORPORATION: 12
+- OVINTIV USA INC.: 11
+- BURK ROYALTY CO., LTD.: 11
+- BURLINGTON RESOURCES O & G CO LP: 9
+
+**Watched families MTD:**
+- EOG Resources: 18
+- Magnolia (EOG-contiguous, Lee Co): 7
+- Firebird Energy: 6
+- Adamas (ex-Aethon, Mitsubishi): 4
+- Sabine Energy: 3
+- Apex (ex-Paloma, Citadel): 2
+- Comstock (Jerry Jones): 1
+
+**Hot cycles (spud <=14 days after issue):**
+- WBI ENERGY MIDSTREAM, LLC — HF SINCLAIR T006MP (Baylor): issued 08/05, spud 08/10 (5d)
+- FELDERHOFF PRODUCTION COMPANY — KLEMENT, ROBERT 1 (Cooke): issued 08/07, spud 08/12 (5d)
+- DIAMONDBACK E&P LLC — SHERIFF 2-38 D 4BN (Ector): issued 08/11, spud 08/23 (12d)
+- STAR PRODUCTION, INC. — BAUCUM 3 (Jones): issued 08/12, spud 08/17 (5d)
+- DIAMONDBACK E&P LLC — RIVERCREST 47-11 C 4LS (Midland): issued 08/05, spud 08/14 (9d)
+- DE CENTRAL OPERATING, LLC — SIDEWINDER WEST A 12-8 4201H (Reagan): issued 08/11, spud 08/11 (0d)
+- PATTON EXPLORATION, INC. — WOOD 1 (Stonewall): issued 08/03, spud 08/15 (12d)
+- L.C.S. PRODUCTION COMPANY — KISSELL UNIT 29 (Taylor): issued 08/04, spud 08/07 (3d)
+- APACHE CORPORATION — CONNELL 3847 B 2HS (Upton): issued 08/07, spud 08/20 (13d)
+- APACHE CORPORATION — CONNELL 3847 C 4HU (Upton): issued 08/17, spud 08/22 (5d)
+- KILLAM OIL CO., LTD. — STATE OF TEXAS RAFTER O UNIT B 12H (Webb): issued 08/07, spud 08/17 (10d)
