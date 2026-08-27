@@ -134,14 +134,18 @@ Reset clears all.
   polygons; no functionality lost at any zoom level). `zoomSnap: 0.25`.
 - **Panes / draw order (bottom → top):** basemap tiles → counties →
   surveys → tracts (lease status) → units → highlight.
-- **Basemap** (radio in layer control, graceful offline fallback):
-  Esri World Imagery / Esri World Topo / Carto Positron (light) /
-  Carto Dark Matter (dark) / None. Default tracks theme.
+- **Basemap** (radio in layer control, graceful offline fallback) — keyless
+  sources only, no API key: Carto Positron / Carto Voyager / Carto Dark Matter /
+  OpenStreetMap / None. Default tracks theme (Positron light, Dark Matter dark).
+  Esri basemaps dropped — they now return "API Key Required" tiles.
 - **Overlay layers** (checkboxes, independently toggleable):
   - Tracts — Lease Status (on)
-  - Units — Operator (on)
-  - Surveys — Lee Co land grid (off by default; faint lines + abstract labels)
+  - Units — Operator (on) — drawn **above** tracts, fill opacity 100% by default
+  - Surveys — Lee Co land grid `surv287p` (**on by default**; the vector backdrop,
+    faint lines + hover survey/abstract label)
   - Counties (on; hairline + county name labels, subject county emphasized)
+- **Opacity sliders** in the layer panel for the Tracts and Units fills
+  (Tracts default 62%, Units default 100%).
 - **Symbology — ported verbatim from the `.lyrx` files:**
   - Tracts on `OFFER_STAT`: EOG HBP/Signed `#FFFF00`, Committed `#55FF00`,
     Negotiating `#FFAA00`, Contact Made `#66CCFF`, Attempting to Contact
