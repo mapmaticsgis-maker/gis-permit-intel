@@ -139,8 +139,12 @@ Reset clears all.
   OpenTopoMap / None (survey grid only). Default: OSM in light, None in dark.
   CARTO basemaps dropped — they now key-gate and return "API Key Required" tiles.
 - **Overlay layers** (checkboxes, independently toggleable):
-  - Tracts — Lease Status (on)
-  - Units — Operator (on) — drawn **above** tracts, fill opacity 100% by default
+  - Tracts — Lease Status (on) — styled per `LEASE STATUS - FLATLAND NORTH.lyrx`
+  - Tracts — Title Status (off) — **same GeoJSON source**, styled per
+    `TITLE STATUS - FLATLAND NORTH.lyrx` (compound key `OFFER_STAT` + `TTL_STATUS`:
+    Complete `#89CD66`, In Progress `#B7B6FC`, Need `#FFFFFF`, 3rd-party lease
+    `#CDAA66`, all-other `#828282`). Own pane, drawn just above the lease layer.
+  - Units — Operator (on) — drawn **above** both tract layers, fill opacity 100%
   - Surveys — Lee Co land grid `surv287p` (**on by default**; the vector backdrop,
     faint lines + hover survey/abstract label)
   - Counties (on; hairline + county name labels, subject county emphasized)
