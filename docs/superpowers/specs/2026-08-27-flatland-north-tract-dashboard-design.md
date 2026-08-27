@@ -135,9 +135,9 @@ Reset clears all.
 - **Panes / draw order (bottom → top):** basemap tiles → counties →
   surveys → tracts (lease status) → units → highlight.
 - **Basemap** (radio in layer control, graceful offline fallback) — keyless
-  sources only, no API key: Carto Positron / Carto Voyager / Carto Dark Matter /
-  OpenStreetMap / None. Default tracks theme (Positron light, Dark Matter dark).
-  Esri basemaps dropped — they now return "API Key Required" tiles.
+  sources only, no API key: OpenStreetMap / Esri World Imagery / Esri World Topo /
+  OpenTopoMap / None (survey grid only). Default: OSM in light, None in dark.
+  CARTO basemaps dropped — they now key-gate and return "API Key Required" tiles.
 - **Overlay layers** (checkboxes, independently toggleable):
   - Tracts — Lease Status (on)
   - Units — Operator (on) — drawn **above** tracts, fill opacity 100% by default
@@ -155,8 +155,12 @@ Reset clears all.
     TEX-LEE `#FF73DF`, LEEXUS `#FFD37F`, 3rd-party HBP group `#9C9C9C`,
     default `#ECBDF2`. Fill opacity 0.20, 1.5 px black stroke (outline-forward
     so tracts read underneath).
-- **Legend:** collapsible, two sections (Lease Status, Unit Operator) matching
-  the layers that are on.
+- **Legend:** lives inside the single "Layers & legend" panel (top-right,
+  scrolls internally), sections shown for whichever layers are on. No separate
+  floating legend box.
+- **Header wordmark:** the current "MAPMATICS GIS" lettering pulled from
+  mapmatics.co (`assets/images/image07.png`), vendored to `vendor/mm_logo.png`;
+  white glyphs, CSS-inverted to dark in light theme.
 - **Popups:** tract → attribute card (status, operator, lessee, survey,
   abstract, acres, MI, bonus, expiration, comments); unit → name, operator,
   formation, acres; survey → name + abstract label; county → name.
