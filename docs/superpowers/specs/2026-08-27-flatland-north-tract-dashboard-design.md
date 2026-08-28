@@ -29,6 +29,8 @@ editing.
 | # | Source | CRS | Role |
 |---|--------|-----|------|
 | 1 | `Tract_Report_Flatland_North_T1_8-18-26.xlsx` → `Tracts` tab (header row 2, drop 1 blank row → 4,712 records) | n/a | Analytics + per-tract attributes |
+| 1b | same workbook → `Qtr Sum` + `Summary FL N` | n/a | Campaign spend/velocity series + prospect scorecard |
+| 1c | same workbook → `Report Details FL N` | n/a | Current vs prior report deltas by status |
 | 2 | `20260819-DLS_FLATLAND_NORTH-JOINED.shp` (4,712 polygons) | NAD27 TX SP South Central, ft | Tract geometry; joined to #1 on `UID` (1:1, verified 4,712/4,712) |
 | 3 | `20260827-DLS_UNIT_MASTER.shp` (707 polygons) | WGS84 | Unit geometry |
 | 4 | `SURVEY.gdb / surv287p` (399 polygons, Lee Co land grid) | NAD27 | Background survey / abstract layer. Fields: `ABSTRACT_N`, `LEVEL1_SUR` (survey name), `ABSTRACT_L` (e.g. `A-1`) |
@@ -98,7 +100,11 @@ current filter set.
 - Horizontal bar: GIS acres by `LEASE_STAT` (Open / Partial HBP / EOG HBP /
   Competitor), colored by the lease-status palette.
 - Horizontal bar: net acres by `OPERATOR` (top 8 + Other).
-- Horizontal bar: GIS acres by `SURVEY` (top 12).
+- **Expiration runway** — net acres coming off lease by quarter, chronological
+  (a timeline, not sorted by size), next 14 quarters, click to filter. Replaces
+  an acres-by-survey chart the client said they don't track. 16,967 net ac
+  expire ahead, 15,405 of it competitor acreage — this is the capture pipeline.
+  Footnote carries already-expired and no-expiration-on-file totals.
 
 ### Tab B — Leasing Pipeline
 - Funnel (counts + net acres): Open → Attempting to Contact → Contact Made →
@@ -128,6 +134,35 @@ current filter set.
 - Histogram: `BONUS/NMA` distribution (buckets).
 - Horizontal bar: total bonus by `LEASE_STAT`.
 - Note line stating coverage (only ~21% of tracts carry a bonus value).
+
+### Tab E — Campaign  *(prospect-level; filter-independent by design)*
+From `Qtr Sum` + `Summary FL N`. The dashboard's first four tabs answer "what do
+we hold"; this one answers "how is the leasing effort performing", which is what
+EOG actually buys.
+- Tiles: net ac acquired, leases closed, all-in $/ac, total spend, committed net ac.
+- **All-in cost per acre by period** — the headline. $2,280/ac → $1,686/ac
+  across the two priced periods (−26%), annotated with the delta.
+- Spend by period, bonus vs brokerage stacked, with the brokerage:bonus ratio
+  called out (currently 2.7×, i.e. $1,787/ac brokerage vs $652/ac bonus).
+- Net acres acquired by period.
+- Position in the prospect: EOG HBP / Partial HBP / competitor lease / open
+  against the 78,656-ac outline, with acquired leasehold as a % of it (0.14%).
+- Terms & resourcing ($600–800/ac, 20–22.5%, 4+2 yr; 10 landmen).
+- Explicit footnote that these are prospect totals and do **not** respond to the
+  tract filters — otherwise the static numbers look like a filtering bug.
+
+### Tab F — Change  *(this report vs prior)*
+From the three stacked pivots in `Report Details FL N`, parsed by scanning for
+block headers rather than fixed rows. Verified current − prior = difference for
+all 9 statuses.
+- Tiles: Δ gross ac, Δ owners, current/prior gross ac, total owners.
+- Diverging bar of net-acre change by status (gains right, losses left).
+- **Honest framing note**: the +23,201 gross ac is overwhelmingly newly
+  researched tract base, not status migration — EOG HBP moved 0. Without this
+  the tab would read as spectacular leasing progress, which it isn't.
+- Full status comparison table: prior / current / Δ net ac / Δ owners.
+- Leasing movement: owners entering each pursuit stage (the part that does
+  reflect actual leasing work), with negatives explained as onward conversion.
 
 Chart rendering: hand-built inline SVG (horizontal bars, donut, histogram) —
 no chart library. Follows the `dataviz` skill palette/entrance rules. Bars are
@@ -229,6 +264,18 @@ Reset clears all.
   that polygon in the highlight pane. Closing the card returns to the tabs.
 - Clicking a chart bar (e.g. a `SURVEY` bar in Tab A) adds that value to
   `filterState`, which immediately reflects on the map.
+
+## 10b. Workbook tabs not yet used
+
+- **`RS` / `RS Temp.`** — runsheet & title workflow tracker with a full schema
+  (status, date assigned/completed/submitted, TO received, atty & EOG upload,
+  runsheet/review/curative landman, curative %) but **zero data rows** as of the
+  8-18-26 report. This is clearly where DLS is heading operationally; when it's
+  populated it earns a "Title workflow" tab (cycle time per stage, WIP by
+  landman, curative aging). The build script should tolerate it staying empty.
+- **`DLS LSE`** — lease register (DLS/EOG lease no., gross ac, tracts, up to 10
+  owners). 8 rows populated. Useful later for a lease-level drill-down.
+- **`TR Temp.`** — blank template of the Tracts sheet; ignore.
 
 ## 11. Out of scope
 
