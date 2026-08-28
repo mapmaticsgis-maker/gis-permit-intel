@@ -73,8 +73,21 @@ column is `var(--leftw, 35%)` — the map gets the remaining ~65%, since the map
 what the panel is read against. The splitter is **draggable** (clamped 20–62%,
 17px grab zone, double-click resets, width persisted to `localStorage`
 `fln-leftw`); every resize calls `map.invalidateSize()` on a rAF throttle so the
-Leaflet canvas stays in sync. Below ~1100 px viewport width the columns stack
-(analytics first, map gets `70vh`) and the splitter is hidden.
+Leaflet canvas stays in sync.
+
+**Narrow / portrait (≤1100 px):** the columns stack and the *same* splitter
+becomes a row-resizer (`--maph`, persisted as `fln-maph`, floors of 180 px map /
+240 px analytics, double-click resets). Rows are
+`auto / minmax(260px,1fr) / 5px / var(--maph, 46vh)` — 300 px and 42vh in
+portrait, so the analytics keeps real height instead of being squeezed into
+whatever a tall wrapped header left over (~200 px, which cut charts off
+mid-row). The header, filters, tabs and tiles all compact at this breakpoint
+(header 330 px → 57 px at 1062×1787), and the tract detail card goes
+`position:fixed` full-screen rather than into a cramped strip.
+
+`html, body { overflow: hidden }` and `.app { height: 100% }` (not `100vh`):
+the app owns the viewport and scrolls internally, and `100vh` measured against a
+`clientHeight` reduced by a scrollbar makes each scrollbar summon the other.
 Header spans both columns: title, Mapmatics mark, theme toggle, active-filter
 chips, Reset button, record/acre counts for the current filter.
 
