@@ -357,3 +357,40 @@ Steps:
 5. The ready-to-lease queue names its 9 tracts and totals 237 ac.
 6. Opens offline by double-click; no external asset requests except basemap tiles.
 7. The "no current title assignment" caveat is visible on the PIPELINE tab.
+
+---
+
+## 12. Build notes (added 2026-08-28, after implementation)
+
+Built as **one script + one template**, matching the Flatland build, not as the
+Python package an earlier draft plan proposed. At this size the package split
+bought nothing.
+
+Three things the data taught us during the build:
+
+1. **`631-006` reads `Open` in the TITLE WORK status column** — a *leasing* word
+   in a title field. Taking the workbook value verbatim silently zeroed the
+   `Title 100%` bucket and lost the dark-green tract that appears on the 8/19
+   title PDF. `title_label()` now takes the workbook value only when it is an
+   actual title bucket, and otherwise falls back to the shapefile code, which is
+   what the PDF map is symbolized from. `Open` was also removed from
+   `TITLE_DONE_STATUSES` for the same reason.
+
+2. **The owner roster is grouped by the workbook's own key, not by expanded
+   tract.** A leasing package such as `520-001, 004, 005, 006, 008, 010 & 011`
+   carries one owner list covering seven tracts; expanding it first reports those
+   owners seven times and inflates the roster from its true 128 rows to 156.
+   Statuses expand to every tract in a package; owner lists do not.
+
+3. **`tl_2024_us_county.shp` is national**, and both `Shelby` and `Sabine` exist
+   as county names in other states — the county filter needs `STATEFP == "48"`
+   as well as the name, or it pulls 17 polygons instead of 6.
+
+Also corrected against the §6 prose: **43 tracts are engaged, not 37.** The
+lower figure came from counting workbook keys before composite expansion. The
+six pipeline bucket counts in §6 were computed post-expansion and are correct
+as written.
+
+`fitBounds()` at map-construction time computes against a zero-height flex
+container and lands on zoom 0; the fit is deferred to `requestAnimationFrame`
+plus the `load` event, and a home control re-fits on demand.
