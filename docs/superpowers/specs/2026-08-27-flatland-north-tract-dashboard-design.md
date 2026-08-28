@@ -137,8 +137,19 @@ Reset clears all.
 
 ## 9. Right panel — map
 
-- Leaflet, `preferCanvas: true` (canvas renderer — smooth pan/zoom with 4,712
-  polygons; no functionality lost at any zoom level). `zoomSnap: 0.25`.
+- Leaflet, `preferCanvas: true`, one `L.canvas` per pane at `padding: 0.15`,
+  `zoomSnap: 0.5`. Performance rules learned the hard way:
+  - **Selecting a tract never changes zoom** — it adds the highlight outline and
+    pans (no zoom, short animation) only if the tract is off-screen. An earlier
+    `fitBounds({maxZoom:15})` on select was yanking the view 4+ zoom levels,
+    re-rendering every layer for the whole animation and re-fetching the entire
+    basemap — that was the "map jams after selecting a tract" report.
+  - No on-map popups for tracts (detail slide-over only) — removes a DOM node +
+    autopan per click.
+  - `uid → feature` / `uid → row` lookups are maps, not `.find()`.
+  - Filter restyle skips the title layer when it's hidden; uses `fitBounds`
+    (not `flyToBounds`).
+  - Unit click-through uses per-feature bounding boxes before ray-casting.
 - **Panes / draw order (bottom → top):** basemap tiles → counties →
   surveys → tracts (lease status) → units → highlight.
 - **Basemap** (radio in layer control, graceful offline fallback) — keyless
