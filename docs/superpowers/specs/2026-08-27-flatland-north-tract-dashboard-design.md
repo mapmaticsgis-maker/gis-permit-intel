@@ -1,4 +1,4 @@
-# Flatland North — Tract Intelligence Dashboard
+# Flatland — Tract Intelligence Dashboards (North & South)
 
 **Date:** 2026-08-27
 **Client:** EOG / DLS — Flatland North T1 Prospect, Lee County, Texas
@@ -12,6 +12,49 @@ from the `Tracts` tab of `Tract_Report_Flatland_North_T1_8-18-26.xlsx` on the
 left, and an interactive, zoomable lease-status map on the right. Static
 point-in-time snapshot of the 8-18-26 report — no server, no live data, no
 editing.
+
+## 1b. Multi-prospect build (added 2026-08-28, 8/31 reports)
+
+One template, one build script, two dashboards. Everything prospect-specific
+lives in the `CONFIGS` table at the top of `build_flatland_dashboard.py`;
+`python build_flatland_dashboard.py [north|south]` builds one or both.
+
+| | North | South |
+|---|---|---|
+| Output | `Flatland_North_Dashboard.html` (8.5 MB) | `Flatland_South_Dashboard.html` (9.7 MB) |
+| Workbook | `Tract_Report_Flatland_North_T1_8-31-26_EOG.xlsx` | `Tract Report_Flatland South_8-31-26_EOG.xlsx` |
+| Tracts shp | `20260831-DLS_FLATLAND_NORTH-JOINED` | `20260831-DLS_FLATLAND_SOUTH-JOINED` |
+| County / survey grid | Lee / `surv287p` | Fayette / `surv149p` |
+| Tracts | 4,772 | 5,351 |
+| Sub-prospects | 1 (`Summary FL N`) | 2 (`Summary FL T1`, `FL T2`) |
+| Maturity | 16 signed, 26% title complete | 1,476 signed, 85% title complete |
+
+Differences the shared code absorbs:
+
+- **`TRACT` vs `TRACT_NO`** — aliased in `TRACT_FIELDS`.
+- **South has no `GIS AC` column.** `gis_ac` falls back to `TRUE GROSS AC`,
+  whose sum (70,609) matches the two prospect outlines exactly. It must *not*
+  fall back to `LEASE GROSS AC`: that repeats the whole lease's acreage on every
+  tract row in the lease, and summing it reported 355,246 ac — 5× the real
+  position. `META.has_gis_ac` drives whether the GIS-ac tile shows at all and
+  whether charts read "GIS acres" or "Gross acres".
+- **Multiple sub-prospects.** `read_campaign` returns `{periods, scorecards[]}`
+  and `read_change` returns a list; the Campaign and Change tabs render one
+  section each, with a `.secthead` rule when there is more than one.
+- **Per-prospect `localStorage`.** Every key is namespaced by `PKEY`
+  (`fln-north-theme`, `fln-south-leftw`, …) so the two dashboards keep separate
+  theme and splitter preferences.
+- **Units are filtered to each prospect's extent** (221 of 707 for North, 79 for
+  South) rather than shipping the full statewide layer in both files.
+- The "most of this is newly researched tract base" caveat on the Change tab now
+  only appears when the tract base actually moved (>500 ac). South T1 changed by
+  +13 ac, where that claim would have been nonsense.
+
+**Map sizing guard.** Leaflet caches its container size at init, so a layout
+still settling (fonts, the splitter, a pane resize) left the initial `fitBounds`
+computed against a stale size — the South map opened centred in the Gulf of
+Mexico. A `ResizeObserver` on `#map` now re-syncs `invalidateSize()` and re-fits
+the extent until the user first drags or zooms (`userMovedMap`).
 
 ## 2. Deliverable form
 
