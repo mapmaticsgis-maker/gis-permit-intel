@@ -66,8 +66,13 @@ Idempotent; safe to re-run when the report or shapefiles update.
 
 ## 5. Layout
 
-CSS grid, two equal columns, `100vh`. Left = analytics, right = map. Below
-~1100 px viewport width the columns stack (analytics first, map gets `70vh`).
+CSS grid, `100vh`, three columns: analytics / 5px splitter / map. The analytics
+column is `var(--leftw, 35%)` — the map gets the remaining ~65%, since the map is
+what the panel is read against. The splitter is **draggable** (clamped 20–62%,
+17px grab zone, double-click resets, width persisted to `localStorage`
+`fln-leftw`); every resize calls `map.invalidateSize()` on a rAF throttle so the
+Leaflet canvas stays in sync. Below ~1100 px viewport width the columns stack
+(analytics first, map gets `70vh`) and the splitter is hidden.
 Header spans both columns: title, Mapmatics mark, theme toggle, active-filter
 chips, Reset button, record/acre counts for the current filter.
 
@@ -86,8 +91,10 @@ Four tabs, each a full scrollable panel. All figures recompute live against the
 current filter set.
 
 ### Tab A — Acreage Position
-- Stat tiles: tract count, gross ac (TRUE), leased-gross ac, GIS ac, net ac,
-  avg mineral interest.
+- Stat tiles (5, one row): tract count, gross ac (TRUE), leased-gross ac,
+  GIS ac, net ac. No avg-mineral-interest tile — it isn't a headline figure and
+  it forced the tile grid onto a second row; MI still shows per tract in the
+  detail card.
 - Horizontal bar: GIS acres by `LEASE_STAT` (Open / Partial HBP / EOG HBP /
   Competitor), colored by the lease-status palette.
 - Horizontal bar: net acres by `OPERATOR` (top 8 + Other).
