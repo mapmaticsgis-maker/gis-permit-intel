@@ -137,8 +137,24 @@ Reset clears all.
 
 ## 9. Right panel — map
 
-- Leaflet, `preferCanvas: true`, one `L.canvas` per pane at `padding: 0.15`,
-  `zoomSnap: 0.5`. Performance rules learned the hard way:
+- **Renderer layout (this is a correctness constraint, not a style choice).**
+  Every `L.canvas` renderer paints into a full-map-sized `<canvas>` with
+  `pointer-events: auto`, so **only the topmost canvas ever receives a click**.
+  One canvas per layer therefore meant the top layer swallowed every click —
+  first the units canvas (only units were selectable), then, the moment a tract
+  was selected, the highlight canvas sat above everything and killed all
+  selection while panning still worked. The layout that actually works:
+  - counties / surveys / tracts / titles share **one** `L.canvas`
+    (`pane: vectors`, z 420). Leaflet hit-tests every layer on it and returns
+    the topmost polygon actually hit; draw order = the order
+    `refreshLayerStack()` adds them.
+  - units use **`L.svg`** (`pane: units`, z 440) — each polygon is a real DOM
+    path, so a click that misses a unit falls through to the tract beneath, and
+    each path can carry its own gradient fill.
+  - the highlight uses `L.svg` (`pane: hi`, z 460) with `interactive: false`
+    and `pointer-events: none`, so it can never intercept.
+- Leaflet `preferCanvas: true`, `padding: 0.15`, `zoomSnap: 0.5`.
+  Performance rules learned the hard way:
   - **Selecting a tract never changes zoom** — it adds the highlight outline and
     pans (no zoom, short animation) only if the tract is off-screen. An earlier
     `fitBounds({maxZoom:15})` on select was yanking the view 4+ zoom levels,
@@ -162,7 +178,14 @@ Reset clears all.
     `TITLE STATUS - FLATLAND NORTH.lyrx` (compound key `OFFER_STAT` + `TTL_STATUS`:
     Complete `#89CD66`, In Progress `#B7B6FC`, Need `#FFFFFF`, 3rd-party lease
     `#CDAA66`, all-other `#828282`). Own pane, drawn just above the lease layer.
-  - Units — Operator (on) — drawn **above** both tract layers, fill opacity 100%
+  - Units — Operator (on) — drawn **above** both tract layers. Fill is a per-
+    operator SVG `radialGradient` (`objectBoundingBox`, so it follows each
+    polygon and is zoom-independent): the operator colour at 50% alpha in the
+    middle, fading to 0 by 92% of the radius. Tract colours therefore read
+    through the unit near its edges while the centre still tells you which unit
+    you're in. A heavy 2.8px black outline (vs 0.6px on tracts) carries the unit
+    boundary, since the fill no longer does. The "Unit tint" slider drives the
+    gradient's centre stop.
   - Surveys — Lee Co land grid `surv287p` (**on by default**; the vector backdrop,
     faint lines + hover survey/abstract label)
   - Counties (on; hairline + county name labels, subject county emphasized)
