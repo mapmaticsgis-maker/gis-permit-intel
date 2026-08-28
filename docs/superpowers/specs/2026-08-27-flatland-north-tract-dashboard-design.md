@@ -102,10 +102,17 @@ current filter set.
 - Horizontal bar: open net acres by `SURVEY` (top 12) — where to work next.
 
 ### Tab C — Title Progress
-- Donut: `TITLE STATUS` (Need / In Progress / Complete) by tract count.
+- Donut: title status in the 5-class `TITLE STATUS - FLATLAND NORTH.lyrx` scheme
+  (Complete `#89CD66` / In Progress `#B7B6FC` / Need `#FFFFFF` / 3rd-party lease
+  `#CDAA66` / Other `#828282`) by tract count — matches the map layer exactly.
 - Stat tiles: % of tracts title-complete, % of net acreage title-complete,
   tracts needing title, in-progress count.
-- Stacked bar: title status by `OPERATOR` (top 8).
+- **Title status — DLS unit (`UNIT / AREA 2`)**: this is EOG title work run by
+  DLS, so an operator split is meaningless. Instead: a stacked bar per Area 2
+  unit (title-class composition) plus a scrollable per-tract worklist (lessor /
+  owner, UID, net ac, title-class swatch), sorted actionable-first
+  (Need → 3rd-party → In Progress → Other → Complete), each row clicking through
+  to the tract detail card. Grows automatically as more Area 2 units appear.
 - Bar: `UNIT STATUS` (HBP vs blank/other) net acres.
 
 ### Tab D — Bonus / Exposure  *(shown where populated — 1,008 of 4,712 tracts)*
@@ -165,9 +172,11 @@ Reset clears all.
 - **Header wordmark:** the current "MAPMATICS GIS" lettering pulled from
   mapmatics.co (`assets/images/image07.png`), vendored to `vendor/mm_logo.png`;
   white glyphs, CSS-inverted to dark in light theme.
-- **Popups:** tract → attribute card (status, operator, lessee, survey,
-  abstract, acres, MI, bonus, expiration, comments); unit → name, operator,
-  formation, acres; survey → name + abstract label; county → name.
+- **Popups / interaction:** tract → attribute card + detail slide-over.
+  **Units are hover-only** (tooltip: name, operator, formation, acres) and do
+  **not** capture clicks — a click on a unit is ray-cast to the tract beneath it
+  and opens that tract's detail, so tracts stay selectable everywhere. Survey →
+  hover name + abstract label; county → name popup.
 
 ## 10. Linking (both ways)
 
