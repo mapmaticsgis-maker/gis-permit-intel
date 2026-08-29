@@ -1,0 +1,4140 @@
+{
+  "run_date": "2026-08-28",
+  "states": {
+    "tx": {
+      "total_rows": 1788,
+      "latest_issue_date": "2026-08-26",
+      "new_since_last_run": 48,
+      "new_permits": [
+        {
+          "operator": "BORDERLINE OPERATING CORP.",
+          "county": "ARCHER",
+          "well_name": "ANDREWS NORTH",
+          "well_num": "2",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "NECHES BEND RESOURCES, LLC",
+          "county": "CHEROKEE",
+          "well_name": "BLACKWELL 13",
+          "well_num": "1",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "RING ENERGY, INC.",
+          "county": "CRANE",
+          "well_name": "RING WHORL SWD",
+          "well_num": "1",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "ENSIGN NATURAL RESOURCES II LLC",
+          "county": "DEWITT",
+          "well_name": "STEEN-MUSSELMAN G",
+          "well_num": "7H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "ENSIGN NATURAL RESOURCES II LLC",
+          "county": "DEWITT",
+          "well_name": "STEEN-MUSSELMAN H",
+          "well_num": "8H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONTINENTAL RESOURCES, INC.",
+          "county": "ECTOR",
+          "well_name": "ATHENA",
+          "well_num": "1601BL",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONTINENTAL RESOURCES, INC.",
+          "county": "ECTOR",
+          "well_name": "ATHENA",
+          "well_num": "1602BL",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONTINENTAL RESOURCES, INC.",
+          "county": "ECTOR",
+          "well_name": "ATHENA",
+          "well_num": "1603BL",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONTINENTAL RESOURCES, INC.",
+          "county": "ECTOR",
+          "well_name": "ATHENA",
+          "well_num": "1604BL",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "SAGE NATURAL RESOURCES LLC",
+          "county": "FAYETTE",
+          "well_name": "HOLLIDAY EF",
+          "well_num": "1H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "SAGE NATURAL RESOURCES LLC",
+          "county": "FAYETTE",
+          "well_name": "HOLLIDAY EF",
+          "well_num": "2H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "WILCOX PETROLEUM OPERATING LLC.",
+          "county": "HASKELL",
+          "well_name": "GOETZ",
+          "well_num": "1",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "WATERBRIDGE STATELINE LLC",
+          "county": "LOVING",
+          "well_name": "FPW SWD",
+          "well_num": "13",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "WATERBRIDGE STATELINE LLC",
+          "county": "LOVING",
+          "well_name": "FPW SWD",
+          "well_num": "14",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "WATERBRIDGE STATELINE LLC",
+          "county": "LOVING",
+          "well_name": "FPW SWD",
+          "well_num": "20",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "WPX ENERGY PERMIAN, LLC",
+          "county": "LOVING",
+          "well_name": "CROSS MOUNTAIN 4045-28 WEST",
+          "well_num": "313H",
+          "issue_date": "2026-06-30"
+        },
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "well_name": "DK UNIT",
+          "well_num": "A 5H",
+          "issue_date": "2025-10-27"
+        },
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "well_name": "DK UNIT",
+          "well_num": "A 6H",
+          "issue_date": "2025-10-27"
+        },
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "well_name": "DK UNIT",
+          "well_num": "A 7H",
+          "issue_date": "2025-10-27"
+        },
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "well_name": "DK UNIT",
+          "well_num": "A 8H",
+          "issue_date": "2025-11-13"
+        },
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "well_name": "DK UNIT",
+          "well_num": "A 9H",
+          "issue_date": "2025-11-24"
+        },
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "well_name": "DK UNIT",
+          "well_num": "A 10H",
+          "issue_date": "2025-11-13"
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "well_name": "CRESPI-GOLLADAY E30H",
+          "well_num": "8H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "ENERGY TRANSFER COMPANY",
+          "county": "MITCHELL",
+          "well_name": "CP# 26-146 CATHODIC PROTECTION",
+          "well_num": "41",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "well_name": "ARCHER 56-T2-5",
+          "well_num": "W103HU",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "well_name": "ARCHER 56-T2-5",
+          "well_num": "W107HU",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "well_name": "ARCHER 56-T2-5",
+          "well_num": "W111HU",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "well_name": "ARCHER 56-T2-5",
+          "well_num": "X102HU",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "well_name": "ARCHER 56-T2-5",
+          "well_num": "X103HU",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONOCOPHILLIPS COMPANY",
+          "county": "REEVES",
+          "well_name": "LONESTAR STATE",
+          "well_num": "802H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONOCOPHILLIPS COMPANY",
+          "county": "REEVES",
+          "well_name": "LONESTAR STATE",
+          "well_num": "803H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONOCOPHILLIPS COMPANY",
+          "county": "REEVES",
+          "well_name": "LONESTAR STATE",
+          "well_num": "804H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "CONOCOPHILLIPS COMPANY",
+          "county": "REEVES",
+          "well_name": "LONESTAR STATE",
+          "well_num": "805H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "U.S. ENERGY DEVELOPMENT CORP",
+          "county": "REEVES",
+          "well_name": "W STATE A",
+          "well_num": "1TH",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "U.S. ENERGY DEVELOPMENT CORP",
+          "county": "REEVES",
+          "well_name": "W STATE C",
+          "well_num": "3SH",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "U.S. ENERGY DEVELOPMENT CORP",
+          "county": "REEVES",
+          "well_name": "W STATE D",
+          "well_num": "4TH",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "APACHE CORPORATION",
+          "county": "UPTON",
+          "well_name": "CC 4144 F",
+          "well_num": "9HS",
+          "issue_date": "2026-05-26"
+        },
+        {
+          "operator": "APACHE CORPORATION",
+          "county": "UPTON",
+          "well_name": "CC 4144 G",
+          "well_num": "10HA",
+          "issue_date": "2026-05-26"
+        },
+        {
+          "operator": "APACHE CORPORATION",
+          "county": "UPTON",
+          "well_name": "CC 4144 G",
+          "well_num": "11JM",
+          "issue_date": "2026-05-26"
+        },
+        {
+          "operator": "PITTS ENERGY CO.",
+          "county": "WARD",
+          "well_name": "EDWARDS, JACK -J-",
+          "well_num": "2",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "AETHON ENERGY OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "CLAY CREEK EAST UNIT",
+          "well_num": "99",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "AETHON ENERGY OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "CLAY CREEK EAST UNIT",
+          "well_num": "127",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "AETHON ENERGY OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "CLAY CREEK WEST UNIT",
+          "well_num": "264",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "KILLAM OIL CO., LTD.",
+          "county": "WEBB",
+          "well_name": "PUIG NEEL E (EF)",
+          "well_num": "5H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "KILLAM OIL CO., LTD.",
+          "county": "WEBB",
+          "well_name": "PUIG NEEL H (AC)",
+          "well_num": "8H",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "PALOMA OPERATING, LLC",
+          "county": "WHARTON",
+          "well_name": "APPLING",
+          "well_num": "1",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "TEXLAND PETROLEUM, L.P.",
+          "county": "YOAKUM",
+          "well_name": "GRANGER",
+          "well_num": "1",
+          "issue_date": "2026-08-26"
+        },
+        {
+          "operator": "TEXLAND PETROLEUM, L.P.",
+          "county": "YOAKUM",
+          "well_name": "LOVEGOOD",
+          "well_num": "1",
+          "issue_date": "2026-08-26"
+        }
+      ],
+      "fresh_spuds": [
+        {
+          "operator": "RFE OPERATING, LLC",
+          "county": "HARRISON",
+          "well_name": "OAKMONT-SAWGRASS 1 (AW)",
+          "well_num": "1H",
+          "spud_date": "2025-09-14"
+        },
+        {
+          "operator": "PERMIAN DEEP ROCK OIL CO., LLC",
+          "county": "MIDLAND",
+          "well_name": "BULLDOG B",
+          "well_num": "H135NB",
+          "spud_date": "2026-07-11"
+        }
+      ],
+      "pads": [
+        {
+          "operator": "DIAMONDBACK E&P LLC",
+          "county": "MARTIN",
+          "pad": "STANTON 28-16",
+          "well_count": 14,
+          "wells": [
+            {
+              "well_num": "4WA",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "4LS",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "4WB",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "2LS",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "2WB",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "1LS",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "1WB",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "3WA",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "2JM",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "2WA",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "3LS",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "3WB",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "1JM",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "1WA",
+              "date": "2026-08-12"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DIAMONDBACK E&P LLC",
+          "county": "MIDLAND",
+          "pad": "RIVERCREST 2-11",
+          "well_count": 13,
+          "wells": [
+            {
+              "well_num": "1JM",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "1WA",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "1LS",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "1WD",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "2WD",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "3JM",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "3WA",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "3LS",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "3WB",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "2JM",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "2WA",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "2LS",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "2WB",
+              "date": "2026-08-21"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "EOG RESOURCES, INC.",
+          "county": "WEBB",
+          "pad": "CODIGO",
+          "well_count": 12,
+          "wells": [
+            {
+              "well_num": "23H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "24H",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "25H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "26H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "27H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "28H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "29H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "30H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "113H",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "114H",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "115H",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "116H",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "APACHE CORPORATION",
+          "county": "UPTON",
+          "pad": "CONNELL 3847",
+          "well_count": 11,
+          "wells": [
+            {
+              "well_num": "2HS",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "3HA",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "6HS",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "7HA",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "4HU",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "9HS",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "10HA",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "1JM",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "5JM",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "8JM",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "11JM",
+              "date": "2026-08-24"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "OCCIDENTAL PERMIAN LTD.",
+          "county": "HALE",
+          "pad": "ANTON-IRISH CLEARFORK",
+          "well_count": 9,
+          "wells": [
+            {
+              "well_num": "299",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "586",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "586",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "283",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "283",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "221",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "221",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "224",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "224",
+              "date": "2026-08-24"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "pad": "STATE CARSON 57-T3-8X20",
+          "well_count": 8,
+          "wells": [
+            {
+              "well_num": "W102H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "W103H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "W105H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "W104H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "X101H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "X102H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "X103H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "W101H",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "COTERRA ENERGY OPERATING CO.",
+          "county": "CULBERSON",
+          "pad": "STATE LUCKY DEBONAIR",
+          "well_count": 8,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "2H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "3H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "4H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "5H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "6H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "7H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "8H",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "COTERRA ENERGY OPERATING CO.",
+          "county": "REEVES",
+          "pad": "STATE BLACK DIAMOND",
+          "well_count": 8,
+          "wells": [
+            {
+              "well_num": "4H",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "6H",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "7H",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "1H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "2H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "3H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "5H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "8H",
+              "date": "2026-08-25"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "FASKEN OIL AND RANCH, LTD.",
+          "county": "ANDREWS",
+          "pad": "FEE",
+          "well_count": 8,
+          "wells": [
+            {
+              "well_num": "413UL",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "414MS",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "415JM",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "416LS",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "417DN",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "418WA",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "419WB",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "420WD",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "ANDREWS",
+          "pad": "UNIVERSITY",
+          "well_count": 8,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "2H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "3H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "4H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "5H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "6H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "7H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "8H",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MARTIN",
+          "pad": "UNIVERSITY 7-28",
+          "well_count": 8,
+          "wells": [
+            {
+              "well_num": "104H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "105H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "106H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "107H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "219H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "220H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "222H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "221H",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "OXY USA INC.",
+          "county": "GAINES",
+          "pad": "SEMINOLE SAN ANDRES",
+          "well_count": 7,
+          "wells": [
+            {
+              "well_num": "2918",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "2807",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "5503 R",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "3001 R",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "1004",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "3529",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "3504",
+              "date": "2026-08-21"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "UPTON",
+          "pad": "NEAL",
+          "well_count": 7,
+          "wells": [
+            {
+              "well_num": "101H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "104H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "105H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "106H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "107H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "109H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "103H",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": [
+            102,
+            108
+          ]
+        },
+        {
+          "operator": "OVINTIV USA INC.",
+          "county": "ANDREWS",
+          "pad": "UL CHATFIELD",
+          "well_count": 6,
+          "wells": [
+            {
+              "well_num": "101HF",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "102HD",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "104HF",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "105HD",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "106HF",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "103HF",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "U.S. ENERGY DEVELOPMENT CORP",
+          "county": "REEVES",
+          "pad": "W STATE",
+          "well_count": 6,
+          "wells": [
+            {
+              "well_num": "2BH",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "6BH",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "9BH",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "1TH",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "3SH",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "4TH",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": [
+            5,
+            7,
+            8
+          ]
+        },
+        {
+          "operator": "VTX ENERGY OPERATING, LLC",
+          "county": "REEVES",
+          "pad": "BABOON",
+          "well_count": 6,
+          "wells": [
+            {
+              "well_num": "14H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "22H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "23H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "11H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "12H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "13H",
+              "date": "2026-08-21"
+            }
+          ],
+          "gaps": [
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ]
+        },
+        {
+          "operator": "AETHON ENERGY OPERATING LLC",
+          "county": "WASHINGTON",
+          "pad": "CLAY CREEK WEST",
+          "well_count": 5,
+          "wells": [
+            {
+              "well_num": "259",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "260",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "261",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "262",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "264",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": [
+            263
+          ]
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "pad": "ARCHER 56-T2-5",
+          "well_count": 5,
+          "wells": [
+            {
+              "well_num": "W103HU",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "W107HU",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "W111HU",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "X102HU",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "X103HU",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "MCM OPERATING, LLC",
+          "county": "WARD",
+          "pad": "VULCAN 2-3",
+          "well_count": 5,
+          "wells": [
+            {
+              "well_num": "302H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "403H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "303H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "404H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "304H",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "OCCIDENTAL PERMIAN LTD.",
+          "county": "YOAKUM",
+          "pad": "WASSON ODC",
+          "well_count": 5,
+          "wells": [
+            {
+              "well_num": "595",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "918H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "921H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "922",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "919H",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SABALO II OPERATING, LLC",
+          "county": "ANDREWS",
+          "pad": "UL WILD CARD 3-15",
+          "well_count": 5,
+          "wells": [
+            {
+              "well_num": "1CF",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "1JM",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "1WA",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "1LS",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "1WB",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "TGNR EAST TEXAS II LLC",
+          "county": "PANOLA",
+          "pad": "G11A WINSTON",
+          "well_count": 5,
+          "wells": [
+            {
+              "well_num": "1HH",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "2HH",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "3HH",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "4HH",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "5HH",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "TRP OPERATING LLC",
+          "county": "REEVES",
+          "pad": "CHECKERS",
+          "well_count": 5,
+          "wells": [
+            {
+              "well_num": "702H",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "802H",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "703H",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "803H",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "804H",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "CONOCOPHILLIPS COMPANY",
+          "county": "REEVES",
+          "pad": "LONESTAR",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "802H",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "803H",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "804H",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "805H",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "CONTINENTAL RESOURCES, INC.",
+          "county": "ECTOR",
+          "pad": "ATHENA",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "1601BL",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "1602BL",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "1603BL",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "1604BL",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DIAMONDBACK E&P LLC",
+          "county": "MIDLAND",
+          "pad": "GEORGIA 37-32",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "2BN",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "3BN",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "4BN",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "1BN",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DIAMONDBACK E&P LLC",
+          "county": "MIDLAND",
+          "pad": "RUTTER 1-12",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "1WD",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "1LS",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "2WD",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "1WB",
+              "date": "2026-08-13"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DIAMONDBACK E&P LLC",
+          "county": "MIDLAND",
+          "pad": "TEXAS TEN 48-6",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "1BN",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "2BN",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "3BN",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "4BN",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "pad": "JAKE P",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "801H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "802H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "803H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "804H",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "pad": "TRUMAN",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "H 07TM",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "H 01TM",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "H 05TM",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "H 03TM",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "OCCIDENTAL PERMIAN LTD.",
+          "county": "SCURRY",
+          "pad": "FULLER",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "6018",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "6053",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "6028",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "6046",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SILVER HILL ENERGY OPERATING LLC",
+          "county": "LA SALLE",
+          "pad": "FLORES",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "3H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "4H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "5H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "6H",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "VERDUN OIL & GAS LLC",
+          "county": "MCMULLEN",
+          "pad": "MORRILL-WARSPITE",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "2H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "3H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "4H",
+              "date": "2026-08-25"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "WATERBRIDGE STATELINE LLC",
+          "county": "LOVING",
+          "pad": "FPW",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "4",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "13",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "14",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "20",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "DEWITT",
+          "pad": "W. BUTLER",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "14H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "15H",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "16H",
+              "date": "2026-08-25"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "BURK ROYALTY CO., LTD.",
+          "county": "WILBARGER",
+          "pad": "SUMNER",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "3",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "5",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "2",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": [
+            4
+          ]
+        },
+        {
+          "operator": "BURK ROYALTY CO., LTD.",
+          "county": "WILBARGER",
+          "pad": "WHITEFISH",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "1",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "2",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "1",
+              "date": "2026-08-12"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "COG OPERATING LLC",
+          "county": "ANDREWS",
+          "pad": "MABEE DDA",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "1007JH",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "1008AH",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "1011JH",
+              "date": "2026-08-13"
+            }
+          ],
+          "gaps": [
+            1009,
+            1010
+          ]
+        },
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "WEBB",
+          "pad": "FASKEN",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "223H",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "224H",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "225H",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "EL TORO RESOURCES LLC",
+          "county": "DIMMIT",
+          "pad": "YETT",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "8231H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "8232H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "8233H",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "ENSIGN NATURAL RESOURCES II LLC",
+          "county": "DEWITT",
+          "pad": "STEEN-MUSSELMAN",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "6H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "7H",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "8H",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "JAVELIN ENERGY PARTNERS MGMT LLC",
+          "county": "DIMMIT",
+          "pad": "ROGERS DENTONIO 27U",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "104HA",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "104HB",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "104HC",
+              "date": "2026-08-21"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "JONAH ENERGY LLC",
+          "county": "DIMMIT",
+          "pad": "SAN PEDRO",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "4505CH",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "4501CH",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "4503CH",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": [
+            4502,
+            4504
+          ]
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "pad": "MAC ARTHUR",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "H 02TM",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "H 06TM",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "H 04TM",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PERUN ENERGY LLC",
+          "county": "REEVES",
+          "pad": "BCA",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "5H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "6H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "7H",
+              "date": "2026-08-21"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SCOUT ENERGY MANAGEMENT LLC",
+          "county": "CROCKETT",
+          "pad": "HATTON, E.H. ESTATE",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "3",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "3",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "4",
+              "date": "2026-08-21"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SILVER HILL ENERGY OPERATING LLC",
+          "county": "KARNES",
+          "pad": "CHRISTINE",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "4H",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "103H",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "104H",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SM ENERGY COMPANY",
+          "county": "HOWARD",
+          "pad": "WACO KID MARION RAVENWOOD",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "0781WD",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "1824LS",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "0746WA",
+              "date": "2026-08-13"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SM ENERGY COMPANY",
+          "county": "HOWARD",
+          "pad": "WILLIE SCOTT",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "0885WD",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "0841WA",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "0882WD",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "SAN AUGUSTINE",
+          "pad": "LEON VALLEY",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "2HB",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "SAN AUGUSTINE",
+          "pad": "SACAGAWEA",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "9H",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "11H",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": [
+            10
+          ]
+        },
+        {
+          "operator": "ADMIRAL PERMIAN OPERATING LLC",
+          "county": "ANDREWS",
+          "pad": "RUNNING MAN",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1B",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "2B",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "AETHON ENERGY OPERATING LLC",
+          "county": "WASHINGTON",
+          "pad": "CLAY CREEK EAST",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "99",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "127",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": [
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126
+          ]
+        },
+        {
+          "operator": "BTA OIL PRODUCERS, LLC",
+          "county": "REEVES",
+          "pad": "ARPENT 21602",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "05H",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "06H",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "COTERRA ENERGY OPERATING CO.",
+          "county": "CULBERSON",
+          "pad": "STATE MAGE 21-4",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "9H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "10H",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DAVIS SOUTHERN OPERATING CO LLC",
+          "county": "ECTOR",
+          "pad": "CONNELL, W.E.",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "5E",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "6E",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DAVIS SOUTHERN OPERATING CO LLC",
+          "county": "JASPER",
+          "pad": "JOHNSON",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "4",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "7",
+              "date": "2026-08-24"
+            }
+          ],
+          "gaps": [
+            5,
+            6
+          ]
+        },
+        {
+          "operator": "DE CENTRAL OPERATING, LLC",
+          "county": "REAGAN",
+          "pad": "SIDEWINDER EAST I",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "4209H",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "4409H",
+              "date": "2026-08-10"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DE CENTRAL OPERATING, LLC",
+          "county": "REAGAN",
+          "pad": "SIDEWINDER EAST M",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "4213H",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "4413H",
+              "date": "2026-08-10"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DE CENTRAL OPERATING, LLC",
+          "county": "REAGAN",
+          "pad": "SIDEWINDER WEST A",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "4201H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "4401H",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DE CENTRAL OPERATING, LLC",
+          "county": "REAGAN",
+          "pad": "SIDEWINDER WEST E",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "4205H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "4405H",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DIAMONDBACK E&P LLC",
+          "county": "ECTOR",
+          "pad": "SHERIFF 2-38",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "3BN",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "4BN",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DISCOVERY NATURAL RESOURCES LLC",
+          "county": "REAGAN",
+          "pad": "NORTH CREEK",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "0444SB",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "0261DC",
+              "date": "2026-08-12"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "EOG RESOURCES, INC.",
+          "county": "WEBB",
+          "pad": "G-B STATE",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "302H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "102H",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "pad": "GOSIER",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "804H",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "801H",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": [
+            802,
+            803
+          ]
+        },
+        {
+          "operator": "FORMENTERA OPERATIONS LLC",
+          "county": "FRIO",
+          "pad": "NEXT IN LINE-UNIT",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "N731H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "N734H",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "INEOS USA OIL & GAS LLC",
+          "county": "LA SALLE",
+          "pad": "KINSEL D",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "6H",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "7H",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "LAKEWOOD ENERGY LLC",
+          "county": "REEVES",
+          "pad": "BARILLA",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "2HU",
+              "date": "2026-08-07"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "LAKOTA ENERGY, LTD.",
+          "county": "WISE",
+          "pad": "MURPHY",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-07"
+            },
+            {
+              "well_num": "2H",
+              "date": "2026-08-13"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "MCCLURE OIL COMPANY, INC.",
+          "county": "GAINES",
+          "pad": "SWALLOWTAIL",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "5",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "7",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": [
+            6
+          ]
+        },
+        {
+          "operator": "MEWBOURNE OIL COMPANY",
+          "county": "REEVES",
+          "pad": "STATE FIREWALKER",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "W102CN",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "W102DM",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "MEWBOURNE OIL COMPANY",
+          "county": "REEVES",
+          "pad": "STATE GAGE 2/5",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "W102AP",
+              "date": "2026-08-14"
+            },
+            {
+              "well_num": "W201AP",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "MID-STATES OPERATING COMPANY",
+          "county": "MIDLAND",
+          "pad": "SPINKS",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "2D",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "1D",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "OCCIDENTAL PERMIAN LTD.",
+          "county": "YOAKUM",
+          "pad": "YOAKUM WASSON CLEARFORK",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "8654H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "8653H",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "OXY USA INC.",
+          "county": "GAINES",
+          "pad": "WEST SEMINOLE SA",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "605R",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "605R",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "OXY USA WTP LP",
+          "county": "YOAKUM",
+          "pad": "WILLARD",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "140 C",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "156 A",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": [
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155
+          ]
+        },
+        {
+          "operator": "PDEH LLC",
+          "county": "LOVING",
+          "pad": "CYCLONE 54-2 STATE",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "2241H",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "2242H",
+              "date": "2026-08-24"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PERMIAN RESOURCES OPERATING, LLC",
+          "county": "REEVES",
+          "pad": "CHEVRON MINERALS",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "2H",
+              "date": "2026-08-13"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "BROOKS-CRESPI",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "13H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "14H",
+              "date": "2026-08-12"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "CRESPI-GOLLADAY",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "7H",
+              "date": "2026-08-12"
+            },
+            {
+              "well_num": "8H",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "DONALD L HUTT",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1150H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "1151H",
+              "date": "2026-08-13"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "ODANIEL-FLOYD",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "105H",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "102H",
+              "date": "2026-08-24"
+            }
+          ],
+          "gaps": [
+            103,
+            104
+          ]
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "SHAUNA-WINDHAM",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "210H",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "212H",
+              "date": "2026-08-12"
+            }
+          ],
+          "gaps": [
+            211
+          ]
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "SPOONBILL-DONOVAN",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "15H",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "16H",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "TURNER",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "103H",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "104H",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "MIDLAND",
+          "pad": "WINKLEMAN-DONOVAN",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "109H",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "110H",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "REAGAN",
+          "pad": "DRIVER",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "10HM",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "18HM",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "operator": "PIONEER NATURAL RES. USA, INC.",
+          "county": "UPTON",
+          "pad": "SHAUNA-WINDHAM",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "209H",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "208H",
+              "date": "2026-08-12"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "PITTS ENERGY CO.",
+          "county": "WARD",
+          "pad": "EDWARDS, C. W. ET",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "9",
+              "date": "2026-08-10"
+            },
+            {
+              "well_num": "19",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18
+          ]
+        },
+        {
+          "operator": "PITTS ENERGY CO.",
+          "county": "WARD",
+          "pad": "EDWARDS, JACK",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "3",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "2",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "RILEY PERMIAN OPERATING CO, LLC",
+          "county": "YOAKUM",
+          "pad": "CLEVELAND A",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "35H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "5H",
+              "date": "2026-08-14"
+            }
+          ],
+          "gaps": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34
+          ]
+        },
+        {
+          "operator": "SAGE NATURAL RESOURCES LLC",
+          "county": "FAYETTE",
+          "pad": "HOLLIDAY",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1H",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "2H",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SM ENERGY COMPANY",
+          "county": "HOWARD",
+          "pad": "JACUZZIE",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "211H",
+              "date": "2026-08-13"
+            },
+            {
+              "well_num": "212H",
+              "date": "2026-08-13"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "SM ENERGY COMPANY",
+          "county": "WEBB",
+          "pad": "BRISCOE",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "0129H",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "0139H",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": [
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138
+          ]
+        },
+        {
+          "operator": "SURGE OPERATING, LLC",
+          "county": "BORDEN",
+          "pad": "JOTUNN UNIT A",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "1AH",
+              "date": "2026-08-25"
+            },
+            {
+              "well_num": "1JH",
+              "date": "2026-08-25"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "VTX ENERGY OPERATING, LLC",
+          "county": "REEVES",
+          "pad": "PANTHER 23",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "15H",
+              "date": "2026-08-21"
+            },
+            {
+              "well_num": "21H",
+              "date": "2026-08-21"
+            }
+          ],
+          "gaps": [
+            16,
+            17,
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "operator": "WAGGONER OPERATING, L.L.C.",
+          "county": "BAYLOR",
+          "pad": "WAGGONER",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "247DN",
+              "date": "2026-08-11"
+            },
+            {
+              "well_num": "248DN",
+              "date": "2026-08-11"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "WPX ENERGY PERMIAN, LLC",
+          "county": "LOVING",
+          "pad": "CROSS MOUNTAIN 4045-28",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "412H",
+              "date": "2026-08-20"
+            },
+            {
+              "well_num": "411H",
+              "date": "2026-08-20"
+            }
+          ],
+          "gaps": []
+        }
+      ],
+      "daily_board": [
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "count": 6
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "count": 5
+        },
+        {
+          "operator": "CONOCOPHILLIPS COMPANY",
+          "county": "REEVES",
+          "count": 4
+        },
+        {
+          "operator": "CONTINENTAL RESOURCES, INC.",
+          "county": "ECTOR",
+          "count": 4
+        },
+        {
+          "operator": "AETHON ENERGY OPERATING LLC",
+          "county": "WASHINGTON",
+          "count": 3
+        },
+        {
+          "operator": "U.S. ENERGY DEVELOPMENT CORP",
+          "county": "REEVES",
+          "count": 3
+        },
+        {
+          "operator": "APACHE CORPORATION",
+          "county": "UPTON",
+          "count": 3
+        },
+        {
+          "operator": "WATERBRIDGE STATELINE LLC",
+          "county": "LOVING",
+          "count": 3
+        }
+      ],
+      "watchlist_candidates": [
+        {
+          "operator": "CRESCENT ENERGY OPERATING, LLC",
+          "county": "MCMULLEN",
+          "count": 6,
+          "known_before_this_pull": true
+        },
+        {
+          "operator": "BPX OPERATING COMPANY",
+          "county": "REEVES",
+          "count": 5,
+          "known_before_this_pull": true
+        }
+      ],
+      "client_watch_aging": [
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "GONZALES",
+          "well_name": "CHERRY BERGEY SELMAN SA4",
+          "well_num": "4H",
+          "issue_date": "2024-12-13",
+          "age_days": 623,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "GONZALES",
+          "well_name": "CHERRY BERGEY SA1",
+          "well_num": "1H",
+          "issue_date": "2024-12-13",
+          "age_days": 623,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "PANOLA",
+          "well_name": "HILL CV A (AW)",
+          "well_num": "1H",
+          "issue_date": "2025-05-16",
+          "age_days": 469,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "PANOLA",
+          "well_name": "HILL CV B (AW)",
+          "well_num": "2H",
+          "issue_date": "2025-05-16",
+          "age_days": 469,
+          "status": null
+        },
+        {
+          "operator": "EOG RESOURCES, INC.",
+          "county": "GONZALES",
+          "well_name": "ROOSEVELT F",
+          "well_num": "6H",
+          "issue_date": "2025-07-08",
+          "age_days": 416,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "HARRISON",
+          "well_name": "BOLDING-STRONG A (AW)",
+          "well_num": "1H",
+          "issue_date": "2026-01-27",
+          "age_days": 213,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "PANOLA",
+          "well_name": "SOCAGEE CREEK C (AW)",
+          "well_num": "3H",
+          "issue_date": "2026-03-27",
+          "age_days": 154,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "PANOLA",
+          "well_name": "SOCAGEE CREEK D (AW)",
+          "well_num": "4H",
+          "issue_date": "2026-03-31",
+          "age_days": 150,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "PANOLA",
+          "well_name": "SOCAGEE CREEK A (AW)",
+          "well_num": "1H",
+          "issue_date": "2026-05-21",
+          "age_days": 99,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "PANOLA",
+          "well_name": "SOCAGEE CREEK B (AW)",
+          "well_num": "2H",
+          "issue_date": "2026-05-21",
+          "age_days": 99,
+          "status": null
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "ROBERTSON",
+          "well_name": "CAMP A",
+          "well_num": "4HB",
+          "issue_date": "2026-06-03",
+          "age_days": 86,
+          "status": null
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "ROBERTSON",
+          "well_name": "CAMP B",
+          "well_num": "6HB",
+          "issue_date": "2026-06-03",
+          "age_days": 86,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "DEWITT",
+          "well_name": "HOPE-DWOR-SAUN B SA A",
+          "well_num": "1",
+          "issue_date": "2026-06-30",
+          "age_days": 59,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "POCKET PAIR 2715 C",
+          "well_num": "802H",
+          "issue_date": "2026-07-01",
+          "age_days": 58,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "POCKET PAIR 2715 A",
+          "well_num": "801H",
+          "issue_date": "2026-07-01",
+          "age_days": 58,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "DEWITT",
+          "well_name": "SCHORLEMER QUAD SA A",
+          "well_num": "1",
+          "issue_date": "2026-07-01",
+          "age_days": 58,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "POCKET PAIR 2722 B",
+          "well_num": "902H",
+          "issue_date": "2026-07-01",
+          "age_days": 58,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "POCKET PAIR 2722 A",
+          "well_num": "804H",
+          "issue_date": "2026-07-01",
+          "age_days": 58,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "POCKET PAIR 2722 C",
+          "well_num": "803H",
+          "issue_date": "2026-07-01",
+          "age_days": 58,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "POCKET PAIR 2715 B",
+          "well_num": "901H",
+          "issue_date": "2026-07-01",
+          "age_days": 58,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "CRIMSON BEAR",
+          "well_num": "H 02BE",
+          "issue_date": "2026-07-08",
+          "age_days": 51,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "LEE",
+          "well_name": "BUCK TRAVIS TWO",
+          "well_num": "H 02BT",
+          "issue_date": "2026-07-08",
+          "age_days": 51,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "BIG AL SEVEN",
+          "well_num": "H 07BE",
+          "issue_date": "2026-07-09",
+          "age_days": 50,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "BIG AL ELEVEN",
+          "well_num": "H 11BE",
+          "issue_date": "2026-07-09",
+          "age_days": 50,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "MEANS 'C'",
+          "well_num": "H 03BE",
+          "issue_date": "2026-07-09",
+          "age_days": 50,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "BIG AL NINE",
+          "well_num": "H 09BE",
+          "issue_date": "2026-07-09",
+          "age_days": 50,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "MEANS 'C'",
+          "well_num": "H 05BE",
+          "issue_date": "2026-07-09",
+          "age_days": 50,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "HELVENSTON C CV (AW)",
+          "well_num": "3H",
+          "issue_date": "2026-07-13",
+          "age_days": 46,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "COLEMAN A CV (AW)",
+          "well_num": "1H",
+          "issue_date": "2026-07-15",
+          "age_days": 44,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "COLEMAN B OU",
+          "well_num": "2H",
+          "issue_date": "2026-07-15",
+          "age_days": 44,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "GONZALES",
+          "well_name": "BARNHART (EF)",
+          "well_num": "205H",
+          "issue_date": "2026-07-16",
+          "age_days": 43,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "GONZALES",
+          "well_name": "BARNHART (EF)",
+          "well_num": "206H",
+          "issue_date": "2026-07-16",
+          "age_days": 43,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "GONZALES",
+          "well_name": "BARNHART (EF)",
+          "well_num": "207H",
+          "issue_date": "2026-07-16",
+          "age_days": 43,
+          "status": null
+        },
+        {
+          "operator": "IRONBLOOM OPERATING, LLC",
+          "county": "LEE",
+          "well_name": "NELDA",
+          "well_num": "1H",
+          "issue_date": "2026-07-16",
+          "age_days": 43,
+          "status": null
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS, LLC",
+          "county": "HARRISON",
+          "well_name": "BRYANT RAINS BMP",
+          "well_num": "1H",
+          "issue_date": "2026-07-17",
+          "age_days": 42,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "COLEMAN B CV (AW)",
+          "well_num": "2H",
+          "issue_date": "2026-07-20",
+          "age_days": 39,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "FAYETTE",
+          "well_name": "CYCLONE FOUR",
+          "well_num": "H 04CC",
+          "issue_date": "2026-07-20",
+          "age_days": 39,
+          "status": null
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS, LLC",
+          "county": "HARRISON",
+          "well_name": "BRYANT RAINS EB",
+          "well_num": "1H",
+          "issue_date": "2026-07-20",
+          "age_days": 39,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "GONZALES",
+          "well_name": "BARNHART (EF)-HFS SA10",
+          "well_num": "140H",
+          "issue_date": "2026-07-21",
+          "age_days": 38,
+          "status": null
+        },
+        {
+          "operator": "MARATHON OIL EF LLC",
+          "county": "GONZALES",
+          "well_name": "BARNHART (EF)-HFS SA9",
+          "well_num": "139H",
+          "issue_date": "2026-07-21",
+          "age_days": 38,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "FAYETTE",
+          "well_name": "CYCLONE SIX",
+          "well_num": "H 06CC",
+          "issue_date": "2026-07-23",
+          "age_days": 36,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "FAYETTE",
+          "well_name": "CYCLONE TWO",
+          "well_num": "H 02CC",
+          "issue_date": "2026-07-23",
+          "age_days": 36,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "COLEMAN A OU",
+          "well_num": "1H",
+          "issue_date": "2026-07-23",
+          "age_days": 36,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "FAYETTE",
+          "well_name": "CYCLONE EIGHT",
+          "well_num": "H 08CC",
+          "issue_date": "2026-07-24",
+          "age_days": 35,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "FAYETTE",
+          "well_name": "CYCLONE TEN",
+          "well_num": "H 10CC",
+          "issue_date": "2026-07-24",
+          "age_days": 35,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "FAYETTE",
+          "well_name": "CYCLONE TWELVE",
+          "well_num": "H 12CC",
+          "issue_date": "2026-07-24",
+          "age_days": 35,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "HARRISON",
+          "well_name": "BONNER NORTH B HS (AW)",
+          "well_num": "2H",
+          "issue_date": "2026-07-27",
+          "age_days": 32,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "HARRISON",
+          "well_name": "BONNER NORTH B CV (AW)",
+          "well_num": "2H",
+          "issue_date": "2026-07-27",
+          "age_days": 32,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "HARRISON",
+          "well_name": "BONNER NORTH C HS (AW)",
+          "well_num": "3H",
+          "issue_date": "2026-07-28",
+          "age_days": 31,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "HARRISON",
+          "well_name": "BONNER NORTH D HS (AW)",
+          "well_num": "4H",
+          "issue_date": "2026-07-28",
+          "age_days": 31,
+          "status": null
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS, LLC",
+          "county": "LEON",
+          "well_name": "HOLT MHP B",
+          "well_num": "2H",
+          "issue_date": "2026-07-31",
+          "age_days": 28,
+          "status": null
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS, LLC",
+          "county": "LEON",
+          "well_name": "HOLT MH C",
+          "well_num": "3H",
+          "issue_date": "2026-07-31",
+          "age_days": 28,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "MAC ARTHUR UNIT",
+          "well_num": "H 06TM",
+          "issue_date": "2026-08-12",
+          "age_days": 16,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "TRUMAN SEVEN",
+          "well_num": "H 07TM",
+          "issue_date": "2026-08-12",
+          "age_days": 16,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "MAC ARTHUR UNIT",
+          "well_num": "H 02TM",
+          "issue_date": "2026-08-12",
+          "age_days": 16,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "HELVENSTON C HS (AW)",
+          "well_num": "3H",
+          "issue_date": "2026-08-13",
+          "age_days": 15,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "TRUMAN ONE",
+          "well_num": "H 01TM",
+          "issue_date": "2026-08-13",
+          "age_days": 15,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "HELVENSTON D HS (AW)",
+          "well_num": "4H",
+          "issue_date": "2026-08-13",
+          "age_days": 15,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "GOSIER 0416",
+          "well_num": "804H",
+          "issue_date": "2026-08-14",
+          "age_days": 14,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "GOSIER 0508",
+          "well_num": "801H",
+          "issue_date": "2026-08-14",
+          "age_days": 14,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "JAKE P A",
+          "well_num": "801H",
+          "issue_date": "2026-08-14",
+          "age_days": 14,
+          "status": null
+        },
+        {
+          "operator": "FIREBIRD ENERGY II LLC",
+          "county": "ECTOR",
+          "well_name": "JAKE P B",
+          "well_num": "802H",
+          "issue_date": "2026-08-14",
+          "age_days": 14,
+          "status": null
+        },
+        {
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "well_name": "HELVENSTON D CV (AW)",
+          "well_num": "4H",
+          "issue_date": "2026-08-14",
+          "age_days": 14,
+          "status": null
+        },
+        {
+          "operator": "MAGNOLIA OIL & GAS OPERATING LLC",
+          "county": "WASHINGTON",
+          "well_name": "MAC ARTHUR UNIT",
+          "well_num": "H 04TM",
+          "issue_date": "2026-08-14",
+          "age_days": 14,
+          "status": null
+        }
+      ],
+      "operator_inventory": {
+        "AETHON ENERGY OPERATING LLC / WASHINGTON": [
+          {
+            "county": "WASHINGTON",
+            "pad": "CLAY CREEK WEST",
+            "well_count": 5
+          },
+          {
+            "county": "WASHINGTON",
+            "pad": "CLAY CREEK EAST",
+            "well_count": 2
+          }
+        ],
+        "APACHE CORPORATION / UPTON": [
+          {
+            "county": "UPTON",
+            "pad": "CONNELL 3847",
+            "well_count": 11
+          },
+          {
+            "county": "UPTON",
+            "pad": "CC 4144",
+            "well_count": 8
+          },
+          {
+            "county": "UPTON",
+            "pad": "CC 4243",
+            "well_count": 2
+          },
+          {
+            "county": "UPTON",
+            "pad": "CONNELL",
+            "well_count": 1
+          },
+          {
+            "county": "UPTON",
+            "pad": "CONNELL 38",
+            "well_count": 1
+          },
+          {
+            "county": "UPTON",
+            "pad": "LATZEL 3946",
+            "well_count": 1
+          }
+        ],
+        "CONTINENTAL RESOURCES, INC. / ECTOR": [
+          {
+            "county": "ECTOR",
+            "pad": "ATHENA",
+            "well_count": 4
+          },
+          {
+            "county": "ECTOR",
+            "pad": "BRIAN GRIFFIN",
+            "well_count": 4
+          }
+        ],
+        "ENSIGN NATURAL RESOURCES II LLC / DEWITT": [
+          {
+            "county": "DEWITT",
+            "pad": "STEEN-MUSSELMAN",
+            "well_count": 3
+          },
+          {
+            "county": "DEWITT",
+            "pad": "STEEN-STEEN",
+            "well_count": 1
+          }
+        ],
+        "NECHES BEND RESOURCES, LLC / CHEROKEE": [
+          {
+            "county": "CHEROKEE",
+            "pad": "BLACKWELL",
+            "well_count": 1
+          }
+        ],
+        "PERMIAN DEEP ROCK OIL CO., LLC / MIDLAND": [
+          {
+            "county": "MIDLAND",
+            "pad": "BULLDOG",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "REBEL",
+            "well_count": 1
+          }
+        ],
+        "PIONEER NATURAL RES. USA, INC. / MIDLAND": [
+          {
+            "county": "MIDLAND",
+            "pad": "TURNER",
+            "well_count": 16
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "CRESPI-GOLLADAY",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "DONALD L HUTT",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "ODANIEL-FLOYD",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "BROOKS-CRESPI",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "WINKLEMAN-DONOVAN",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "SHAUNA",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "SHAUNA-WINDHAM",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "SPOONBILL-DONOVAN",
+            "well_count": 2
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "GOLLADAY-MCALISTER",
+            "well_count": 1
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "TURNER-BUCHANAN",
+            "well_count": 1
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "TURNER-OXY",
+            "well_count": 1
+          },
+          {
+            "county": "MIDLAND",
+            "pad": "TURNER-WINKLEMAN",
+            "well_count": 1
+          }
+        ],
+        "RFE OPERATING, LLC / HARRISON": [
+          {
+            "county": "HARRISON",
+            "pad": "OAKMONT-SAWGRASS 1",
+            "well_count": 1
+          },
+          {
+            "county": "HARRISON",
+            "pad": "OAKMONT-SAWGRASS 11",
+            "well_count": 1
+          },
+          {
+            "county": "HARRISON",
+            "pad": "OAKMONT-SAWGRASS 6",
+            "well_count": 1
+          },
+          {
+            "county": "HARRISON",
+            "pad": "THUNDER VALLEY 2",
+            "well_count": 1
+          },
+          {
+            "county": "HARRISON",
+            "pad": "THUNDER VALLEY 8",
+            "well_count": 1
+          }
+        ],
+        "RING ENERGY, INC. / CRANE": [
+          {
+            "county": "CRANE",
+            "pad": "LEA, P.J. ET",
+            "well_count": 3
+          },
+          {
+            "county": "CRANE",
+            "pad": "RING RIPPLE",
+            "well_count": 1
+          },
+          {
+            "county": "CRANE",
+            "pad": "RING WHORL",
+            "well_count": 1
+          }
+        ],
+        "SAGE NATURAL RESOURCES LLC / FAYETTE": [
+          {
+            "county": "FAYETTE",
+            "pad": "HOLLIDAY",
+            "well_count": 2
+          }
+        ]
+      }
+    },
+    "la": {
+      "total_rows": 179,
+      "latest_issue_date": "2031-02-15",
+      "new_since_last_run": 2,
+      "new_permits": [
+        {
+          "operator": "DRAKE PETROLEUM, LLC",
+          "county": "LA SALLE",
+          "well_name": "HARTER-TENSAS-DELTA",
+          "well_num": "046",
+          "issue_date": "2026-08-27"
+        },
+        {
+          "operator": "DRAKE PETROLEUM, LLC",
+          "county": "LA SALLE",
+          "well_name": "HARTER-TENSAS-DELTA",
+          "well_num": "047",
+          "issue_date": "2026-08-27"
+        }
+      ],
+      "fresh_spuds": [],
+      "pads": [
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "RED RIVER",
+          "pad": "DSP 8&5-13-9HC",
+          "well_count": 4,
+          "wells": [
+            {
+              "well_num": "001",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "002",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "003",
+              "date": "2026-08-24"
+            },
+            {
+              "well_num": "004",
+              "date": "2026-08-24"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "EXPAND OPERATING LLC",
+          "county": "DE SOTO",
+          "pad": "HA RA SUII;STILES 4&9-10-11",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "001",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "002-ALT",
+              "date": "2026-08-26"
+            },
+            {
+              "well_num": "003-ALT",
+              "date": "2026-08-26"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "GRAYROCK ENERGY IV OPERATING COMPANY, LL",
+          "county": "BOSSIER",
+          "pad": "VUA;PADGETT",
+          "well_count": 3,
+          "wells": [
+            {
+              "well_num": "001",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "001",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "001",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS--LA, LLC",
+          "county": "DE SOTO",
+          "pad": "HA RA SUB; BEDSOLE 34-27",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "004-ALT",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "005-ALT",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS--LA, LLC",
+          "county": "DE SOTO",
+          "pad": "HA RA SUB;BEDSOLE 34-27",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "006-ALT",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "007-ALT",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "DENBURY ONSHORE, LLC",
+          "county": "RICHLAND",
+          "pad": "DELHI HOLT BRYANT SU; DELHI",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "042-1",
+              "date": "2026-08-19"
+            },
+            {
+              "well_num": "035-1",
+              "date": "2026-08-19"
+            }
+          ],
+          "gaps": [
+            36,
+            37,
+            38,
+            39,
+            40,
+            41
+          ]
+        },
+        {
+          "operator": "DRAKE PETROLEUM, LLC",
+          "county": "LA SALLE",
+          "pad": "HARTER-TENSAS-DELTA",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "046",
+              "date": "2026-08-27"
+            },
+            {
+              "well_num": "047",
+              "date": "2026-08-27"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "EXPAND OPERATING LLC",
+          "county": "DE SOTO",
+          "pad": "HA RB SUYY;HDRK 13&12-13-16",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "001-ALT",
+              "date": "2026-08-18"
+            },
+            {
+              "well_num": "002-ALT",
+              "date": "2026-08-18"
+            }
+          ],
+          "gaps": []
+        },
+        {
+          "operator": "WNR HAYNESVILLE OPERATING, LLC",
+          "county": "DE SOTO",
+          "pad": "HA RA SUI; POLK 24",
+          "well_count": 2,
+          "wells": [
+            {
+              "well_num": "001-ALT",
+              "date": "2026-08-17"
+            },
+            {
+              "well_num": "002-ALT",
+              "date": "2026-08-17"
+            }
+          ],
+          "gaps": []
+        }
+      ],
+      "daily_board": [
+        {
+          "operator": "DRAKE PETROLEUM, LLC",
+          "county": "LA SALLE",
+          "count": 2
+        }
+      ],
+      "watchlist_candidates": [],
+      "client_watch_aging": [
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SU136;KUHN 24&36-18-15HC",
+          "well_num": "002-ALT",
+          "issue_date": "2026-05-28",
+          "age_days": 91,
+          "status": "status           01\nstatus    PERMITTED\nName: 10, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SU136;KUHN 24&36-18-15HC",
+          "well_num": "001",
+          "issue_date": "2026-05-28",
+          "age_days": 91,
+          "status": "status           01\nstatus    PERMITTED\nName: 9, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "KUHN 24&36-18-15HC",
+          "well_num": "003",
+          "issue_date": "2026-05-28",
+          "age_days": 91,
+          "status": "status           01\nstatus    PERMITTED\nName: 11, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "KUHN 24&36-18-15HC",
+          "well_num": "004",
+          "issue_date": "2026-05-28",
+          "age_days": 91,
+          "status": "status           01\nstatus    PERMITTED\nName: 12, dtype: object"
+        },
+        {
+          "operator": "EXPAND OPERATING LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SU81;CHC34&3&10-17-15HC",
+          "well_num": "001-ALT",
+          "issue_date": "2026-05-29",
+          "age_days": 90,
+          "status": "status           01\nstatus    PERMITTED\nName: 8, dtype: object"
+        },
+        {
+          "operator": "EXPAND OPERATING LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SU89;CHC27&22&15-17-15HC",
+          "well_num": "001-ALT",
+          "issue_date": "2026-05-29",
+          "age_days": 90,
+          "status": "status           01\nstatus    PERMITTED\nName: 7, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BIENVILLE",
+          "well_name": "WW FARMS 34-3-10HC",
+          "well_num": "001",
+          "issue_date": "2026-06-02",
+          "age_days": 86,
+          "status": "status           01\nstatus    PERMITTED\nName: 13, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BIENVILLE",
+          "well_name": "WW FARMS 34-3-10HC",
+          "well_num": "002",
+          "issue_date": "2026-06-02",
+          "age_days": 86,
+          "status": "status           01\nstatus    PERMITTED\nName: 14, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SUAA;CRDL 9&28-16-14HC",
+          "well_num": "001",
+          "issue_date": "2026-06-09",
+          "age_days": 79,
+          "status": "status           01\nstatus    PERMITTED\nName: 15, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SUAA;CRDL 9&28-16-14HC",
+          "well_num": "002-ALT",
+          "issue_date": "2026-06-09",
+          "age_days": 79,
+          "status": "status           01\nstatus    PERMITTED\nName: 16, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SUAA;CRDL 9&28-16-14HC",
+          "well_num": "003-ALT",
+          "issue_date": "2026-06-09",
+          "age_days": 79,
+          "status": "status           01\nstatus    PERMITTED\nName: 17, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SUAA;CRDL 9&28-16-14HC",
+          "well_num": "004-ALT",
+          "issue_date": "2026-06-09",
+          "age_days": 79,
+          "status": "status           01\nstatus    PERMITTED\nName: 18, dtype: object"
+        },
+        {
+          "operator": "APEX NATURAL GAS, LLC",
+          "county": "CADDO",
+          "well_name": "HA RA SUAA;CRDL 9&28-16-14HC",
+          "well_num": "005-ALT",
+          "issue_date": "2026-06-09",
+          "age_days": 79,
+          "status": "status           01\nstatus    PERMITTED\nName: 19, dtype: object"
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS--LA, LLC",
+          "county": "BOSSIER",
+          "well_name": "HA RA SU131;CTSWLD 20-29-32 HC",
+          "well_num": "001-ALT",
+          "issue_date": "2026-06-24",
+          "age_days": 64,
+          "status": "status           01\nstatus    PERMITTED\nName: 54, dtype: object"
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS--LA, LLC",
+          "county": "BOSSIER",
+          "well_name": "HA RA SU131;CTSWLD 20-29-32 HC",
+          "well_num": "002-ALT",
+          "issue_date": "2026-06-24",
+          "age_days": 64,
+          "status": "status           01\nstatus    PERMITTED\nName: 55, dtype: object"
+        },
+        {
+          "operator": "COMSTOCK OIL & GAS--LA, LLC",
+          "county": "BOSSIER",
+          "well_name": "HA RA SU131;CTSWLD 20-29-32 HC",
+          "well_num": "003-ALT",
+          "issue_date": "2026-06-24",
+          "age_days": 64,
+          "status": "status           01\nstatus    PERMITTED\nName: 56, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "RED RIVER",
+          "well_name": "WAERSTAD 1H",
+          "well_num": "002",
+          "issue_date": "2026-06-30",
+          "age_days": 58,
+          "status": "status           01\nstatus    PERMITTED\nName: 79, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BOSSIER",
+          "well_name": "HA RA SU110;COWLEY 2-11 HC",
+          "well_num": "001",
+          "issue_date": "2026-06-30",
+          "age_days": 58,
+          "status": "status           01\nstatus    PERMITTED\nName: 80, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BOSSIER",
+          "well_name": "HA RA SU110;COWLEY 2-11 HC",
+          "well_num": "002-ALT",
+          "issue_date": "2026-06-30",
+          "age_days": 58,
+          "status": "status           01\nstatus    PERMITTED\nName: 81, dtype: object"
+        },
+        {
+          "operator": "EXPAND OPERATING LLC",
+          "county": "RED RIVER",
+          "well_name": "HA RA SUVV;RUSH 11&14-11-9 H",
+          "well_num": "001-ALT",
+          "issue_date": "2026-06-30",
+          "age_days": 58,
+          "status": "status           01\nstatus    PERMITTED\nName: 82, dtype: object"
+        },
+        {
+          "operator": "EXPAND OPERATING LLC",
+          "county": "RED RIVER",
+          "well_name": "HA RA SUVV;RUSH 11&14&52-11-9H",
+          "well_num": "001-ALT",
+          "issue_date": "2026-06-30",
+          "age_days": 58,
+          "status": "status           01\nstatus    PERMITTED\nName: 83, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BOSSIER",
+          "well_name": "HA RA SU110;COWLEY 2-11 HC",
+          "well_num": "003-ALT",
+          "issue_date": "2026-06-30",
+          "age_days": 58,
+          "status": "status           01\nstatus    PERMITTED\nName: 87, dtype: object"
+        },
+        {
+          "operator": "EXPAND OPERATING LLC",
+          "county": "NATCHITOCHES",
+          "well_name": "EGC 27&34-9-8 HC",
+          "well_num": "001",
+          "issue_date": "2026-07-24",
+          "age_days": 34,
+          "status": "status           01\nstatus    PERMITTED\nName: 130, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BIENVILLE",
+          "well_name": "HA RA SUEE;RALEY 14-11-2HC",
+          "well_num": "001-ALT",
+          "issue_date": "2026-08-04",
+          "age_days": 23,
+          "status": "status           01\nstatus    PERMITTED\nName: 144, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BIENVILLE",
+          "well_name": "HA RA SUEE;RALEY 14-11-2HC",
+          "well_num": "002-ALT",
+          "issue_date": "2026-08-04",
+          "age_days": 23,
+          "status": "status           01\nstatus    PERMITTED\nName: 145, dtype: object"
+        },
+        {
+          "operator": "ADAMAS ENERGY LLC",
+          "county": "BIENVILLE",
+          "well_name": "HA RA SUEE; RALEY 14-11-2HC",
+          "well_num": "003-ALT",
+          "issue_date": "2026-08-04",
+          "age_days": 23,
+          "status": "status           01\nstatus    PERMITTED\nName: 146, dtype: object"
+        }
+      ],
+      "operator_inventory": {}
+    }
+  }
+}
