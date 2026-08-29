@@ -94,7 +94,7 @@ All layers reprojected to EPSG:4326 in the build. `SimplifyPreserveTopology` at
 
 Both workbooks are visually formatted, not tabular. Structure is identical in both:
 
-- Row 1 title, row 2 the status colour key, row 4 the column header, data from row 6.
+- Row 1 title, row 2 the status color key, row 4 the column header, data from row 6.
 - Columns: `A` STATUS · `B` TRACT NO. · `C` MINERAL OWNER · `D` ADDRESS ·
   `E` TRACT GMA'S · `F` MINERAL INTEREST · `G` LESSOR NMA'S ·
   `AF` TITLE COMMENTS · `AG` LEASE COMMENTS.
@@ -149,9 +149,9 @@ expands to.
 Runner names arrive as `'Patrick Running'`, `'Luke running'`, `'Philip running'` —
 strip the trailing `running` (case-insensitive) to get the person.
 
-## 5. Status vocabulary and colour
+## 5. Status vocabulary and color
 
-Fills are taken from the workbook colour key so the dashboard, the workbooks, and
+Fills are taken from the workbook color key so the dashboard, the workbooks, and
 the two PDF maps read identically.
 
 **Lease** (`LSE_STAT` code → label → fill):
@@ -177,7 +177,7 @@ four stages currently in play.
 `100` → 100%, dark green `#1B7A1B`.
 
 **Split-status tracts** — `NEG_OPEN`, `NEG_AC`, `COMM_RC_AC` — render as a diagonal
-hatch of the two component colours, matching how they read on the ArcMap exports.
+hatch of the two component colors, matching how they read on the ArcMap exports.
 
 **Area** (master map, `20260715_TX-SHELBY_TRACTS.pdf`): OPEN green ·
 POTENTIAL DEEP RIGHTS OPEN tan · UNIT W LAPSED PRODUCTION purple.
@@ -279,7 +279,7 @@ Layers, bottom to top:
 2. Survey/abstract grid clipped to the AOI bbox, labelled `SURVEY NAME A-###`.
 3. **Tract fill — one of four mutually exclusive base layers**, radio-selected:
    *Lease status* (default) · *Title status* · *Area classification* (the master
-   map) · *Pipeline stage* (the §6 six-bucket colouring).
+   map) · *Pipeline stage* (the §6 six-bucket coloring).
 4. Units, outlined, labelled with `unit_nm`.
 5. Deep-rights overlay, toggle, off by default.
 6. AOI outline — red dashed, matching the PDF maps.

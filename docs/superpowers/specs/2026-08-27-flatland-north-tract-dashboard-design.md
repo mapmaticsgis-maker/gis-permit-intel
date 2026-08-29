@@ -276,14 +276,12 @@ Reset clears all.
     `TITLE STATUS - FLATLAND NORTH.lyrx` (compound key `OFFER_STAT` + `TTL_STATUS`:
     Complete `#89CD66`, In Progress `#B7B6FC`, Need `#FFFFFF`, 3rd-party lease
     `#CDAA66`, all-other `#828282`). Own pane, drawn just above the lease layer.
-  - Units — Operator (on) — drawn **above** both tract layers. Fill is a per-
-    operator SVG `radialGradient` (`objectBoundingBox`, so it follows each
-    polygon and is zoom-independent): the operator colour at 50% alpha in the
-    middle, fading to 0 by 92% of the radius. Tract colours therefore read
-    through the unit near its edges while the centre still tells you which unit
-    you're in. A heavy 2.8px black outline (vs 0.6px on tracts) carries the unit
-    boundary, since the fill no longer does. The "Unit tint" slider drives the
-    gradient's centre stop.
+  - Units — Operator (on) — drawn **above** both tract layers, on the SVG
+    renderer (per-path hit testing, so a click that misses a unit falls through
+    to the tract beneath). **Flat, constant fill** at the "Unit fill" slider
+    opacity (default 50%) — no gradient — with a fully solid 2.8px black
+    outline (`stroke-opacity: 1`) so unit boundaries stay crisp against the
+    0.6px tract borders.
   - Surveys — Lee Co land grid `surv287p` (**on by default**; the vector backdrop,
     faint lines + hover survey/abstract label)
   - Counties (on; hairline + county name labels, subject county emphasized)
