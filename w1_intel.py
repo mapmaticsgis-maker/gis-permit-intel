@@ -39,6 +39,7 @@ import pandas as pd
 import pytesseract
 import yaml
 from pdf2image import convert_from_path
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
 CLIENT_WORKBOOK = Path(r"C:\GIS\Mapmatics_Client_Master_UPDATED.xlsx")
@@ -68,8 +69,15 @@ SOLE_USE_RE = re.compile(
 )
 SUFFIX_LINE_RE = re.compile(
     r"^([A-Z][A-Za-z0-9&\-'.]*(?:[ \t]+[A-Z][A-Za-z0-9&\-'.]*){0,5}),?[ \t]+"
-    r"(INC\.?|LLC\.?|L\.L\.C\.?|LP\.?|L\.P\.?|LTD\.?|CORP\.?)$"
+    r"(INC\.?|LLC\.?|L\.L\.C\.?|LP\.?|L\.P\.?|LTD\.?|CORP\.?)(?:[ \t]|$)"
 )
+# The suffix no longer has to end the line -- confirmed on a real TIFF plat
+# where OCR reads two adjacent title-block cells as one line ("SABINE ENERGY
+# INC. HARRISON COUNTY, TEXAS"), which the old end-anchored ($) version
+# never matched at all. The match is still built from the captured company
+# name + suffix groups, not the raw line, so trailing text past the suffix
+# (a county name, a second cell, OCR noise) never pollutes the operator
+# string.
 EXCLUDE_RE = re.compile(
     r"SURVEY|ENGINEERING|SURVEYOR|CIVIL|TBPLS|TBPE|RPLS|BOWMAN|KSA|CRAFTON",
     re.IGNORECASE,
@@ -79,9 +87,23 @@ EXCLUDE_RE = re.compile(
 def ocr_extract(pdf_path: Path, dpi: int = 200):
     """OCR the first page at 0/90/180/270 degrees and pull county + operator
     candidates from the combined text. Returns (county, operator) -- either
-    may be None if not found."""
-    pages = convert_from_path(str(pdf_path), dpi=dpi, poppler_path=POPPLER_PATH)
-    img = pages[0]
+    may be None if not found.
+
+    Subscription ZIPs bundle both PDF and TIFF plat sheets -- confirmed
+    2026-08-29: a real Sabine Energy plat (a watched-family, DOXA-corridor
+    operator) was a TIFF-only submission and, before this branch existed,
+    was never even opened for OCR (main()'s file discovery globbed *.pdf
+    only), reporting "unknown operator" for a well that should have been
+    an unambiguous, high-confidence match. TIFFs are already-rasterized
+    images -- pdf2image's convert_from_path expects a PDF specifically and
+    cannot open one; PIL opens either a PDF page render or a raw TIFF
+    through the same Image object, so only the loading step branches."""
+    if pdf_path.suffix.lower() in (".tif", ".tiff"):
+        img = Image.open(str(pdf_path))
+        img.load()  # force-read now; the file handle closes once this function returns
+    else:
+        pages = convert_from_path(str(pdf_path), dpi=dpi, poppler_path=POPPLER_PATH)
+        img = pages[0]
 
     counties, operators = [], []
     for angle in (0, 90, 180, 270):
@@ -95,8 +117,9 @@ def ocr_extract(pdf_path: Path, dpi: int = 200):
             m = SOLE_USE_RE.search(line)
             if m:
                 operators.append(m.group(1).strip().rstrip("."))
-            if SUFFIX_LINE_RE.match(line):
-                operators.append(line.rstrip("."))
+            m = SUFFIX_LINE_RE.match(line)
+            if m:
+                operators.append(f"{m.group(1)} {m.group(2)}".rstrip("."))
 
     county = Counter(counties).most_common(1)[0][0] if counties else None
     operator = Counter(operators).most_common(1)[0][0] if operators else None
@@ -226,10 +249,14 @@ def main():
         print(f"No W-1 folder for {day} yet ({w1_dir}) -- nothing downloaded today.")
         return 0
 
-    # Search recursively for PDFs (they may be in nested subdirectories from subscription ZIPs)
-    pdfs = sorted(w1_dir.glob("**/*.pdf"))
+    # Search recursively for plat files (they may be in nested subdirectories
+    # from subscription ZIPs). TIFFs are real plat sheets too, not a rarer
+    # alternate format -- confirmed 2026-08-29: a PDF-only glob silently
+    # skipped a real Sabine Energy plat (TIFF-only submission) entirely,
+    # reporting "unknown operator" for a well OCR never even opened.
+    pdfs = sorted(w1_dir.glob("**/*.pdf")) + sorted(w1_dir.glob("**/*.tif")) + sorted(w1_dir.glob("**/*.tiff"))
     if not pdfs:
-        print(f"{w1_dir} exists but has no PDFs yet.")
+        print(f"{w1_dir} exists but has no plat files yet.")
         return 0
 
     master = pd.read_csv(ROOT / "data" / "tx" / "master.csv", dtype=str)
