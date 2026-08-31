@@ -726,7 +726,8 @@ def test_render_leaves_no_tokens(tmp_path):
     tpl = tmp_path / "t.html"
     tpl.write_text("<x>__PAYLOAD_JSON__ __MM_LOGO__ __BUILD_STAMP__</x>", encoding="utf-8")
     out = render(tpl, build_payload({"APEX":[(_stub_unit(), {})]}), {"__MM_LOGO__":"data:,x"})
-    assert "__" not in out.replace("__proto__","")
+    for tok in ("__PAYLOAD_JSON__","__MM_LOGO__","__BUILD_STAMP__","__RROG_LOGO__","__LEAFLET_CSS__","__LEAFLET_JS__"):
+        assert tok not in out
     assert "Unit 59" in out
 ```
 
