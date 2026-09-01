@@ -54,7 +54,7 @@ Differences the shared code absorbs:
   producing dead links.
 - **Unit symbology is a flat fill, not a gradient.** Constant `fill-opacity`
   driven by the "Unit fill" slider (default 50%), with a fully opaque solid
-  2.8px black outline. An earlier radial-gradient fill (tinted centre fading to
+  2.8px black outline. An earlier radial-gradient fill (tinted center fading to
   clear at the boundary) was rejected as too soft to read.
 - **Units are filtered to each prospect's extent** (221 of 707 for North, 79 for
   South) rather than shipping the full statewide layer in both files.
@@ -64,7 +64,7 @@ Differences the shared code absorbs:
 
 **Map sizing guard.** Leaflet caches its container size at init, so a layout
 still settling (fonts, the splitter, a pane resize) left the initial `fitBounds`
-computed against a stale size — the South map opened centred in the Gulf of
+computed against a stale size — the South map opened centered in the Gulf of
 Mexico. A `ResizeObserver` on `#map` now re-syncs `invalidateSize()` and re-fits
 the extent until the user first drags or zooms (`userMovedMap`).
 
