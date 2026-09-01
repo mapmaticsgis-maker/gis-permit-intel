@@ -44,6 +44,18 @@ Differences the shared code absorbs:
 - **Per-prospect `localStorage`.** Every key is namespaced by `PKEY`
   (`fln-north-theme`, `fln-south-leftw`, …) so the two dashboards keep separate
   theme and splitter preferences.
+- **Companion PDF maps.** Each config carries a `pdfs` list rendered as a
+  "Reference maps" section at the bottom of the layers panel. `EMBED_PDFS=False`
+  (default) links them by filename — the HTML stays ~8 MB and emailable, but the
+  PDFs must travel in the same folder. `EMBED_PDFS=True` inlines them as data
+  URIs for a truly single file, at roughly +10 MB. North ships four
+  (prospect lease status, full/partial HBP, Meteor Impact lease + runsheet);
+  South has none yet. Missing files are skipped with a warning rather than
+  producing dead links.
+- **Unit symbology is a flat fill, not a gradient.** Constant `fill-opacity`
+  driven by the "Unit fill" slider (default 50%), with a fully opaque solid
+  2.8px black outline. An earlier radial-gradient fill (tinted centre fading to
+  clear at the boundary) was rejected as too soft to read.
 - **Units are filtered to each prospect's extent** (221 of 707 for North, 79 for
   South) rather than shipping the full statewide layer in both files.
 - The "most of this is newly researched tract base" caveat on the Change tab now
