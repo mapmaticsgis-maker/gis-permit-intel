@@ -124,7 +124,7 @@ not_started  →  working  →  abstract_submitted  →  in_review  →  to_rece
 `rung_of(cell_submitted, cell_to, cell_trailing) -> rung`:
 
 1. `cell_to` matches `File No.` / `File #` → `to_received` (capture `to_date`, `to_file_no`).
-2. else `cell_trailing` or `cell_submitted` contains `IN REVIEW` → `in_review`.
+2. else `cell_submitted`, `cell_to`, or any `cell_trailing` contains `IN REVIEW` → `in_review`. (Task 1 finding: `IN REVIEW` lands in any of the three depending on the sheet.)
 3. else `cell_submitted` matches `Abst #` → `abstract_submitted` (capture `abst_date`, `abst_no`).
 4. else `cell_submitted` matches `WORKING` → `working` (capture `abstractor` = text after `WORKING -`).
 5. else if the tract row has a `Date Started` → `working`.
