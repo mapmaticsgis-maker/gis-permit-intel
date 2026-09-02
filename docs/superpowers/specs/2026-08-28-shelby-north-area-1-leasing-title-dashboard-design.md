@@ -481,3 +481,24 @@ Trap worth recording: `activeFilter` must be declared at the top of the script.
 puts it in the temporal dead zone, which throws and silently kills the entire
 script -- the page still renders because the HTML is static, so it fails without
 an obvious symptom.
+
+## 16. Title-gap caveat removed -- it is a real risk (2026-09-02)
+
+Client confirmed the reading. The caveat in section 6 is **withdrawn**; supersedes
+the "no *current* title assignment" hedge everywhere it appears.
+
+What changed the conclusion: all 31 tracts in that bucket are blank in the GIS
+`STATUS` field too, not merely absent from the TITLE WORK workbook. The lone
+counter-example, 631-006, is missing from the workbook but still carries `100` in
+GIS -- which is what a completed-and-dropped tract looks like. These 31 look like
+tracts where no title work was ever logged in either source.
+
+- Bucket relabelled `Leasing with no title work logged` (was "Leasing, no current
+  title assignment").
+- Its fill is now `#D9534F` so it reads as risk rather than as another category.
+  Harmless to the map, since pipeline stage is no longer a coloring mode -- the
+  color survives only as the row's swatch and bar.
+- The row states its exposure: **18 of the 31, 541.9 ac, are already at
+  Negotiating or beyond**, computed from `ADVANCED_LEASE_STAGES` each build
+  rather than hardcoded, so it stays true next week.
+- The `.caveat` element, its repositioning JS, and its now-dead CSS are gone.
