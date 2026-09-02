@@ -446,3 +446,38 @@ zoom 13 across repeated loads.
    belongs to the glyph, so the last chromatic column plus a gap is the split
    (detected at 406 px) - rather than hardcoded, so a re-export still works.
    The white chip is gone; the mark sits directly on the burgundy.
+
+## 15. Client revisions, round 2 (2026-09-02)
+
+**SHOW ALL now means "all of THIS tab's statuses."** Round 1 made it merely clear
+the filter, which left the map in whatever coloring the last clicked row had
+selected -- and because a Leasing-tab handoff row switched coloring to pipeline
+stage, SHOW ALL landed you on all six pipeline categories at once rather than
+back on lease statuses. Two changes fix it:
+
+- **Pipeline stage is no longer a coloring mode.** It is out of the map's color
+  dropdown (now Lease status / Title status / Area classification only), and
+  `KIND_MODE` maps handoff rows to `'lease'`. Each tab owns exactly one status
+  vocabulary; a fourth cross-cutting one was the whole problem.
+- `clearFilter()` calls `setMode(currentTabMode())`, so SHOW ALL restores the
+  tab's own vocabulary even if the dropdown was changed by hand.
+
+**Filtered tracts with no status in the current view render neutral gray.** The 9
+ready-to-lease tracts have no lease status at all; in lease coloring they were
+white at 0.06 opacity and effectively invisible when selected. They now take
+`#9aa0a6`, and the legend gains a "No status in this view" entry whenever a
+filter is active.
+
+**Ownership rosters are filterable.** Clicking a roster filters the map to that
+roster's tracts (`kind:'roster'`, matched against the group's expanded tract
+list), so SHOW ALL is meaningful on that tab too. Selection survives a search
+re-render.
+
+**The tract detail card closes on any filter change** -- it shows one tract, and
+a filter change moves past it.
+
+Trap worth recording: `activeFilter` must be declared at the top of the script.
+`renderOwners()` runs during init and reads it; a `let` declared further down
+puts it in the temporal dead zone, which throws and silently kills the entire
+script -- the page still renders because the HTML is static, so it fails without
+an obvious symptom.
