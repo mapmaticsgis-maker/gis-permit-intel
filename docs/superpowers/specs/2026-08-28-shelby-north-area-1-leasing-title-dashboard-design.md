@@ -412,3 +412,37 @@ padding from the container size, so a not-yet-sized container produces a negativ
 size, the zoom math goes NaN, and the map lands silently on max zoom. `fitHome()`
 now retries per animation frame until the container is genuinely sized. Verified
 zoom 13 across repeated loads.
+
+## 14. Client revisions, round 1 (2026-09-02)
+
+1. **Tabs renamed and reordered:** `Leasing` (was Pipeline) / `Title` / `Areas` /
+   `Ownership` (was Owners). Section ids follow: `tab-leasing`, `tab-ownership`.
+2. **American spelling** throughout the UI: "COLOR TRACTS BY".
+3. **`SHOW ALL` bar.** Filter state was previously invisible and only clearable by
+   re-clicking the same row, which nobody discovers. A burgundy bar now appears
+   under the tabs whenever a filter is active, reading
+   `Showing N of 161 tracts - <filter>` with a SHOW ALL button. Note the CSS trap:
+   `.filterbar{display:flex}` outranks the UA's `[hidden]{display:none}`, so
+   `.filterbar[hidden]{display:none}` is required or the bar never hides.
+4. **Map coloring follows the panel.** Two linked rules replace the old manual
+   dropdown-only behavior:
+   - `TAB_MODE` - each tab sets its coloring on selection (Leasing→lease,
+     Title→title, Areas→area, Ownership→lease) and clears any active filter, so
+     a tab always opens on its full picture.
+   - `KIND_MODE` - clicking a row switches coloring to what that row describes
+     (handoff row→pipeline stage, funnel row→lease, ladder or contractor
+     row→title, area row→area).
+   All styling routes through a single `restyle()` so mode and filter can never
+   disagree. The dropdown remains for manual override and stays in sync.
+5. **"Runner" is now "Contractor"** everywhere in the UI and in the payload
+   (`contractors`, `rec["contractor"]`). The parser function keeps the name
+   `strip_running_suffix()` because it strips the literal word "Running" that the
+   title workbook writes into the assignee cell.
+6. **Client logo.** `Sabine Energy Logo.png` (Downloads) is transparent, with a
+   blue gradient glyph and a near-black wordmark. Black is invisible on the
+   burgundy header, so `client_logo_uri()` recolors only the wordmark to
+   `CLIENT_LOGO_TEXT_RGB` (233,242,252) and leaves the glyph exactly as drawn.
+   The glyph/wordmark boundary is measured from the art - every chromatic pixel
+   belongs to the glyph, so the last chromatic column plus a gap is the split
+   (detected at 406 px) - rather than hardcoded, so a re-export still works.
+   The white chip is gone; the mark sits directly on the burgundy.
