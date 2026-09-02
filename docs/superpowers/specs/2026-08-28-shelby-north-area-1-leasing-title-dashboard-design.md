@@ -394,3 +394,21 @@ as written.
 `fitBounds()` at map-construction time computes against a zero-height flex
 container and lands on zoom 0; the fit is deferred to `requestAnimationFrame`
 plus the `load` event, and a home control re-fits on demand.
+
+## 13. Client identity correction (2026-08-28)
+
+The client is **Sabine Energy Inc** -- the operator this repo's permit pipeline
+already tracks as a watched family for DOXA. It is **not** Sabine Oil & Gas LLC,
+a different company, whose mark is the one at `C:\GIS\LOGO\SABINE.jpg`. The
+first build shipped that wrong mark; §2's Branding note is superseded.
+
+No Sabine Energy asset exists on this machine, and their W-1 plats carry only the
+surveyor's (KSA) logo with the operator name as plain text. The header therefore
+renders a Gotham wordmark via `sabine_mark()`. Set `SABINE_LOGO_PATH` at the top
+of the build script when the real asset arrives and the build swaps it in.
+
+Also fixed: `fitBounds` was racing the flex layout. `getBoundsZoom` subtracts the
+padding from the container size, so a not-yet-sized container produces a negative
+size, the zoom math goes NaN, and the map lands silently on max zoom. `fitHome()`
+now retries per animation frame until the container is genuinely sized. Verified
+zoom 13 across repeated loads.
