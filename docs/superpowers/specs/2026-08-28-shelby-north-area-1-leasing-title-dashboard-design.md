@@ -502,3 +502,68 @@ tracts where no title work was ever logged in either source.
   Negotiating or beyond**, computed from `ADVANCED_LEASE_STAGES` each build
   rather than hardcoded, so it stays true next week.
 - The `.caveat` element, its repositioning JS, and its now-dead CSS are gone.
+
+## 17. 09/01/2026 data refresh -- status now shapefile-only (2026-09-02)
+
+Client supplied a new report pair, new maps, and a refreshed `DOXA_TRACTS.shp`
+for tomorrow's meeting, plus the instruction to derive status from the
+shapefile rather than parsing it out of the workbooks. This closes out three
+problems at once and opens one new one, recorded below.
+
+**Composite-key expander was broken by the new data and has been rewritten.**
+The 09/01 TITLE workbook introduced notation the expander had never seen:
+multi-family packages (`'365-274-001 & 002, 004, 007 & 365-592-002,003 &
+631-029,031,040'`) and back-reference rows (`'163-004 (w/163-002, etal)'`,
+`'459-006 also part of 459-003'`). The old single-family-per-key assumption
+silently invented `365-274-003` and `631-001` and dropped the real 365-592 and
+631 members from that package -- exactly the "plausible-looking but wrong"
+failure this expander was always the one place capable of. `expand_key()` now
+cuts at the first back-reference marker before scanning, and tracks the family
+prefix per segment rather than once for the whole string. Verified against all
+10 real 09/01 composite keys plus the 11 original 08/20 ones.
+
+**Status is no longer parsed from the workbooks at all.** Per the client:
+"just go with what's in the shapes." `lease_label_and_split()` and the title
+label now read `LSE_STAT`/`STATUS` off `DOXA_TRACTS.shp` exclusively. This
+also resolves the 631-006 "Open" ambiguity from round 1 outright, since the
+workbook's free-text status column is no longer consulted for classification
+at all -- it was the source of that ambiguity in the first place. The
+workbooks still supply owners, GMA, comments and contractor assignment, none
+of which the shapefile carries.
+
+**`LSE_STAT` compound codes are now parsed generically, not from a fixed
+table.** The 09/01 shapefile introduced `COMM_NEG`, `COMM_AC`, `COMM_NEG_AC`,
+and spells `SIGNED` out in full where 08/20 had `SIGN` -- none of which existed
+in the old `SPLIT_STATUS` lookup, and a fixed table breaks silently on every
+future combination DOXA's GIS analyst invents. Codes are now underscore-split
+into tokens; the token with the highest pipeline rank becomes the tract's
+color and label, and the rest are kept as a note (`p.split` in the detail
+card) rather than discarded. `RT` always wins outright regardless of what else
+is in the code.
+
+**`TITLE_CODE` had a real bug: the 0-25% bucket's code is `"25"`, not `"0"`.**
+No tract in the 08/20 shapefile carried that code, so the bug was invisible
+until 09/01, where 17 tracts do. The fix is a one-key change; it does explain
+why "Title 0%-25%" always read zero before now.
+
+**TITLE COMMENTS free text loosened; contractor extraction is now a rule, not
+a suffix-strip.** 08/20 comments were uniformly `"Patrick Running"`. 09/01
+added `"Kevin Running - Paused 08/10ish"`, `"Kevin possibly ran some with
+284-005"`, `"Kevin/Anthony running"`, and non-assignment notes like `"Ready for
+Title"`. A trailing-suffix strip mistook every one of these for a contractor
+name (`"Kevin possibly ran some with 284-005"` was appearing verbatim as a
+contractor in the workload rollup). `extract_contractor()` now requires a
+run/ran word to appear anywhere in the cell before treating it as an
+assignment at all, then takes the capitalized name(s) at the very start of the
+string. The build logs any title comment containing no extractable contractor
+so a future format change surfaces at build time rather than in the meeting.
+
+**CHANGE tab is OFF for this rebuild, deliberately.** Status now comes only
+from the shapefile, and only one shapefile snapshot exists on disk. Diffing
+the 08/20 workbooks against the *current* shapefile would derive both the
+"current" and "prior" record from the same shapefile codes -- every tract
+would compare equal, and the tab would report zero changes despite three
+weeks of real movement. A false "nothing changed" was judged worse than no
+tab. `PRIOR_CONSOLIDATED`/`PRIOR_TITLE` are set back to `None` with this
+reasoning recorded inline; reactivating the tab needs a prior-week shapefile
+snapshot paired with a prior-week workbook pair, which does not yet exist.
