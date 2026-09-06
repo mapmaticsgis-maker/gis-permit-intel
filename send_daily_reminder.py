@@ -88,7 +88,11 @@ def send_alert(subject: str, body: str):
     smtp_port = int(os.environ.get("SMTP_PORT", "587"))
     smtp_user = os.environ.get("SMTP_USER", "mapmatics.gis@gmail.com")
     smtp_password = os.environ.get("SMTP_PASSWORD")
-    recipient = os.environ.get("ALERT_TO_EMAIL", "mapmatics.gis@gmail.com")
+    # Deliberately not ALERT_TO_EMAIL: that list now includes client-facing
+    # recipients (e.g. zcgregory@gmail.com, added 2026-09-06), but this is an
+    # internal ops nag ("you forgot to push") that only makes sense for the
+    # operator.
+    recipient = "mapmatics.gis@gmail.com"
 
     if not smtp_password:
         logger.error("SMTP_PASSWORD not set in environment; cannot send alert")

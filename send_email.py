@@ -5,6 +5,7 @@ nothing sensitive lives in the repo itself.
 
 Required env vars: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD,
 ALERT_TO_EMAIL. Gmail works with an App Password: smtp.gmail.com, 587.
+ALERT_TO_EMAIL may be a single address or a comma-separated list.
 """
 import mimetypes
 import os
@@ -21,12 +22,12 @@ def _send(subject: str, body: str, attachments: list | None = None):
     port = int(os.environ.get("SMTP_PORT", "587"))
     user = os.environ["SMTP_USER"]
     password = os.environ["SMTP_PASSWORD"]
-    to_addr = os.environ["ALERT_TO_EMAIL"]
+    to_addrs = [a.strip() for a in os.environ["ALERT_TO_EMAIL"].split(",") if a.strip()]
 
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"] = user
-    msg["To"] = to_addr
+    msg["To"] = ", ".join(to_addrs)
     msg.attach(MIMEText(body, "plain"))
 
     for path in attachments or []:
@@ -42,7 +43,7 @@ def _send(subject: str, body: str, attachments: list | None = None):
     with smtplib.SMTP(host, port) as server:
         server.starttls()
         server.login(user, password)
-        server.sendmail(user, [to_addr], msg.as_string())
+        server.sendmail(user, to_addrs, msg.as_string())
 
 
 def send_daily_brief(body: str, run_date: str, attachments: list | None = None):
