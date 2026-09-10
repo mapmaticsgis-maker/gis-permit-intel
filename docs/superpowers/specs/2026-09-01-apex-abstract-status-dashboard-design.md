@@ -169,3 +169,58 @@ Same shape as `build_rrog_dashboard.py`. Runs on the ArcGIS Pro Python. Steps:
 6. The section sheet count changes every cycle — never hard-code the 9.
 7. Subdivisions collapse many lots into one tract row (`5 | Whippoorwill Subdivision`) OR span a range (`6-52`) — both occur in the same section.
 8. `WORKING - <name>` carries the abstractor; `WORKING - HOLD PER TL` at the section level means the whole section is paused (title-lead hold), not an abstractor.
+
+---
+
+## 2026-09-09 iteration
+
+Applied against Jolie's **09/04/2026** report (`Apex_Abstract Status Report_9.4.2026.xlsx`),
+with the **5.29.2026** report wired as `CONFIGS["prior"]`. Three tasks (SDD
+`2026-09-09-apex-abstract-iteration`).
+
+**"% complete" semantics changed.** Per the client directive, the headline number
+is now **abstract-stage complete** — fraction of non-3rd-party tracts at
+`abstract_submitted | in_review | to_received` — not TO-received. The TO-received
+fraction is still computed and shown as a sub-line (`to_received_pct`) and drives
+nothing urgency-related. `SectionAbstract` gained `abstract_complete_pct`; the
+payload/detail carry `abstract_complete_pct` + `to_received_pct` (+ a
+`title_complete_pct` back-compat alias, drop next release). Overview column
+relabelled **Abst %**; the all-sections map's graded fill reads
+`abstract_complete_pct` while the dark-green "complete" fill stays reserved for
+`STATUS == TITLE COMPLETE` (final-review C1 — map and status can never contradict).
+
+**09/04 report = 11 sections** across 8 Apex units (was 9 / 6). Two new LA
+sections: `5-12N-12W` (DeSoto, Unit 164) and `19&30-10N-10W` (Nacogdoches LA,
+Unit 149). The build enumerates section sheets — no code change for the count;
+geometry for both was extracted at build time from
+`INDIGO_NLA-ABS_TO.gdb TRACTS` into `data/` (`512N12W.shp` via
+`SEC='5' AND TWP='12N' AND RNG='12W'`, `19-3010N10W.shp` sidecars copied from
+`C:\GIS\CLIENT\RROG\`). Both resolve **live** (95% / 100% coverage).
+
+**Blank-tract-# name-join.** Sheets like `19&30-10N-10W` leave the Tract-#
+column blank and carry tract identity only in the Tract Name column; the parser
+synthesises a positional key `t{n}` and sets `TractRung.join_name`, and
+`abstract_render._discover_name_layer` / `_join_section_by_name` join geometry on
+a normalised `NAME` field instead of a tract id. `canon_section` now parses the
+compound `19&30` section token.
+
+**`WORKING ON CURATIVE`** in the TO-Received cell → a `curative` tract tag
+(surfaced, not a rung); the overview shows a `cur` pill on sections with curative
+tracts (`34-11N-12W`: 5).
+
+**Change view is live.** `diff_abstract(current, prior)` runs against the 5.29
+workbook; the per-section Level-2 "Changes since last report" strip renders
+rung advances + new abstracts + new TOs. 09/04 vs 5.29: 100 rung advances,
+9 corrections, 14 new abstracts, 38 new TOs, 2 section-status changes,
+2 added sections.
+
+**Two Nacogdoches TX units staged, not wired.** EOG's **Barton Gas Unit** and
+**Kendrick Gas Unit** plats are staged in `data/` with a `CONFIGS["staged_units"]`
+registry (section key a documented guess — `BARTON` / `KENDRICK`). `main()`'s
+`_apply_staged_units` will, once a workbook section sheet matches one, skip the LA
+`.gdb`/shapefile hunt, use the staged plat PDF as an image-mode map, and add
+Nacogdoches TX (`statefp="48"`) to the map context. **Inert for the 09/04 cycle**
+— no section sheet matches, build output unchanged.
+
+Full suite after build: **211 passed**. RROG leasing dashboard untouched
+(`build_rrog_dashboard.py` exit 0).
