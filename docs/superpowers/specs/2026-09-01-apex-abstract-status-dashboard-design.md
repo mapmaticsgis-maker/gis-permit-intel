@@ -214,13 +214,35 @@ rung advances + new abstracts + new TOs. 09/04 vs 5.29: 100 rung advances,
 9 corrections, 14 new abstracts, 38 new TOs, 2 section-status changes,
 2 added sections.
 
-**Two Nacogdoches TX units staged, not wired.** EOG's **Barton Gas Unit** and
-**Kendrick Gas Unit** plats are staged in `data/` with a `CONFIGS["staged_units"]`
-registry (section key a documented guess — `BARTON` / `KENDRICK`). `main()`'s
-`_apply_staged_units` will, once a workbook section sheet matches one, skip the LA
-`.gdb`/shapefile hunt, use the staged plat PDF as an image-mode map, and add
-Nacogdoches TX (`statefp="48"`) to the map context. **Inert for the 09/04 cycle**
-— no section sheet matches, build output unchanged.
+**Two Nacogdoches TX units — synthesised (revised same day).** EOG's **Barton
+Gas Unit** and **Kendrick Gas Unit** have no formal section sheet yet, so
+`main()`'s `_apply_staged_units` now **synthesises** a section for each from
+`CONFIGS["staged_units"]`: an `AllSectionsRow` + a `SectionAbstract` built by the
+new `rrog.abstract_report.section_abstract_from_rungs` helper (shared with the
+workbook parser) from an inline tract list — `(key, name, acres, rung,
+abstractor)` per tract, owners/acres off the recorded unit plats, rungs from
+Jolie's status emails. They appear in the queue, on the overview map (recorded-
+plat unit outline from `data/nac_units.shp`), and in a Level-2 detail. If a
+workbook sheet with key `BARTON` / `KENDRICK` ever appears it wins and the
+synthesis is skipped (`skey in report.sections`). `diff_abstract` runs *before*
+staging so the units never show as phantom `added_sections`. Caveats: section
+keys are a guess; the tract rungs are a hand-entered email delta (un-named tracts
+assumed `not_started`); `nac_units.shp` is the unit *outline* only (no tract
+cuts, so the Level-2 map has no per-tract rung colouring); adding Nacogdoches
+zooms the overview map out over the Haynesville cluster.
 
-Full suite after build: **211 passed**. RROG leasing dashboard untouched
-(`build_rrog_dashboard.py` exit 0).
+**Non-tract polygon filter.** `rrog.geometry.load_tract_geojson` drops features
+whose id is blank or a draftsperson's non-tract shape (`ROADS`, `OVERLAP`,
+`R.O.W.`, bare `"N.NN AC"` callout) — they never match a workbook tract and were
+inflating section bounding boxes (the re-synced 161-parcel `115N14W.shp` carries
+7 such boxes ~12 mi off the unit).
+
+**Masthead logos** now sit on the dark masthead without a white box:
+`rrog.assets.logo_datauri(key=...)` — `"ink"` recolours the black RROG line-art
+to white-on-transparent (red accent kept); `"flood"` clears the border white
+from the Apex colour mark, which then rides a tight white rounded card in CSS
+(its wordmark is mid-tone and doesn't read on the blue bare).
+
+Full suite after build: **214 passed**. RROG leasing dashboard behaviourally
+untouched (`build_rrog_dashboard.py` exit 0; byte size no longer compared —
+drifts with the new logo).
