@@ -279,6 +279,7 @@ def main():
     # docstring), so it can't corrupt the RRC diff even if something here is wrong.
     enverus_ok, enverus_out = run_step([sys.executable, "enverus_tx_pull.py"], "TX Enverus cross-check")
     enverus_la_ok, enverus_la_out = run_step([sys.executable, "enverus_la_pull.py"], "LA Enverus cross-check")
+    enverus_synopsis_ok, enverus_synopsis_out = run_step([sys.executable, "enverus_synopsis.py"], "Enverus play synopsis")
 
     # Generate market brief after both masters are updated
     brief_ok = False
@@ -363,6 +364,15 @@ def main():
         enverus_la_section = (f"# Louisiana (Enverus Cross-Check)\n\n_This step FAILED this run -- "
                                f"see the alert email for details. SONRIS pull above is unaffected._")
 
+    outd_synopsis = ROOT / cfg["data_dir"] / "enverus_out" / today
+    synopsis_path = outd_synopsis / "synopsis.md"  # not digest.md -- self_check.read_digest doesn't apply here
+    if enverus_synopsis_ok and synopsis_path.exists():
+        synopsis_section = synopsis_path.read_text(encoding="utf-8")
+    elif enverus_synopsis_ok:
+        synopsis_section = ("# Play Synopsis\n\n_No ENVERUS_SECRET_KEY configured -- synopsis skipped._")
+    else:
+        synopsis_section = ("# Play Synopsis\n\n_This step FAILED this run -- see the alert email for details._")
+
     # A skip marker only describes the day when the day has no new_permits.csv.
     # If an earlier run that day produced real output, that output is the truth
     # and a leftover marker must not override it.
@@ -393,6 +403,8 @@ def main():
         checks.append(("enverus_crosscheck_failed", False, enverus_out[-500:]))
     if not enverus_la_ok:
         checks.append(("enverus_la_crosscheck_failed", False, enverus_la_out[-500:]))
+    if not enverus_synopsis_ok:
+        checks.append(("enverus_synopsis_failed", False, enverus_synopsis_out[-500:]))
     checks.append(self_check.check_run_not_stale(RUN_LOG))
 
     checks.extend(collect_invariants(cfg["data_dir"], ("tx", "la"), dt.date.today()))
@@ -403,15 +415,26 @@ def main():
     # "failed" into one sentence for TX and said nothing at all for LA, so a
     # correctly-skipped weekend run produced a blank section the operator had
     # no way to interpret.
+    #
+    # RRC/SONRIS (free state sources) and Enverus (paid subscription) go out
+    # as two separate emails, not one combined brief -- distinct trust level
+    # (Enverus permits aren't yet confirmed by the state agency) and distinct
+    # content (Enverus adds play-wide synopsis + rig-level detail the free
+    # sources don't have at all), so mixing them into one brief made it hard
+    # to tell at a glance which claims came from which side.
     brief = "\n\n---\n\n".join([
         brief_section("Texas RRC (daf420)", tx_ok, tx_digest, tx_skip),
-        enverus_section,
         brief_section("Louisiana SONRIS", la_ok, la_digest, la_skip),
-        enverus_la_section,
         w1_section,
         la_recheck_list(cfg, ROOT),
     ])
+    enverus_brief = "\n\n---\n\n".join([
+        enverus_section,
+        enverus_la_section,
+        synopsis_section,
+    ])
     send_email.send_daily_brief(brief, today, attachments=w1_attachments)
+    send_email.send_enverus_brief(enverus_brief, today)
     if failed:
         send_email.send_failure_alert(checks, today)
 

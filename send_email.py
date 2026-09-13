@@ -50,6 +50,16 @@ def send_daily_brief(body: str, run_date: str, attachments: list | None = None):
     _send(f"Permit Intel — {run_date}", body, attachments)
 
 
+def send_enverus_brief(body: str, run_date: str, attachments: list | None = None):
+    """Separate email from the RRC/SONRIS daily brief -- distinct source
+    (paid Enverus subscription vs free state portals), distinct content
+    (permits-vs-master gap check + play-wide synopsis), and distinct
+    trust level (unconfirmed by the state agency yet). Keeping them apart
+    means a reader can tell at a glance which claims come from which side
+    without parsing section headers."""
+    _send(f"Enverus Intel — {run_date}", body, attachments)
+
+
 def send_insight_brief(body: str, run_date: str, attachments: list | None = None):
     """Separate subject line from the mechanical daily brief -- this is the
     narrative/judgment layer (pad tracking, campaigns, watchlist), composed
