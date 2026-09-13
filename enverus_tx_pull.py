@@ -29,7 +29,8 @@ load_env()
 
 from common import load_cfg, load_master
 from digest import build_digest
-from enverus_developer_api import DeveloperAPIv3, DAAuthException, DAQueryException
+from enverus_common import fetch_raw_permits, depth_from_record
+from enverus_developer_api import DAAuthException, DAQueryException
 
 # Same shape as tx_daf420.parse_rrc's output, so this can share digest.py's
 # renamer and build_digest() unmodified.
@@ -55,28 +56,14 @@ RENAME_FOR_DIGEST = {"Operator_Name": "operator", "County": "county",
                      "Lease_Name": "well"}
 
 
-def _depth(rec) -> float | None:
-    """PermitDepth_FT is populated far more often than the two more specific
-    depth fields in practice (confirmed against sample TX records) -- fall
-    back to them only when it's missing."""
-    for k in ("PermitDepth_FT", "PermittedMeasuredDepth_FT", "PermittedTrueVerticalDepth_FT"):
-        v = rec.get(k)
-        if v not in (None, ""):
-            try:
-                return float(v)
-            except (TypeError, ValueError):
-                continue
-    return None
-
-
 def fetch_tx_permits(secret_key: str, lookback_days: int) -> pd.DataFrame:
-    cutoff = (dt.date.today() - dt.timedelta(days=lookback_days)).isoformat()
-    v3 = DeveloperAPIv3(secret_key=secret_key)
     rows = []
-    for rec in v3.query("permits", stateprovince="TX", approveddate=f"gt({cutoff})", pagesize=1000):
+    for rec in fetch_raw_permits(secret_key, "TX", lookback_days):
         row = {dst: rec.get(src) for src, dst in FIELD_MAP.items()}
+        # RRC zero-pads Permit_Number to 7 digits (confirmed against tx/master.csv:
+        # 2037/2037 rows are exactly 7 chars) -- Enverus's PermitNumber isn't padded.
         row["Permit_Number"] = str(rec.get("PermitNumber") or "").strip().zfill(7)
-        row["Total_Depth"] = _depth(rec)
+        row["Total_Depth"] = depth_from_record(rec)
         rows.append(row)
     df = pd.DataFrame(rows, columns=list(FIELD_MAP.values()) + ["Total_Depth"])
     if df.empty:

@@ -43,15 +43,31 @@ def _ping(suffix: str = ""):
 
 
 def run_step(cmd, label: str) -> tuple[bool, str]:
+    """The subprocess's real exit status is the source of truth, decided
+    before anything touches the console. It used to be decided by the same
+    `print()` call that echoes output for visibility -- on a non-UTF-8
+    console (default on Windows, e.g. cp1252, though GitHub Actions' Ubuntu
+    runner is unaffected) a step's own digest text can carry a character
+    that print() can't encode there, raising UnicodeEncodeError *after* the
+    subprocess already succeeded. The broad except then reported a fully
+    successful run as a launch failure -- confirmed 2026-09-13 running this
+    locally: tx_daf420.py and enverus_tx_pull.py both completed correctly
+    on disk (master.csv/digest.md written) but were reported failed, which
+    would have sent a degraded brief with fabricated FAILED sections."""
     try:
         r = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True,
                             encoding="utf-8", errors="replace", timeout=900)
-        output = r.stdout + (("\nSTDERR:\n" + r.stderr) if r.stderr else "")
-        print(f"--- {label} ---\n{output}")
-        return r.returncode == 0, output
     except Exception as e:
         print(f"!!! {label} failed to launch: {e}")
         return False, str(e)
+    output = r.stdout + (("\nSTDERR:\n" + r.stderr) if r.stderr else "")
+    ok = r.returncode == 0
+    try:
+        print(f"--- {label} ---\n{output}")
+    except UnicodeEncodeError:
+        enc = sys.stdout.encoding or "utf-8"
+        print(f"--- {label} ---\n{output.encode(enc, errors='replace').decode(enc)}")
+    return ok, output
 
 
 def brief_section(label: str, ok: bool, digest: str, skip: dict | None) -> str:
@@ -262,6 +278,7 @@ def main():
     # cross-check earns its keep. Never touches tx/master.csv (see its own
     # docstring), so it can't corrupt the RRC diff even if something here is wrong.
     enverus_ok, enverus_out = run_step([sys.executable, "enverus_tx_pull.py"], "TX Enverus cross-check")
+    enverus_la_ok, enverus_la_out = run_step([sys.executable, "enverus_la_pull.py"], "LA Enverus cross-check")
 
     # Generate market brief after both masters are updated
     brief_ok = False
@@ -335,6 +352,17 @@ def main():
         enverus_section = (f"# Texas (Enverus Cross-Check)\n\n_This step FAILED this run -- "
                             f"see the alert email for details. RRC pull above is unaffected._")
 
+    outd_enverus_la = ROOT / cfg["data_dir"] / "la" / "enverus_out" / today
+    enverus_la_digest = self_check.read_digest(outd_enverus_la) if enverus_la_ok else ""
+    if enverus_la_digest.strip():
+        enverus_la_section = enverus_la_digest
+    elif enverus_la_ok:
+        enverus_la_section = ("# Louisiana (Enverus Cross-Check)\n\n_No ENVERUS_SECRET_KEY configured -- "
+                               "cross-check skipped._")
+    else:
+        enverus_la_section = (f"# Louisiana (Enverus Cross-Check)\n\n_This step FAILED this run -- "
+                               f"see the alert email for details. SONRIS pull above is unaffected._")
+
     # A skip marker only describes the day when the day has no new_permits.csv.
     # If an earlier run that day produced real output, that output is the truth
     # and a leftover marker must not override it.
@@ -363,6 +391,8 @@ def main():
         checks.append(("la_pull_failed", False, la_out[-500:]))
     if not enverus_ok:
         checks.append(("enverus_crosscheck_failed", False, enverus_out[-500:]))
+    if not enverus_la_ok:
+        checks.append(("enverus_la_crosscheck_failed", False, enverus_la_out[-500:]))
     checks.append(self_check.check_run_not_stale(RUN_LOG))
 
     checks.extend(collect_invariants(cfg["data_dir"], ("tx", "la"), dt.date.today()))
@@ -377,6 +407,7 @@ def main():
         brief_section("Texas RRC (daf420)", tx_ok, tx_digest, tx_skip),
         enverus_section,
         brief_section("Louisiana SONRIS", la_ok, la_digest, la_skip),
+        enverus_la_section,
         w1_section,
         la_recheck_list(cfg, ROOT),
     ])
