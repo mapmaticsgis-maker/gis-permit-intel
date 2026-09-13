@@ -66,3 +66,11 @@ settings.local.json
 # manually several times before this was traced to the actual cause).
 data/tx/w1/**/*.pdf
 data/tx/w1/**/*.tif
+
+# Raw daily LandTrac lease exports (manually dropped by the user, rolling
+# 3-month LA+TX window, ~1-2MB/day and heavily overlapping day to day).
+# enverus_leases_pull.py extracts the actual signal into
+# data/enverus_lease_point/out/<date>/{digest.md,new_leases.csv}, which
+# stay tracked -- no need to keep re-committing the raw source file.
+data/enverus_lease_point/*.csv
+data/enverus_lease_point/*.CSV
