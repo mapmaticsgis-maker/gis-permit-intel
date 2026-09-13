@@ -1,0 +1,10 @@
+# tx_daf420.py's ingestion ledger dedups on a SHA256 of the file's exact
+# bytes (core/ledger.py hash_file). Windows' core.autocrlf (on by default
+# for this repo, confirmed 2026-09-13 by repeated spurious re-ingestions)
+# silently rewrites LF -> CRLF for anything git treats as text, changing
+# the hash without changing the content -- daf420.dat.* is fixed-width
+# text, so git auto-detects it as text and normalizes it on every
+# checkout/merge that touches it, making the ledger think a genuinely
+# unchanged file is new every time. Mark it binary so git never touches
+# its bytes.
+data/tx/inbox/daf420.dat.* -text
