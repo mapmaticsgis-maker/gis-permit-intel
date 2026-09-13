@@ -36,11 +36,20 @@ Run:  python enverus_leases_pull.py
 """
 import datetime as dt
 import glob
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 import pandas as pd
+
+# Task Scheduler doesn't guarantee a working directory the way an
+# interactive shell does -- load_cfg("config.yaml") and every relative
+# data_dir path in this script assume cwd is the project root. Same fix
+# every other Task-Scheduler-run script here already applies (see
+# auto_download_subscriptions.py).
+SCRIPT_DIR = Path(__file__).resolve().parent
+os.chdir(SCRIPT_DIR)
 
 from local_env import load_env
 load_env()
@@ -48,7 +57,6 @@ load_env()
 from common import load_cfg, family_of, row_hash
 from core.ledger import append_ingestion, hash_file
 
-SCRIPT_DIR = Path(__file__).resolve().parent
 LEASE_DIR_NAME = "enverus_lease_point"  # matches the folder the user already created
 LEDGER_STATE = "enverus_leases"
 
