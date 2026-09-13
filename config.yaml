@@ -9,6 +9,8 @@ texas:
   gdb: C:\GIS\RRC_Permits\RRC_Permits.gdb
   coord_cache: C:\GIS\RRC_Permits\rrc_coordinate_cache.csv
   build_gdb: true
+  enverus_lookback_days: 21   # cross-check window -- wide enough to span an extended RRC outage;
+                              # permits already in tx/master.csv drop out of the gap list on their own
   fields:
     id: "STATUS_NUMBER"
     api: "API_NO"

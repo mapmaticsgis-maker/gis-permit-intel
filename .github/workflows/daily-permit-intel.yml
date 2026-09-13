@@ -23,7 +23,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install pandas pyyaml requests pyshp openpyxl
+        run: pip install pandas pyyaml requests pyshp openpyxl enverus-developer-api
 
       - name: Run daily pipeline
         env:
@@ -33,6 +33,7 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           ALERT_TO_EMAIL: ${{ secrets.ALERT_TO_EMAIL }}
           HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
+          ENVERUS_SECRET_KEY: ${{ secrets.ENVERUS_SECRET_KEY }}
         run: python run_daily_ci.py
 
       - name: Commit updated masters + outputs + run log

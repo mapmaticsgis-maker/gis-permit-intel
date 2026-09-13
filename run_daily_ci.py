@@ -258,6 +258,10 @@ def main():
 
     tx_ok, tx_out = run_step([sys.executable, "tx_daf420.py"], "TX RRC pull")
     la_ok, la_out = run_step([sys.executable, "la_pull.py"], "LA SONRIS pull")
+    # Runs regardless of tx_ok -- an RRC outage/staleness is exactly when this
+    # cross-check earns its keep. Never touches tx/master.csv (see its own
+    # docstring), so it can't corrupt the RRC diff even if something here is wrong.
+    enverus_ok, enverus_out = run_step([sys.executable, "enverus_tx_pull.py"], "TX Enverus cross-check")
 
     # Generate market brief after both masters are updated
     brief_ok = False
@@ -320,6 +324,17 @@ def main():
     elif w1_attach_skip_note:
         w1_section += f"\n\n_{w1_attach_skip_note}_"
 
+    outd_enverus = ROOT / cfg["data_dir"] / "tx" / "enverus_out" / today
+    enverus_digest = self_check.read_digest(outd_enverus) if enverus_ok else ""
+    if enverus_digest.strip():
+        enverus_section = enverus_digest
+    elif enverus_ok:
+        enverus_section = ("# Texas (Enverus Cross-Check)\n\n_No ENVERUS_SECRET_KEY configured -- "
+                            "cross-check skipped._")
+    else:
+        enverus_section = (f"# Texas (Enverus Cross-Check)\n\n_This step FAILED this run -- "
+                            f"see the alert email for details. RRC pull above is unaffected._")
+
     # A skip marker only describes the day when the day has no new_permits.csv.
     # If an earlier run that day produced real output, that output is the truth
     # and a leftover marker must not override it.
@@ -346,6 +361,8 @@ def main():
                                                    skip=la_skip))
     else:
         checks.append(("la_pull_failed", False, la_out[-500:]))
+    if not enverus_ok:
+        checks.append(("enverus_crosscheck_failed", False, enverus_out[-500:]))
     checks.append(self_check.check_run_not_stale(RUN_LOG))
 
     checks.extend(collect_invariants(cfg["data_dir"], ("tx", "la"), dt.date.today()))
@@ -358,6 +375,7 @@ def main():
     # no way to interpret.
     brief = "\n\n---\n\n".join([
         brief_section("Texas RRC (daf420)", tx_ok, tx_digest, tx_skip),
+        enverus_section,
         brief_section("Louisiana SONRIS", la_ok, la_digest, la_skip),
         w1_section,
         la_recheck_list(cfg, ROOT),
