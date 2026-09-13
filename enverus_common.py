@@ -22,6 +22,20 @@ def fetch_raw_permits(secret_key: str, state_abbr: str, lookback_days: int) -> l
                           approveddate=f"gt({cutoff})", pagesize=1000))
 
 
+def fetch_raw_rigs(secret_key: str, state_abbr: str, lookback_days: int) -> list[dict]:
+    """Yields raw Enverus rig records (dicts, all 97 dataset fields) for a
+    state, spudded within the lookback window. Confirmed 2026-09-13: this
+    dataset runs noticeably more current than permits -- spuds recorded
+    through the day of the query, vs. permits which can lag when RRC's own
+    feed is stalled. ActiveStatus distinguishes a rig genuinely still on
+    location from one that's since moved off (DaysOnLocation alone doesn't
+    tell you that)."""
+    cutoff = (dt.date.today() - dt.timedelta(days=lookback_days)).isoformat()
+    v3 = DeveloperAPIv3(secret_key=secret_key)
+    return list(v3.query("rigs", stateprovince=state_abbr,
+                          spuddate=f"gt({cutoff})", pagesize=1000))
+
+
 def depth_from_record(rec: dict) -> float | None:
     """PermitDepth_FT is populated far more often than the two more specific
     depth fields in practice (confirmed against sample TX/LA records) --
