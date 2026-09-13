@@ -373,6 +373,19 @@ def main():
     else:
         synopsis_section = ("# Play Synopsis\n\n_This step FAILED this run -- see the alert email for details._")
 
+    # Lease filings run entirely locally (enverus_leases_pull.py, wherever
+    # the user drops the daily LandTrac export) and self-commit their
+    # output -- GitHub Actions has no access to that machine's filesystem,
+    # so this is a pure read of whatever's already in the repo for today,
+    # not a run_step like the sections above. A day the user hasn't
+    # exported/run it yet just shows the honest "nothing here" state.
+    leases_path = ROOT / cfg["data_dir"] / "enverus_lease_point" / "out" / today / "digest.md"
+    if leases_path.exists():
+        leases_section = leases_path.read_text(encoding="utf-8")
+    else:
+        leases_section = ("# New Lease Filings\n\n_No lease export processed locally for today yet "
+                           "(enverus_leases_pull.py runs on the user's machine, not in this workflow)._")
+
     # A skip marker only describes the day when the day has no new_permits.csv.
     # If an earlier run that day produced real output, that output is the truth
     # and a leftover marker must not override it.
@@ -429,6 +442,7 @@ def main():
         la_recheck_list(cfg, ROOT),
     ])
     enverus_brief = "\n\n---\n\n".join([
+        leases_section,
         enverus_section,
         enverus_la_section,
         synopsis_section,
