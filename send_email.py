@@ -60,6 +60,14 @@ def send_enverus_brief(body: str, run_date: str, attachments: list | None = None
     _send(f"Enverus Intel — {run_date}", body, attachments)
 
 
+def send_play_intel_brief(body: str, run_date: str, attachments: list | None = None):
+    """Twice-weekly (Mon/Thu), composed by a scheduled cloud routine, not
+    a local script -- integrated permit+rig+lease+M&A consultant-style
+    briefing on Haynesville/Eagle Ford/Permian. Distinct cadence and
+    subject from the daily briefs so it reads as its own deliverable."""
+    _send(f"Play Intel Briefing — {run_date}", body, attachments)
+
+
 def send_insight_brief(body: str, run_date: str, attachments: list | None = None):
     """Separate subject line from the mechanical daily brief -- this is the
     narrative/judgment layer (pad tracking, campaigns, watchlist), composed
