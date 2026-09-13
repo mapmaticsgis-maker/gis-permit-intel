@@ -234,7 +234,13 @@ def main() -> int:
 
     seen = _load_seen(cfg)
     new_rows = combined[~combined["_hash"].isin(seen)].copy()
-    _append_seen(cfg, combined["_hash"])  # record ALL of today's hashes as seen, not just the new ones
+    # Only the genuinely new hashes -- appending combined's full set every run
+    # (this session's first version of this script did exactly that) re-adds
+    # thousands of already-seen hashes daily, since most of a rolling-window
+    # export repeats yesterday's. Confirmed via a real second run: it grew
+    # seen_hashes.csv by 4179 duplicate rows for zero new leases.
+    if len(new_rows):
+        _append_seen(cfg, new_rows["_hash"])
 
     new_rows = new_rows.drop(columns=["_hash"])
     for c in NUMERIC_COLUMNS:
