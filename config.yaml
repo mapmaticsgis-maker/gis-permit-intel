@@ -85,3 +85,4 @@ operator_families:
   MARATHON:      {family: "Marathon (eastern EF push)",      aliases: [MARATHON]}
   MAGNOLIA:      {family: "Magnolia (EOG-contiguous, Lee Co)",aliases: [MAGNOLIA]}
   IRONBLOOM:     {family: "Ironbloom (new Giddings entrant)",aliases: [IRONBLOOM]}
+  SAGE:          {family: "Sage Natural Resources (incl. Brushfire Minerals)", aliases: [SAGE, BRUSHFIRE]}
