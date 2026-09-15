@@ -68,7 +68,7 @@ corridors:
   "DOXA / Firebird — Permian":
     tx: [ECTOR, WINKLER, UPTON, MIDLAND, CRANE, ANDREWS]
   "West Haynesville watch":
-    tx: [LEON, ROBERTSON, FREESTONE, HOUSTON, MADISON]
+    tx: [LEON, ROBERTSON, FREESTONE, HOUSTON, MADISON, ANDERSON]
   "RROG + DOXA — NW Louisiana Haynesville":
     la: [CADDO, DESOTO, "RED RIVER", BOSSIER, BIENVILLE, SABINE, WEBSTER, NATCHITOCHES]
 
