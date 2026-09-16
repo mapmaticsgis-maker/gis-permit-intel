@@ -851,6 +851,46 @@ both `build_shelby_dashboard.py` and `build_sabine_dashboard.py`. Verified
 post-fix: both `<img>` elements report identical height and identical
 vertical center in the rendered page.
 
+## 22. Kuykendall leasing data surfaced in the Leasing tab (2026-09-16)
+
+Client asked to look at the workbook again and "incorporate the Kuykendall
+leasing tab," noting it's from 2025. Re-checking `data/0915/Sabine Status
+Report.xlsx` found the workbook actually carries five `* Lease Status`
+sheets, not one -- Nicholas Deep, Kuykendall, Hemby, Fletcher, plus two NOT
+previously read at all (Shepard, and a literal "Hill" unit sheet, both empty
+header-only templates as of this report, likely future-unit placeholders).
+Of all five, only **Kuykendall Lease Status** has real content: 58 rows, one
+`LEASE SCHEDULE REPORT (05/08/2025) FOR THE KUYKENDALL GAS UNIT...` per-owner
+runsheet, already being read by `read_runsheet()` for the Ownership tab but
+never surfaced in the Leasing tab (which, for both Coleman and Hill, was
+still the original static "No leasing pursuit yet" placeholder from the
+2026-09-15 build).
+
+**The runsheet's own STATUS column only ever says HBP or UMI, and UMI is a
+stale label for some of those rows.** UMI ("unleased mineral interest") is
+the historical state, but plenty of UMI rows already carry a real 2025
+lessor/lessee/lease date -- Comstock Oil & Gas has since leased them, they
+just haven't gone HBP yet. `_classify_lease_row()` in
+`build_sabine_dashboard.py` reclassifies every row into `HBP` / `LEASED_2025`
+(UMI + has a lease date) / `UNLEASED` (UMI + no lease date at all) using this
+distinction. `build_leasing_summary()` turns that into a 3-row status ladder
+(count + summed `LEASE NMA` net acres per bucket) attached to
+`payload["leasing"]` -- present only for Hill (Coleman has zero runsheet
+rows for either of its two units, so its Leasing tab is untouched).
+
+`read_runsheet()` now also returns the report date, parsed via regex out of
+the sheet's own title cell (`"...(05/08/2025)..."`) rather than hardcoded --
+every one of the five Lease Status sheets carries that same date as of this
+report. The Leasing tab renders a callout (`.stalenote`, amber left-accent,
+theme-aware) quoting that exact date and flagging it as noticeably older than
+the title status report next to it, ONLY when `payload.leasing` exists.
+Ladder rows use the shared `rowHTML()` helper for visual consistency but are
+deliberately non-interactive -- they're per OWNER-INTEREST, not per tract, so
+there's nothing coherent on the map to filter to. The tabbody's click-to-
+filter handler gets an early-return guard on a `__lease__` status prefix so
+clicking one is an inert no-op rather than silently filtering tracts to zero
+results.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
