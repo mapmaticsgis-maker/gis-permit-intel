@@ -825,10 +825,11 @@ a line," not just when a collision is discovered the hard way.
 **Per-tract labels**, matching what the title-status plats print on each
 tract (tract number + acreage): new `tractLabels` scale-fade group in
 `renderTitleProspect()`, same mechanism as unit/context labels (see §17) but
-its own `Tract labels` layer-control checkbox and a larger fade offset (3
-zoom steps past the prospect's fitted home zoom, vs 1 for unit names) since
-there are far more of these -- Hill alone has 43 tracts, and showing them all
-at the overview zoom would be unreadable clutter. Label anchor is
+its own `Tract labels` layer-control checkbox and a larger fade offset than
+unit names (offset=1) since there are far more of these -- Hill alone has 43
+tracts, and showing them all at the overview zoom would be unreadable
+clutter. Started at offset=3, client asked same day for them to appear
+sooner -- settled on offset=2. Label anchor is
 `L.geoJSON(f).getBounds().getCenter()` (bounding-box center, same technique
 already used for unit/context labels, not a true polygon centroid) -- fine
 for the roughly-rectangular tracts here, but worth swapping for an actual
