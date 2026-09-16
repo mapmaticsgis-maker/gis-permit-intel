@@ -741,6 +741,52 @@ a GeometryCollection. Coleman and Hill now render through the identical code
 path with the identical shape convention -- one clean line per well, matching
 symbology by construction rather than by CSS tweaking.
 
+## 19. Real 330' buffer polygons supplied, replacing the computed approximation (2026-09-16)
+
+Client supplied real surveyed buffer polygons: `330BUFFER.zip` (1 polygon,
+Coleman) and `KUYKENDAHL/Buffer.zip` (3 polygons, Hill -- one per well), both
+NAD27 Texas North Central state plane. This replaces `offset_polyline()` /
+`build_wellbore_buffers()` / `_texas_state_plane_feet()` entirely -- deleted
+outright rather than left dead (git history has them if the from-scratch
+miter-offset approach is ever needed again for a prospect without real
+buffer data). New `load_buffer_polygons(path, wellbores)` reprojects each
+polygon to WGS84 and reads it as-is; the shapefile carries no name attribute
+(just an autonumber `Id`), so each polygon is matched to whichever wellbore's
+own `label_lon`/`label_lat` sits closest to the polygon's OGR-computed
+centroid, and inherits that wellbore's `label_angle` for its own "330'" tag
+-- reliable since a prospect's wells are spread well apart. Rendering is a
+plain thin outline, no fill, same as the reverted-to convention in §18.
+
+**Regression caught before delivery: Coleman's wellbore center line vanished
+entirely after this change** (`load_wellbores()` returned zero features).
+Root cause: the client had ALSO silently replaced
+`ColemanB_CV_2H_Wellbore_NAD27.shp` earlier the same day (file timestamp
+07:32, before the buffer upload) with a corrected version -- down from the
+old 3-separate-feature file (1 named + 2 unnamed, one of which was the
+there-and-back loop documented in §17/§18) to a single feature whose
+geometry is now a genuine 2-part `MULTILINESTRING` (a real short surface-to-
+kickoff tail plus the long trunk, both legitimate). `_pick_trunk_line()` only
+matched bare `LineString` GeoJSON dicts, so it silently returned `None` for
+this new MultiLineString feature, and `load_wellbores()` dropped the well
+entirely rather than erroring. Two-part fix: (1) `_pick_trunk_line()` now
+recursively flattens LineString/MultiLineString/GeometryCollection into
+candidate sub-lines before ranking by net displacement, so it works
+regardless of how a source file packages multi-part geometry; (2)
+`load_wellbores()` no longer truncates the DISPLAY geometry down to just the
+picked trunk -- now that the source file itself is clean (no more loop
+artifact), the fix from §18 that dropped every part except the trunk would
+also have silently cut off that real kickoff tail. Display now draws
+whatever `_geom_to_geojson` returns in full (LineString or
+MultiLineString/GeometryCollection); `_pick_trunk_line()` is used ONLY to
+anchor and orient the name label, never to decide what gets drawn.
+
+Lesson worth remembering: a client silently replacing a source shapefile
+between messages, with no notice, is going to keep happening on this
+project -- rebuild output should be spot-checked against the PREVIOUS
+build's screenshot after every source-data-adjacent code change, not just
+after data-refresh cycles, because a "just changed the buffer" prompt can
+still land on top of an unannounced upstream data change.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
