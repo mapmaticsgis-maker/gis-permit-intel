@@ -787,6 +787,39 @@ build's screenshot after every source-data-adjacent code change, not just
 after data-refresh cycles, because a "just changed the buffer" prompt can
 still land on top of an unannounced upstream data change.
 
+## 20. Buffer restyled to filled/no-stroke; wellbore-name/330' label collision fixed (2026-09-16)
+
+Client asked for the real buffer polygons (§19) as a flat 50%-opacity fill
+with NO boundary stroke at all -- `L.geoJSON` style became
+`{stroke:false, fillColor:'#a83232', fillOpacity:0.5}` (note: `stroke` has to
+live INSIDE the `style` object passed to `L.geoJSON`, not as a sibling
+option -- an easy slip since both look like plausible places for it).
+
+**Real bug found in the same round: Coleman's wellbore name tag and its
+"330'" tag were rendering on top of each other**, reading as if the well
+itself were labeled "330'". Root cause was in `_label_point_and_angle()`,
+which picked a label point by ROUNDING to the nearest existing vertex INDEX
+at a given fraction (`round((n-1)*frac)`) rather than truly interpolating
+along the line. Once `_geom_to_geojson`'s simplification collapsed Coleman's
+trunk line down to just 2 points, `frac=0.5` (the well name) rounded via
+Python's round-half-to-even to index 0, and the buffer's new `frac=0.2` tag
+(added this round specifically to move it off the name tag) ALSO rounded to
+index 0 -- same point, same collision, just via a different bug than the one
+it was meant to fix. Fixed properly this time: `_label_point_and_angle()` now
+computes cumulative segment length and interpolates the exact point at
+`frac` of the total length (falls back to the last segment's endpoint if
+rounding leaves a hair short), which works correctly regardless of how many
+vertices a simplified line ends up with. `load_wellbores()` now returns
+`(feats, trunks)` -- `trunks` maps well name to its picked trunk-line
+coordinate list -- so `load_buffer_polygons()` can place its own label on the
+SAME line the matched wellbore uses, at `frac=0.2`, guaranteed clear of the
+name tag's `frac=0.5`.
+
+Lesson: a "pick the nearest vertex" label-placement scheme is fragile the
+moment upstream simplification can vary how many vertices survive -- prefer
+true arc-length interpolation from the start for anything placed "at X% along
+a line," not just when a collision is discovered the hard way.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
