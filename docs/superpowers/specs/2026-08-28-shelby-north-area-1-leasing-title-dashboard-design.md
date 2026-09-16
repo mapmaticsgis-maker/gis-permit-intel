@@ -567,3 +567,75 @@ weeks of real movement. A false "nothing changed" was judged worse than no
 tab. `PRIOR_CONSOLIDATED`/`PRIOR_TITLE` are set back to `None` with this
 reasoning recorded inline; reactivating the tab needs a prior-week shapefile
 snapshot paired with a prior-week workbook pair, which does not yet exist.
+
+## 17. Unit outlines, scale-dependent labels, and wellbore buffers (2026-09-15)
+
+**Shelby's unit outline now matches Coleman/Hill exactly** -- bold navy `#1a3a6b`
+weight-3, replacing the old thin black `#1a1a1c` weight-1.6 line, purely a
+visual-consistency fix.
+
+**Scale-based (zoom-dependent) label visibility**, on all three prospects: unit
+names, survey/abstract labels, and wellbore/buffer labels all sit invisible
+(`opacity:0`) until the map is zoomed one step past its own fitted "home" zoom,
+then cross-fade in over 0.35s. The threshold is computed PER PROSPECT relative
+to that prospect's own fitted zoom, not a fixed number -- Coleman is ~800 ac,
+Hill is ~6,000, Shelby is ~4,200, and one fixed zoom level would be wrong for
+at least two of them. A "Unit labels" layer-control checkbox gives an outright
+override; the fade governs visibility whenever it's checked.
+
+**Two real bugs found building this, both worth remembering for any future
+zoom-dependent map feature:**
+
+1. `Marker.getElement()` returns Leaflet's OWN wrapper div, not a custom child
+   element passed via `divIcon({html: ...})`. Setting opacity on the wrapper
+   does nothing if the child itself carries its own CSS opacity (a child's
+   explicit style always wins over an ancestor's). The toggle has to reach in
+   via `el.querySelector('.scalelabel')`.
+
+2. **The real bug, expensive to find:** the map-fit code runs via two
+   independent triggers -- an immediate `requestAnimationFrame` retry loop and
+   a `window.addEventListener('load', ...)` one -- plus, for Coleman/Hill, a
+   third path where the prospect switcher calls `ensureFit()` the first time a
+   hidden pane is shown (hidden panes report zero size, so the background loop
+   alone can't be trusted to catch the moment they become visible). Every one
+   of these can independently reach the "container is sized, do the fit" code.
+   The first successful call correctly captures the home zoom via a
+   `map.once('zoomend', ...)` listener. A REDUNDANT second call's `fitBounds()`
+   is a harmless no-op (already at the target) -- but it still registers its
+   OWN `.once('zoomend', ...)`, which sits dangling. The next time the map
+   zooms for any reason (including a real user scrolling), THAT stale listener
+   also fires, recomputing the threshold as `whatever-zoom-you-are-at + 1` --
+   permanently unshowable, since the map can never be at-or-above a threshold
+   defined as one more than its own current position. Fix: gate the
+   `.once('zoomend', ...)` registration itself behind a `fitted` flag set
+   BEFORE registering, so only the very first successful call ever hooks the
+   event, regardless of how many redundant callers reach the same code path.
+
+   A related, second-order finding: `zoomend` ALONE can still go missing when
+   one animated `setZoom()` call interrupts another before its animation
+   settles (confirmed empirically -- reproducible with rapid scripted zoom
+   calls, though a real user's paced scroll/button input is very unlikely to
+   trigger it). The permanent label-opacity listener is bound to
+   `'zoomend moveend'` together as a defensive measure, since `moveend` is
+   Leaflet's more reliable "the view has actually stopped changing" event and
+   `apply()` is idempotent either way.
+
+**Wellbore paths and their 330' regulatory setback**, Coleman (1 well) and Hill
+(3 wells: A/B/C): bold dark-maroon dash-dot center line from the same legacy
+shapefiles as before (`ColemanB_CV_2H_Wellbore_NAD27.shp`,
+`HILL_CV_WELLBORES.shp`), flanked by thin dotted red offset lines computed
+directly in Python -- GDAL's OGR Python bindings expose `Buffer()` but no
+parallel-offset/`OffsetCurve()` method, and shapely isn't installed in the
+ArcGIS Pro environment, so `offset_polyline()` in `build_sabine_dashboard.py`
+implements a standard per-vertex normal-averaging miter offset from scratch.
+Buffer math runs in Texas North Central NAD27 state plane feet (EPSG:32039) --
+Coleman's wellbore ships in geographic NAD27 (degrees) and gets reprojected
+into that CRS first, since an offset distance is only meaningful in a linear
+unit. A rotated "330'" tag sits directly on the buffer line at its midpoint
+(one side only, to avoid doubling every label), matching the plats' own
+convention exactly. Note for anyone extending this: a mitered offset vertex at
+a sharp bend legitimately lands FARTHER than the buffer distance from the
+original vertex (330' × 1/cos(half the turn angle) -- e.g. ~467' at a clean
+90° turn) -- that is correct, not a bug; the meaningful measurement is
+perpendicular distance from the offset LINE to each original SEGMENT, not
+vertex-to-vertex distance.
