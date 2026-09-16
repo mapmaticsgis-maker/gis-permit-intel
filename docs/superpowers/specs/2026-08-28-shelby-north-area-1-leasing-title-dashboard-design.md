@@ -820,6 +820,36 @@ moment upstream simplification can vary how many vertices survive -- prefer
 true arc-length interpolation from the start for anything placed "at X% along
 a line," not just when a collision is discovered the hard way.
 
+## 21. Per-tract labels (Coleman + Hill) and header logo alignment fix (2026-09-16)
+
+**Per-tract labels**, matching what the title-status plats print on each
+tract (tract number + acreage): new `tractLabels` scale-fade group in
+`renderTitleProspect()`, same mechanism as unit/context labels (see §17) but
+its own `Tract labels` layer-control checkbox and a larger fade offset (3
+zoom steps past the prospect's fitted home zoom, vs 1 for unit names) since
+there are far more of these -- Hill alone has 43 tracts, and showing them all
+at the overview zoom would be unreadable clutter. Label anchor is
+`L.geoJSON(f).getBounds().getCenter()` (bounding-box center, same technique
+already used for unit/context labels, not a true polygon centroid) -- fine
+for the roughly-rectangular tracts here, but worth swapping for an actual
+centroid calc if a future prospect's tracts are notably L-shaped or
+concave enough that the bbox center lands somewhere that reads oddly.
+
+**Header logo vertical misalignment root cause: one logo was cropped to its
+visual bounding box, the other wasn't.** `client_mark()`'s Sabine logo
+processing (`client_logo_uri()`) already calls `im.getbbox()` and crops to
+it. `img_data_uri()`, used for the Doxa logo, did not -- and
+`DOXA_Logo_Full_WHT.png` ships on a 1862x736 transparent canvas with an
+ASYMMETRIC margin baked in (34px top, 54px bottom around the actual mark),
+so at a shared CSS height the two logos' visual content sat at different
+effective heights and vertical centers even though both `<img>` elements
+measured the same box height. Fixed by adding a `crop_alpha` option to
+`img_data_uri()` (plain alpha-channel `getbbox()` + crop, same technique
+`client_logo_uri()` already used) and passing it for the Doxa logo load in
+both `build_shelby_dashboard.py` and `build_sabine_dashboard.py`. Verified
+post-fix: both `<img>` elements report identical height and identical
+vertical center in the rendered page.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
