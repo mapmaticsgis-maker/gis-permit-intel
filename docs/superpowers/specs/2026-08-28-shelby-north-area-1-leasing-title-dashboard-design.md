@@ -639,3 +639,92 @@ original vertex (330' × 1/cos(half the turn angle) -- e.g. ~467' at a clean
 90° turn) -- that is correct, not a bug; the meaningful measurement is
 perpendicular distance from the offset LINE to each original SEGMENT, not
 vertex-to-vertex distance.
+
+## 18. Wellbore label fixes, setback redesign, unit-label styling, header polish (2026-09-16)
+
+Client feedback on the round-17 delivery, in one batch:
+
+**Wellbore name label was unrotated (read perpendicular to a near-vertical
+well) and silently missing entirely for Coleman.** Root cause of the missing
+label: the client-side code built it by walking the rendered Leaflet layer
+(`L.geoJSON(f).eachLayer(...)` then `l.getLatLngs()`), but Coleman's wellbore
+feature is a `GeometryCollection` (3 shapefile parts folded into one labeled
+entity -- see §17), and Leaflet renders a GeometryCollection Feature as a
+`FeatureGroup`, which has no `getLatLngs()` of its own. The `if(l.getLatLngs)`
+guard silently skipped it, so `pts` stayed empty and the label was never
+added -- no error, no console warning, nothing on the map either (Hill's 3
+wells are plain single-part LineStrings, so the same code happened to work
+there, just without rotation). Fixed by moving the label-anchor-point-and-
+bearing computation into the Python build (`_label_point_and_angle()` in
+`build_sabine_dashboard.py`), which works directly off the GeoJSON coordinate
+arrays already in hand -- no Leaflet layer walking needed -- and stores
+`label_lon`/`label_lat`/`label_angle` directly as properties on the wellbore
+feature. The client JS now just reads these three numbers.
+
+**Second, related bug found while fixing the first:** `_linestring_coords()`
+(used to pick which of a multi-part wellbore file's parts to actually offset
+for the 330' buffer) ranked parts by point count, then by total path length in
+an earlier draft of this fix -- both are wrong. Coleman's file carries a
+19-point part whose first and last vertices are the *same coordinate*: a
+there-and-back loop, not an alternate-resolution trace of the trunk line
+despite what the original docstring assumed. Point count favors it outright;
+total path length favors it too, since summing every segment of a there-and-
+back loop roughly doubles the one-way distance. Fixed by ranking on **net
+displacement** (straight-line distance from a part's first vertex to its
+last) instead -- a real trunk line scores its full span, a there-and-back loop
+scores ~0, regardless of how many points either has. Applied identically in
+`_label_point_and_angle()` for the same reason. In practice this changed
+nothing about Coleman's actual buffer output (the named/labeled shapefile row
+already carried its own clean 5-point path, so the ambiguous 19-point loop was
+never actually reachable by `build_wellbore_buffers()`, which only processes
+the one named feature per file) -- but the fix is real and matters if a future
+wellbore file's named row itself is the multi-part one.
+
+**330' setback redesign, per client ask for "innovative ways ... besides 2
+lines with no fill":** the two offset lines are still computed exactly as
+before, but instead of rendering each as its own thin dotted line, the client
+JS now builds a closed ring from the left line's coordinates plus the right
+line's coordinates reversed, and draws ONE `L.polygon` with a soft translucent
+fill (`#a83232` at 22% opacity, hairline 0.75px stroke at 55% opacity) -- the
+same convention a pipeline right-of-way or highway setback corridor uses on a
+real plat, read at a glance as a zone rather than two lines a viewer has to
+mentally connect. A single rotated "330' setback" tag rides the band at its
+midpoint (still using the atan2-bearing technique from §17), one per well
+rather than one per side.
+
+**Unit name labels (NICHOLAS NO 1 GAS UNIT, R E KUYKENDALL, RICHARDS, etc.,
+across all three prospects) recolored to match their own boundary color
+(`#1a3a6b` navy, was a lighter unrelated blue `#0b5fa5`) and enlarged (11.5px
+weight 700, was 9px weight 600)** -- per client ask, purely a style change,
+the zoom-based fade threshold logic from §17 is untouched.
+
+**Header rename + relayout.** "GEOVIEWER" -> "PORTAL" under the MAPMATICS
+wordmark, both `template.html` and `template_sabine.html`. Separately, the
+left side of the header (Doxa logo + "prepared for" caption + Sabine logo)
+read as three loose, unevenly-sized elements sitting at different heights.
+Replaced with a `.brand` flex group: both logos normalized to the same 25px
+height, and the inline lowercase "prepared for" caption replaced with a
+compact two-line stacked micro-label ("PREPARED" / thin rule / "FOR",
+7.5px uppercase, low opacity) between them -- mirrors the existing stacked-
+label treatment already used for the MAPMATICS/PORTAL mark on the right, so
+the header now reads as one considered lockup instead of two unrelated
+conventions. The full "Doxa Land Management — prepared for Sabine Energy Inc"
+phrase survives as a `title` tooltip on the group for anyone who hovers.
+
+**"Static" label claim investigated, not reproduced.** Client reported the
+wellbore name and 330' labels "appear to be static and need to move as the
+map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
+after position checks, plus real simulated mouse drags, both compared against
+the map's actual internal center/zoom state) found these `L.marker`+`divIcon`
+labels reposition correctly on both pan and zoom, same as every other scale-
+fade label on the map -- a marker's own inline `transform` legitimately does
+NOT change during an ordinary pan (Leaflet moves the whole `.leaflet-map-
+pane` and the marker rides along as a DOM child; only a zoom, which resets
+the pixel origin, requires the marker's own offset to change), which looks
+like a bug if you check the wrong property but isn't one. Likely explanation
+for what the client actually saw: the wellbore label was completely absent
+for Coleman before this round (see above) and unrotated on both prospects,
+which could easily read as "frozen in the wrong place" even though position-
+tracking itself was never broken. Flagging here rather than claiming a fix
+that couldn't be verified -- if it recurs after this round's real fixes land,
+it needs its own fresh repro.
