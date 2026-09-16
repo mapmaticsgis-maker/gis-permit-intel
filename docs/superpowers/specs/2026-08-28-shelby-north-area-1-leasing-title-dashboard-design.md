@@ -711,6 +711,21 @@ the header now reads as one considered lockup instead of two unrelated
 conventions. The full "Doxa Land Management — prepared for Sabine Energy Inc"
 phrase survives as a `title` tooltip on the group for anyone who hovers.
 
+**Reverted same day:** the translucent fill-band buffer above read as messy
+against the tract fills at normal working zoom, and the client asked for
+"only separated by a |" (i.e. the same thin vertical rule the MAPMATICS mark
+already uses on the right) instead of the stacked "Prepared/For" micro-label,
+plus "GIS Viewer" instead of "Portal" for the top-right mark. All three
+reverted/changed same day: buffer is back to two plain dotted lines (no fill,
+one "330'" tag on the right side only) matching the source plats exactly;
+header divider is a plain `.brand-div` vertical rule (same CSS pattern as
+`.mm`'s `border-left`), no caption text at all, tooltip only; mark reads
+"MAPMATICS" / "GIS VIEWER". The wellbore-label rotation fix and the Coleman
+missing-label fix above are unaffected -- those were real bugs, not reverted.
+Client also flagged that the current wellbore/buffer shapefiles are
+placeholders and correct ones are coming later -- don't over-invest in
+geometry precision for these two layers until that lands.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
