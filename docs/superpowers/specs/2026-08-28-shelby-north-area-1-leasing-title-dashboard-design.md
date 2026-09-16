@@ -726,6 +726,21 @@ Client also flagged that the current wellbore/buffer shapefiles are
 placeholders and correct ones are coming later -- don't over-invest in
 geometry precision for these two layers until that lands.
 
+**Coleman wellbore display line still looked messy after the label/rotation
+fixes -- root cause was one step further than initially diagnosed.** The
+330' buffer offset already used the net-displacement-picked trunk line (see
+above), but the DISPLAYED center line (`load_wellbores()`, separate from
+`build_wellbore_buffers()`) was still folding ALL of a multi-part well's
+geometry parts into one `GeometryCollection` for display -- meaning Coleman's
+19-point there-and-back loop part was still being drawn right along with the
+real path, reading as a hooked/doubled line where Hill's single-part wells
+looked clean. Fixed by having `load_wellbores()` also call the same
+net-displacement trunk pick (refactored into `_pick_trunk_line()`, shared
+with the label-angle helper) and emit ONLY that one LineString per well, never
+a GeometryCollection. Coleman and Hill now render through the identical code
+path with the identical shape convention -- one clean line per well, matching
+symbology by construction rather than by CSS tweaking.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
