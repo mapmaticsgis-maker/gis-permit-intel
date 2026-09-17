@@ -985,6 +985,67 @@ and `template_sabine.html`'s top-right mark (third rename of this text this
 project: "Geoviewer" -> "Portal" -> "GIS Viewer" -> "Dashboard" -- check the
 live template before assuming which wording is current).
 
+## 24. Compound lease statuses actually hatch on the client's map -- fixed
+
+Client pointed at the reference PDF and pointed out compound-status tracts
+have no diagonal hatching on the dashboard, unlike the .lyr/PDF. Root cause:
+§23's `LEASE_LYR_FILL` extraction used `arcpy.mp`'s high-level `Symbol`
+wrapper (`it.symbol.color`), which only ever reports ONE color per
+unique-value entry. For a compound code that turned out to be wrong in a
+specific way -- every compound code is actually a **two-layer CIM symbol**
+(a solid `CIMSolidFill` background plus one or two 45-degree `CIMHatchFill`
+stripe layers on top), and the high-level wrapper happened to surface a
+hatch layer's stripe color, not the true background, for most of them. So
+§23's combo colors weren't just "missing the hatching" -- several were
+flatly the wrong color too (e.g. `NEG_AC` was stored as `#FFAA00`, NEG's
+solid orange; the real background is `#BEE8FF`, AC's blue, with NEG's orange
+as a stripe drawn OVER it).
+
+Re-extracted via the CIM API, which exposes the full layer stack:
+```python
+cim = layer.getDefinition('V3')
+for g in cim.renderer.groups:
+    for c in g.classes:                       # one per unique value
+        for sl in c.symbol.symbol.symbolLayers:
+            # CIMSolidFill -> sl.color.values  (background)
+            # CIMHatchFill -> sl.rotation, sl.separation,
+            #                 sl.lineSymbol.symbolLayers[0].color.values (stripe)
+```
+Every compound code turned out to be background + 1 stripe (2-token code) or
+background + 2 stripes (3-token code), all at a fixed 45-degree rotation.
+Split into two dicts: `LEASE_LYR_FILL` (corrected background-only colors,
+also used as-is for flat single-token codes and as the legend/pill swatch)
+and `LEASE_HATCH` (the 1-2 stripe colors layered on top, empty for a flat
+code). `merge()` now also sets `r["lse_hatch"]`.
+
+**Rendering the hatch itself:** the tract layer uses Leaflet's CANVAS
+renderer (`tractRenderer`, chosen for hit-testing perf across 161 polygons),
+and `ctx.fillStyle` natively accepts a `CanvasPattern` object as well as a
+CSS color string -- Leaflet's `_fillStroke()` just assigns
+`ctx.fillStyle = options.fillColor` with no string-only validation, so
+handing it a `CanvasPattern` works with zero Leaflet-side changes needed.
+`hatchPattern(code, bg, stripes)` in `template.html` draws a small 16x16
+offscreen tile (background fill + one or two 45-degree diagonal strokes,
+each redrawn at three tile-width offsets so the diagonal tiles seamlessly)
+and turns it into a repeating pattern via a DEDICATED throwaway 2D context
+(`_patternCtx`, created once, unrelated to the map's own renderer) --
+`createPattern()` output is a portable resource, not bound to the context
+that created it, which sidesteps a real timing problem: `styleTract()` (and
+therefore `fillFor()`, which may need to build a pattern) runs during
+`L.geoJSON()` construction, BEFORE `.addTo(map)` triggers Leaflet's own
+canvas renderer to actually initialize its context -- `tractRenderer._ctx`
+doesn't exist yet at that point. Patterns are cached per code in a `Map()`
+since many tracts share the same compound code.
+
+**Fallout: `fillFor()` can now return a `CanvasPattern`, not a string.**
+Two spots compared the return value against `'#ffffff'` via `.toLowerCase()`
+to detect a blank/untouched tract (§23's own case-sensitivity fix, ironically
+introduced the same session) -- calling `.toLowerCase()` on a `CanvasPattern`
+throws, since it has no such method. Extracted into a shared `isBlankFill(fill)`
+helper that checks `typeof fill === 'string'` first. Verified against a real
+click-to-filter interaction (which calls `restyle()` for all 161 tracts,
+several hatched) with zero console errors.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
