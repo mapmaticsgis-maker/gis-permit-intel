@@ -891,6 +891,100 @@ filter handler gets an early-return guard on a `__lease__` status prefix so
 clicking one is an inert no-op rather than silently filtering tracts to zero
 results.
 
+## 23. Weekly refresh to 09/17, exact ArcMap symbology via .lyr files, "Dashboard" rename
+
+**Weekly data refresh.** `build_shelby_dashboard.py`'s `DATA_0902` constant
+(now renamed `DATA_DIR` -- the old name baked in a date that would go stale
+every week) repointed at `data/0917/`, `CONSOLIDATED`/`TITLE` workbook
+filenames updated to the 09/17 pair. `DOXA_TRACTS.shp`/`.dbf` at the fixed
+path outside the dated folder were already refreshed by the client (file
+timestamp minutes before this session started) -- same pattern as every
+prior week, nothing to do there.
+
+**First time the two workbooks' own "STATUS AS OF" cells disagree**
+(lease 09/15/2026, title 09/16/2026, one day apart -- every prior week both
+read the same date). `REPORT_AS_OF` is no longer a single hardcoded string;
+it's built from `REPORT_AS_OF_LEASE`/`REPORT_AS_OF_TITLE`, joined as
+`"lease X / title Y"` only when they differ (falls back to a single date if
+a future week's pair ever matches again). Still hand-transcribed from each
+cell, not parsed automatically -- same as every prior week.
+
+**Exact ArcMap symbology, sourced from `.lyr` files instead of eyeballing the
+workbook's printed color key.** The client supplied `LEASE_STATUS.lyr` and
+`TITLE_STATUS.lyr` alongside this week's data -- legacy binary (Compound
+Document / OLE) ArcMap layer files, unreadable by GDAL/OGR but readable via
+`arcpy.mp.LayerFile(...)` (available in the same ArcGIS Pro python env
+already used for GDAL/openpyxl/PIL/fontTools -- `arcpy.GetInstallInfo()`
+confirms it's there). Read once, one-off, via:
+```python
+import arcpy
+lyr = arcpy.mp.LayerFile(r"...\TITLE_STATUS.lyr")
+for l in lyr.listLayers():
+    r = l.symbology.renderer   # UniqueValueRenderer
+    for g in r.groups:
+        for it in g.items:
+            print(it.label, it.symbol.color, it.values)  # {'RGB': [r,g,b,a]}
+```
+Several base-stage colors turned out to be off from what was previously
+hand-picked off the workbook key -- close, but not exact (Negotiating was
+`#FFC000`, the renderer's actual color is `#FFAA00`; Title 0%-25% was
+`#FF66CC` vs the renderer's `#FF73DF`; Title 100% was `#1B7A1B` vs `#38A800`;
+etc.) `LEASE_FILL`/`TITLE_FILL` updated to the exact RGB values across the
+board. The .lyr files themselves are not re-read on every build -- their
+values were extracted once and hardcoded as the new constants, same pattern
+the prior "eyeballed from the workbook key" approach used, just sourced more
+precisely. Not made a permanent per-build arcpy dependency: the symbology is
+a stable master legend, not expected to change week to week, and coupling
+every build run to a specific week's `.lyr` path would be worse than
+hardcoding a one-time-verified palette.
+
+**Bigger finding: compound LSE_STAT codes don't always resolve to
+"whichever token has the highest pipeline rank," contradicting the
+assumption `lease_label_and_split()` was built on.** `LEASE_STATUS.lyr`'s
+unique-value renderer has an EXPLICIT color for every compound code that has
+ever appeared (`NEG_AC`, `SIGNED_NEG`, `COMM_AC`, `COMM_NEG`, `NEG_OPEN`,
+`NEG_OPEN_AC`, `NEG_AC_SIGNED`, `COMM_RC_AC`, `COMM_NEG_AC`), and several of
+those don't match a "highest rank wins" derivation at all:
+- `SIGNED_NEG` renders as NEG's orange (`#FFAA00`), not SIGNED's yellow --
+  an inversion of the rank order (SIGNED ranks above NEG in `LEASE_TOKEN_RANK`).
+- Every 3-plus-token combo (`NEG_AC_SIGNED`, `COMM_RC_AC`, `COMM_NEG_AC`,
+  `NEG_OPEN_AC`) renders as AC's pale blue (`#BEE8FF`) regardless of what
+  higher-ranked tokens it also contains -- looks like the client's GIS
+  analyst uses AC's color as a deliberate "mixed / needs review" catch-all
+  for messy multi-status tracts rather than computing a blend.
+
+Fix: added `LEASE_LYR_FILL`/`TITLE_LYR_FILL`, keyed by the RAW (possibly
+compound) shapefile code rather than a derived label, holding the renderer's
+literal per-code color. `merge()` now computes `r["lse_fill"]`/`r["ttl_fill"]`
+per tract: exact code match first, falling back to
+`LEASE_FILL.get(label, ...)` (the old rank-derived behavior) only for a code
+the client's own renderer has never assigned a color to either -- so a
+brand-new combination degrades gracefully exactly like before, while every
+KNOWN combination now matches the client's actual map pixel-for-pixel.
+`lease_label_and_split()` itself is UNCHANGED -- it still drives the pipeline
+bucket, the ladder, and the note text, all of which classify by pipeline
+stage, not by exact paint color, and stayed correct throughout. Only the MAP
+FILL needed the exact-code override, so it's the only thing that changed:
+`fillFor(p)` in `template.html` now reads `p.lse_fill`/`p.ttl_fill` (falls
+back to the old per-label lookup if absent, so nothing breaks for a tract
+missing either field).
+
+**Real bug caught while wiring this in:** the new exact-fill values are
+uppercase hex (`#FFFFFF`, matching `.get(..., "#FFFFFF")`'s literal default),
+but `styleTract()`/`restyle()` compared against lowercase `'#ffffff'` to
+detect an untouched/blank tract and drop its opacity to a near-invisible
+0.06 -- a case-sensitive JS string `===` silently failed for every blank
+tract once its fill started arriving as `p.lse_fill` (uppercase) instead of
+`P.lease_fill[label]` (whatever case the old hardcoded dict happened to use,
+which was lowercase). Left unfixed, every blank tract would have rendered as
+a SOLID white tract at 0.72 opacity instead of the intended barely-visible
+0.06 wash. Both comparisons changed to `fill.toLowerCase()==='#ffffff'`.
+
+**"MAPMATICS GIS VIEWER" -> "MAPMATICS DASHBOARD"** in both `template.html`
+and `template_sabine.html`'s top-right mark (third rename of this text this
+project: "Geoviewer" -> "Portal" -> "GIS Viewer" -> "Dashboard" -- check the
+live template before assuming which wording is current).
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
