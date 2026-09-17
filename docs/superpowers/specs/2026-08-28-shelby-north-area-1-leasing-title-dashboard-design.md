@@ -1059,6 +1059,19 @@ above) -- `hatchPattern()` now scales its tile size the same way
 colors roughly equal, legible band widths instead of two stripes crowding
 out the background color.
 
+## 25. Tract number labels added to Shelby's map, matching the plats
+
+Client asked for tract numbers on the map (like the PDF prints on every
+tract), scale-based so 161 of them don't jumble the overview. Added a
+`tractLabels` scale-fade group -- same `makeScaleLabelGroup()` mechanism as
+the existing unit/abstract labels, own "Tract labels" layer-control
+checkbox, offset=2 (same offset already settled on for Coleman/Hill's tract
+labels after the client asked those to appear sooner too). Label text is
+just the tract number (`p.tn`, e.g. "459-022") -- no acreage, unlike
+Coleman/Hill's tract labels, since the Shelby plats only print the number.
+Registered via `homeZoomListeners.push(...)`, same wiring as every other
+scale-fade group on this map.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
