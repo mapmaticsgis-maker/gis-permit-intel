@@ -1046,6 +1046,19 @@ helper that checks `typeof fill === 'string'` first. Verified against a real
 click-to-filter interaction (which calls `restyle()` for all 161 tracts,
 several hatched) with zero console errors.
 
+**Same-day follow-up:** client screenshot of a 3-status tract cluster
+(520-series, NEG_AC_SIGNED) showed only orange and blue -- the yellow
+background between the two stripe colors had shrunk to an unreadable
+sliver. Root cause: the original 16px tile size (tuned for a single-stripe
+2-status code) was reused for the 2-stripe 3-status case too, where the two
+5px-wide stripes at half-tile spacing (8px) nearly touch, squeezing the
+background down to ~3px. ArcMap's own symbol widens hatch separation from
+10 to 15 specifically once a second stripe layer is added (see the CIM dump
+above) -- `hatchPattern()` now scales its tile size the same way
+(`16 + 8*(stripes.length-1)`, i.e. 24px for 2 stripes), giving all three
+colors roughly equal, legible band widths instead of two stripes crowding
+out the background color.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
