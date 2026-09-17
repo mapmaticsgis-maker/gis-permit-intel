@@ -1181,6 +1181,79 @@ including Shelby, load correctly with zero console errors. `Sabine_Dashboard
 .html` grew from ~0.4MB to ~1.3MB (Shelby's ~0.9MB now inlined) -- still
 trivially small for an email attachment.
 
+## 28. Layer menu decluttered; "Unit Tracts" corrected into its own real layer
+
+Client called the layer-toggle menu messy (17 entries on Shelby after §26's
+per-unit checkboxes) and, in the same message, caught a conceptual mistake
+in §26: **the per-unit toggles I'd built were hiding/showing the WORKING
+(lease/title) tracts grouped by pooled unit -- that is NOT what "unit
+tracts" means.** "Unit tracts" is the client's own term for the OFFICIAL
+tract numbering (1, 2, 3...) an RRC-filed unitization plat assigns within a
+pooled unit -- a distinct dataset from the county-tax-parcel-based working
+tracts DOXA runs lease/title status on, which "in some cases line up
+exactly... but I want a separate layer of official unit tracts."
+
+**Menu simplified first:** "Unit labels" and "Tract labels" as separate
+top-level checkboxes are gone. A layer's name label now rides the SAME
+checkbox as the layer it labels -- `unitLayer.addLayer(unitLabels.group)`
+(Shelby, Coleman, Hill all identical) instead of `unitLabels.group` being
+its own `L.control.layers` entry. Same pattern `absLayer` already used for
+abstract/survey labels, just applied to Units too. The entire §26 per-unit
+visibility mechanism (`hiddenUnits` Set, dummy per-unit `L.layerGroup()`
+proxies, the `overlayadd`/`overlayremove` listener, the click-handler guard)
+is deleted outright, not just relabeled -- it was solving the wrong problem.
+
+**Finding the real "unit tracts" data required checking what each
+prospect's tract geometry actually comes from, and the answer differed by
+prospect:**
+- **Coleman/Hill already had it, unknowingly.** Their WORKING tract layer
+  (`UT_1.shp`/`UT_2.shp`/`UT.shp`) turns out to BE the official unit tract
+  shapefile -- checking its fields shows `UNIT`, `UNIT_TR`, `LEGAL_AREA`,
+  `TO1`-`TO6` (title opinion dates), `LEASED`/`UNLEASED`/`3P` -- exactly the
+  RRC-plat schema, not a tax-parcel one. Status (the fill color) gets
+  cross-referenced onto this geometry from the workbook by `UNIT_TR`; the
+  geometry itself was never a separate "working tracts" dataset to begin
+  with. This is WHY the client said these "line up exactly" for Coleman/
+  Hill -- there's only ever been one geometry. The new Unit Tracts layer for
+  these two reuses the SAME already-embedded `tractsGeo` client-side, no
+  Python changes needed -- just a second, outline-only, non-interactive
+  `L.geoJSON` pass over the identical data.
+- **Shelby genuinely has two separate datasets.** `DOXA_TRACTS.shp` (161
+  county tax parcels, carries `LSE_STAT`/`STATUS`) is NOT the same thing as
+  `C:\GIS\CLIENT\DOXA\SABINE\SHELBY\UNIT_TRACTS.shp` (65 features, fields
+  `TEXT`=tract number/`AC`=acreage/`UNIT`=pooled unit name) -- a file that
+  sat unused on disk since this project began, exactly the client's "I do
+  have some unit tract shapefiles" pointing at something already delivered
+  and never wired in. Loaded via `load_features(UNIT_TRACTS_SHP,
+  prop_map={"TEXT":"tn","AC":"ac","UNIT":"unit"})`, new `__UNIT_TRACTS_GEO__`
+  placeholder. `assign_units_to_tracts()` (the spatial-join helper §26 wrote
+  to guess which unit a DOXA_TRACTS tract falls in) is deleted -- moot now
+  that a real, authoritative unit-tract dataset exists instead of needing to
+  infer one.
+
+**Rendering, identical shape on all three maps:** Unit Tracts is outline
+only (`fillOpacity:0`, thin dashed line `#7a5c1e`, distinct from both the
+navy Units boundary and the gray working-tract border), with a scale-fade
+tract-number + acreage label (`makeScaleLabelGroup`, offset 2, same as the
+working-tract labels). Z-order is add-order in Leaflet: `tractLayer`
+(working fill) added first, `unitTractLayer` added second (sits visually
+above the fill), `unitLayer` (bold navy boundary) added last (sits above
+everything) -- "under the unit boundary but above the working tracts,"
+exactly as specified. Coleman/Hill's old "Tract labels" checkbox (which
+showed these same tract numbers directly on the fill layer) is retired in
+favor of the new Unit Tracts layer taking over that role, since for those
+two the geometry is identical and showing the same labels twice would be
+pure duplication. Shelby's own "Tract labels" (DOXA_TRACTS tax-parcel
+numbers like "459-022") is UNCHANGED and stays a separate checkbox -- a
+genuinely different numbering system tied to a genuinely different dataset,
+not redundant with the new layer at all.
+
+Client explicitly did NOT want per-unit sub-toggles inside Unit Tracts
+("just turn unit tracts on total through the map or off") -- implemented as
+one master checkbox per prospect, no nested/collapsible per-unit breakdown.
+If that turns out to be wanted later, revisit with a `<details>` disclosure
+widget rather than more flat `L.control.layers` entries.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
