@@ -1072,6 +1072,46 @@ Coleman/Hill's tract labels, since the Shelby plats only print the number.
 Registered via `homeZoomListeners.push(...)`, same wiring as every other
 scale-fade group on this map.
 
+## 26. Per-unit tract visibility toggle, all three prospects
+
+Client asked for a way to turn a whole pooled unit's tracts on/off, on all
+three maps (Shelby, Coleman, Hill) -- distinct from the existing filter
+engine (which dims non-matching tracts but can't independently show/hide
+several units at once) and from the "Units" checkbox (which only ever
+toggled the unit OUTLINE, never the tract fills themselves).
+
+**Coleman/Hill already had everything needed** -- `tractsGeo.features[].unit`
+already exists per tract (used by the Areas-tab unit filter). **Shelby did
+not** -- `DOXA_TRACTS.shp` carries no per-tract unit attribute at all (its
+`AREA` field is something else entirely, the open/deep-rights/lapsed-
+production classification behind the Areas color mode). The only
+relationship between a Shelby tract and the pooled unit it sits in is
+spatial. New `assign_units_to_tracts(tract_geoms, units)` in
+`build_shelby_dashboard.py` does a point-in-polygon join (tract centroid vs
+each `SHELBY_UNITS.shp` polygon, reconstructed via
+`ogr.CreateGeometryFromJson` from the already-loaded WGS84 GeoJSON -- a few
+meters of simplification is immaterial for a centroid test) and sets
+`r["unit"]` per tract (`None` for the 58/161 tracts that don't fall inside
+any pooled unit -- expected, not every parcel is unitized, and those tracts
+are simply unaffected by any unit toggle).
+
+**UI mechanism (identical in both templates):** a `Set` (`hiddenUnits`), one
+empty dummy `L.layerGroup()` per unit name added to the map by default and
+listed in `L.control.layers(...)` as `'Unit: <name>'`, and a single
+`map.on('overlayadd overlayremove', ...)` handler that adds/removes the
+toggled unit's name from `hiddenUnits` and calls `restyle()`. Deliberately
+NOT real per-unit Leaflet sublayers -- `tractLayer` stays the one combined
+canvas layer every existing piece (hit-testing, the status/landman/unit
+filter engine, `selectTract()`) already assumes, and the dummy layer groups
+exist purely as an on/off event source riding Leaflet's own checkbox
+widget. `restyle()` (Shelby's and Coleman/Hill's shared-shape version both)
+gained one guard at the top: `if(hiddenUnits.has(p.unit)){ fillOpacity:0,
+opacity:0; return; }`, checked before the existing filter/fill logic. The
+tract click handler gained the same guard so a hidden tract can't be
+selected. Coleman has 2 units, Hill 2, Shelby 11 (only units with >=1
+assigned tract are listed -- an empty toggle for a unit with zero tracts
+would be dead UI).
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
