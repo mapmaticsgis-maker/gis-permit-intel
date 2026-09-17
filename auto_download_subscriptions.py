@@ -199,6 +199,16 @@ def main() -> int:
     logger.info("RRC Subscription (W-1) Automated Download")
     logger.info("=" * 80)
 
+    import yaml
+    with open("config.yaml", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
+    if cfg["texas"].get("rrc_ip_blocked"):
+        logger.info(f"config.texas.rrc_ip_blocked is set (since "
+                     f"{cfg['texas'].get('rrc_ip_blocked_since', 'unknown')}) -- this portal is the "
+                     f"same mft.rrc.texas.gov host as the daf420 download, so skipping without "
+                     f"touching RRC. Flip the flag off once RRC confirms the block is lifted.")
+        return 0
+
     if not should_run_today():
         day_name = date.today().strftime("%A")
         logger.info(f"Skipping {day_name} (no filings over weekend)")

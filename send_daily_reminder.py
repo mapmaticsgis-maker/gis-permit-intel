@@ -36,6 +36,8 @@ os.chdir(SCRIPT_DIR)
 from local_env import load_env
 load_env()
 
+import yaml
+
 log_dir = SCRIPT_DIR / "logs"
 log_dir.mkdir(exist_ok=True)
 logging.basicConfig(
@@ -119,6 +121,31 @@ def send_alert(subject: str, body: str):
 
 def main():
     logger.info("Checking auto-download status...")
+
+    with open("config.yaml", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
+
+    if cfg["texas"].get("rrc_ip_blocked"):
+        # Auto-download is deliberately disabled (see config.yaml) while
+        # TXRRC's IP block is in effect, so "no file today" is expected, not
+        # a failure -- the old "ACTION NEEDED" framing would fire every
+        # single day and train the operator to ignore it. This is a gentle
+        # nudge instead: RRC still posts ahead of Enverus, so a quick manual
+        # check is worth keeping up even though the pipeline isn't nagging
+        # about a "failure" that isn't one.
+        since = cfg["texas"].get("rrc_ip_blocked_since", "recently")
+        send_alert(
+            "Reminder: RRC manual check (auto-pull still blocked)",
+            f"TXRRC's IP block on this connection has been in effect since {since} -- "
+            "automated daf420/W-1 downloads are paused, not failing, so this isn't an "
+            "action-needed alert. Enverus is covering the automated TX signal in the "
+            "meantime, but it lags RRC's own postings, so worth a quick manual look "
+            "if you have a minute:\n\n"
+            "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc\n\n"
+            "Drop anything new into C:\\GIS\\permit_intel\\data\\tx\\inbox\\ "
+            "(auto-commits within 15 min).\n",
+        )
+        return
 
     file_path = today_file_exists_locally()
 

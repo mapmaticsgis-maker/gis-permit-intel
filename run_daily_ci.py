@@ -42,6 +42,22 @@ def _ping(suffix: str = ""):
         pass
 
 
+def rrc_blocked_banner(cfg) -> str:
+    """Both daily emails need this context while TXRRC's IP block is in
+    effect, but stated once each rather than repeated per-section -- see
+    config.yaml's texas.rrc_ip_blocked for the full story. Returns "" once
+    the flag is cleared, so removing this note later needs no code change."""
+    if not cfg["texas"].get("rrc_ip_blocked"):
+        return ""
+    since = cfg["texas"].get("rrc_ip_blocked_since", "recently")
+    return (f"> **RRC automated pull blocked ({since}+)** -- TXRRC confirmed this IP is flagged "
+            f"as automated/bot traffic. The daf420 and W-1 subscription downloads below are "
+            f"deliberately paused (not failing) while we work with RRC to get it lifted -- "
+            f"expect no new RRC data here until then. The Enverus cross-check is the primary "
+            f"automated TX signal in the meantime, but it typically lags RRC's own postings, so "
+            f"keep checking RRC's public query tool directly for anything time-sensitive.\n\n")
+
+
 def run_step(cmd, label: str) -> tuple[bool, str]:
     """The subprocess's real exit status is the source of truth, decided
     before anything touches the console. It used to be decided by the same
@@ -435,13 +451,14 @@ def main():
     # content (Enverus adds play-wide synopsis + rig-level detail the free
     # sources don't have at all), so mixing them into one brief made it hard
     # to tell at a glance which claims came from which side.
-    brief = "\n\n---\n\n".join([
+    rrc_banner = rrc_blocked_banner(cfg)
+    brief = rrc_banner + "\n\n---\n\n".join([
         brief_section("Texas RRC (daf420)", tx_ok, tx_digest, tx_skip),
         brief_section("Louisiana SONRIS", la_ok, la_digest, la_skip),
         w1_section,
         la_recheck_list(cfg, ROOT),
     ])
-    enverus_brief = "\n\n---\n\n".join([
+    enverus_brief = rrc_banner + "\n\n---\n\n".join([
         leases_section,
         enverus_section,
         enverus_la_section,

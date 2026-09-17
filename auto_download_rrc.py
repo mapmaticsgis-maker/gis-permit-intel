@@ -206,6 +206,14 @@ def main() -> int:
 
     with open("config.yaml", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
+
+    if cfg["texas"].get("rrc_ip_blocked"):
+        logger.info(f"config.texas.rrc_ip_blocked is set (since "
+                     f"{cfg['texas'].get('rrc_ip_blocked_since', 'unknown')}) -- skipping without "
+                     f"touching RRC. Continuing to hit a host that already flagged this IP would "
+                     f"undercut the request to get it lifted. Flip the flag off once RRC confirms.")
+        return 0
+
     watch_dir = Path(cfg["texas"]["watch_dir"])
 
     today = datetime.now().date()

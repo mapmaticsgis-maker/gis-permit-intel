@@ -3,6 +3,18 @@ data_dir: ./data            # master files + daily outputs live here
 timezone: America/Chicago
 
 texas:
+  # TXRRC confirmed by phone on 2026-09-17 that this connection's IP is
+  # blocked as automated/bot traffic -- both the daf420 (MFT link below) and
+  # the W-1 subscription portal (auto_download_subscriptions.py) sit behind
+  # the same mft.rrc.texas.gov host, so both are affected. auto_download_rrc.py
+  # and auto_download_subscriptions.py both check this flag first and no-op
+  # rather than keep hammering an endpoint that already flagged this IP --
+  # continuing to hit it while asking RRC to lift the block would undercut
+  # that ask. Flip to false (and delete rrc_ip_blocked_since) once RRC confirms
+  # the block is lifted; re-enabling the Task Scheduler tasks isn't needed,
+  # since the scripts self-guard on this flag rather than on task State.
+  rrc_ip_blocked: true
+  rrc_ip_blocked_since: "2026-09-17"
   # Browser-based automated download: Playwright handles RRC's session/redirects
   fetch_url: "https://mft.rrc.texas.gov/link/5f07cc72-2e79-4df8-ade1-9aeb792e03fc"
   watch_dir: ./data/tx/inbox      # daf420.dat.MM-DD-YYYY files go here (auto-download + manual fallback)
