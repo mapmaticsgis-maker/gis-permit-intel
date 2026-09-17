@@ -1112,6 +1112,75 @@ selected. Coleman has 2 units, Hill 2, Shelby 11 (only units with >=1
 assigned tract are listed -- an empty toggle for a unit with zero tracts
 would be dead UI).
 
+## 27. Shelby tab went blank when Sabine_Dashboard.html was emailed alone -- fixed
+
+Client reported: emailing `Sabine_Dashboard.html` showed Coleman and Hill
+fine, but the Shelby tab said "This site can't be reached" at
+`content://media/.../Shelby_North_Area1_Dashboard.html?embedded=1` --
+emailing the standalone Shelby file alone (before the switcher existed) had
+always worked with no other files needed.
+
+**Root cause, obvious in hindsight and never caught because local testing
+never exercised it:** since the very first switcher build (§ "Architecture"
+above, 2026-09-15), the Shelby tab was `<iframe
+src="Shelby_North_Area1_Dashboard.html?embedded=1">` -- a reference to a
+SEPARATE sibling FILE, not inlined data the way Coleman/Hill's GeoJSON
+always was. That works perfectly as long as both files sit in the same
+folder (true on disk, true when serving the DASHBOARD directory over a local
+http.server for testing, which is how every round of manual verification
+this project happened to run) -- but breaks the instant only
+`Sabine_Dashboard.html` travels somewhere alone, because there is no
+sibling file for the browser's iframe to resolve `src=` against. Every
+prior test in this project served the whole directory, so this was never
+exercised.
+
+**Fix: inline Shelby's entire built HTML into Sabine_Dashboard.html**, same
+"self-contained single file" guarantee every other prospect already has.
+`build_sabine_dashboard.py` now reads the already-built
+`Shelby_North_Area1_Dashboard.html` (must still run
+`build_shelby_dashboard.py` first -- same dependency as before, just
+enforced by actually reading the file instead of only checking it exists)
+and JSON-encodes the whole string into a `<script id="d-shelby-html"
+type="application/json">` block. Client-side, `template_sabine.html` sets
+`iframe.srcdoc = J('d-shelby-html')` -- `.srcdoc` as a DOM PROPERTY
+assignment, not an HTML attribute in the page source, so no HTML-attribute
+escaping is needed on top of the JSON string escaping already applied.
+
+**Two things had to be handled for this to actually work:**
+1. **`</script` inside the embedded document.** Shelby's own HTML is
+   guaranteed to contain literal `</script>` closes for its own inline
+   scripts (Leaflet, the dashboard's JS, subsetted fonts as base64...) --
+   the HTML tokenizer scans a script element's raw text for that exact
+   character sequence to find ITS OWN closing tag, regardless of the outer
+   script's `type` attribute and regardless of the sequence sitting inside
+   a JSON string literal to a JS/JSON parser. Left alone, the FIRST
+   `</script>` anywhere inside Shelby's inlined content would truncate
+   `Sabine_Dashboard.html`'s own markup right there. New `_script_safe_json()`
+   helper JSON-encodes then replaces `</script`/`</SCRIPT` with
+   `<\/script`/`<\/SCRIPT` -- valid JSON (an escaped solidus, unescaped back
+   to a plain `/` by `JSON.parse`), but the HTML tokenizer never sees the
+   literal substring it's scanning for, since there's now a backslash
+   between the `<` and `/`.
+2. **The embedded-page-detection mechanism needed a rewrite anyway.** Shelby's
+   own `template.html` used to check `new URLSearchParams(location.search)
+   .get('embedded')` (from the old `?embedded=1` query string on `src=`) to
+   decide whether to hide its own duplicate header. A `srcdoc` document has
+   no query string of its own (its `location` is `about:srcdoc`), so that
+   check would have silently stopped matching and brought back the
+   duplicate-header bug from §17. Replaced with `window.self !== window.top`
+   -- true inside ANY iframe regardless of how it got there, so it covers
+   both the old `src=...?embedded=1` mechanism (in case that's ever used
+   again) and the new `srcdoc` one with no coordination needed between the
+   two build scripts.
+
+Verified against the actual failure mode, not just re-served locally: copied
+ONLY `Sabine_Dashboard.html` into an empty directory (no
+`Shelby_North_Area1_Dashboard.html` sitting next to it -- the exact
+condition an email attachment reproduces) and confirmed all three tabs,
+including Shelby, load correctly with zero console errors. `Sabine_Dashboard
+.html` grew from ~0.4MB to ~1.3MB (Shelby's ~0.9MB now inlined) -- still
+trivially small for an email attachment.
+
 **"Static" label claim investigated, not reproduced.** Client reported the
 wellbore name and 330' labels "appear to be static and need to move as the
 map moves." Extensive testing (programmatic `panBy`/`setZoom` with before/
