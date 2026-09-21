@@ -1271,3 +1271,17 @@ which could easily read as "frozen in the wrong place" even though position-
 tracking itself was never broken. Flagging here rather than claiming a fix
 that couldn't be verified -- if it recurs after this round's real fixes land,
 it needs its own fresh repro.
+
+## 29. Reference-map PDF downloads (2026-09-20)
+
+Client liked the Flatland dashboards' "reference maps" download and asked for
+the same here. Flatland links PDFs by filename (`EMBED_PDFS=False`) -- fine
+there only while the PDFs sit beside the HTML, and it is exactly the
+sibling-file trap that blanked the Shelby tab (§27). Here the PDFs are
+inlined as base64 (`embed_pdfs()` in `build_shelby_dashboard.py`, reused by
+the Sabine build) and turned into `blob:` URLs client-side with a `download`
+attribute (data: hrefs get mangled by some mobile in-app viewers). A
+"Reference maps (PDF)" panel sits bottom-left of each map: Shelby lease +
+title (data/0917), Coleman and Hill title plats (data/0915). Update
+`REFERENCE_PDFS` in each build script per refresh. Cost: Shelby 0.9->2.4 MB,
+Sabine 1.3->4.8 MB -- still emailable.
