@@ -10,6 +10,23 @@ def test_digit_signature_concatenates_digits_in_order():
     assert digit_signature("22-16N-13W") == "221613"
 
 
+def test_digit_signature_excludes_standalone_year_like_runs():
+    # a bare 4-digit run in a plausible calendar-year range (e.g. "2026" in
+    # "2026_EXP-NAC...") isn't an identifying location code -- every dated
+    # output file would otherwise digit-match every year-named mxd.
+    assert digit_signature("2026_EXP-NAC_RR-SHALLOW") == ""
+
+
+def test_match_candidate_none_when_only_shared_signal_is_a_year():
+    assert match_candidate("2026_EXP-NAC_RR-SHALLOW", "20260922-invoice.pdf") is None
+
+
+def test_alnum_tokens_excludes_standalone_year_tokens():
+    # "2026" as its own alpha-ish token (from a filename like "2026_FOO")
+    # is just as much a false signal as the digit-signature year case above.
+    assert "2026" not in alnum_tokens("2026_EXP-NAC_RR-SHALLOW")
+
+
 def test_alnum_tokens_excludes_short_and_stopwords():
     tokens = alnum_tokens("LA-CAD_UNIT59_ABSTATUS")
     assert "UNIT" not in tokens  # stopword
