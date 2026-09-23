@@ -1,3 +1,5 @@
+> **Superseded 2026-09-23:** the user redirected before this plan's Stage 1 ran — no Gmail data was gathered, nothing here was executed. The starting point is now "recently-modified `.mxd` files" instead of Gmail activity. See `2026-09-23-rrog-doxa-mxd-datasource-inventory-design.md` for the design actually implemented.
+
 # Client Activity Checklist (Gmail Survey) — Design
 
 **Date:** 2026-09-23

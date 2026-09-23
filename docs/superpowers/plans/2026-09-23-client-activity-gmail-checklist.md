@@ -1,3 +1,5 @@
+> **Superseded 2026-09-23:** never executed — the user redirected to an `.mxd`-last-modified starting point before Task 1 began. See `2026-09-23-rrog-doxa-mxd-datasource-inventory.md`.
+
 # Client Activity Gmail Checklist Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
