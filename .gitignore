@@ -75,3 +75,4 @@ data/tx/w1/**/*.tif
 data/enverus_lease_point/*.csv
 data/enverus_lease_point/*.CSV
 data/mxd_inventory/
+data/report_audit/
