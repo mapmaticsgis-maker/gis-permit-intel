@@ -125,6 +125,13 @@ def main():
     with open("config.yaml", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
+    if not cfg.get("email_enabled", True):
+        # Master kill switch (config.yaml: email_enabled) -- this script has
+        # its own independent SMTP path (not send_email.py), so it needs its
+        # own check too. See config.yaml's comment for why this is off.
+        logger.info("email_enabled=false in config.yaml -- skipping reminder check entirely.")
+        return
+
     if cfg["texas"].get("rrc_ip_blocked"):
         # Auto-download is deliberately disabled (see config.yaml) while
         # TXRRC's IP block is in effect, so "no file today" is expected, not

@@ -10,14 +10,42 @@ ALERT_TO_EMAIL may be a single address or a comma-separated list.
 import mimetypes
 import os
 import smtplib
+import sys
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email import encoders
 from pathlib import Path
 
+import yaml
+
+ROOT = Path(__file__).resolve().parent
+
+
+def _email_enabled() -> bool:
+    """Master kill switch (config.yaml: email_enabled) -- see that file's
+    comment. Read fresh each call rather than cached at import time, so a
+    flag flip takes effect on the next scheduled run without a restart."""
+    try:
+        with open(ROOT / "config.yaml", encoding="utf-8") as f:
+            cfg = yaml.safe_load(f)
+        return bool(cfg.get("email_enabled", True))
+    except Exception:
+        return True  # config unreadable shouldn't silently swallow a real alert
+
 
 def _send(subject: str, body: str, attachments: list | None = None):
+    if not _email_enabled():
+        # encode/decode guard: same cp1252-console trap documented in
+        # run_daily_ci.py's run_step -- a subject with a non-ASCII char
+        # (e.g. the failure alert's warning sign) must not crash this skip.
+        msg = f"[send_email] email_enabled=false in config.yaml -- skipping send: {subject}"
+        try:
+            print(msg)
+        except UnicodeEncodeError:
+            enc = sys.stdout.encoding or "utf-8"
+            print(msg.encode(enc, errors="replace").decode(enc))
+        return
     host = os.environ["SMTP_HOST"]
     port = int(os.environ.get("SMTP_PORT", "587"))
     user = os.environ["SMTP_USER"]

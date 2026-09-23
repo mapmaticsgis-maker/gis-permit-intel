@@ -2,6 +2,15 @@
 data_dir: ./data            # master files + daily outputs live here
 timezone: America/Chicago
 
+# Master kill switch for every outbound email (daily brief, Enverus brief,
+# failure alert, Intel Insight, Play Intel, and the local RRC reminder) --
+# added 2026-09-23 while texas.rrc_ip_blocked leaves every brief with little
+# or no real pull info to report, so a daily send isn't earning its keep.
+# Flip to true to resume sending; nothing else about the pipeline (pulls,
+# digests, master files, self-checks) is affected by this flag -- everything
+# still runs and commits, it just stops emailing the result.
+email_enabled: false
+
 texas:
   # TXRRC confirmed by phone on 2026-09-17 that this connection's IP is
   # blocked as automated/bot traffic -- both the daf420 (MFT link below) and
