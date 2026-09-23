@@ -10,6 +10,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 
 CLIENT_ROOTS = {
     "RROG": r"C:\GIS\CLIENT\RROG",
@@ -22,6 +23,12 @@ PYTHON_EXE = sys.executable
 
 OUTPUT_PATH = r"C:\GIS\permit_intel\data\mxd_inventory\raw_inventory.json"
 PROGRESS_PATH = r"C:\GIS\permit_intel\data\mxd_inventory\scan_progress.jsonl"
+
+# A worker can hang indefinitely if arcpy/ArcMap COM pops a modal dialog
+# (e.g. a broken-data-source prompt) with no user present to click it.
+# 120s is generous for a normal mxd open+layer-list; anything longer is
+# almost certainly a hang, not real work.
+WORKER_TIMEOUT_SECONDS = 120
 
 
 def find_mxds(root):
@@ -47,6 +54,16 @@ def already_scanned(progress_path):
     return scanned
 
 
+def _kill_process_tree(pid):
+    # taskkill /T kills the process and any children it spawned (e.g. a
+    # hung ArcMap COM server the worker launched) -- plain proc.kill() only
+    # kills the python.exe wrapper and leaves ArcMap running.
+    try:
+        subprocess.call(["taskkill", "/F", "/T", "/PID", str(pid)])
+    except Exception:
+        pass
+
+
 def run_worker(client, mxd_path):
     try:
         proc = subprocess.Popen(
@@ -54,9 +71,18 @@ def run_worker(client, mxd_path):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        stdout, stderr = proc.communicate()
     except Exception as exc:
         return {"mxd_path": mxd_path, "error": "subprocess launch failed: {0}".format(exc)}
+
+    start = time.time()
+    while proc.poll() is None:
+        if time.time() - start > WORKER_TIMEOUT_SECONDS:
+            _kill_process_tree(proc.pid)
+            proc.wait()
+            return {"mxd_path": mxd_path, "error": "worker timed out after {0}s (likely a hung modal dialog)".format(WORKER_TIMEOUT_SECONDS)}
+        time.sleep(1)
+
+    stdout, stderr = proc.communicate()
 
     if proc.returncode != 0:
         tail = stderr.strip().splitlines()[-1] if stderr.strip() else "exit code {0}".format(proc.returncode)
