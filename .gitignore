@@ -74,3 +74,4 @@ data/tx/w1/**/*.tif
 # stay tracked -- no need to keep re-committing the raw source file.
 data/enverus_lease_point/*.csv
 data/enverus_lease_point/*.CSV
+data/mxd_inventory/
