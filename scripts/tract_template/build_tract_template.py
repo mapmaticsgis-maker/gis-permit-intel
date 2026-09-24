@@ -66,8 +66,19 @@ def main():
     with shapefile.Writer(OUT_PATH, shapeType=shapefile.POLYGON) as w:
         for name, ftype, length, decimal in FIELDS:
             w.field(name, ftype, size=length, decimal=decimal)
-        # zero-feature shapefile -- a valid, empty template to copy per
-        # project and digitize/populate from scratch.
+        # A 0-feature shapefile isn't recognized as a real feature class by
+        # ArcGIS Desktop -- arcpy.Describe reports dataType "File" instead
+        # of "ShapeFile" (verified 2026-09-23), which breaks adding it as a
+        # layer in ArcMap. One placeholder polygon (tiny square near 0,0,
+        # all attributes blank) keeps it a valid feature class; delete that
+        # one row before digitizing real tracts.
+        w.poly([[(0, 0), (0, 0.0001), (0.0001, 0.0001), (0.0001, 0), (0, 0)]])
+        # pyshp stringifies a bare None on Character fields to the literal
+        # text "None" (and truncates/corrupts short ones, e.g. STATE(2)
+        # became "No") -- pass "" for C fields instead so the placeholder
+        # row is genuinely blank, not full of "None" text.
+        blank_record = ["" if ftype == "C" else None for _name, ftype, _len, _dec in FIELDS]
+        w.record(*blank_record)
 
     with open(OUT_PATH.replace(".shp", ".prj"), "w") as f:
         f.write(PRJ_TEXT)
