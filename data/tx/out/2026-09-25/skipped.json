@@ -1,0 +1,9 @@
+{
+  "skipped": true,
+  "reason": "source unchanged since 2026-09-13T12:30:42 (daf420.dat.09-08-2026, 195 records)",
+  "source_name": "daf420.dat.09-08-2026",
+  "written_at": "2026-09-25T16:00:27",
+  "prior_ingested_at": "2026-09-13T12:30:42",
+  "prior_source_name": "daf420.dat.09-08-2026",
+  "records_parsed": "195"
+}
