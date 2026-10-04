@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-04T11:24:07",
+  "generated": "2026-10-04T11:46:53",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1310,8 +1310,28 @@
           ]
         ]
       ],
-      "item_count": 8,
+      "item_count": 10,
       "items": [
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 0.0,
+          "bearing": "SE",
+          "date": "2026-09-15",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "VERA BANK N A",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 129.01,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9228834,
+          "lat": 32.0913377,
+          "record": "2026-275722",
+          "score": 39,
+          "tier": "own",
+          "why": "Sabine-side lease filing, inside Coleman."
+        },
         {
           "prospect": "Coleman",
           "type": "rig",
@@ -1351,22 +1371,22 @@
         {
           "prospect": "Coleman",
           "type": "lease",
-          "distance_mi": 0.0,
-          "bearing": "SE",
-          "date": "2026-07-29",
+          "distance_mi": 2.7,
+          "bearing": "N",
+          "date": "2026-09-15",
           "operator": "SABINE EAST TEXAS BASIN",
-          "grantor": "CAYTON ENERGY LLC",
+          "grantor": "GAMMEL DOROTHY JEAN",
           "county": "RUSK (TX)",
           "state": "TX",
-          "acres": 542.61,
+          "acres": 197.82,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.9228834,
-          "lat": 32.0913377,
-          "record": "00273994",
+          "lon": -94.9123836,
+          "lat": 32.1507403,
+          "record": "2026-275723",
           "score": 30,
           "tier": "own",
-          "why": "Sabine-side lease filing, inside Coleman."
+          "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         },
         {
           "prospect": "Coleman",
@@ -1384,7 +1404,7 @@
           "lon": -94.9123836,
           "lat": 32.1507403,
           "record": "2026-274491",
-          "score": 21,
+          "score": 23,
           "tier": "own",
           "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         },
@@ -1404,7 +1424,7 @@
           "lon": -94.9123836,
           "lat": 32.1507403,
           "record": "2026-274487",
-          "score": 21,
+          "score": 23,
           "tier": "own",
           "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         },
@@ -1424,7 +1444,27 @@
           "lon": -94.9123836,
           "lat": 32.1507403,
           "record": "2026-274490",
-          "score": 21,
+          "score": 23,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
+        },
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 2.7,
+          "bearing": "N",
+          "date": "2026-09-15",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "WORLEY BERNICE L",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 31.55,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9123836,
+          "lat": 32.1507403,
+          "record": "2026-275725",
+          "score": 22,
           "tier": "own",
           "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         },
@@ -1444,7 +1484,7 @@
           "lon": -94.9123836,
           "lat": 32.1507403,
           "record": "2026-274492",
-          "score": 16,
+          "score": 19,
           "tier": "own",
           "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         },
@@ -1464,7 +1504,7 @@
           "lon": -94.9123836,
           "lat": 32.1507403,
           "record": "00273995",
-          "score": 16,
+          "score": 19,
           "tier": "own",
           "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         }
@@ -1893,8 +1933,48 @@
           ]
         ]
       ],
-      "item_count": 33,
+      "item_count": 32,
       "items": [
+        {
+          "prospect": "Hill",
+          "type": "lease",
+          "distance_mi": 2.8,
+          "bearing": "E",
+          "date": "2026-09-18",
+          "operator": "CRAIN ENERGY",
+          "grantor": "CHRISTIE JAMIE DARLENE MCKNIGHT",
+          "county": "PANOLA (TX)",
+          "state": "TX",
+          "acres": 68.5,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.4423002,
+          "lat": 32.3127433,
+          "record": "2026-004644",
+          "score": 52,
+          "tier": "med",
+          "why": "68 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
+        },
+        {
+          "prospect": "Hill",
+          "type": "lease",
+          "distance_mi": 2.8,
+          "bearing": "E",
+          "date": "2026-09-18",
+          "operator": "CRAIN ENERGY",
+          "grantor": "MCKNIGHT WILLIAM M III",
+          "county": "PANOLA (TX)",
+          "state": "TX",
+          "acres": 68.5,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.4423002,
+          "lat": 32.3127433,
+          "record": "2026-004643",
+          "score": 52,
+          "tier": "med",
+          "why": "68 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
+        },
         {
           "prospect": "Hill",
           "type": "lease",
@@ -1913,7 +1993,7 @@
           "record": "2026-004488",
           "score": 49,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -1933,7 +2013,7 @@
           "record": "2026-004486",
           "score": 47,
           "tier": "med",
-          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -1953,27 +2033,27 @@
           "record": "2026-004485",
           "score": 47,
           "tier": "med",
-          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 0.7,
-          "bearing": "N",
-          "date": "2026-08-20",
-          "operator": "COVEY PARK ENERGY",
-          "grantor": "TAURUS ROYALTY LLC",
+          "distance_mi": 2.8,
+          "bearing": "E",
+          "date": "2026-09-18",
+          "operator": "CRAIN ENERGY",
+          "grantor": "ENGLISH THOMAS",
           "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 597.85,
-          "royalty": 0.1667,
+          "acres": 1.7812,
+          "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.4948985,
-          "lat": 32.356345,
-          "record": "2026-004137",
-          "score": 47,
+          "lon": -94.4423002,
+          "lat": 32.3127433,
+          "record": "2026-004642",
+          "score": 43,
           "tier": "med",
-          "why": "598 ac lease 0.7 mi N of Hill. First recent COVEY PARK ENERGY lease near Hill."
+          "why": "2 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -1993,7 +2073,7 @@
           "record": "2026-004094",
           "score": 43,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2013,7 +2093,7 @@
           "record": "2026-003986",
           "score": 43,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2033,7 +2113,7 @@
           "record": "2026-003983",
           "score": 43,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2053,7 +2133,7 @@
           "record": "2026-003705",
           "score": 43,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2073,7 +2153,7 @@
           "record": "2026-003706",
           "score": 43,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2093,67 +2173,67 @@
           "record": "2026-003707",
           "score": 43,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 2.0,
-          "bearing": "E",
-          "date": "2026-07-10",
+          "distance_mi": 4.9,
+          "bearing": "SE",
+          "date": "2026-09-18",
           "operator": "CRAIN ENERGY",
-          "grantor": "KING TRAVIS GENE",
+          "grantor": "GARDNER LECIE N SNOOK",
           "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 79.0,
+          "acres": 49.15,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.4573997,
-          "lat": 32.3355442,
-          "record": "2026-003310",
-          "score": 43,
+          "lon": -94.4135011,
+          "lat": 32.2913425,
+          "record": "2026-004652",
+          "score": 42,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 2.0,
-          "bearing": "E",
-          "date": "2026-07-10",
+          "distance_mi": 4.9,
+          "bearing": "SE",
+          "date": "2026-09-18",
           "operator": "CRAIN ENERGY",
-          "grantor": "BROWN DANEILE KING",
+          "grantor": "HRM MORRIS LAND SERVICES INC",
           "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 79.0,
+          "acres": 49.15,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.4573997,
-          "lat": 32.3355442,
-          "record": "2026-003309",
-          "score": 43,
+          "lon": -94.4135011,
+          "lat": 32.2913425,
+          "record": "2026-004645",
+          "score": 42,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 2.0,
-          "bearing": "E",
-          "date": "2026-07-10",
+          "distance_mi": 4.9,
+          "bearing": "SE",
+          "date": "2026-09-18",
           "operator": "CRAIN ENERGY",
-          "grantor": "CALLAWAY ROBERT ALLEN",
+          "grantor": "SNOOK GARY GENE",
           "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 79.0,
+          "acres": 49.15,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.4573997,
-          "lat": 32.3355442,
-          "record": "2026-003308",
-          "score": 43,
+          "lon": -94.4135011,
+          "lat": 32.2913425,
+          "record": "2026-004650",
+          "score": 42,
           "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2173,7 +2253,7 @@
           "record": "2026-004490",
           "score": 39,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2193,7 +2273,7 @@
           "record": "2026-004489",
           "score": 39,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (1,000 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 17 recent leases (1,049 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2298,26 +2378,6 @@
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 2.3,
-          "bearing": "SW",
-          "date": "2026-08-14",
-          "operator": "SABINE EAST TEXAS BASIN",
-          "grantor": "NIP N TUCK LIMITED PARTNERSHIP",
-          "county": "RUSK (TX)",
-          "state": "TX",
-          "acres": 245.96,
-          "royalty": null,
-          "play": "HAYNESVILLE - TX",
-          "lon": -94.5439965,
-          "lat": 32.3053437,
-          "record": "2026-274697",
-          "score": 24,
-          "tier": "own",
-          "why": "Sabine-side lease filing, 2.3 mi SW of Hill."
-        },
-        {
-          "prospect": "Hill",
-          "type": "lease",
           "distance_mi": 2.8,
           "bearing": "E",
           "date": "2026-09-10",
@@ -2371,26 +2431,6 @@
           "lon": -94.441733,
           "lat": 32.3571552,
           "lateral_ft": 9959.272,
-          "score": 22,
-          "tier": "own",
-          "why": "Sabine's own permit, 3.2 mi NE of Hill."
-        },
-        {
-          "prospect": "Hill",
-          "type": "permit",
-          "distance_mi": 3.2,
-          "bearing": "NE",
-          "date": "2026-08-31",
-          "operator": "SABINE ENERGY INC.",
-          "county": "PANOLA",
-          "state": "TX",
-          "well": "WYATT B CV (AW)",
-          "well_num": "2H",
-          "trajectory": "HORIZONTAL",
-          "depth_ft": 12000.0,
-          "lon": -94.4417303,
-          "lat": 32.3572108,
-          "lateral_ft": null,
           "score": 22,
           "tier": "own",
           "why": "Sabine's own permit, 3.2 mi NE of Hill."
@@ -4149,22 +4189,22 @@
         {
           "prospect": "Caspiana",
           "type": "lease",
-          "distance_mi": 4.6,
-          "bearing": "SW",
-          "date": "2026-09-09",
-          "operator": "AGIS ENERGY LLC",
-          "grantor": "MITCHELL PENNI PARKER",
+          "distance_mi": 3.7,
+          "bearing": "S",
+          "date": "2026-09-17",
+          "operator": "ROCKCLIFF OPERATING NEW MEXICO",
+          "grantor": "JOHNSON MARY LOU",
           "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 50.0,
+          "acres": 25.0,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.1014083,
-          "lat": 32.0774354,
-          "record": "2026-004464",
-          "score": 10,
+          "lon": -94.0673094,
+          "lat": 32.0793354,
+          "record": "2026-004607",
+          "score": 11,
           "tier": "low",
-          "why": "50 ac lease 4.6 mi SW of Caspiana. First recent AGIS ENERGY lease near Caspiana."
+          "why": "25 ac lease 3.7 mi S of Caspiana. First recent ROCKCLIFF OPERATING NEW MEXICO lease near Caspiana."
         }
       ]
     }
@@ -4247,7 +4287,7 @@
       "week_ending": "2026-09-25"
     },
     "source": "U.S. EIA",
-    "as_of": "2026-10-04T11:24:07"
+    "as_of": "2026-10-04T11:46:53"
   },
   "meta": {
     "client": "Sabine Energy",
