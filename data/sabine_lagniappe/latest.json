@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-04T11:46:53",
+  "generated": "2026-10-05T10:20:23",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1343,9 +1343,9 @@
           "state": "TX",
           "contractor": "Scandrill",
           "active": true,
-          "days_on_location": 8,
-          "lon": -94.9273105,
-          "lat": 32.1297916,
+          "days_on_location": 9,
+          "lon": -94.927308,
+          "lat": 32.1297939,
           "score": 38,
           "tier": "own",
           "why": "Sabine's own rig, 1.2 mi N of Coleman."
@@ -1514,422 +1514,422 @@
       "rings": [
         [
           [
-            -94.51837800857581,
-            32.334876921290764
+            -94.5183933202966,
+            32.33487992811039
           ],
           [
-            -94.51044778660378,
-            32.33496096483887
+            -94.51046318774627,
+            32.33496392515774
           ],
           [
-            -94.51056662099853,
-            32.3369211647638
+            -94.51058202793739,
+            32.33692413903364
           ],
           [
-            -94.51055559945696,
-            32.33703035431581
+            -94.51057100691702,
+            32.337033329258105
           ],
           [
-            -94.51065757539152,
-            32.337025758970164
+            -94.5106729816883,
+            32.337028734487916
           ],
           [
-            -94.51383900935014,
-            32.337021104144654
+            -94.51385437985914,
+            32.33702409855161
           ],
           [
-            -94.51381558491315,
-            32.339670944441735
+            -94.51383096530205,
+            32.339673956671604
           ],
           [
-            -94.51379738784505,
-            32.34172907835927
+            -94.51381277590855,
+            32.34173210444006
           ],
           [
-            -94.50730796711187,
-            32.34175602682854
+            -94.5073234283267,
+            32.34175901433255
           ],
           [
-            -94.50735622211884,
-            32.347071024888415
+            -94.50737170218312,
+            32.34707404858212
           ],
           [
-            -94.50351391392181,
-            32.347107720176325
+            -94.50352943743279,
+            32.347110721055245
           ],
           [
-            -94.50351409831826,
-            32.347534519036955
+            -94.50352962338934,
+            32.347537522793324
           ],
           [
-            -94.50139917067018,
-            32.34758242339707
+            -94.50141471975985,
+            32.34758541477501
           ],
           [
-            -94.50023039795867,
-            32.34755602052811
+            -94.50024596012781,
+            32.34755900470899
           ],
           [
-            -94.49939856397107,
-            32.347546064523
+            -94.49941412992013,
+            32.347549045532084
           ],
           [
-            -94.49961506375054,
-            32.34179978076441
+            -94.4996306076235,
+            32.341802723995656
           ],
           [
-            -94.49461916832149,
-            32.341814088495106
+            -94.49463473356468,
+            32.3418170138378
           ],
           [
-            -94.49459151755279,
-            32.3398455237869
+            -94.49460707553351,
+            32.33984843592007
           ],
           [
-            -94.49254144642708,
-            32.33981553053503
+            -94.49255701298412,
+            32.33981843512406
           ],
           [
-            -94.49257145651175,
-            32.33505568943024
+            -94.49258700496101,
+            32.335058562543004
           ],
           [
-            -94.49461152551157,
-            32.33504567929431
+            -94.49462706541543,
+            32.33504855956094
           ],
           [
-            -94.5012160277331,
-            32.33508200402746
+            -94.5012315330582,
+            32.335084910342026
           ],
           [
-            -94.50119455507621,
-            32.334945682789304
+            -94.50121006014292,
+            32.334948588062176
           ],
           [
-            -94.50173143274796,
-            32.3349465883032
+            -94.50174693178518,
+            32.33494949677049
           ],
           [
-            -94.50179692752488,
-            32.330555563796565
+            -94.50181240973963,
+            32.33055844321019
           ],
           [
-            -94.50289519586904,
-            32.33059205326056
+            -94.50291066589027,
+            32.3305949394154
           ],
           [
-            -94.50770227464537,
-            32.33055478764039
+            -94.50771769057417,
+            32.330557701976716
           ],
           [
-            -94.51006722556647,
-            32.33047212429505
+            -94.510082614649,
+            32.33047505205933
           ],
           [
-            -94.51145488336847,
-            32.3304817066738
+            -94.51147025691019,
+            32.3304846427077
           ],
           [
-            -94.51576535112797,
-            32.330417149874975
+            -94.51578067605242,
+            32.33042011095575
           ],
           [
-            -94.51601132324585,
-            32.33073407514903
+            -94.51602664655718,
+            32.330737039831604
           ],
           [
-            -94.51654079997894,
-            32.331437633358306
+            -94.5165561198937,
+            32.33144060594215
           ],
           [
-            -94.51734039733176,
-            32.332526553206506
+            -94.51735571220871,
+            32.332529537910965
           ],
           [
-            -94.51832158367306,
-            32.333767835040135
+            -94.51833689201806,
+            32.333770833988
           ],
           [
-            -94.51916889053793,
-            32.33486728936986
+            -94.51918419333613,
+            32.33487030081732
           ],
           [
-            -94.51837800857581,
-            32.334876921290764
+            -94.5183933202966,
+            32.33487992811039
           ]
         ],
         [
           [
-            -94.49505713312072,
-            32.33505779772893
+            -94.49507267121159,
+            32.335060679653154
           ],
           [
-            -94.49519257979748,
-            32.330872817130654
+            -94.49520810167311,
+            32.33087567169744
           ],
           [
-            -94.49210246274794,
-            32.33086284425928
+            -94.49211799728846,
+            32.33086568794064
           ],
           [
-            -94.49081241450676,
-            32.33086285513229
+            -94.49082795434997,
+            32.330865694296314
           ],
           [
-            -94.49081241563245,
-            32.33055286670402
+            -94.49082795429713,
+            32.33055570381968
           ],
           [
-            -94.49081241894577,
-            32.329932889898295
+            -94.49082795525338,
+            32.329935722917696
           ],
           [
-            -94.49080242943299,
-            32.32793296566084
+            -94.49081795817824,
+            32.32793578543626
           ],
           [
-            -94.49085243156482,
-            32.32763297659035
+            -94.4908679589664,
+            32.32763579455864
           ],
           [
-            -94.49082243653774,
-            32.326803008311444
+            -94.49083796090626,
+            32.3268058206961
           ],
           [
-            -94.49068245335528,
-            32.322723163503305
+            -94.49069796277539,
+            32.32272594849008
           ],
           [
-            -94.49067756555093,
-            32.32106226177824
+            -94.49069306867457,
+            32.32106503580033
           ],
           [
-            -94.49067247065561,
-            32.3194132888258
+            -94.49068796752908,
+            32.31941605196597
           ],
           [
-            -94.49064409126983,
-            32.318629135829696
+            -94.49065958527329,
+            32.318631893708755
           ],
           [
-            -94.49983282383147,
-            32.31839325543762
+            -94.49984828080042,
+            32.318396042891024
           ],
           [
-            -94.49983420926355,
-            32.3210758445716
+            -94.49984967607716,
+            32.32107864992527
           ],
           [
-            -94.49983280539996,
-            32.321333140479275
+            -94.49984827316395,
+            32.32133594754522
           ],
           [
-            -94.50029282539614,
-            32.321003147301
+            -94.50030828946363,
+            32.321005953957155
           ],
           [
-            -94.5009628632085,
-            32.320533156093816
+            -94.50097831805188,
+            32.320535963540046
           ],
           [
-            -94.50171290651252,
-            32.32000316638082
+            -94.50172835101836,
+            32.32000597468188
           ],
           [
-            -94.50228922444599,
-            32.31959497163987
+            -94.50230466100673,
+            32.31959778058872
           ],
           [
-            -94.50293239629494,
-            32.319105724576985
+            -94.50294782386727,
+            32.3191085340207
           ],
           [
-            -94.50323000914948,
-            32.318885784055816
+            -94.50324543258682,
+            32.318888593770595
           ],
           [
-            -94.50356522791684,
-            32.31863804918118
+            -94.50358064669716,
+            32.31864085920052
           ],
           [
-            -94.5040728668269,
-            32.31826303507798
+            -94.50408827855631,
+            32.31826584555796
           ],
           [
-            -94.50422741249172,
-            32.318148673549885
+            -94.50424282207405,
+            32.318151484168446
           ],
           [
-            -94.50592528472647,
-            32.31811728591371
+            -94.50594067519833,
+            32.31812010625224
           ],
           [
-            -94.50602659950599,
-            32.31811541183305
+            -94.5060419888375,
+            32.31811823275155
           ],
           [
-            -94.50693745359213,
-            32.318098563020946
+            -94.5069528326715,
+            32.31810138915328
           ],
           [
-            -94.50765352680737,
-            32.318085312132226
+            -94.50766889782697,
+            32.31808814236316
           ],
           [
-            -94.50829191898315,
-            32.31807323117058
+            -94.50830728281636,
+            32.31807606505351
           ],
           [
-            -94.50829893534514,
-            32.31834662334352
+            -94.50831430009576,
+            32.31834945910323
           ],
           [
-            -94.5083024612792,
-            32.31848402708392
+            -94.50831782649091,
+            32.31848686378692
           ],
           [
-            -94.50830951424078,
-            32.31875883460227
+            -94.50832488037463,
+            32.318761673192
           ],
           [
-            -94.50831656618475,
-            32.31903364209051
+            -94.50833193324077,
+            32.319036482567114
           ],
           [
-            -94.50832361923345,
-            32.319308449617225
+            -94.50833898721162,
+            32.31931129198083
           ],
           [
-            -94.50833067126416,
-            32.31958325711371
+            -94.5083460401645,
+            32.319586101364486
           ],
           [
-            -94.50833424111306,
-            32.31972234085964
+            -94.50834961048011,
+            32.319725186065604
           ],
           [
-            -94.50833459505766,
-            32.31973613199642
+            -94.508349964471,
+            32.31973897729709
           ],
           [
-            -94.50833772439978,
-            32.319858064648706
+            -94.50835309422227,
+            32.31986091078681
           ],
           [
-            -94.50834477761924,
-            32.32013287128658
+            -94.50836014836388,
+            32.32013571931216
           ],
           [
-            -94.50834830369436,
-            32.32027027504069
+            -94.50836367490007,
+            32.32027312401005
           ],
           [
-            -94.50834957633988,
-            32.32047723744193
+            -94.50836494828529,
+            32.32048008780926
           ],
           [
-            -94.50837235837854,
-            32.32155505051577
+            -94.50838773399528,
+            32.32155790825942
           ],
           [
-            -94.50839678321614,
-            32.321832536387724
+            -94.50841215957023,
+            32.321835396139704
           ],
           [
-            -94.50870110804914,
-            32.32181125042515
+            -94.50871648091756,
+            32.32181411181962
           ],
           [
-            -94.5087480055038,
-            32.32208927954677
+            -94.50876337885958,
+            32.32209214308574
           ],
           [
-            -94.50784201616294,
-            32.322133109309355
+            -94.50785739982533,
+            32.322135967825695
           ],
           [
-            -94.50702303229455,
-            32.3221591445869
+            -94.50703842522441,
+            32.322161998471195
           ],
           [
-            -94.50703674399307,
-            32.322693716868756
+            -94.50705213871892,
+            32.32269657442332
           ],
           [
-            -94.50703762652708,
-            32.322728117505775
+            -94.50705302136852,
+            32.32273097529656
           ],
           [
-            -94.50535671277287,
-            32.3227891483873
+            -94.50537212666595,
+            32.32279199671584
           ],
           [
-            -94.50511306801998,
-            32.322797992939165
+            -94.50512848467459,
+            32.32280083989601
           ],
           [
-            -94.50511306590272,
-            32.323502989238435
+            -94.50512848513249,
+            32.323505840923175
           ],
           [
-            -94.50512306141256,
-            32.32448295194744
+            -94.50513848410988,
+            32.32448581026431
           ],
           [
-            -94.50509952526508,
-            32.32676227756044
+            -94.50511495655259,
+            32.3267651510342
           ],
           [
-            -94.50654319380457,
-            32.32673852290673
+            -94.50655860881719,
+            32.32674140473019
           ],
           [
-            -94.5087845275837,
-            32.32677614915967
+            -94.5087999176006,
+            32.32677904444614
           ],
           [
-            -94.50857935037186,
-            32.32738423694143
+            -94.50859474490478,
+            32.32738713511197
           ],
           [
-            -94.50815579263063,
-            32.32876182792001
+            -94.50817119693433,
+            32.328764732865274
           ],
           [
-            -94.50751337097483,
-            32.3305645346677
+            -94.5075287890595,
+            32.330567447952475
           ],
           [
-            -94.50323092449266,
-            32.33059776096504
+            -94.50324639076646,
+            32.33060064914407
           ],
           [
-            -94.50213445496861,
-            32.33057493679521
+            -94.50214993346586,
+            32.33057781833526
           ],
           [
-            -94.50180070433586,
-            32.330563849969245
+            -94.50181618653858,
+            32.33056672946075
           ],
           [
-            -94.50173519236091,
-            32.33495485102964
+            -94.50175069138618,
+            32.3349577595747
           ],
           [
-            -94.50119831015752,
-            32.33495395043665
+            -94.50121381521235,
+            32.33495685578726
           ],
           [
-            -94.50121586046397,
-            32.335111067125624
+            -94.50123136589751,
+            32.3351139736341
           ],
           [
-            -94.49996711488713,
-            32.33509650021619
+            -94.49998263264217,
+            32.335099399773185
           ],
           [
-            -94.49505713312072,
-            32.33505779772893
+            -94.49507267121159,
+            32.335060679653154
           ]
         ]
       ],
@@ -4128,7 +4128,7 @@
           ]
         ]
       ],
-      "item_count": 4,
+      "item_count": 3,
       "items": [
         {
           "prospect": "Caspiana",
@@ -4141,30 +4141,12 @@
           "state": "TX",
           "contractor": "Basin Drilling, LP",
           "active": true,
-          "days_on_location": 2,
+          "days_on_location": 3,
           "lon": -94.0468361,
           "lat": 32.1905062,
-          "score": 75,
+          "score": 70,
           "tier": "high",
-          "why": "Rig drilling now inside Caspiana, 2 days on location. TGNR PANOLA has 3 filings near Caspiana."
-        },
-        {
-          "prospect": "Caspiana",
-          "type": "rig",
-          "distance_mi": 0.0,
-          "bearing": "NW",
-          "date": "2026-09-04",
-          "operator": "TGNR PANOLA LLC",
-          "county": "PANOLA",
-          "state": "TX",
-          "contractor": "Basin Drilling, LP",
-          "active": true,
-          "days_on_location": 13,
-          "lon": -94.046755,
-          "lat": 32.1905062,
-          "score": 75,
-          "tier": "high",
-          "why": "Rig drilling now inside Caspiana, 13 days on location. TGNR PANOLA has 3 filings near Caspiana."
+          "why": "Rig drilling now inside Caspiana, 3 days on location. TGNR PANOLA has 2 filings near Caspiana."
         },
         {
           "prospect": "Caspiana",
@@ -4182,7 +4164,7 @@
           "lon": -94.1007096,
           "lat": 32.1630377,
           "record": "2026-004251",
-          "score": 44,
+          "score": 39,
           "tier": "med",
           "why": "196 ac lease 0.6 mi W of Caspiana. First recent TGNR PANOLA lease near Caspiana."
         },
@@ -4211,67 +4193,471 @@
   },
   "news": [
     {
-      "title": "Texas African American Museum honors early oilman Major Kennedy",
-      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNZGdzQ25CWUJnRU1UMkZoNFV1Ny16OG5xR1VNaDRlZGRxRGtvaVdwSlNwWHNPdUdwWllESHBsa2U3enFBeHFKZHVRdGt5bWl5b1JTb1h4X0lMMTVMTFo2WldOZU1uMUp5V1c5T2xFbExYM1dZUmpISC1pMnBLNk02N2dDeF9DZlZSWnNUNTZGXzg4NjlmTEVla1F2UDU0Rk9T0gGgAUFVX3lxTE1kZ3NDbkJZQmdFTVQyRmg0VXU3LXo4bnFHVU1oNGVkZHFEa29pV3BKU3BYc091R3BaWURIcGxrZTd6cUF4cUpkdVF0a3ltaXlvUlNvWHhfSUwxNUxMWjZaV05lTW4xSnlXVzlPbEVsTFgzV1lSakhILWkycEs2TTY3Z0N4X0NmVlJac1Q1NkZfODg2OWZMRWVrUXZQNTRGT1M?oc=5",
-      "source": "KETK.com",
+      "title": "Drilling report: Sept. 13-19, 2026",
+      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE45VXctOGVBem5Sdll0QXFSZ29XM2VNMncyNEVJZVBRZVc1eVJSRHZaR1hCSVFDMXgwLTNMUVJkMjJfSmpRMlN2SUltNjBrQk9yWGN5bG9JSXQzQTc2TDdUeEhnMGRjaXJSdkVoRkNLQVN6ZzFI?oc=5",
+      "source": "Tyler Morning Telegraph",
       "published": "2026-10-03",
-      "query": "Rusk County Texas oil gas"
-    },
-    {
-      "title": "Drilling report: Sept. 13-19. 2026",
-      "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5EZEFuN2xzSDVBUTc5YkFRaUd1bDlYSm5tQWdJbXV3clpJTnNQeFY2LWFrcXF3ZlM5U29ablpGZlVHbmJkRlhnRVdsaEVwU3R5TTNsdUhUb2tNbzAzc3AzNThLUU4yZmZaTkl6Q0F3WWlnUQ?oc=5",
-      "source": "Longview News-Journal",
-      "published": "2026-10-01",
-      "query": "Haynesville Shale"
+      "query": "\"Drilling report\" site:tylerpaper.com",
+      "tags": []
     },
     {
       "title": "Comstock, Socar ink $1.65 billion Haynesville shale framework deal",
       "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNa0JJRDk2a05HUmNsbC1tbzFXbGpzWHFWeEFCYVF5OVF1dUF6WGZfNXh6TEU4aU5MTjZtUERuLXR1dHlaZmVHcHFvRk1rUTJ6TGFja2QzaXNxSkV0Y2FSZ0JKdVhOVC1LN0Fqd1BIc05oNDhlclpSTkJhVjQ4YnQ2TkQteS1RRFNlcFUweUdWM01BT3ZNNWdORXN6S2V1cTJCblRUU1p6ZTBRWl9EcTNQQy1YRnZBUQ?oc=5",
       "source": "LNG Prime",
       "published": "2026-09-30",
-      "query": "Haynesville Shale"
+      "query": "Haynesville Shale",
+      "tags": []
     },
     {
-      "title": "Comstock and SOCAR formalise $1.6bn Haynesville Shale partnership",
-      "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPTExia0hIeFVpazZZYm9oVG5zVHR0ZVkwQ3p2dVg0MnAyNGZqelAwN1NuOUh4czdnLWFyVXRHbXYyZE1kRGZfelV4MG0yczBKMXBLSzJxa0NpNm1GYjZ1cXlhR1k0Y25fSi0wSlZaSlhRT01rc3NscC0waGNJT1BxMklxT1pUNEU?oc=5",
-      "source": "Offshore Technology",
-      "published": "2026-09-29",
-      "query": "Haynesville Shale"
+      "title": "Expand Energy Sees LNG Demand in Driver\u2019s Seat as Data Center Resistance Grows",
+      "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPVDJaMXJvMWRxb29YV2ZuYWc2WmFCUmFPMHNaS3gySGVFcHVKRF9pSTE0UUFXQ2t0RnBUTFc2MUd1YnJScGo2a3pNNl96bE1IQ3JKVnh3YW96NUl3S2NSNnA1LV80NkpjTUtHNmZxREw2MjBjTjFXMEkzZFRLVlhXMDEzRVpILTl3SWpIS0VwdXJQSmNQM0QyMTd5NmdGTWpfZmRrNzUtVnltVjlVOTNpdQ?oc=5",
+      "source": "Natural Gas Intelligence",
+      "published": "2026-09-23",
+      "query": "Expand Energy Haynesville",
+      "tags": []
     },
     {
-      "title": "Comstock, SOCAR formalize $1.65B Haynesville shale partnership (CRK:NYSE)",
-      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQNlppaWV3em5Nb2V5OVRvUkdhM1p3bWIxTjVGM19YbDNRMFJ6U1JSempoN01seTBSVWg0V2NrWTFYM0lxRHVTMWJfTlVvV3NaNDk4aGhxcjhpa0xQa2xOdjVHVjN0TFVqcnYtaUlqLUFHV0hzQ1pOY0daVkNpb05Gd2Jrbjk3Z2tpVDNFM1BlS2hldEFUY1F5bl8xUVRCbjA?oc=5",
-      "source": "Seeking Alpha",
+      "title": "INTERVIEW: Trinity Gas Storage plans hub to link Haynesville supply, power demand",
+      "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxNdVVkTTRTYloyTWtkZTVLOG5YQ1llWXRhOW1uanpveU1tYmlRTlc0aTJ4aU1zZmhkR2psOEhWRUlMbVFmVnpqa29QYWlXdldyTF9BN2ctbnlTN2Q1WDFxMFdlSkp5Mk9aajJ3S3c0RjQ3Nk9mRDFyejB5UHI5cGcxSjc5cXE1WmE2R20xb3BwMUpDZXZmQlItMi1Lb1ZSOHN3TG5yWFVpT0F4UG5MS0xOY0lpcWlSTXZoRXd5U0lRUXRjUk1RUUFpZUV0Um9PSmp3Rk5qVWpBOHRhTFJLQ21SSzM4UkRrZzg2WmFKOVN0Tzg?oc=5",
+      "source": "S&P Global",
+      "published": "2026-09-21",
+      "query": "\"Haynesville\" site:spglobal.com",
+      "tags": []
+    },
+    {
+      "title": "TG Natural Resources LLC 'B+' Rating Affirmed; Outlook Stable; Liquidity Revised To Adequate",
+      "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOOEd0aFE4Qi1FWHN0MFNDc08yaFMzNURCQlNvQ0FIRF9haklwNGtTRmVyYVVkYjUxZkFuYWxJQXZnUHBXY3pWdjJ6MDVyLTJaZE9vd3pMUml5UGVEaWJGZExEdm1SbzJpSkxoNnJReXU0dHQxckV0VWo1c3lkdFBrTEZwQzk2ZlhLQWc?oc=5",
+      "source": "S&P Global",
+      "published": "2026-09-21",
+      "query": "\"Haynesville\" site:spglobal.com",
+      "tags": []
+    },
+    {
+      "title": "South Shreveport focus of more Haynesville Shale drilling, new APEX request",
+      "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQRjMxSHhldm80dDVkUW16X1NaVFE3cGVrMDNYTTV6Ym0ySlJUY0c5YThsa2xzNE1hdTVlMmsySDBHVks2bkFZelZjWkZFeExNektGZmItVFRTeWhaTjZnTEhpd2V1SGxhQV9JOUlOSWRGNkotTm1qbkxNdGF2SFVIdjdMWkdIUzZBQi1wOXVfNEphd3V3eFhtNjd0Mi1VRGFRTkJ2R24telBGc2FHaDQxR0MxLXV2VE52VjhUc0dnVnh0eVgyaFpCXzJMTEp4Y2hwRHNxcTF5cUN2OXJkX2FGakhmRVA?oc=5",
+      "source": "The Shreveport-Bossier City Advocate",
+      "published": "2026-09-11",
+      "query": "Caddo Parish Haynesville drilling",
+      "tags": []
+    },
+    {
+      "title": "bpx energy",
+      "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE05M2c4c2RHdWF4Qng1X05oMmxwRDJuS2daVlpoVHNoWV9IR0Y0UGJhVlN4V0IwVEt6OWlzUU05ZlhiVGNFMlNwczRUWUJmN0NiMWJVNllkR0g3TlE1QUJyMEp6bjVVcXZRWjE1UnNCdHNoQ1BKeVE?oc=5",
+      "source": "bp global",
+      "published": "2026-09-09",
+      "query": "BPX Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Williams wraps up $5.5 billion deal to expand Haynesville holdings",
+      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQc0RkWmFhUE96b0xaOFB3QVlJekRwdHVwRTAweFVQUWY1UEhtZEg4NVhoOWM1Zi1scFFLWnhWTnROaTJaaHI1OExPb25pVmV3azhidWg1NW9xNndrVHpQV0JvNHQzcWpRaWl3bHJwWUlyRXdYZ0VJV1VhY0dvQjIycUhBZUgteGxUMmdIdHpDYXJ2TmxoSXJTc01vRTZfTkJCQ1E?oc=5",
+      "source": "Oklahoma Energy Today",
+      "published": "2026-09-06",
+      "query": "Expand Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Haynesville shale: Calculated re-engagement characterizes operator behavior",
+      "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPanMwVUpIZzFkTk5VeGl3SVNfbm5aU3lxWDNBNnZaNjFDdVQ5dS1RbVVVc21RX3lpbFdQcmxlZWdDT0pVejBwTWxtT0NXRXBTd2Joa1NpcWctajhJRV9KZUQyRnNKZmhxaVJFaU5KNDZnWjctSUxRMVE5cjFvMGlrb1RlVHc4akN1Ul9FcVdKTGNTbllPZHlfeFB0cU1SNVVPekZYY0VrSnhZa2FDRlZZQXZNODRheFRXV01QcHNnTkhlTnBu?oc=5",
+      "source": "World Oil",
+      "published": "2026-08-29",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "Gunvor Eyes Up to $1.5B Silver Hill Haynesville Gas Deal",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPZ0hQU192X2cxSVIwR3ItVmlPSlBhVHBwQ21xSk50ZjBRaU44ZUZvMVM4QjJpeWxvVUNIOG1rV0FXZk5zRVM4UzZQYmFsQU5fczBFczBNR0ZMVm9DdVZ2RzlFM3dScnBsa1pKMVJVZWlyRDJ4YVhWejlucldnQTVCeW0wMnFoNlJfc0QzX1NrVm9OWGZtTHdoS0x3OGxTNm5yT3B4Y3d6MHI?oc=5",
+      "source": "ChemAnalyst",
+      "published": "2026-08-26",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "The Recipe Behind BPX Energy\u2019s Shale Success",
+      "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFB6cWlFQ0tWaDYxLUN5Z09YNEdyTDBuUURTTVVNUHlWLXozVUZqY21nakZZNkduMXRCNzZjLXRHaDE2S0s5WTJ4Zkpvd3ViR1BiZk0zVmt1RDJBTS16cmJxUzBzNk5SQkE?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-08-20",
+      "query": "BPX Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Shreveport-Bossier mineral owners don\u2019t have to sign. They can still be pooled.",
+      "link": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNUWcxMmVVSGhLaXdVMVBpZXdWT3VIN294R1JpNFlaakpHbUJRamI5UlZBUXBWcEdiOVhsMWpJXzh0cGV4RFh6QzM5d3c1WFVjMVF1dlg0ZXJPWTgxTGdnaV85bFlGYTVfV0J6aExqVnd3Q3BEQU1vQkpuNTAtak1Bd2tKMlpoRWZGT20tY1dBazBwMWVPaG41NHBRQ1IwdkZQNFhwbi02cDlUVGlTRGpuck5kdmZXODRrcmdpWEtKOXROX2ZFRnRCTXNCRTVlbjhOZnNQa3lIVUg3V2dHQUE4MHRYX2dqV0J6QzJlUENVYjhBZHVKa05IUA?oc=5",
+      "source": "The Shreveport-Bossier City Advocate",
+      "published": "2026-08-20",
+      "query": "Caddo Parish Haynesville drilling",
+      "tags": []
+    },
+    {
+      "title": "Empire Deepens Texas Vertical to Test W. Haynesville in Madison County",
+      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5MRDBLUVQxSU9OSnhmQjA3V3N3YXZIUWRSSTZyQ2pvQkV3NTFRa1pSMFQ3SXEzT0RCQTlUUXhFWkpORnFVZUFWVjk0SVFrNDVqNTNaTk5MVE5YY1g3eS1TSmtrMnNRRndhcE9DR0otQWdUeHNiY1Z1eWMySQ?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-08-17",
+      "query": "BPX Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Empire Petroleum reaches 21,006 ft in Western Haynesville well in Texas",
+      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQM2EtUTlIMXJxbXJCS0tLQjF1RnU2cVRKRTFmQ2RoOGdSZmZmd2Q2RDVVemdjc1FfNUVJMXlmTFJvNU40OW5DbnJILXRLZVBtRktDNEVyNllBSm5PRlAxTjRFeXlXWHpGTVRkRzBhSHB3cE8tVzBkcVFrZk9WZkVNdEFXUkQyNHZPbGNyeDluWmhMUFFHMjhxaFpLY1hHSDg3amkteGsya1ZYYzBZVGkzZEFR?oc=5",
+      "source": "World Oil",
+      "published": "2026-08-17",
+      "query": "Haynesville site:worldoil.com",
+      "tags": []
+    },
+    {
+      "title": "Haynesville Natural Gas Production Sets New Weekly Record",
+      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQT3l1S28yeTkzSzFWa3lodVlpVHNLaXVMZlFadVptQ3pwLTBnZFRFc1k3S0hKVmN4aWVkaTFHRnluX0t0ZUo2SDNQY0NoMFhwS0xOWjFNWVZUNGRpa1FGYm9xbVZ1SHo2aDNGTzlPR1FqTmpuTEpTNE1hSFVxeXFoU1cyZXlfWXJsRHVPLTlNMGJqR0lvR3I3ZEwxWE9GQl9LV0tOSU04YVdOaG8?oc=5",
+      "source": "RBN Energy",
+      "published": "2026-08-11",
+      "query": "Haynesville LNG feed gas",
+      "tags": []
+    },
+    {
+      "title": "Williams expands northwest Louisiana Haynesville Shale as data centers drive demand",
+      "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOVlZJZF9rdnk3aXZlZXcyeGdEMkF6U0t2RjNtTEo5czNyam4yd1FxczFJckRrUlZ6S0ZESWIxczRoOThjTDBYcVJjYWtHUFJoaWh6am4tc0dxOWh6TUlTWFloQk9TeXl5ZXJOZDRlTktIN2pLRklJQk1zYnBUU0dkYXROS09aMlI3QjVKNFFzMUZLMVFjUk9Gc205T2NmNWtJVERGRUdacDR4OXpKVEJ3d2xSalkxWkp0LXhQTGtoT3VnZ3NVbDFWVF9ETTJlYTRkWHZ5U1dzVkg5eGE5UEEzVnlLSkY0OWRJcEF1Ml9ycWZiQzNTT2dlRUxR?oc=5",
+      "source": "The Shreveport-Bossier City Advocate",
+      "published": "2026-08-07",
+      "query": "Haynesville pipeline expansion",
+      "tags": []
+    },
+    {
+      "title": "Midstream Companies Expand Natural Gas Pipelines as LNG & AI Demand Grows",
+      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNRGhCbFQyUXJsZzhydHJjNXVZOU1mZG5vbUtsTzNLMnNFM2JhX0J4N0hfV2JKRGlZR3BuUE5tSTlkLTUzOFBIUWhZSEVqVXRTX3ZiRkU2ajhWazh3M0dnY3FHcGpPeWVHLXFyZEV1VWpUenB2UmNGbGtoSzFVcTBCNEg4TjZvQ1E1VGFjaGlSdkNkOUFPWGFLV1J3?oc=5",
+      "source": "ETF Database",
+      "published": "2026-08-07",
+      "query": "Haynesville data center natural gas",
+      "tags": []
+    }
+  ],
+  "brief_items": [
+    {
+      "title": "Apex Natural Gas (Citadel-backed, ex-Paloma) is the play's dominant lessee and a top-tier driller on both sides of the state line",
+      "source": "Play Intel",
+      "published": "2026-10-01",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "JERA's closed South Mansfield acquisition now shows up directly under JERA's own name",
+      "source": "Play Intel",
+      "published": "2026-10-01",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Mitsui E&P USA is a new, independent entrant in the Western Haynesville, operating alongside - not through - Comstock",
+      "source": "Play Intel",
+      "published": "2026-10-01",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock Resources is mid-transaction with a second major LNG-linked partner: SOCAR",
+      "source": "Play Intel",
+      "published": "2026-10-01",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Aethon Energy Management Completes Transformational Haynesville Sale",
+      "source": "Business Wire",
+      "published": "2026-10-01",
+      "link": "https://www.businesswire.com/news/home/20260714607900/en/Aethon-Energy-Management-Completes-Transformational-Haynesville-Sale-and-Advances-Strategic-Evolution-as-Leading-Energy-Focused-Investment-Manager",
+      "kind": "news"
+    },
+    {
+      "title": "Sources: Citadel Buys Haynesville E&P Paloma Natural Gas for $1.2B",
+      "source": "Hart Energy",
+      "published": "2026-10-01",
+      "link": "https://www.hartenergy.com/exclusives/sources-citadel-buys-haynesville-ep-paloma-natural-gas-12b-212293/",
+      "kind": "news"
+    },
+    {
+      "title": "Apex expands, Comstock repositions in Haynesville shale",
+      "source": "The Center Square",
+      "published": "2026-10-01",
+      "link": "https://www.thecentersquare.com/louisiana/article_d825fe7a-13cd-4442-9d86-7fb5a14ddd90.html",
+      "kind": "news"
+    },
+    {
+      "title": "JERA Announces Close of Haynesville Shale Gas Asset in Louisiana",
+      "source": "JERA Americas",
+      "published": "2026-10-01",
+      "link": "https://jeraamericas.com/jera-announces-close-of-haynesville-shale-gas-asset-in-louisiana/",
+      "kind": "news"
+    },
+    {
+      "title": "Expand Energy's Louisiana Haynesville Dominance Is Hard to Ignore",
+      "source": "Hart Energy",
+      "published": "2026-10-01",
+      "link": "https://www.hartenergy.com/upstream/shale-plays/he-expand-louisiana-haynesville-scale/",
+      "kind": "news"
+    },
+    {
+      "title": "Japan's Mitsui Testing Western Haynesville Alongside Comstock, Aethon",
+      "source": "Hart Energy",
+      "published": "2026-10-01",
+      "link": "https://www.hartenergy.com/ep/exclusives/japans-mitsui-testing-western-haynesville-alongside-comstock-aethon-212420/",
+      "kind": "news"
+    },
+    {
+      "title": "Porter Hedges Represents Sabana Haynesville in its Sale of Unconventional Gas Assets in Texas to Mitsui E&P USA",
+      "source": "Porter Hedges",
+      "published": "2026-10-01",
+      "link": "https://www.porterhedges.com/newsroom-news-porter-hedges-represents-sabana-haynesville-in-its-sale-of-unconventional-gas-assets-in-texas-to-mitsui-e-p-usa",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock to Double Western Haynesville Wells in 2026, Advances NextEra Data Center Project",
+      "source": "RBN Energy",
+      "published": "2026-10-01",
+      "link": "https://rbnenergy.com/daily-posts/analyst-insight/comstock-double-western-haynesville-wells-2026-advances-nextera-data",
+      "kind": "news"
+    },
+    {
+      "title": "Haynesville shale: Calculated re-engagement characterizes operator behavior",
+      "source": "World Oil",
+      "published": "2026-10-01",
+      "link": "https://www.worldoil.com/magazine/2026/august/features/haynesville-shale-calculated-re-engagement-characterizes-operator-behavior/",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
+      "source": "World Oil",
       "published": "2026-09-28",
-      "query": "Haynesville Shale"
+      "link": "https://www.worldoil.com/news/2026/9/28/comstock-socar-advance-1-65-billion-haynesville-partnership-with-framework-agreement/",
+      "kind": "news"
     },
     {
-      "title": "Comstock, Azerbaijan's Socar Sign Framework Agreement for $1.65 Billion Investment in Haynesville Shale",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxObHBwWkVwWVFWR0RSODJlejJoZkZaaU40UjEySlhydzhhemlSTFhjN20weGhWRl81UWc5N21YWjI5TWM4Zjc0dm1hMUtyV25reTRQcEJSaEVhUThWRjZ3dDFiN1pGSHpqNV9NSnBkQzI0Z2JtYWpxZDh5X1dmbGZPU2xjTGRmaFJUbEhPSFpTVXVBV3ZNMncw?oc=5",
-      "source": "Yahoo Finance",
+      "title": "Comstock-SOCAR has moved from letter of intent to a signed framework agreement",
+      "source": "Play Intel",
       "published": "2026-09-28",
-      "query": "Haynesville Shale"
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Expand Energy's Western Haynesville bet keeps advancing on the ground",
+      "source": "Play Intel",
+      "published": "2026-09-28",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "JERA's closed South Mansfield deal now shows up under JERA's own name in the permit data, not just via GEP Haynesville leasehold",
+      "source": "Play Intel",
+      "published": "2026-09-28",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock Announces Signing of Framework Agreement for $1.65 Billion Strategic Partnership with SOCAR",
+      "source": "GlobeNewswire",
+      "published": "2026-09-28",
+      "link": "https://www.globenewswire.com/news-release/2026/09/28/3369815/0/en/comstock-announces-signing-of-framework-agreement-for-1-65-billion-strategic-partnership-with-socar.html",
+      "kind": "news"
     },
     {
       "title": "Comstock, SOCAR formalize $1.65B Haynesville shale deal",
-      "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQUkxwTVNhTEtnam0xZTF1TmlQY2dKT1JjZUdZSHlfclpfN2VscWh6RW5ZeV92YlpMaEJDOTJ6cW1RQXNPWVdmOFJ2X2gtMkVzeVJpWU9oNzRGdFY1dlR0ak1lR2oxa3NnN1lEajdNVkpTTDg4UjhZTjdDNV9SQWI2SU1SLThuV1UycUNGUlQxZTA5LVpSQV9kRVNhb2xPUG96aGZZQTQyNXUxWU5UVXc?oc=5",
       "source": "Investing.com",
       "published": "2026-09-28",
-      "query": "Haynesville Shale"
+      "link": "https://ng.investing.com/news/stock-market-news/comstock-socar-formalize-165b-haynesville-shale-deal-93CH-2711957",
+      "kind": "news"
     },
     {
-      "title": "East Texas drinking water sources were polluted without warning, records show",
-      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPaVAwOHBOdTVZME1JcGJRRWlXNVhmQ2MtMDJOUTk1VlhJY1NNX2pYYjBYUTVoa1o0Njl3UXREb2FOZnZmLThHLWtUWWxOVkJXUWhBcUpva2VIeVFoZmtjYUlINDFOMmYxVktsQUxyNnJueXpXZkJtdi0zRENLWERLVy01LVJNVUNHdzgwWmpXMTV2SUdkWGtrZ3pyeEVWeThheVhjM1pqTDQxZnVsVVVzaUQ0WEJGcm8?oc=5",
-      "source": "Houston Chronicle",
+      "title": "Comstock signs $1.65bn LoI with SOCAR for Haynesville asset stakes",
+      "source": "Yahoo Finance",
+      "published": "2026-09-28",
+      "link": "https://finance.yahoo.com/energy/articles/comstock-signs-1-65bn-loi-085645439.html",
+      "kind": "news"
+    },
+    {
+      "title": "DUC and Cover: Haynesville Crosses 60 Rigs as Producers Bank Wells",
+      "source": "East Daley",
+      "published": "2026-09-28",
+      "link": "https://eastdaley.com/daley-note/duc-and-cover-haynesville-crosses-60-rigs-as-producers-bank-wells",
+      "kind": "news"
+    },
+    {
+      "title": "Why is Citadel's Apex Running 14 Haynesville Rigs Right Now?",
+      "source": "Hart Energy",
+      "published": "2026-09-28",
+      "link": "https://www.hartenergy.com/upstream/shale-plays/he-apex-citadel-haynesville-rigs/",
+      "kind": "news"
+    },
+    {
+      "title": "Mitsubishi Corporation Announces Acquisition of Haynesville Shale Gas Business",
+      "source": "Mitsubishi Corporation",
+      "published": "2026-09-28",
+      "link": "https://www.mitsubishicorp.com/jp/en/news/release/2026/20260116002.html",
+      "kind": "news"
+    },
+    {
+      "title": "Expand Aims to Be Western Haynesville's Lowest-Cost Producer",
+      "source": "Energy Intelligence",
+      "published": "2026-09-28",
+      "link": "https://www.energyintel.com/0000019b-9f55-d561-a59b-bfdf06210000",
+      "kind": "news"
+    },
+    {
+      "title": "Mitsubishi's Aethon deal is closed, and the Aethon-Adamas rename is now visible in permits, not just leases",
+      "source": "Play Intel",
+      "published": "2026-09-24",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Expand Energy's Western Haynesville bet keeps advancing on the ground, separate from its steady leasing pace",
+      "source": "Play Intel",
+      "published": "2026-09-24",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock Announces $1.65 Billion Strategic Partnership with SOCAR and $450 Million Drilling Joint Venture with Jerry Jones",
+      "source": "Comstock Resources",
+      "published": "2026-09-24",
+      "link": "https://investors.comstockresources.com/news-releases/news-release-details/comstock-announces-165-billion-strategic-partnership-socar-and",
+      "kind": "news"
+    },
+    {
+      "title": "SOCAR to Invest in Haynesville with Nearly $1.7B Comstock Partnership",
+      "source": "Rigzone",
+      "published": "2026-09-24",
+      "link": "https://www.rigzone.com/news/socar_to_invest_in_haynesville_with_nearly_17b_comstock_partnership-02-sep-2026-184523-article/",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock plans to cut debt with $1.65-B Haynesville stake sale to Azerbaijan's SOCAR",
+      "source": "PGJ",
+      "published": "2026-09-24",
+      "link": "https://pgjonline.com/news/2026/september/comstock-plans-to-cut-debt-with-165-b-haynesville-stake-sale-to-azerbaijans-socar",
+      "kind": "news"
+    },
+    {
+      "title": "Expand Energy Pushes into Emerging Western Haynesville with M&A",
+      "source": "Hart Energy",
+      "published": "2026-09-24",
+      "link": "https://www.hartenergy.com/energy-market-transactions/acquisitions-and-divestitures/he-expand-energy-western-haynesville-ma/",
+      "kind": "news"
+    },
+    {
+      "title": "Expand Tests Western Haynesville with Horizontal Well",
+      "source": "Hart Energy",
+      "published": "2026-09-24",
+      "link": "https://www.hartenergy.com/upstream/shale-plays/he-expand-western-haynesville-bossier-gas/",
+      "kind": "news"
+    },
+    {
+      "title": "Haynesville Natural Gas Renaissance or Mirage? Region's Rigs Bounce Back",
+      "source": "Natural Gas Intelligence",
+      "published": "2026-09-24",
+      "link": "https://naturalgasintel.com/news/haynesville-natural-gas-renaissance-or-mirage-regions-rigs-bounce-back/",
+      "kind": "news"
+    },
+    {
+      "title": "Mitsubishi's Aethon deal is fully closed, and the Aethon-Adamas rename is visible across both permits and leases simultaneously",
+      "source": "Play Intel",
+      "published": "2026-09-21",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Expand Energy (Chesapeake+Southwestern) remains the single biggest capital commitment in the play by dollars",
+      "source": "Play Intel",
+      "published": "2026-09-21",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock Resources Sells Stakes in Haynesville Assets to Azerbaijan, Creates Venture with Jerry Jones",
+      "source": "Texas Lawbook",
+      "published": "2026-09-21",
+      "link": "https://texaslawbook.net/comstock-resources-sells-stakes-in-haynesville-assets-to-azerbaijan-for-1-65b-creates-venture-with-jerry-jones/",
+      "kind": "news"
+    },
+    {
+      "title": "Chesapeake to rebrand as Expand Energy upon close of Southwestern merger",
+      "source": "Oil & Gas Journal",
+      "published": "2026-09-21",
+      "link": "https://www.ogj.com/general-interest/companies/article/55142756/chesapeake-to-rebrand-as-expand-energy-upon-close-of-southwestern-merger",
+      "kind": "news"
+    },
+    {
+      "title": "Close of Haynesville Shale Gas Asset in Louisiana",
+      "source": "JERA (JP)",
+      "published": "2026-09-21",
+      "link": "https://www.jera.co.jp/en/news/notice/20260213_2360",
+      "kind": "news"
+    },
+    {
+      "title": "Rockcliff III Buys East Texas Haynesville Assets from Pine Wave",
+      "source": "Hart Energy",
+      "published": "2026-09-21",
+      "link": "https://www.hartenergy.com/energy-market-transactions/acquisitions-and-divestitures/he-pine-wave-rockcliff-haynesville/",
+      "kind": "news"
+    },
+    {
+      "title": "Mitsubishi's $7.5B entry, and the Aethon-Adamas rename happening in real time",
+      "source": "Play Intel",
       "published": "2026-09-14",
-      "query": "Panola County Texas oil gas"
+      "link": null,
+      "kind": "insight"
     },
     {
-      "title": "What is the gross domestic product (GDP) in Rusk County, TX?",
-      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQNUpqVXFmM3pRV0MwQTdJZFZYV2tLbWdxcWo3RmQ2YnVxNFpjaDI1cnpfbktxazFqWHg0V1JoYk80ZFdSQUtXdU9MSFNLMW1ISnZHV0psUG5ieXVuLTk1VEp5V25RT1NiVmcwNi1EU0xoVlU4WFd6QzkwM2JrMGttVk02aXh6cXRTeGpuZnlFTV80dDJS?oc=5",
-      "source": "USAFacts",
-      "published": "2026-09-08",
-      "query": "Rusk County Texas oil gas"
+      "title": "Citadel's Apex is the most aggressive driller in the play",
+      "source": "Play Intel",
+      "published": "2026-09-14",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock sold LA acreage to fund a Western Haynesville push - with fresh Jones-family financing two weeks old",
+      "source": "Play Intel",
+      "published": "2026-09-14",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Expand Energy is spending more than half its 2026 budget here - and its new Western leasehold shows up as a name-level match in this week's filings",
+      "source": "Play Intel",
+      "published": "2026-09-14",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock secures Jones family financing for Haynesville drilling",
+      "source": "Drilling Contractor",
+      "published": "2026-09-14",
+      "link": "https://drillingcontractor.org/comstock-secures-jones-family-financing-for-haynesville-drilling-79771",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock to Double Western Haynesville Wells in 2026",
+      "source": "RBN Energy",
+      "published": "2026-09-14",
+      "link": "https://rbnenergy.com/daily-posts/analyst-insight/comstock-double-western-haynesville-wells-2026-advances-nextera-data",
+      "kind": "news"
+    },
+    {
+      "title": "Expand Energy's First Far Western Haynesville Wildcat",
+      "source": "Energy News Beat",
+      "published": "2026-09-14",
+      "link": "https://energynewsbeat.co/enb-publisher-picks/expand-energys-first-far-western-haynesville-wildcat-ips-27-5-mmcf-d/",
+      "kind": "news"
+    },
+    {
+      "title": "BP's Haynesville Natural Gas Results 'Improving'",
+      "source": "Natural Gas Intelligence",
+      "published": "2026-09-14",
+      "link": "https://naturalgasintel.com/news/bps-haynesville-natural-gas-results-improving-but-prices-to-determine-direction-in-26-says-ceo/",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock strikes $1.65 billion SOCAR deal, $450 million Haynesville drilling JV",
+      "source": "World Oil",
+      "published": "2026-09-01",
+      "link": "https://www.worldoil.com/news/2026/9/1/comstock-strikes-1-65-billion-socar-deal-450-million-haynesville-drilling-jv/",
+      "kind": "news"
     }
   ],
   "market": {
@@ -4287,12 +4673,13 @@
       "week_ending": "2026-09-25"
     },
     "source": "U.S. EIA",
-    "as_of": "2026-10-04T11:46:53"
+    "as_of": "2026-10-05T10:20:23"
   },
   "meta": {
     "client": "Sabine Energy",
     "client_short": "Sabine",
     "tab_label": "Lagniappe",
-    "news_label": "Lagniappe News"
+    "news_label": "Lagniappe News",
+    "own_operator_pattern": "^\\s*SABINE\\b"
   }
 }

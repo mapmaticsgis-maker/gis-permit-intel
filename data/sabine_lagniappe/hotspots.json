@@ -1,22 +1,8 @@
 {
-  "generated": "2026-10-04T11:49:42",
+  "generated": "2026-10-05T10:23:40",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
-    {
-      "prospect": "Caspiana",
-      "lon": -94.10188,
-      "lat": 32.1605,
-      "score": 66,
-      "tier": "med",
-      "stages": [
-        "leasing",
-        "water"
-      ],
-      "n_signals": 2,
-      "operator": "Tgnr Panola Llc",
-      "why": "Emerging: two stages within 1 mi -- leasing: Tgnr Panola Llc lease, 196 ac; water: 7 ac new frac/water pond (unconfirmed)."
-    },
     {
       "prospect": "Hill",
       "lon": -94.45767,
@@ -28,8 +14,22 @@
         "site prep"
       ],
       "n_signals": 8,
-      "operator": "Crain Energy",
-      "why": "Emerging: two stages within 1 mi -- leasing: Crain Energy lease, 79 ac; site prep: 10.7 ac new clearing (unconfirmed). Crain Energy is behind 7 of them."
+      "operator": "CRAIN ENERGY",
+      "why": "Emerging: two stages within 1 mi -- leasing: CRAIN ENERGY lease, 79 ac; site prep: 10.9 ac new clearing (unconfirmed). CRAIN ENERGY is behind 7 of them."
+    },
+    {
+      "prospect": "Caspiana",
+      "lon": -94.10196,
+      "lat": 32.16034,
+      "score": 63,
+      "tier": "med",
+      "stages": [
+        "leasing",
+        "water"
+      ],
+      "n_signals": 2,
+      "operator": "TGNR PANOLA LLC",
+      "why": "Emerging: two stages within 1 mi -- leasing: TGNR PANOLA LLC lease, 196 ac; water: 7 ac new frac/water pond (unconfirmed)."
     },
     {
       "prospect": "Caspiana",
