@@ -1,35 +1,21 @@
 {
-  "generated": "2026-10-06T10:24:49",
+  "generated": "2026-10-07T10:25:37",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
     {
-      "prospect": "Hill",
-      "lon": -94.45767,
-      "lat": 32.33488,
-      "score": 64,
+      "prospect": "White Cliff",
+      "lon": -94.94663,
+      "lat": 32.25056,
+      "score": 96,
       "tier": "med",
       "stages": [
-        "leasing",
-        "site prep"
+        "permitting",
+        "drilling"
       ],
-      "n_signals": 8,
-      "operator": "CRAIN ENERGY",
-      "why": "Emerging: two stages within 1 mi -- leasing: CRAIN ENERGY lease, 79 ac; site prep: 10.9 ac new clearing (unconfirmed). CRAIN ENERGY is behind 7 of them."
-    },
-    {
-      "prospect": "Caspiana",
-      "lon": -94.10196,
-      "lat": 32.16034,
-      "score": 63,
-      "tier": "med",
-      "stages": [
-        "leasing",
-        "water"
-      ],
-      "n_signals": 2,
-      "operator": "TGNR PANOLA LLC",
-      "why": "Emerging: two stages within 1 mi -- leasing: TGNR PANOLA LLC lease, 196 ac; water: 7 ac new frac/water pond (unconfirmed)."
+      "n_signals": 5,
+      "operator": "RFE OPERATING, LLC",
+      "why": "Emerging: two stages within 1 mi -- permitting: RFE OPERATING, LLC permit; drilling: RFE OPERATING, LLC rig (active). RFE OPERATING, LLC is behind 4 of them."
     },
     {
       "prospect": "Caspiana",
@@ -43,7 +29,7 @@
       ],
       "n_signals": 2,
       "operator": null,
-      "why": "Emerging: two stages within 1 mi -- site prep: 1.7 ac new clearing (unconfirmed); water: 1.1 ac new frac/water pond (unconfirmed)."
+      "why": "Emerging: two stages within 1 mi -- site prep: 1.7 ac new clearing (unconfirmed); water: 1 ac new frac/water pond (unconfirmed)."
     }
   ]
 }
