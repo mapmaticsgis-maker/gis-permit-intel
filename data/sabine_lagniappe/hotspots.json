@@ -1,13 +1,13 @@
 {
-  "generated": "2026-10-07T10:25:37",
+  "generated": "2026-10-10T08:11:41",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
     {
       "prospect": "White Cliff",
-      "lon": -94.94663,
+      "lon": -94.94662,
       "lat": 32.25056,
-      "score": 96,
+      "score": 93,
       "tier": "med",
       "stages": [
         "permitting",
@@ -16,6 +16,20 @@
       "n_signals": 5,
       "operator": "RFE OPERATING, LLC",
       "why": "Emerging: two stages within 1 mi -- permitting: RFE OPERATING, LLC permit; drilling: RFE OPERATING, LLC rig (active). RFE OPERATING, LLC is behind 4 of them."
+    },
+    {
+      "prospect": "Hill",
+      "lon": -94.49843,
+      "lat": 32.32776,
+      "score": 58,
+      "tier": "med",
+      "stages": [
+        "site prep",
+        "water"
+      ],
+      "n_signals": 2,
+      "operator": null,
+      "why": "Emerging: two stages within 1 mi -- site prep: 7.8 ac new clearing (unconfirmed); water: 0.9 ac new frac/water pond (unconfirmed)."
     },
     {
       "prospect": "Caspiana",
