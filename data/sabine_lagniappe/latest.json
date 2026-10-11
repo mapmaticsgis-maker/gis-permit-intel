@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-10T08:04:08",
+  "generated": "2026-10-10T20:46:18",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -5602,14 +5602,6 @@
       "tags": []
     },
     {
-      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
-      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
-      "source": "EnergyNow.com",
-      "published": "2026-10-09",
-      "query": "Expand Energy Haynesville",
-      "tags": []
-    },
-    {
       "title": "Billion dollar changes in the Haynesville Shale, energy prices expected to stay high",
       "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOY2NKOGx6VkljbnItYjlWeGl6MzZENEZ3d280TUtoMkJJXzNOeS1qcThyM0lhZjNYZXdDS3NkMmlMM2xTRGdwV1B3bWhrNk9JSkdlZlhKZlJaS3RFRDNyQkx5SUl2SVNqcHM5c1FqMzBIQnI0YWxwYm5QUGUzUDlHVmhIaUtCS1p4Ul81V25FYXNEZnNtWW1FTGtBOEZWbUwwOGJnM0FPS2ZwMjZHQWgwSGF4a1FGaG9TTVBJOUhNdzZISVRheEZDb1g4T0l0LUJpQ2Y2SlRYSGlka0xWTnhLd2ZtLXhPNy11VjZIQkcxSzAzdlExeEhDUHZR?oc=5",
       "source": "The Shreveport-Bossier City Advocate",
@@ -5695,6 +5687,14 @@
       "source": "bp global",
       "published": "2026-09-09",
       "query": "BPX Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Williams wraps up $5.5 billion deal to expand Haynesville holdings",
+      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQc0RkWmFhUE96b0xaOFB3QVlJekRwdHVwRTAweFVQUWY1UEhtZEg4NVhoOWM1Zi1scFFLWnhWTnROaTJaaHI1OExPb25pVmV3azhidWg1NW9xNndrVHpQV0JvNHQzcWpRaWl3bHJwWUlyRXdYZ0VJV1VhY0dvQjIycUhBZUgteGxUMmdIdHpDYXJ2TmxoSXJTc01vRTZfTkJCQ1E?oc=5",
+      "source": "Oklahoma Energy Today",
+      "published": "2026-09-06",
+      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
@@ -6137,7 +6137,7 @@
       "week_ending": "2026-10-02"
     },
     "source": "U.S. EIA",
-    "as_of": "2026-10-10T08:04:08"
+    "as_of": "2026-10-10T20:46:18"
   },
   "meta": {
     "client": "Sabine Energy",
