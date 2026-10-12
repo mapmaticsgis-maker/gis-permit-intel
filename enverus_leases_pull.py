@@ -1,7 +1,7 @@
 r"""
-New oil & gas lease filings, from Enverus LandTrac's point-based "Leases"
-layer -- exported manually and dropped into data/enverus_lease_point/
-(no public API for this; see LandTrac's Map View -> Map Tools -> Download
+New oil & gas lease filings, from Enverus lease points
+("Leases" layer) -- exported manually and dropped into data/enverus_lease_point/
+(no public API for this; see Map View -> Map Tools -> Download
 Shape File). This is the earliest-available BD signal in the whole
 pipeline: a lease filing usually precedes a drilling permit by months.
 
@@ -18,7 +18,7 @@ trail of which files were processed when -- it does not gate processing,
 since reprocessing the same file is already harmless (every row in it
 would already be in seen_hashes.csv).
 
-Schema confirmed 2026-09-13 against a real LandTrac LA export (41 columns
+Schema confirmed 2026-09-13 against a real lease points LA export (41 columns
 in the full-history version of this export; the same core columns are
 used here regardless of window length). Key fields: State/Province,
 County/Parish, DI Basin, DI Play, Grantor, Grantee, Grantee Alias,
@@ -141,8 +141,28 @@ def _newest_files(lease_dir: Path) -> list[Path]:
                   key=lambda p: p.stat().st_mtime, reverse=True)
 
 
+COORD_MARKER = "itude"  # Latitude/Longitude columns, whichever datum the export used
+
+
+def _row_keys(df: pd.DataFrame) -> pd.Series:
+    """Datum-independent row identity. the export flips between NAD27 and WGS84
+    lat/long exports, so coordinates can't be hashed (every row looks new).
+    Rows identical in all other columns are distinct tracts, so each gets an
+    occurrence index: a lease is 'new' only when its count of identical rows
+    grows."""
+    cols = [c for c in df.columns if COORD_MARKER not in c and c != "_hash"]
+    h = row_hash(df, cols)
+    return h + "#" + h.groupby(h).cumcount().astype(str)
+
+
+def _reset_seen(cfg, keys) -> None:
+    p = _seen_path(cfg)
+    today = dt.date.today().isoformat()
+    pd.DataFrame({"lease_hash": sorted(keys), "first_seen_date": today}).to_csv(p, index=False)
+
+
 def _load(path: Path) -> pd.DataFrame:
-    """Loads every column LandTrac exports, not just the ones the digest
+    """Loads every column the lease points export has, not just the ones the digest
     displays. Confirmed 2026-09-13 against a real file: two rows can share
     the same grantor/grantee/record-number/dates and still be genuinely
     different tracts (different Section/Township/Range, different lat/
@@ -219,6 +239,7 @@ def main() -> int:
     combined_raw = []
     for path in files:
         df = _load(path)
+        df["_hash"] = _row_keys(df)  # per file: occurrence index must not span files
         combined_raw.append(df)
         append_ingestion(
             cfg["data_dir"], LEDGER_STATE,
@@ -229,10 +250,17 @@ def main() -> int:
         print(f"Ingested {path.name}: {len(df)} rows")
 
     combined = pd.concat(combined_raw, ignore_index=True)
-    combined["_hash"] = row_hash(combined, list(combined.columns))
     combined = combined.drop_duplicates("_hash")
 
     seen = _load_seen(cfg)
+    if seen and not any("#" in h for h in seen):
+        # One-time migration from the old all-column hashes (which included
+        # lat/long and so broke when the export switched NAD27 <-> WGS84).
+        # Rebuild the store from every export except the newest.
+        seen = set()
+        for old_df in combined_raw[1:]:
+            seen |= set(old_df["_hash"])
+        _reset_seen(cfg, seen)
     new_rows = combined[~combined["_hash"].isin(seen)].copy()
     # Only the genuinely new hashes -- appending combined's full set every run
     # (this session's first version of this script did exactly that) re-adds
@@ -248,7 +276,7 @@ def main() -> int:
     new_rows.to_csv(outd / "new_leases.csv", index=False)
 
     text = build_digest(new_rows, cfg)
-    text += ("\n\n---\n_Source: Enverus LandTrac (point-based Leases layer), manually exported daily "
+    text += ("\n\n---\n_Source: Enverus lease points, manually exported daily "
               "as a rolling 3-month LA+TX window -- not part of the automated Enverus Developer API "
               "pull above. Record Date lags actual county recording by roughly 6 weeks in past "
               f"samples -- an early signal, not same-day. {len(combined)} total rows in today's "
