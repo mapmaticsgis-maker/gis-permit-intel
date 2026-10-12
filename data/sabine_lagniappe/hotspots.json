@@ -1,11 +1,11 @@
 {
-  "generated": "2026-10-10T20:57:14",
+  "generated": "2026-10-12T17:30:52",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
     {
       "prospect": "White Cliff",
-      "lon": -94.94662,
+      "lon": -94.94663,
       "lat": 32.25056,
       "score": 93,
       "tier": "med",
@@ -19,7 +19,7 @@
     },
     {
       "prospect": "Hill",
-      "lon": -94.49843,
+      "lon": -94.49845,
       "lat": 32.32776,
       "score": 58,
       "tier": "med",
@@ -29,7 +29,7 @@
       ],
       "n_signals": 2,
       "operator": null,
-      "why": "Emerging: two stages within 1 mi -- site prep: 7.8 ac new clearing (unconfirmed); water: 0.9 ac new frac/water pond (unconfirmed)."
+      "why": "Emerging: two stages within 1 mi -- site prep: 8.1 ac new clearing (unconfirmed); water: 0.9 ac new frac/water pond (unconfirmed)."
     },
     {
       "prospect": "Caspiana",

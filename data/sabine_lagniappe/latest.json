@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-10T20:46:18",
+  "generated": "2026-10-12T17:25:40",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1518,9 +1518,9 @@
           "state": "TX",
           "contractor": "Scandrill",
           "active": true,
-          "days_on_location": 13,
-          "lon": -94.9273071,
-          "lat": 32.1297972,
+          "days_on_location": 16,
+          "lon": -94.9273072,
+          "lat": 32.1297964,
           "score": 38,
           "tier": "own",
           "why": "Sabine's own rig, 1.2 mi N of Coleman."
@@ -5397,12 +5397,12 @@
           "state": "TX",
           "contractor": "Basin Drilling, LP",
           "active": true,
-          "days_on_location": 7,
+          "days_on_location": 10,
           "lon": -94.0468361,
           "lat": 32.1905062,
           "score": 65,
           "tier": "high",
-          "why": "Rig drilling now inside Caspiana, 7 days on location."
+          "why": "Rig drilling now inside Caspiana, 10 days on location."
         }
       ]
     },
@@ -5538,12 +5538,12 @@
           "state": "TX",
           "contractor": "Precision Drilling Corporation",
           "active": true,
-          "days_on_location": 13,
-          "lon": -94.9465172,
-          "lat": 32.2504493,
+          "days_on_location": 16,
+          "lon": -94.9465244,
+          "lat": 32.2504561,
           "score": 67,
           "tier": "high",
-          "why": "Rig drilling now 1.5 mi NW of White Cliff, 13 days on location. RFE OPERATING, has 4 filings near White Cliff."
+          "why": "Rig drilling now 1.5 mi NW of White Cliff, 16 days on location. RFE OPERATING, has 4 filings near White Cliff."
         },
         {
           "prospect": "White Cliff",
@@ -5594,10 +5594,18 @@
   },
   "news": [
     {
+      "title": "Rockcliff III Counters Haynesville Inventory Concerns with Shelby Trough Push",
+      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPTTZrcVJXbERmNEl2LXUxTWhENmNXbkFHTkpIcjdabTI4bkpqUFJIYktudVFpRVVlUTNCSGhxVTRud2tBU0JkWUluZklpcWNLdXMzdVFYYXBDcEJUNHpTRWpiaGhHU0FuX2cxdWZHRWxwcDJIWTZ2WFA4WXgzQUxrNHhzWVpJNWVQSTVfTUNB?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-10-12",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-09",
+      "published": "2026-10-11",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -5626,32 +5634,32 @@
       "tags": []
     },
     {
-      "title": "Trader Centalion acquires natural gas acreage in US shale plays",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPcGFQaHhGc3RfTUF1YmZZUm9Rc2k1ck4yT2hQTFc1aFBQMEF0YkhZdGV0dnZ6cWlJWWZEX3Rfd3dvYVhvV1pBNjFSTDFoc3ZsbThBZXphaEVmSEdkMkpJaXJLRWU4bTMxSXFZYjlzZWZ1MGRTcHp5eXFrcTZiaFl1WVZpSXZkNlVwenh2bk5pTElKZGhzbWs0UWc5V1J3QzJMYU9vX3FUUm5nanZmbFZTZ2tVWGE?oc=5",
-      "source": "Upstream Online",
+      "title": "Centalion acquires Haynesville natural gas assets from Silver Hill",
+      "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNWDl5eHd1X0JkVUtNejgtS2g4UkFPUnExWHp1WFVPU3JiYXBIOHVVekRHTFliVG9mVDNpOHUxLUZsdlR0OVFOQVZ1a0xzSHI3ME5EMktsSXJ3YUhEaDVlSHlMbkZQNGo4emtmUUNCVEVUTUxMUkhIR2ZPRGlmdG1NUW1DLUZHWm5naUIydktvcU9TQUNHT3dvVUNxMEZ5LV91VU9SNVBpUnN2dkxXU3RGWFNEeTNoVFRF?oc=5",
+      "source": "Reuters",
       "published": "2026-10-05",
-      "query": "Haynesville Shale",
+      "query": "\"Haynesville\" site:reuters.com",
       "tags": []
     },
     {
-      "title": "Comstock and SOCAR formalise $1.6bn Haynesville Shale partnership",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPZXZ6OUZseVQyeU5Vc2FXX1hzWlViU1RWbFBrRWNnOTRIT1ptSklZcWpWRm44cFk4VVlXYkFrcndYQzFhRFpiUWdaNm5kSzl6Zjg2SkZJS3p0Mndfc2F6elF1T0MzeDQ0MGVhSjhYeHBDRDVzc3NxUDlJeWZkTi0xb0VEWXJGU21WR19ObVhtcms?oc=5",
-      "source": "Yahoo Finance",
-      "published": "2026-09-29",
+      "title": "Comstock, Socar ink $1.65 billion Haynesville shale framework deal",
+      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNa0JJRDk2a05HUmNsbC1tbzFXbGpzWHFWeEFCYVF5OVF1dUF6WGZfNXh6TEU4aU5MTjZtUERuLXR1dHlaZmVHcHFvRk1rUTJ6TGFja2QzaXNxSkV0Y2FSZ0JKdVhOVC1LN0Fqd1BIc05oNDhlclpSTkJhVjQ4YnQ2TkQteS1RRFNlcFUweUdWM01BT3ZNNWdORXN6S2V1cTJCblRUU1p6ZTBRWl9EcTNQQy1YRnZBUQ?oc=5",
+      "source": "LNG Prime",
+      "published": "2026-09-30",
       "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Expand Energy Sees LNG Demand in Driver\u2019s Seat as Data Center Resistance Grows",
-      "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPVDJaMXJvMWRxb29YV2ZuYWc2WmFCUmFPMHNaS3gySGVFcHVKRF9pSTE0UUFXQ2t0RnBUTFc2MUd1YnJScGo2a3pNNl96bE1IQ3JKVnh3YW96NUl3S2NSNnA1LV80NkpjTUtHNmZxREw2MjBjTjFXMEkzZFRLVlhXMDEzRVpILTl3SWpIS0VwdXJQSmNQM0QyMTd5NmdGTWpfZmRrNzUtVnltVjlVOTNpdQ?oc=5",
-      "source": "Natural Gas Intelligence",
-      "published": "2026-09-23",
-      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
       "title": "INTERVIEW: Trinity Gas Storage plans hub to link Haynesville supply, power demand",
       "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxNdVVkTTRTYloyTWtkZTVLOG5YQ1llWXRhOW1uanpveU1tYmlRTlc0aTJ4aU1zZmhkR2psOEhWRUlMbVFmVnpqa29QYWlXdldyTF9BN2ctbnlTN2Q1WDFxMFdlSkp5Mk9aajJ3S3c0RjQ3Nk9mRDFyejB5UHI5cGcxSjc5cXE1WmE2R20xb3BwMUpDZXZmQlItMi1Lb1ZSOHN3TG5yWFVpT0F4UG5MS0xOY0lpcWlSTXZoRXd5U0lRUXRjUk1RUUFpZUV0Um9PSmp3Rk5qVWpBOHRhTFJLQ21SSzM4UkRrZzg2WmFKOVN0Tzg?oc=5",
+      "source": "S&P Global",
+      "published": "2026-09-21",
+      "query": "\"Haynesville\" site:spglobal.com",
+      "tags": []
+    },
+    {
+      "title": "TG Natural Resources LLC 'B+' Rating Affirmed; Outlook Stable; Liquidity Revised To Adequate",
+      "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOOEd0aFE4Qi1FWHN0MFNDc08yaFMzNURCQlNvQ0FIRF9haklwNGtTRmVyYVVkYjUxZkFuYWxJQXZnUHBXY3pWdjJ6MDVyLTJaZE9vd3pMUml5UGVEaWJGZExEdm1SbzJpSkxoNnJReXU0dHQxckV0VWo1c3lkdFBrTEZwQzk2ZlhLQWc?oc=5",
       "source": "S&P Global",
       "published": "2026-09-21",
       "query": "\"Haynesville\" site:spglobal.com",
@@ -5732,6 +5740,41 @@
   ],
   "brief_items": [
     {
+      "title": "Comstock-SOCAR still has not reached a definitive agreement, and the clock is now inside three weeks",
+      "source": "Play Intel",
+      "published": "2026-10-12",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Apex Natural Gas remains the play's most active driller; the rig count itself still can't be pinned to one number",
+      "source": "Play Intel",
+      "published": "2026-10-12",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock proposes $1.65-billion SOCAR partnership, $450-million Haynesville drilling venture",
+      "source": "Oil & Gas Journal",
+      "published": "2026-10-12",
+      "link": "https://www.ogj.com/general-interest/companies/news/55402558/comstock-inks-165-billion-socar-partnership-450-million-haynesville-drilling-venture",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock Announces Signing Of Framework Agreement For $1.65 Billion Strategic Partnership With SOCAR",
+      "source": "energydigital/GlobeNewswire",
+      "published": "2026-10-12",
+      "link": "https://energydigital.com/globenewswire/3369815",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
+      "source": "World Oil",
+      "published": "2026-10-12",
+      "link": "https://www.oilandgas360.com/comstock-socar-advance-1-65-billion-haynesville-partnership-with-framework-agreement/",
+      "kind": "news"
+    },
+    {
       "title": "Comstock Resources is both mid-transaction with a major LNG-linked partner and the largest or second-largest lessee in this file",
       "source": "Play Intel",
       "published": "2026-10-08",
@@ -5758,13 +5801,6 @@
       "published": "2026-10-08",
       "link": null,
       "kind": "insight"
-    },
-    {
-      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
-      "source": "World Oil",
-      "published": "2026-10-08",
-      "link": "https://www.oilandgas360.com/comstock-socar-advance-1-65-billion-haynesville-partnership-with-framework-agreement/",
-      "kind": "news"
     },
     {
       "title": "Apex expands, Comstock repositions in Haynesville shale",
@@ -5970,13 +6006,6 @@
       "kind": "insight"
     },
     {
-      "title": "Comstock Announces Signing of Framework Agreement for $1.65 Billion Strategic Partnership with SOCAR",
-      "source": "GlobeNewswire",
-      "published": "2026-09-28",
-      "link": "https://www.globenewswire.com/news-release/2026/09/28/3369815/0/en/comstock-announces-signing-of-framework-agreement-for-1-65-billion-strategic-partnership-with-socar.html",
-      "kind": "news"
-    },
-    {
       "title": "Comstock, SOCAR formalize $1.65B Haynesville shale deal",
       "source": "Investing.com",
       "published": "2026-09-28",
@@ -6137,7 +6166,7 @@
       "week_ending": "2026-10-02"
     },
     "source": "U.S. EIA",
-    "as_of": "2026-10-10T20:46:18"
+    "as_of": "2026-10-12T17:25:40"
   },
   "meta": {
     "client": "Sabine Energy",
