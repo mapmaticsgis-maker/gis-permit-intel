@@ -1,25 +1,11 @@
 {
-  "generated": "2026-10-12T17:30:52",
+  "generated": "2026-10-13T10:25:17",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
     {
-      "prospect": "White Cliff",
-      "lon": -94.94663,
-      "lat": 32.25056,
-      "score": 93,
-      "tier": "med",
-      "stages": [
-        "permitting",
-        "drilling"
-      ],
-      "n_signals": 5,
-      "operator": "RFE OPERATING, LLC",
-      "why": "Emerging: two stages within 1 mi -- permitting: RFE OPERATING, LLC permit; drilling: RFE OPERATING, LLC rig (active). RFE OPERATING, LLC is behind 4 of them."
-    },
-    {
       "prospect": "Hill",
-      "lon": -94.49845,
+      "lon": -94.49844,
       "lat": 32.32776,
       "score": 58,
       "tier": "med",
@@ -29,7 +15,7 @@
       ],
       "n_signals": 2,
       "operator": null,
-      "why": "Emerging: two stages within 1 mi -- site prep: 8.1 ac new clearing (unconfirmed); water: 0.9 ac new frac/water pond (unconfirmed)."
+      "why": "Emerging: two stages within 1 mi -- site prep: 8.2 ac new clearing (unconfirmed); water: 0.9 ac new frac/water pond (unconfirmed)."
     },
     {
       "prospect": "Caspiana",
@@ -44,6 +30,20 @@
       "n_signals": 2,
       "operator": null,
       "why": "Emerging: two stages within 1 mi -- site prep: 1.7 ac new clearing (unconfirmed); water: 1 ac new frac/water pond (unconfirmed)."
+    },
+    {
+      "prospect": "Caspiana",
+      "lon": -94.10217,
+      "lat": 32.15989,
+      "score": 57,
+      "tier": "med",
+      "stages": [
+        "leasing",
+        "water"
+      ],
+      "n_signals": 2,
+      "operator": "TGNR PANOLA LLC",
+      "why": "Emerging: two stages within 1 mi -- leasing: TGNR PANOLA LLC lease, 196 ac; water: 7.2 ac new frac/water pond (unconfirmed)."
     }
   ]
 }
