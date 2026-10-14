@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-13T10:20:28",
+  "generated": "2026-10-14T10:20:42",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1539,27 +1539,9 @@
           "state": "TX",
           "contractor": "Scandrill",
           "active": true,
-          "days_on_location": 17,
-          "lon": -94.9273061,
-          "lat": 32.1297968,
-          "score": 38,
-          "tier": "own",
-          "why": "Sabine's own rig, 1.2 mi N of Coleman."
-        },
-        {
-          "prospect": "Coleman",
-          "type": "rig",
-          "distance_mi": 1.2,
-          "bearing": "N",
-          "date": "2026-09-22",
-          "operator": "SABINE ENERGY INC.",
-          "county": "RUSK",
-          "state": "TX",
-          "contractor": "Scandrill",
-          "active": true,
-          "days_on_location": 3,
-          "lon": -94.9273036,
-          "lat": 32.1297848,
+          "days_on_location": 18,
+          "lon": -94.9273081,
+          "lat": 32.1297994,
           "score": 38,
           "tier": "own",
           "why": "Sabine's own rig, 1.2 mi N of Coleman."
@@ -1583,6 +1565,24 @@
           "score": 31,
           "tier": "own",
           "why": "Sabine-side lease filing, inside Coleman."
+        },
+        {
+          "prospect": "Coleman",
+          "type": "rig",
+          "distance_mi": 1.2,
+          "bearing": "N",
+          "date": "2026-09-22",
+          "operator": "SABINE ENERGY INC.",
+          "county": "RUSK",
+          "state": "TX",
+          "contractor": "Scandrill",
+          "active": true,
+          "days_on_location": 3,
+          "lon": -94.9273036,
+          "lat": 32.1297848,
+          "score": 30,
+          "tier": "own",
+          "why": "Sabine's own rig, 1.2 mi N of Coleman."
         },
         {
           "prospect": "Coleman",
@@ -5974,12 +5974,12 @@
           "state": "TX",
           "contractor": "Basin Drilling, LP",
           "active": true,
-          "days_on_location": 11,
+          "days_on_location": 12,
           "lon": -94.0468361,
           "lat": 32.1905062,
           "score": 70,
           "tier": "high",
-          "why": "Rig drilling now inside Caspiana, 11 days on location. TGNR PANOLA has 2 filings near Caspiana."
+          "why": "Rig drilling now inside Caspiana, 12 days on location. TGNR PANOLA has 2 filings near Caspiana."
         },
         {
           "prospect": "Caspiana",
@@ -6026,9 +6026,17 @@
   },
   "news": [
     {
-      "title": "LNG Exports Call for Gas. The Haynesville Will Answer",
-      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOc1BvTkowQklteXlGX0hzY3EwTWFQd252V1pIblFOSWoyckF4SHdqV3VYcVF6Q1FMUjRodklfbmNiOVdlZkU3cV9KdzlhaE10Ri11ajQ0OGRXZVNkejdPam03TE12RHhyWHlxc1MybEY1VmI3cm9pbWJvbWN3WldRUnVkWWczX3djY0pxdDU3c05reXFubDFYNHd5dVNUWE96WWllSjBxTErSAa4BQVVfeXFMTjAwYkNVZjlaNkwxbk55NjZIMlk4SVUwS0FRcVRvM3owRHhIS3daYnk3OFo5YWc1Qk1vS1VKY05mS083YUhORW5qc25IMVpzZ1Zzd3VRT05OUTZqdDhrNTI3QkRTNUlNRmFUNUdqNFM1Z3VmX25kemM0TTlzRUtESzNtRTRyR2JKVXFvSVJxYy1pMU1rR3RKVTNWOFZ2c1lrTVhqMm40M3BQY2huS0l3?oc=5",
-      "source": "ETF Trends",
+      "title": "Drilling report: Sept. 27-Oct. 3, 2026",
+      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE43V0J5M2hUdVczcFRrSVRmOGVrcnBoRFgzdUd4S01FbVRQcUhmLVh3ZGZ5anNMTjVHU1VPYVdJZDFKTi15d29MczFWY2EzWldldC05MVJpLUh3d05zNnVFekxvanlpYkI1UU9jaThCVjFleHM4eE5JbHhJVQ?oc=5",
+      "source": "Longview News-Journal",
+      "published": "2026-10-14",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "Haynesville Shale Gas Inventory: Gulf Access Versus Inventory Quality",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOLS1PaG9mMXhqMHh1YWRnSWl1ZVc1RkhxTFRNSmpGUllILTdXS2lKQklyb2Y2cHN0ay0wbVROam5mYmcxZFJtVzJuUVpUTHptelUtdjZTVDRuQ3QzbGd5NEw5MXIyXzRrTFNxd2tnd0wzQ0NkSGZrMnhmNUhPaWZaRlY1QTJkZzRLVlFYajhLb2dFazRRRVQ2cmJheHVYZUtQMEg3a3B2Rlo?oc=5",
+      "source": "Enverus",
       "published": "2026-10-13",
       "query": "Haynesville Shale",
       "tags": []
@@ -6037,7 +6045,15 @@
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-12",
+      "published": "2026-10-13",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "LNG Exports Call for Gas. The Haynesville Will Answer",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOc1BvTkowQklteXlGX0hzY3EwTWFQd252V1pIblFOSWoyckF4SHdqV3VYcVF6Q1FMUjRodklfbmNiOVdlZkU3cV9KdzlhaE10Ri11ajQ0OGRXZVNkejdPam03TE12RHhyWHlxc1MybEY1VmI3cm9pbWJvbWN3WldRUnVkWWczX3djY0pxdDU3c05reXFubDFYNHd5dVNUWE96WWllSjBxTErSAa4BQVVfeXFMTjAwYkNVZjlaNkwxbk55NjZIMlk4SVUwS0FRcVRvM3owRHhIS3daYnk3OFo5YWc1Qk1vS1VKY05mS083YUhORW5qc25IMVpzZ1Zzd3VRT05OUTZqdDhrNTI3QkRTNUlNRmFUNUdqNFM1Z3VmX25kemM0TTlzRUtESzNtRTRyR2JKVXFvSVJxYy1pMU1rR3RKVTNWOFZ2c1lrTVhqMm40M3BQY2huS0l3?oc=5",
+      "source": "ETF Trends",
+      "published": "2026-10-13",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -6050,19 +6066,19 @@
       "tags": []
     },
     {
+      "title": "Business Beat: Longview extended stay hotel preps for opening",
+      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOLUUxNDVyb0hQN19LWm1ldEs1XzduaFJRVW9mV2RBR1MtTlRQMTJ1OWFqTmZPNmVic1VTQ0lkNDFVQ3k2UXpyLXJoWmJjalhSTnQzLWFxTW9fWmc2MzlmVEdhcVdDaHJHQWpTUXAwNkUzeW5KTVBnTFVTa1VlcUMtUm5RTUp1dnU0RWdtX1puNklKa3E4Q3kzSDF3VWZzQQ?oc=5",
+      "source": "Longview News-Journal",
+      "published": "2026-10-12",
+      "query": "\"Drilling report\" site:news-journal.com",
+      "tags": []
+    },
+    {
       "title": "Billion dollar changes in the Haynesville Shale, energy prices expected to stay high",
       "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOY2NKOGx6VkljbnItYjlWeGl6MzZENEZ3d280TUtoMkJJXzNOeS1qcThyM0lhZjNYZXdDS3NkMmlMM2xTRGdwV1B3bWhrNk9JSkdlZlhKZlJaS3RFRDNyQkx5SUl2SVNqcHM5c1FqMzBIQnI0YWxwYm5QUGUzUDlHVmhIaUtCS1p4Ul81V25FYXNEZnNtWW1FTGtBOEZWbUwwOGJnM0FPS2ZwMjZHQWgwSGF4a1FGaG9TTVBJOUhNdzZISVRheEZDb1g4T0l0LUJpQ2Y2SlRYSGlka0xWTnhLd2ZtLXhPNy11VjZIQkcxSzAzdlExeEhDUHZR?oc=5",
       "source": "The Shreveport-Bossier City Advocate",
       "published": "2026-10-08",
       "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Drilling report: Sept. 20-26, 2026",
-      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBMY1dNWkVPd0tydElzU2VIalM4NTk0OS1Tbmh6LVpDM0s3a2VuRDVmNVdSaExkdkk1aEQtMThqT0Z6cF82dnQtLTRCRktxTVladGU1UkV3ZnFZdTN2X3V2aVRDQlhxVkx0a0x4QUNpRkFTY1c4?oc=5",
-      "source": "Tyler Morning Telegraph",
-      "published": "2026-10-07",
-      "query": "\"Drilling report\" site:tylerpaper.com",
       "tags": []
     },
     {
@@ -6082,11 +6098,11 @@
       "tags": []
     },
     {
-      "title": "Comstock, Socar ink $1.65 billion Haynesville shale framework deal",
-      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNa0JJRDk2a05HUmNsbC1tbzFXbGpzWHFWeEFCYVF5OVF1dUF6WGZfNXh6TEU4aU5MTjZtUERuLXR1dHlaZmVHcHFvRk1rUTJ6TGFja2QzaXNxSkV0Y2FSZ0JKdVhOVC1LN0Fqd1BIc05oNDhlclpSTkJhVjQ4YnQ2TkQteS1RRFNlcFUweUdWM01BT3ZNNWdORXN6S2V1cTJCblRUU1p6ZTBRWl9EcTNQQy1YRnZBUQ?oc=5",
-      "source": "LNG Prime",
-      "published": "2026-09-30",
-      "query": "Haynesville Shale",
+      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
+      "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPcWd3UHNBZ1BMS2RPOGQyekVtYnNfTzROdF9TbGJHSUxYc09SS2RhNUVYMnZPR2FCaEhNV2JVVl9LUGpvNzZfNmd2Z18wcHRKZFh5TTlPRkZFdXJubnBjb2k5YzlNaDNBbmpyckZESTd1OWJrVjJSUlU2SGo0VUFXM2lOdTVkS1JlNjFKWXVLcVItaENneGZERnZ4Nkl5MWJZcmxSczJyRThmR3pQYThRTXFvbEtIenU1LWdMUzkwdlhlaDg?oc=5",
+      "source": "World Oil",
+      "published": "2026-09-28",
+      "query": "Haynesville site:worldoil.com",
       "tags": []
     },
     {
@@ -6103,6 +6119,14 @@
       "source": "S&P Global",
       "published": "2026-09-21",
       "query": "\"Haynesville\" site:spglobal.com",
+      "tags": []
+    },
+    {
+      "title": "Technology Extends Haynesville Runway as Operators Unlock More Value from Existing Acreage",
+      "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOd3A3SFk1X2NsWnl5Wm53dXpTZXF4WnN3RmZtQWoxOTVRMDVhcXlGT3h0aWRpSUJ2ekk2LU9MLWpyNVRublZGSmNGNFFRbHJ6OVMzYnAxZmJXblAwRURDR2JMT1JTM2xhRDVzQS1pNkhYWEZiX1hrM01RZFhVcmVGVzI5eFRCM2xYeWJv?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-09-16",
+      "query": "\"Haynesville\" site:hartenergy.com",
       "tags": []
     },
     {
@@ -6132,7 +6156,7 @@
     {
       "title": "bpx energy",
       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE05M2c4c2RHdWF4Qng1X05oMmxwRDJuS2daVlpoVHNoWV9IR0Y0UGJhVlN4V0IwVEt6OWlzUU05ZlhiVGNFMlNwczRUWUJmN0NiMWJVNllkR0g3TlE1QUJyMEp6bjVVcXZRWjE1UnNCdHNoQ1BKeVE?oc=5",
-      "source": "bp global",
+      "source": "BP",
       "published": "2026-09-09",
       "query": "BPX Energy Haynesville",
       "tags": []
@@ -6147,7 +6171,7 @@
     },
     {
       "title": "Haynesville shale: Calculated re-engagement characterizes operator behavior",
-      "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPanMwVUpIZzFkTk5VeGl3SVNfbm5aU3lxWDNBNnZaNjFDdVQ5dS1RbVVVc21RX3lpbFdQcmxlZWdDT0pVejBwTWxtT0NXRXBTd2Joa1NpcWctajhJRV9KZUQyRnNKZmhxaVJFaU5KNDZnWjctSUxRMVE5cjFvMGlrb1RlVHc4akN1Ul9FcVdKTGNTbllPZHlfeFB0cU1SNVVPekZYY0VrSnhZa2FDRlZZQXZNODRheFRXV01QcHNnTkhlTnBu?oc=5",
+      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOdk1Eb0lLcTN1MS1CS3pYVnotSXFYdFJ1NEFvLUZ1eFNhcEpxaElvcFNyeFkyVjJPMGlLUC1PMFVKMlhxZGdieTVTdVAtOXV3MnVxUDd2T3ktZ0s1WGtUZ2liT3BMS00xdWNrNFJOdVdSWDNHblhtVTNDRW11RDhVYjlRZE1BalliN2pOVEpFcjFkUVR6LURQbFNjV1YxYmJUeXJKSVIyRVpHUzFZdjFvN2ZGNjZWTWRSMUFIaEtmQ3Npb1NwU0E0NnRR?oc=5",
       "source": "World Oil",
       "published": "2026-08-29",
       "query": "Haynesville site:worldoil.com",
@@ -6564,7 +6588,7 @@
       "week_ending": "2026-10-02"
     },
     "source": "U.S. EIA",
-    "as_of": "2026-10-13T10:20:28"
+    "as_of": "2026-10-14T10:20:42"
   },
   "meta": {
     "client": "Sabine Energy",
