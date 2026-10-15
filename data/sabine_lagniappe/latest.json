@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T10:20:42",
+  "generated": "2026-10-15T10:20:52",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1539,9 +1539,9 @@
           "state": "TX",
           "contractor": "Scandrill",
           "active": true,
-          "days_on_location": 18,
-          "lon": -94.9273081,
-          "lat": 32.1297994,
+          "days_on_location": 19,
+          "lon": -94.927307,
+          "lat": 32.1298004,
           "score": 38,
           "tier": "own",
           "why": "Sabine's own rig, 1.2 mi N of Coleman."
@@ -5974,12 +5974,12 @@
           "state": "TX",
           "contractor": "Basin Drilling, LP",
           "active": true,
-          "days_on_location": 12,
+          "days_on_location": 13,
           "lon": -94.0468361,
           "lat": 32.1905062,
           "score": 70,
           "tier": "high",
-          "why": "Rig drilling now inside Caspiana, 12 days on location. TGNR PANOLA has 2 filings near Caspiana."
+          "why": "Rig drilling now inside Caspiana, 13 days on location. TGNR PANOLA has 2 filings near Caspiana."
         },
         {
           "prospect": "Caspiana",
@@ -6026,6 +6026,14 @@
   },
   "news": [
     {
+      "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
+      "source": "EnergyNow.com",
+      "published": "2026-10-14",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
       "title": "Drilling report: Sept. 27-Oct. 3, 2026",
       "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE43V0J5M2hUdVczcFRrSVRmOGVrcnBoRFgzdUd4S01FbVRQcUhmLVh3ZGZ5anNMTjVHU1VPYVdJZDFKTi15d29MczFWY2EzWldldC05MVJpLUh3d05zNnVFekxvanlpYkI1UU9jaThCVjFleHM4eE5JbHhJVQ?oc=5",
       "source": "Longview News-Journal",
@@ -6034,19 +6042,11 @@
       "tags": []
     },
     {
-      "title": "Haynesville Shale Gas Inventory: Gulf Access Versus Inventory Quality",
-      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOLS1PaG9mMXhqMHh1YWRnSWl1ZVc1RkhxTFRNSmpGUllILTdXS2lKQklyb2Y2cHN0ay0wbVROam5mYmcxZFJtVzJuUVpUTHptelUtdjZTVDRuQ3QzbGd5NEw5MXIyXzRrTFNxd2tnd0wzQ0NkSGZrMnhmNUhPaWZaRlY1QTJkZzRLVlFYajhLb2dFazRRRVQ2cmJheHVYZUtQMEg3a3B2Rlo?oc=5",
-      "source": "Enverus",
-      "published": "2026-10-13",
-      "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
-      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
-      "source": "EnergyNow.com",
-      "published": "2026-10-13",
-      "query": "Haynesville Shale",
+      "title": "Centalion Boosts Haynesville Presence with Silver Hill Acquisition",
+      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPM18tOEZfd2dRSlB2eGw2UTJ1cTNrR3VjaHFpM01CMUpOT2NuWlk1Zjh4QTRhSy1zMGoybG9JQ1BnNDZTTnVGRVRqMjJlUjFKSkp6WkY3MkdUT3AwczFDd184eEFsN2pSM3E4blk0cklNSUswelRpQlR1Y0R5TjhycnNIRE1ZUXJmQllBaDB5bVhEb3RsNHFzQUdHbVJSbnRHSmxhTUZKNkt3TENMX212WVU0MlhJb3Npa2JSXzJBbXQ?oc=5",
+      "source": "Rigzone",
+      "published": "2026-10-14",
+      "query": "Haynesville acquisition acres",
       "tags": []
     },
     {
@@ -6066,14 +6066,6 @@
       "tags": []
     },
     {
-      "title": "Business Beat: Longview extended stay hotel preps for opening",
-      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOLUUxNDVyb0hQN19LWm1ldEs1XzduaFJRVW9mV2RBR1MtTlRQMTJ1OWFqTmZPNmVic1VTQ0lkNDFVQ3k2UXpyLXJoWmJjalhSTnQzLWFxTW9fWmc2MzlmVEdhcVdDaHJHQWpTUXAwNkUzeW5KTVBnTFVTa1VlcUMtUm5RTUp1dnU0RWdtX1puNklKa3E4Q3kzSDF3VWZzQQ?oc=5",
-      "source": "Longview News-Journal",
-      "published": "2026-10-12",
-      "query": "\"Drilling report\" site:news-journal.com",
-      "tags": []
-    },
-    {
       "title": "Billion dollar changes in the Haynesville Shale, energy prices expected to stay high",
       "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOY2NKOGx6VkljbnItYjlWeGl6MzZENEZ3d280TUtoMkJJXzNOeS1qcThyM0lhZjNYZXdDS3NkMmlMM2xTRGdwV1B3bWhrNk9JSkdlZlhKZlJaS3RFRDNyQkx5SUl2SVNqcHM5c1FqMzBIQnI0YWxwYm5QUGUzUDlHVmhIaUtCS1p4Ul81V25FYXNEZnNtWW1FTGtBOEZWbUwwOGJnM0FPS2ZwMjZHQWgwSGF4a1FGaG9TTVBJOUhNdzZISVRheEZDb1g4T0l0LUJpQ2Y2SlRYSGlka0xWTnhLd2ZtLXhPNy11VjZIQkcxSzAzdlExeEhDUHZR?oc=5",
       "source": "The Shreveport-Bossier City Advocate",
@@ -6087,14 +6079,6 @@
       "source": "Natural Gas Intelligence",
       "published": "2026-10-06",
       "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Trader Centalion acquires natural gas acreage in US shale plays",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPcGFQaHhGc3RfTUF1YmZZUm9Rc2k1ck4yT2hQTFc1aFBQMEF0YkhZdGV0dnZ6cWlJWWZEX3Rfd3dvYVhvV1pBNjFSTDFoc3ZsbThBZXphaEVmSEdkMkpJaXJLRWU4bTMxSXFZYjlzZWZ1MGRTcHp5eXFrcTZiaFl1WVZpSXZkNlVwenh2bk5pTElKZGhzbWs0UWc5V1J3QzJMYU9vX3FUUm5nanZmbFZTZ2tVWGE?oc=5",
-      "source": "Upstream Online",
-      "published": "2026-10-05",
-      "query": "Haynesville acquisition acres",
       "tags": []
     },
     {
@@ -6126,7 +6110,7 @@
       "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOd3A3SFk1X2NsWnl5Wm53dXpTZXF4WnN3RmZtQWoxOTVRMDVhcXlGT3h0aWRpSUJ2ekk2LU9MLWpyNVRublZGSmNGNFFRbHJ6OVMzYnAxZmJXblAwRURDR2JMT1JTM2xhRDVzQS1pNkhYWEZiX1hrM01RZFhVcmVGVzI5eFRCM2xYeWJv?oc=5",
       "source": "Hart Energy",
       "published": "2026-09-16",
-      "query": "\"Haynesville\" site:hartenergy.com",
+      "query": "BPX Energy Haynesville",
       "tags": []
     },
     {
@@ -6156,7 +6140,7 @@
     {
       "title": "bpx energy",
       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE05M2c4c2RHdWF4Qng1X05oMmxwRDJuS2daVlpoVHNoWV9IR0Y0UGJhVlN4V0IwVEt6OWlzUU05ZlhiVGNFMlNwczRUWUJmN0NiMWJVNllkR0g3TlE1QUJyMEp6bjVVcXZRWjE1UnNCdHNoQ1BKeVE?oc=5",
-      "source": "BP",
+      "source": "bp global",
       "published": "2026-09-09",
       "query": "BPX Energy Haynesville",
       "tags": []
@@ -6178,11 +6162,11 @@
       "tags": []
     },
     {
-      "title": "EXCLUSIVE: Gunvor in talks to buy Haynesville shale assets for over $1 billion, sources say",
-      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQTEI5WW5NakZZRUxpX2c3Y1JTQ2pCT2t0WUk3djNNREh5WlhIbC1mNjRqX2NYNU1pUm9haDc0dnFqWDJmM0RTYVotYWNfTVE2Z0ZiSFBZVUdrYm5wbWJXNE1MMUJZNF81dkl6RnUxWkZld1VrQ3dPblhjb2lHb252ZS01Z2I2VlJ2VHlOQUdXWjBWci1pX3FXOEp3LU5IWVZkenVrclBiR2IwZGZxOFBETkI4SnpYVEFTYWJvWGtR?oc=5",
-      "source": "Reuters",
-      "published": "2026-08-25",
-      "query": "Haynesville Shale",
+      "title": "Gunvor in Early Talks to Buy Silver Hill Haynesville Gas Assets for Up to $1.5 Billion",
+      "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE43YmVZeUVUdmZYY1dIaFdxSGxDdkxxS0JVbXpGZWc4UFVSWTVNckdtRFBqRUJUeEJ1QWtOcVFFY3hBQmZ5M3J0TlM1dHRDLXlTcU1FN2NQQ3VITVcyYktXNTZvc3VIZnNnR2RCSDNwalplNU1nYlE?oc=5",
+      "source": "finance.biggo.com",
+      "published": "2026-08-26",
+      "query": "Haynesville data center natural gas",
       "tags": []
     },
     {
@@ -6199,6 +6183,14 @@
       "source": "The Shreveport-Bossier City Advocate",
       "published": "2026-08-20",
       "query": "Caddo Parish Haynesville drilling",
+      "tags": []
+    },
+    {
+      "title": "Empire Petroleum reaches 21,006 ft in Western Haynesville well in Texas",
+      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQM2EtUTlIMXJxbXJCS0tLQjF1RnU2cVRKRTFmQ2RoOGdSZmZmd2Q2RDVVemdjc1FfNUVJMXlmTFJvNU40OW5DbnJILXRLZVBtRktDNEVyNllBSm5PRlAxTjRFeXlXWHpGTVRkRzBhSHB3cE8tVzBkcVFrZk9WZkVNdEFXUkQyNHZPbGNyeDluWmhMUFFHMjhxaFpLY1hHSDg3amkteGsya1ZYYzBZVGkzZEFR?oc=5",
+      "source": "World Oil",
+      "published": "2026-08-17",
+      "query": "Haynesville site:worldoil.com",
       "tags": []
     }
   ],
@@ -6582,13 +6574,14 @@
       "date": "2026-10-06",
       "units": "$/MMBTU"
     },
-    "storage": {
-      "bcf": 3500.0,
-      "change": 85.0,
-      "week_ending": "2026-10-02"
-    },
-    "source": "U.S. EIA",
-    "as_of": "2026-10-14T10:20:42"
+    "source": "U.S. EIA \u00b7 NYMEX delayed",
+    "as_of": "2026-10-15T10:20:52",
+    "futures": {
+      "price": 3.261,
+      "change": 0.063,
+      "date": "2026-10-15",
+      "label": "NYMEX front month (delayed)"
+    }
   },
   "meta": {
     "client": "Sabine Energy",
