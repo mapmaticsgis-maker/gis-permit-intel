@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-15T10:20:52",
+  "generated": "2026-10-16T10:20:37",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1539,9 +1539,9 @@
           "state": "TX",
           "contractor": "Scandrill",
           "active": true,
-          "days_on_location": 19,
-          "lon": -94.927307,
-          "lat": 32.1298004,
+          "days_on_location": 20,
+          "lon": -94.9273136,
+          "lat": 32.1297988,
           "score": 38,
           "tier": "own",
           "why": "Sabine's own rig, 1.2 mi N of Coleman."
@@ -2109,7 +2109,7 @@
           ]
         ]
       ],
-      "item_count": 33,
+      "item_count": 32,
       "items": [
         {
           "prospect": "Hill",
@@ -2593,25 +2593,23 @@
         },
         {
           "prospect": "Hill",
-          "type": "permit",
-          "distance_mi": 3.2,
+          "type": "lease",
+          "distance_mi": 3.5,
           "bearing": "NE",
-          "date": "2026-09-08",
-          "operator": "SABINE ENERGY INC.",
-          "county": "PANOLA",
+          "date": "2026-08-04",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "DUFFEY CONNIE M",
+          "county": "HARRISON (TX)",
           "state": "TX",
-          "well": "WYATT C HS (AW)",
-          "well_num": "3H",
-          "trajectory": "HORIZONTAL",
-          "depth_ft": 12000.0,
-          "lon": -94.441733,
-          "lat": 32.3570996,
-          "lateral_ft": 9928.659,
-          "bh_lat": 32.385076,
-          "bh_lon": -94.441683,
+          "acres": 106.32,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.4429003,
+          "lat": 32.3689452,
+          "record": "2026-000008929",
           "score": 22,
           "tier": "own",
-          "why": "Sabine's own permit, 3.2 mi NE of Hill."
+          "why": "Sabine-side lease filing, 3.5 mi NE of Hill."
         }
       ]
     },
@@ -5974,12 +5972,12 @@
           "state": "TX",
           "contractor": "Basin Drilling, LP",
           "active": true,
-          "days_on_location": 13,
+          "days_on_location": 14,
           "lon": -94.0468361,
           "lat": 32.1905062,
           "score": 70,
           "tier": "high",
-          "why": "Rig drilling now inside Caspiana, 13 days on location. TGNR PANOLA has 2 filings near Caspiana."
+          "why": "Rig drilling now inside Caspiana, 14 days on location. TGNR PANOLA has 2 filings near Caspiana."
         },
         {
           "prospect": "Caspiana",
@@ -6026,10 +6024,26 @@
   },
   "news": [
     {
+      "title": "Billion dollar changes in the Haynesville Shale, energy prices expected to stay high",
+      "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxORU1sZlE5WmQteXkyRHh0MzZWU2UwY3AzX1E2QkJGNG93dzV1a21OS0JTaDJTMjh2cWNoUzZubGdjMnVaWXZaOEl0aHlnRWVKWmJkYU9xQkZTSmN2VEZibFV1ZEYteEltTXliTjVicHBpTjg1OFdkRjI5VlREdm0zdEhManE3bk1DOTNaTkJBc09mdG9TdnZaRlNlZFQ5c1N4eW0wVXB6d3F1N0NWV2ktbnRCbHVfaFctZkk4VXdVXzNsQVpEQUVWNHI0SG9Obk96V201Q2ZPSHZUYkdDYTYyc0ItR1hoM3FIZ0hVTFgxdmZUNnlYUFlCOXJKcTV1dw?oc=5",
+      "source": "The Advocate",
+      "published": "2026-10-16",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "South Texas producers have big plans to develop the region's 'mini Haynesville'",
+      "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQU0p5MXhPT0RkazFlUTdSNFByeVJabHRRdGtaU0xSNmZ4eWFlbF9ReHhlV3RncHdwVmZJa3RrTkhQbHQ4Z21RUGZISmFBbjY0anpoWlppVjJZaXY4V2g5X3JrOUlULTk0b0tXdzZBVXA0eGpUcEpjY2cwZU5Ob1VGVkp4N2ZFMW1xOXN0YWFhN0M4SUsyZ2lnbW5ZSDM2TG5BalNNSnRBQnQxVDcwZWlFNXhOVzRsREVJT3k2cjgtekJMX0lJNTFyWWQ1eUxIdU5aejFNdFloWmgxdVRfYXBac0dSMGJheGJ1OEhuTA?oc=5",
+      "source": "S&P Global",
+      "published": "2026-10-16",
+      "query": "\"Haynesville\" site:spglobal.com",
+      "tags": []
+    },
+    {
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-14",
+      "published": "2026-10-15",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -6062,14 +6076,6 @@
       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPTTZrcVJXbERmNEl2LXUxTWhENmNXbkFHTkpIcjdabTI4bkpqUFJIYktudVFpRVVlUTNCSGhxVTRud2tBU0JkWUluZklpcWNLdXMzdVFYYXBDcEJUNHpTRWpiaGhHU0FuX2cxdWZHRWxwcDJIWTZ2WFA4WXgzQUxrNHhzWVpJNWVQSTVfTUNB?oc=5",
       "source": "Hart Energy",
       "published": "2026-10-12",
-      "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Billion dollar changes in the Haynesville Shale, energy prices expected to stay high",
-      "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOY2NKOGx6VkljbnItYjlWeGl6MzZENEZ3d280TUtoMkJJXzNOeS1qcThyM0lhZjNYZXdDS3NkMmlMM2xTRGdwV1B3bWhrNk9JSkdlZlhKZlJaS3RFRDNyQkx5SUl2SVNqcHM5c1FqMzBIQnI0YWxwYm5QUGUzUDlHVmhIaUtCS1p4Ul81V25FYXNEZnNtWW1FTGtBOEZWbUwwOGJnM0FPS2ZwMjZHQWgwSGF4a1FGaG9TTVBJOUhNdzZISVRheEZDb1g4T0l0LUJpQ2Y2SlRYSGlka0xWTnhLd2ZtLXhPNy11VjZIQkcxSzAzdlExeEhDUHZR?oc=5",
-      "source": "The Shreveport-Bossier City Advocate",
-      "published": "2026-10-08",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -6122,14 +6128,6 @@
       "tags": []
     },
     {
-      "title": "Rystad: NatGas Draws New Class of Buyers as LNG, Power Drive Demand",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNVhaaERRMmcwM2ZBSzFKaTBqMTdDNk1hMVlLZWZLN3BpMGh2VzExdFpyd0dTa3lMdHZuVkVyemhiY3ZYU2lHLWF5TDZqRjJ6YkFtNG9ZMzlZVmYyZzd5VnMyNmlLLU5JYWZsRHE1SlNGQXB0YmZxUnBPUEFrSkhzLXFMRDc0bjBhekRjbnBadEplQjRKS0pyQ3JBbWh4ZkpiSkRqVG1mdzNsRGJBVUlUVWNyZw?oc=5",
-      "source": "Hart Energy",
-      "published": "2026-09-11",
-      "query": "Haynesville data center natural gas",
-      "tags": []
-    },
-    {
       "title": "South Shreveport focus of more Haynesville Shale drilling, new APEX request",
       "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQRjMxSHhldm80dDVkUW16X1NaVFE3cGVrMDNYTTV6Ym0ySlJUY0c5YThsa2xzNE1hdTVlMmsySDBHVks2bkFZelZjWkZFeExNektGZmItVFRTeWhaTjZnTEhpd2V1SGxhQV9JOUlOSWRGNkotTm1qbkxNdGF2SFVIdjdMWkdIUzZBQi1wOXVfNEphd3V3eFhtNjd0Mi1VRGFRTkJ2R24telBGc2FHaDQxR0MxLXV2VE52VjhUc0dnVnh0eVgyaFpCXzJMTEp4Y2hwRHNxcTF5cUN2OXJkX2FGakhmRVA?oc=5",
       "source": "The Shreveport-Bossier City Advocate",
@@ -6140,7 +6138,7 @@
     {
       "title": "bpx energy",
       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE05M2c4c2RHdWF4Qng1X05oMmxwRDJuS2daVlpoVHNoWV9IR0Y0UGJhVlN4V0IwVEt6OWlzUU05ZlhiVGNFMlNwczRUWUJmN0NiMWJVNllkR0g3TlE1QUJyMEp6bjVVcXZRWjE1UnNCdHNoQ1BKeVE?oc=5",
-      "source": "bp global",
+      "source": "BP",
       "published": "2026-09-09",
       "query": "BPX Energy Haynesville",
       "tags": []
@@ -6154,19 +6152,11 @@
       "tags": []
     },
     {
-      "title": "Haynesville shale: Calculated re-engagement characterizes operator behavior",
-      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOdk1Eb0lLcTN1MS1CS3pYVnotSXFYdFJ1NEFvLUZ1eFNhcEpxaElvcFNyeFkyVjJPMGlLUC1PMFVKMlhxZGdieTVTdVAtOXV3MnVxUDd2T3ktZ0s1WGtUZ2liT3BMS00xdWNrNFJOdVdSWDNHblhtVTNDRW11RDhVYjlRZE1BalliN2pOVEpFcjFkUVR6LURQbFNjV1YxYmJUeXJKSVIyRVpHUzFZdjFvN2ZGNjZWTWRSMUFIaEtmQ3Npb1NwU0E0NnRR?oc=5",
-      "source": "World Oil",
-      "published": "2026-08-29",
-      "query": "Haynesville site:worldoil.com",
-      "tags": []
-    },
-    {
-      "title": "Gunvor in Early Talks to Buy Silver Hill Haynesville Gas Assets for Up to $1.5 Billion",
-      "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE43YmVZeUVUdmZYY1dIaFdxSGxDdkxxS0JVbXpGZWc4UFVSWTVNckdtRFBqRUJUeEJ1QWtOcVFFY3hBQmZ5M3J0TlM1dHRDLXlTcU1FN2NQQ3VITVcyYktXNTZvc3VIZnNnR2RCSDNwalplNU1nYlE?oc=5",
-      "source": "finance.biggo.com",
-      "published": "2026-08-26",
-      "query": "Haynesville data center natural gas",
+      "title": "EXCLUSIVE: Gunvor in talks to buy Haynesville shale assets for over $1 billion, sources say",
+      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQTEI5WW5NakZZRUxpX2c3Y1JTQ2pCT2t0WUk3djNNREh5WlhIbC1mNjRqX2NYNU1pUm9haDc0dnFqWDJmM0RTYVotYWNfTVE2Z0ZiSFBZVUdrYm5wbWJXNE1MMUJZNF81dkl6RnUxWkZld1VrQ3dPblhjb2lHb252ZS01Z2I2VlJ2VHlOQUdXWjBWci1pX3FXOEp3LU5IWVZkenVrclBiR2IwZGZxOFBETkI4SnpYVEFTYWJvWGtR?oc=5",
+      "source": "Reuters",
+      "published": "2026-08-25",
+      "query": "Haynesville Shale",
       "tags": []
     },
     {
@@ -6184,17 +6174,58 @@
       "published": "2026-08-20",
       "query": "Caddo Parish Haynesville drilling",
       "tags": []
-    },
-    {
-      "title": "Empire Petroleum reaches 21,006 ft in Western Haynesville well in Texas",
-      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQM2EtUTlIMXJxbXJCS0tLQjF1RnU2cVRKRTFmQ2RoOGdSZmZmd2Q2RDVVemdjc1FfNUVJMXlmTFJvNU40OW5DbnJILXRLZVBtRktDNEVyNllBSm5PRlAxTjRFeXlXWHpGTVRkRzBhSHB3cE8tVzBkcVFrZk9WZkVNdEFXUkQyNHZPbGNyeDluWmhMUFFHMjhxaFpLY1hHSDg3amkteGsya1ZYYzBZVGkzZEFR?oc=5",
-      "source": "World Oil",
-      "published": "2026-08-17",
-      "query": "Haynesville site:worldoil.com",
-      "tags": []
     }
   ],
   "brief_items": [
+    {
+      "title": "Comstock-SOCAR still has not reached a definitive agreement, and the October 31 deadline is now 16 days out",
+      "source": "Play Intel",
+      "published": "2026-10-15",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Apex Natural Gas remains the play's most active operator on both the permitting and leasehold sides",
+      "source": "Play Intel",
+      "published": "2026-10-15",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
+      "source": "World Oil",
+      "published": "2026-10-15",
+      "link": "https://www.oilandgas360.com/comstock-socar-advance-1-65-billion-haynesville-partnership-with-framework-agreement/",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock Announces Signing Of Framework Agreement For $1.65 Billion Strategic Partnership With SOCAR",
+      "source": "GlobeNewswire",
+      "published": "2026-10-15",
+      "link": "https://energydigital.com/globenewswire/3369815",
+      "kind": "news"
+    },
+    {
+      "title": "Porter Hedges Represents Sabana Haynesville in its Sale of Unconventional Gas Assets in Texas to Mitsui E&P USA",
+      "source": "Porter Hedges",
+      "published": "2026-10-15",
+      "link": "https://www.porterhedges.com/newsroom-news-porter-hedges-represents-sabana-haynesville-in-its-sale-of-unconventional-gas-assets-in-texas-to-mitsui-e-p-usa",
+      "kind": "news"
+    },
+    {
+      "title": "Haynesville Output Hits Record as Gulf LNG Demand Spikes",
+      "source": "Energy Intelligence",
+      "published": "2026-10-15",
+      "link": "https://www.energyintel.com/0000017b-a7dd-de4c-a17b-e7df0d7b0000",
+      "kind": "news"
+    },
+    {
+      "title": "US gas players refocus on Haynesville basin, buoyed by Trump LNG plans",
+      "source": "Oil & Gas 360 / AJOT",
+      "published": "2026-10-15",
+      "link": "https://www.ajot.com/news/us-gas-players-refocus-on-haynesville-basin-buoyed-by-trump-lng-plans",
+      "kind": "news"
+    },
     {
       "title": "Comstock-SOCAR still has not reached a definitive agreement, and the clock is now inside three weeks",
       "source": "Play Intel",
@@ -6214,20 +6245,6 @@
       "source": "Oil & Gas Journal",
       "published": "2026-10-12",
       "link": "https://www.ogj.com/general-interest/companies/news/55402558/comstock-inks-165-billion-socar-partnership-450-million-haynesville-drilling-venture",
-      "kind": "news"
-    },
-    {
-      "title": "Comstock Announces Signing Of Framework Agreement For $1.65 Billion Strategic Partnership With SOCAR",
-      "source": "energydigital/GlobeNewswire",
-      "published": "2026-10-12",
-      "link": "https://energydigital.com/globenewswire/3369815",
-      "kind": "news"
-    },
-    {
-      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
-      "source": "World Oil",
-      "published": "2026-10-12",
-      "link": "https://www.oilandgas360.com/comstock-socar-advance-1-65-billion-haynesville-partnership-with-framework-agreement/",
       "kind": "news"
     },
     {
@@ -6434,13 +6451,6 @@
       "kind": "news"
     },
     {
-      "title": "Porter Hedges Represents Sabana Haynesville in its Sale of Unconventional Gas Assets in Texas to Mitsui E&P USA",
-      "source": "Porter Hedges",
-      "published": "2026-10-01",
-      "link": "https://www.porterhedges.com/newsroom-news-porter-hedges-represents-sabana-haynesville-in-its-sale-of-unconventional-gas-assets-in-texas-to-mitsui-e-p-usa",
-      "kind": "news"
-    },
-    {
       "title": "Comstock-SOCAR has moved from letter of intent to a signed framework agreement",
       "source": "Play Intel",
       "published": "2026-09-28",
@@ -6504,62 +6514,6 @@
       "kind": "news"
     },
     {
-      "title": "Mitsubishi's Aethon deal is closed, and the Aethon-Adamas rename is now visible in permits, not just leases",
-      "source": "Play Intel",
-      "published": "2026-09-24",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Expand Energy's Western Haynesville bet keeps advancing on the ground, separate from its steady leasing pace",
-      "source": "Play Intel",
-      "published": "2026-09-24",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Comstock Announces $1.65 Billion Strategic Partnership with SOCAR and $450 Million Drilling Joint Venture with Jerry Jones",
-      "source": "Comstock Resources",
-      "published": "2026-09-24",
-      "link": "https://investors.comstockresources.com/news-releases/news-release-details/comstock-announces-165-billion-strategic-partnership-socar-and",
-      "kind": "news"
-    },
-    {
-      "title": "SOCAR to Invest in Haynesville with Nearly $1.7B Comstock Partnership",
-      "source": "Rigzone",
-      "published": "2026-09-24",
-      "link": "https://www.rigzone.com/news/socar_to_invest_in_haynesville_with_nearly_17b_comstock_partnership-02-sep-2026-184523-article/",
-      "kind": "news"
-    },
-    {
-      "title": "Comstock plans to cut debt with $1.65-B Haynesville stake sale to Azerbaijan's SOCAR",
-      "source": "PGJ",
-      "published": "2026-09-24",
-      "link": "https://pgjonline.com/news/2026/september/comstock-plans-to-cut-debt-with-165-b-haynesville-stake-sale-to-azerbaijans-socar",
-      "kind": "news"
-    },
-    {
-      "title": "Expand Energy Pushes into Emerging Western Haynesville with M&A",
-      "source": "Hart Energy",
-      "published": "2026-09-24",
-      "link": "https://www.hartenergy.com/energy-market-transactions/acquisitions-and-divestitures/he-expand-energy-western-haynesville-ma/",
-      "kind": "news"
-    },
-    {
-      "title": "Expand Tests Western Haynesville with Horizontal Well",
-      "source": "Hart Energy",
-      "published": "2026-09-24",
-      "link": "https://www.hartenergy.com/upstream/shale-plays/he-expand-western-haynesville-bossier-gas/",
-      "kind": "news"
-    },
-    {
-      "title": "Haynesville Natural Gas Renaissance or Mirage? Region's Rigs Bounce Back",
-      "source": "Natural Gas Intelligence",
-      "published": "2026-09-24",
-      "link": "https://naturalgasintel.com/news/haynesville-natural-gas-renaissance-or-mirage-regions-rigs-bounce-back/",
-      "kind": "news"
-    },
-    {
       "title": "Comstock strikes $1.65 billion SOCAR deal, $450 million Haynesville drilling JV",
       "source": "World Oil",
       "published": "2026-09-01",
@@ -6569,17 +6523,22 @@
   ],
   "market": {
     "henry_hub": {
-      "price": 3.03,
-      "change": 0.07,
-      "date": "2026-10-06",
+      "price": 3.22,
+      "change": 0.08,
+      "date": "2026-10-14",
       "units": "$/MMBTU"
     },
+    "storage": {
+      "bcf": 3567.0,
+      "change": 67.0,
+      "week_ending": "2026-10-09"
+    },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-15T10:20:52",
+    "as_of": "2026-10-16T10:20:36",
     "futures": {
-      "price": 3.261,
-      "change": 0.063,
-      "date": "2026-10-15",
+      "price": 3.115,
+      "change": -0.121,
+      "date": "2026-10-16",
       "label": "NYMEX front month (delayed)"
     }
   },

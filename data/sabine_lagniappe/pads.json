@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-15T10:24:54",
+  "generated": "2026-10-16T10:24:40",
   "source": "Sentinel-2 L2A (ESA/Copernicus) via Earth Search",
   "candidates": [
     {
@@ -297,7 +297,7 @@
       "lon": -95.26147,
       "lat": 32.04572,
       "acres": 3.7,
-      "ndvi_before": 0.82,
+      "ndvi_before": 0.83,
       "ndvi_now": 0.26,
       "built_window": "last ~4 months",
       "status": "Unconfirmed",
@@ -317,7 +317,7 @@
       "lon": -95.24216,
       "lat": 32.03954,
       "acres": 1.7,
-      "ndvi_before": 0.69,
+      "ndvi_before": 0.68,
       "ndvi_now": 0.15,
       "built_window": "earlier in the past year",
       "status": "Unconfirmed",
