@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T10:24:51",
+  "generated": "2026-10-18T10:24:53",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
@@ -19,8 +19,8 @@
     },
     {
       "prospect": "Hill",
-      "lon": -94.49844,
-      "lat": 32.32776,
+      "lon": -94.49845,
+      "lat": 32.32775,
       "score": 58,
       "tier": "med",
       "stages": [
