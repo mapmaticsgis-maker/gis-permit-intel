@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19T10:25:07",
+  "generated": "2026-10-20T10:25:03",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
@@ -18,18 +18,18 @@
       "why": "Emerging: two stages within 1 mi -- permitting: TANOS EXPLORATION IV, LLC permit; site prep: 6.4 ac new clearing (unconfirmed). TANOS EXPLORATION IV, LLC is behind 2 of them."
     },
     {
-      "prospect": "Hill",
-      "lon": -94.49845,
-      "lat": 32.32775,
+      "prospect": "Caspiana",
+      "lon": -94.05194,
+      "lat": 32.1973,
       "score": 58,
       "tier": "med",
       "stages": [
         "site prep",
         "water"
       ],
-      "n_signals": 2,
+      "n_signals": 4,
       "operator": null,
-      "why": "Emerging: two stages within 1 mi -- site prep: 8.2 ac new clearing (unconfirmed); water: 0.9 ac new frac/water pond (unconfirmed)."
+      "why": "Emerging: two stages within 1 mi -- site prep: 3.2 ac new clearing (unconfirmed); water: 1 ac new frac/water pond (unconfirmed)."
     },
     {
       "prospect": "Caspiana",
@@ -47,9 +47,9 @@
     },
     {
       "prospect": "Caspiana",
-      "lon": -94.10217,
-      "lat": 32.15989,
-      "score": 57,
+      "lon": -94.10228,
+      "lat": 32.15964,
+      "score": 54,
       "tier": "med",
       "stages": [
         "leasing",

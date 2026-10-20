@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19T10:20:50",
+  "generated": "2026-10-20T10:20:56",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1546,8 +1546,128 @@
           ]
         ]
       ],
-      "item_count": 5,
+      "item_count": 10,
       "items": [
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 2.7,
+          "bearing": "N",
+          "date": "2026-10-07",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "CAROLINE LOUISE LUCAS TRUST ET AL",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 397.3500061035156,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9123836,
+          "lat": 32.1507403,
+          "record": "2026-276449",
+          "score": 37,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
+        },
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 0.0,
+          "bearing": "SE",
+          "date": "2026-09-15",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "VERA BANK N A",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 129.01,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9228834,
+          "lat": 32.0913377,
+          "record": "2026-275722",
+          "score": 33,
+          "tier": "own",
+          "why": "Sabine-side lease filing, inside Coleman."
+        },
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 2.7,
+          "bearing": "N",
+          "date": "2026-10-07",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "NACHO MINERALS LLC",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 283.0880126953125,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9123836,
+          "lat": 32.1507403,
+          "record": "2026-276450",
+          "score": 30,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
+        },
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 2.7,
+          "bearing": "N",
+          "date": "2026-10-07",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "SOURCING ROCK LLC",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 283.0880126953125,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9123836,
+          "lat": 32.1507403,
+          "record": "2026-276451",
+          "score": 30,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
+        },
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 2.7,
+          "bearing": "N",
+          "date": "2026-10-07",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "FAST FEET ENTERPRISES LLC",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 283.0880126953125,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9123836,
+          "lat": 32.1507403,
+          "record": "2026-276448",
+          "score": 30,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
+        },
+        {
+          "prospect": "Coleman",
+          "type": "lease",
+          "distance_mi": 2.7,
+          "bearing": "N",
+          "date": "2026-10-07",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "WOODLAWN INVESTMENTS LLC",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 283.0880126953125,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.9123836,
+          "lat": 32.1507403,
+          "record": "2026-276452",
+          "score": 30,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
+        },
         {
           "prospect": "Coleman",
           "type": "rig",
@@ -1587,26 +1707,6 @@
         {
           "prospect": "Coleman",
           "type": "lease",
-          "distance_mi": 0.0,
-          "bearing": "SE",
-          "date": "2026-09-15",
-          "operator": "SABINE EAST TEXAS BASIN",
-          "grantor": "VERA BANK N A",
-          "county": "RUSK (TX)",
-          "state": "TX",
-          "acres": 129.01,
-          "royalty": null,
-          "play": "HAYNESVILLE - TX",
-          "lon": -94.9228834,
-          "lat": 32.0913377,
-          "record": "2026-275722",
-          "score": 23,
-          "tier": "own",
-          "why": "Sabine-side lease filing, inside Coleman."
-        },
-        {
-          "prospect": "Coleman",
-          "type": "lease",
           "distance_mi": 2.7,
           "bearing": "N",
           "date": "2026-09-15",
@@ -1620,7 +1720,7 @@
           "lon": -94.9123836,
           "lat": 32.1507403,
           "record": "2026-275723",
-          "score": 17,
+          "score": 27,
           "tier": "own",
           "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         },
@@ -1640,7 +1740,7 @@
           "lon": -94.9123836,
           "lat": 32.1507403,
           "record": "2026-275725",
-          "score": 10,
+          "score": 20,
           "tier": "own",
           "why": "Sabine-side lease filing, 2.7 mi N of Coleman."
         }
@@ -2411,7 +2511,7 @@
           "lon": -94.532397,
           "lat": 32.3043436,
           "record": "2026-276187",
-          "score": 28,
+          "score": 25,
           "tier": "own",
           "why": "Sabine-side lease filing, 1.7 mi SW of Hill."
         },
@@ -5923,26 +6023,8 @@
           ]
         ]
       ],
-      "item_count": 5,
+      "item_count": 4,
       "items": [
-        {
-          "prospect": "Caspiana",
-          "type": "rig",
-          "distance_mi": 0.0,
-          "bearing": "NW",
-          "date": "2026-09-10",
-          "operator": "TGNR PANOLA LLC",
-          "county": "PANOLA",
-          "state": "TX",
-          "contractor": "Basin Drilling, LP",
-          "active": true,
-          "days_on_location": 16,
-          "lon": -94.0468361,
-          "lat": 32.1905062,
-          "score": 70,
-          "tier": "high",
-          "why": "Rig drilling now inside Caspiana, 16 days on location. TGNR PANOLA has 2 filings near Caspiana."
-        },
         {
           "prospect": "Caspiana",
           "type": "lease",
@@ -5959,7 +6041,7 @@
           "lon": -94.1007096,
           "lat": 32.1630377,
           "record": "2026-004251",
-          "score": 28,
+          "score": 23,
           "tier": "low",
           "why": "196 ac lease 0.6 mi W of Caspiana. First recent TGNR PANOLA lease near Caspiana."
         },
@@ -6031,7 +6113,23 @@
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-18",
+      "published": "2026-10-20",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "Expand Energy brings in a new CEO with Haynesville experience",
+      "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxNWU5Fb3lMc3AxYzl1Mmt6ZnFmNWdmRmg0TXBRYWZTcmVOY2pscXRqMnNkRzhJZnk3VVhMT0xvaHFVMjBUWi0zdTJRQW1aOE10LW5QRzNzZGVzaU1sN3VPdHJtMElqeGdNbTE0S0RxQUNpOHNrbEMzQl83WGY5X0Q4SWU4TldVeEI2Z0I2Z2ZYOWdQUU9vSWMwV21IMTFkVEVCX1RPTE13S19MZ0s3UHFSdU90a1R5dFhOQi1RQzgybUxEYWVTQUpPdVNNTko5bnphdzh0dDNhT2V5SW1sODRkXzgzbm5XaEE?oc=5",
+      "source": "The Shreveport-Bossier City Advocate",
+      "published": "2026-10-20",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "Williams expands Haynesville Shale presences with Momentum Midstream for $5.5 billion",
+      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNOU5JM3hYcVFLTkVWcGdERW1xRlpJdGtWcnZmUTZLaE5DU3JwTDRvUVRkMmFQU0V0MFVfazJHUDRZTzZuNU1yUUFyWjhNYk40emRiODQtai1oRldrNTBVckQ2WnJFaHVhS2lFY3AwQ3hRTTJXTWI1NDBDYzdBV2d6S3RaaVhqakpBOFVBQ1hJcHBJLUt5NWdzTHRBNDhrRUg4ZmFVWTh2VDZlWHFFUDB6ZUdUWnBfVUN2UWZUVkxEWGVHdF9QSEs1aUJJYnA3YXM?oc=5",
+      "source": "10/12 Industry Report",
+      "published": "2026-10-19",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -6052,11 +6150,11 @@
       "tags": []
     },
     {
-      "title": "Drilling report: Sept. 27-Oct. 3, 2026",
-      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE43V0J5M2hUdVczcFRrSVRmOGVrcnBoRFgzdUd4S01FbVRQcUhmLVh3ZGZ5anNMTjVHU1VPYVdJZDFKTi15d29MczFWY2EzWldldC05MVJpLUh3d05zNnVFekxvanlpYkI1UU9jaThCVjFleHM4eE5JbHhJVQ?oc=5",
-      "source": "Longview News-Journal",
-      "published": "2026-10-14",
-      "query": "Haynesville Shale",
+      "title": "Diamondback, Expand Energy Named Top Picks at Scotiabank",
+      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdVhoUHJaR2RWSGFPdGVjR3dPeFlZT1BKMEFxNmd4V2NjcTlhV25NTjhIU1JsbXotWkw4TXNPUmh3ZXVvZVhkejQwU2FYeDRDTmktc3lSZHZPdmhSZFJfWkhrMmR4ajRZWGdMa3FzS1ppM2JlZFNhc0xEdUFXWnRNdnpFdXNSTUJSYUZRRA?oc=5",
+      "source": "Yahoo Finance Australia",
+      "published": "2026-10-15",
+      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
@@ -6068,11 +6166,11 @@
       "tags": []
     },
     {
-      "title": "LNG Exports Call for Gas. The Haynesville Will Answer",
-      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOc1BvTkowQklteXlGX0hzY3EwTWFQd252V1pIblFOSWoyckF4SHdqV3VYcVF6Q1FMUjRodklfbmNiOVdlZkU3cV9KdzlhaE10Ri11ajQ0OGRXZVNkejdPam03TE12RHhyWHlxc1MybEY1VmI3cm9pbWJvbWN3WldRUnVkWWczX3djY0pxdDU3c05reXFubDFYNHd5dVNUWE96WWllSjBxTErSAa4BQVVfeXFMTjAwYkNVZjlaNkwxbk55NjZIMlk4SVUwS0FRcVRvM3owRHhIS3daYnk3OFo5YWc1Qk1vS1VKY05mS083YUhORW5qc25IMVpzZ1Zzd3VRT05OUTZqdDhrNTI3QkRTNUlNRmFUNUdqNFM1Z3VmX25kemM0TTlzRUtESzNtRTRyR2JKVXFvSVJxYy1pMU1rR3RKVTNWOFZ2c1lrTVhqMm40M3BQY2huS0l3?oc=5",
-      "source": "ETF Trends",
-      "published": "2026-10-13",
-      "query": "Haynesville Shale",
+      "title": "Drilling report: Sept. 27-Oct. 3, 2026",
+      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE43V0J5M2hUdVczcFRrSVRmOGVrcnBoRFgzdUd4S01FbVRQcUhmLVh3ZGZ5anNMTjVHU1VPYVdJZDFKTi15d29MczFWY2EzWldldC05MVJpLUh3d05zNnVFekxvanlpYkI1UU9jaThCVjFleHM4eE5JbHhJVQ?oc=5",
+      "source": "Longview News-Journal",
+      "published": "2026-10-14",
+      "query": "\"Drilling report\" site:news-journal.com",
       "tags": []
     },
     {
@@ -6089,14 +6187,6 @@
       "source": "Natural Gas Intelligence",
       "published": "2026-10-06",
       "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Trader Centalion acquires natural gas acreage in US shale plays",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPcGFQaHhGc3RfTUF1YmZZUm9Rc2k1ck4yT2hQTFc1aFBQMEF0YkhZdGV0dnZ6cWlJWWZEX3Rfd3dvYVhvV1pBNjFSTDFoc3ZsbThBZXphaEVmSEdkMkpJaXJLRWU4bTMxSXFZYjlzZWZ1MGRTcHp5eXFrcTZiaFl1WVZpSXZkNlVwenh2bk5pTElKZGhzbWs0UWc5V1J3QzJMYU9vX3FUUm5nanZmbFZTZ2tVWGE?oc=5",
-      "source": "Upstream Online",
-      "published": "2026-10-05",
-      "query": "Haynesville acquisition acres",
       "tags": []
     },
     {
@@ -6156,6 +6246,14 @@
       "tags": []
     },
     {
+      "title": "Rystad: NatGas Draws New Class of Buyers as LNG, Power Drive Demand",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNVhaaERRMmcwM2ZBSzFKaTBqMTdDNk1hMVlLZWZLN3BpMGh2VzExdFpyd0dTa3lMdHZuVkVyemhiY3ZYU2lHLWF5TDZqRjJ6YkFtNG9ZMzlZVmYyZzd5VnMyNmlLLU5JYWZsRHE1SlNGQXB0YmZxUnBPUEFrSkhzLXFMRDc0bjBhekRjbnBadEplQjRKS0pyQ3JBbWh4ZkpiSkRqVG1mdzNsRGJBVUlUVWNyZw?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-09-11",
+      "query": "Haynesville data center natural gas",
+      "tags": []
+    },
+    {
       "title": "South Shreveport focus of more Haynesville Shale drilling, new APEX request",
       "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQRjMxSHhldm80dDVkUW16X1NaVFE3cGVrMDNYTTV6Ym0ySlJUY0c5YThsa2xzNE1hdTVlMmsySDBHVks2bkFZelZjWkZFeExNektGZmItVFRTeWhaTjZnTEhpd2V1SGxhQV9JOUlOSWRGNkotTm1qbkxNdGF2SFVIdjdMWkdIUzZBQi1wOXVfNEphd3V3eFhtNjd0Mi1VRGFRTkJ2R24telBGc2FHaDQxR0MxLXV2VE52VjhUc0dnVnh0eVgyaFpCXzJMTEp4Y2hwRHNxcTF5cUN2OXJkX2FGakhmRVA?oc=5",
       "source": "The Shreveport-Bossier City Advocate",
@@ -6169,14 +6267,6 @@
       "source": "bp global",
       "published": "2026-09-09",
       "query": "BPX Energy Haynesville",
-      "tags": []
-    },
-    {
-      "title": "Williams wraps up $5.5 billion deal to expand Haynesville holdings",
-      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQc0RkWmFhUE96b0xaOFB3QVlJekRwdHVwRTAweFVQUWY1UEhtZEg4NVhoOWM1Zi1scFFLWnhWTnROaTJaaHI1OExPb25pVmV3azhidWg1NW9xNndrVHpQV0JvNHQzcWpRaWl3bHJwWUlyRXdYZ0VJV1VhY0dvQjIycUhBZUgteGxUMmdIdHpDYXJ2TmxoSXJTc01vRTZfTkJCQ1E?oc=5",
-      "source": "Oklahoma Energy Today",
-      "published": "2026-09-06",
-      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
@@ -6206,6 +6296,90 @@
   ],
   "brief_items": [
     {
+      "title": "JERA Upstream America's 7 Benson-field De Soto permits remain the clearest confirmed follow-through in the play on a closed foreign-capital deal",
+      "source": "Play Intel",
+      "published": "2026-10-19",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "A name that didn't fully exit: GEP Haynesville II",
+      "source": "Play Intel",
+      "published": "2026-10-19",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock-SOCAR still has not reached a definitive agreement, and the October 31 deadline is now 12 days out",
+      "source": "Play Intel",
+      "published": "2026-10-19",
+      "link": null,
+      "kind": "insight"
+    },
+    {
+      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
+      "source": "World Oil/Oil & Gas 360",
+      "published": "2026-10-19",
+      "link": "https://www.oilandgas360.com/comstock-socar-advance-1-65-billion-haynesville-partnership-with-framework-agreement/",
+      "kind": "news"
+    },
+    {
+      "title": "Comstock Announces Signing Of Framework Agreement For $1.65 Billion Strategic Partnership With SOCAR",
+      "source": "GlobeNewswire",
+      "published": "2026-10-19",
+      "link": "https://energydigital.com/globenewswire/3369815",
+      "kind": "news"
+    },
+    {
+      "title": "Mitsubishi Corporation Announces Acquisition of Haynesville Shale Gas Business in Louisiana and Texas",
+      "source": "Mitsubishi Corporation",
+      "published": "2026-10-19",
+      "link": "https://www.mitsubishicorp.com/jp/en/news/release/2026/20260116002.html",
+      "kind": "news"
+    },
+    {
+      "title": "Tokyo Gas to buy Rockcliff Energy's Haynesville assets for $2.7B",
+      "source": "Hart Energy",
+      "published": "2026-10-19",
+      "link": "https://www.hartenergy.com/exclusives/tokyo-gas-buy-rockcliff-energys-haynesville-assets-27b-207539",
+      "kind": "news"
+    },
+    {
+      "title": "South Texas producers have big plans to develop the region's 'mini Haynesville'",
+      "source": "S&P Global",
+      "published": "2026-10-19",
+      "link": "https://www.spglobal.com/energy/en/news-research/latest-news/natural-gas/101526-south-texas-producers-have-big-plans-to-develop-the-regions-mini-haynesville",
+      "kind": "news"
+    },
+    {
+      "title": "JERA closes South Mansfield asset acquisition",
+      "source": "Offshore Technology",
+      "published": "2026-10-19",
+      "link": "https://www.offshore-technology.com/newsletters/jera-closes-acquisition-south-mansfield-asset",
+      "kind": "news"
+    },
+    {
+      "title": "Apex looks to sink multiple wells in north Louisiana near Caddo",
+      "source": "Shreveport-Bossier Advocate",
+      "published": "2026-10-19",
+      "link": "https://www.shreveportbossieradvocate.com/business/apex-looks-to-sink-multiple-wells-in-north-louisiana-near-caddo/article_8c44530d-6ec6-4143-a759-ab158e0d2d2a.html",
+      "kind": "news"
+    },
+    {
+      "title": "Apex expands, Comstock repositions in Haynesville shale",
+      "source": "AOL/KTBS",
+      "published": "2026-10-19",
+      "link": "https://www.aol.com/articles/apex-expands-comstock-repositions-haynesville-225000353.html",
+      "kind": "news"
+    },
+    {
+      "title": "Expand Energy Corp - Form 8-K, Q2 2026",
+      "source": "SEC EDGAR",
+      "published": "2026-10-19",
+      "link": "https://www.sec.gov/Archives/edgar/data/0000895126/000089512626000046/exe-ex_991x20260630x8kxpr.htm",
+      "kind": "news"
+    },
+    {
       "title": "Comstock-SOCAR still has not reached a definitive agreement, and the October 31 deadline is now 16 days out",
       "source": "Play Intel",
       "published": "2026-10-15",
@@ -6218,20 +6392,6 @@
       "published": "2026-10-15",
       "link": null,
       "kind": "insight"
-    },
-    {
-      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
-      "source": "World Oil",
-      "published": "2026-10-15",
-      "link": "https://www.oilandgas360.com/comstock-socar-advance-1-65-billion-haynesville-partnership-with-framework-agreement/",
-      "kind": "news"
-    },
-    {
-      "title": "Comstock Announces Signing Of Framework Agreement For $1.65 Billion Strategic Partnership With SOCAR",
-      "source": "GlobeNewswire",
-      "published": "2026-10-15",
-      "link": "https://energydigital.com/globenewswire/3369815",
-      "kind": "news"
     },
     {
       "title": "Porter Hedges Represents Sabana Haynesville in its Sale of Unconventional Gas Assets in Texas to Mitsui E&P USA",
@@ -6302,13 +6462,6 @@
       "published": "2026-10-08",
       "link": null,
       "kind": "insight"
-    },
-    {
-      "title": "Apex expands, Comstock repositions in Haynesville shale",
-      "source": "Shreveport-Bossier Advocate",
-      "published": "2026-10-08",
-      "link": "https://www.ktbs.com/news/louisiana/apex-expands-comstock-repositions-in-haynesville-shale/article_c4199f0a-067e-5191-96f3-5a9f87ce73f8.html",
-      "kind": "news"
     },
     {
       "title": "Haynesville shale: calculated re-engagement characterizes operator behavior",
@@ -6477,69 +6630,6 @@
       "published": "2026-10-01",
       "link": "https://www.hartenergy.com/ep/exclusives/japans-mitsui-testing-western-haynesville-alongside-comstock-aethon-212420/",
       "kind": "news"
-    },
-    {
-      "title": "Comstock-SOCAR has moved from letter of intent to a signed framework agreement",
-      "source": "Play Intel",
-      "published": "2026-09-28",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Expand Energy's Western Haynesville bet keeps advancing on the ground",
-      "source": "Play Intel",
-      "published": "2026-09-28",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "JERA's closed South Mansfield deal now shows up under JERA's own name in the permit data, not just via GEP Haynesville leasehold",
-      "source": "Play Intel",
-      "published": "2026-09-28",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Comstock, SOCAR formalize $1.65B Haynesville shale deal",
-      "source": "Investing.com",
-      "published": "2026-09-28",
-      "link": "https://ng.investing.com/news/stock-market-news/comstock-socar-formalize-165b-haynesville-shale-deal-93CH-2711957",
-      "kind": "news"
-    },
-    {
-      "title": "Comstock signs $1.65bn LoI with SOCAR for Haynesville asset stakes",
-      "source": "Yahoo Finance",
-      "published": "2026-09-28",
-      "link": "https://finance.yahoo.com/energy/articles/comstock-signs-1-65bn-loi-085645439.html",
-      "kind": "news"
-    },
-    {
-      "title": "DUC and Cover: Haynesville Crosses 60 Rigs as Producers Bank Wells",
-      "source": "East Daley",
-      "published": "2026-09-28",
-      "link": "https://eastdaley.com/daley-note/duc-and-cover-haynesville-crosses-60-rigs-as-producers-bank-wells",
-      "kind": "news"
-    },
-    {
-      "title": "Why is Citadel's Apex Running 14 Haynesville Rigs Right Now?",
-      "source": "Hart Energy",
-      "published": "2026-09-28",
-      "link": "https://www.hartenergy.com/upstream/shale-plays/he-apex-citadel-haynesville-rigs/",
-      "kind": "news"
-    },
-    {
-      "title": "Mitsubishi Corporation Announces Acquisition of Haynesville Shale Gas Business",
-      "source": "Mitsubishi Corporation",
-      "published": "2026-09-28",
-      "link": "https://www.mitsubishicorp.com/jp/en/news/release/2026/20260116002.html",
-      "kind": "news"
-    },
-    {
-      "title": "Expand Aims to Be Western Haynesville's Lowest-Cost Producer",
-      "source": "Energy Intelligence",
-      "published": "2026-09-28",
-      "link": "https://www.energyintel.com/0000019b-9f55-d561-a59b-bfdf06210000",
-      "kind": "news"
     }
   ],
   "market": {
@@ -6549,12 +6639,17 @@
       "date": "2026-10-14",
       "units": "$/MMBTU"
     },
+    "storage": {
+      "bcf": 3567.0,
+      "change": 67.0,
+      "week_ending": "2026-10-09"
+    },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-19T10:20:50",
+    "as_of": "2026-10-20T10:20:56",
     "futures": {
-      "price": 3.079,
-      "change": -0.037,
-      "date": "2026-10-19",
+      "price": 2.983,
+      "change": -0.075,
+      "date": "2026-10-20",
       "label": "NYMEX front month (delayed)"
     }
   },
