@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-20T10:20:56",
+  "generated": "2026-10-21T10:20:30",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -6110,6 +6110,14 @@
   },
   "news": [
     {
+      "title": "Drilling report: Oct. 3-10, 2026",
+      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBYNnNlVGNZUE1aZzRjYk5vaU5jYUJ2djJKODluSVZISDNFbmVMSFpqTzV3VHB0aTNFeU13M2FuMnN4b3dCaDl6TDA0SmJVbWJvaGpBbnM2eVZiY2dMdXEtcXJYb3dhdFNqb2hVYmZoTWQ5NF9H?oc=5",
+      "source": "Longview News-Journal",
+      "published": "2026-10-21",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
@@ -6126,11 +6134,19 @@
       "tags": []
     },
     {
-      "title": "Williams expands Haynesville Shale presences with Momentum Midstream for $5.5 billion",
-      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNOU5JM3hYcVFLTkVWcGdERW1xRlpJdGtWcnZmUTZLaE5DU3JwTDRvUVRkMmFQU0V0MFVfazJHUDRZTzZuNU1yUUFyWjhNYk40emRiODQtai1oRldrNTBVckQ2WnJFaHVhS2lFY3AwQ3hRTTJXTWI1NDBDYzdBV2d6S3RaaVhqakpBOFVBQ1hJcHBJLUt5NWdzTHRBNDhrRUg4ZmFVWTh2VDZlWHFFUDB6ZUdUWnBfVUN2UWZUVkxEWGVHdF9QSEs1aUJJYnA3YXM?oc=5",
-      "source": "10/12 Industry Report",
+      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
+      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
+      "source": "EnergyNow.com",
+      "published": "2026-10-20",
+      "query": "Expand Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Business Beat: Komatsu considering major Longview expansion",
+      "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOckdLcjI1Sm1OcFU4QWZJdVJoZW1qdkUxVEZod3ZsX21SVzR1eWxKd0dSbTF1elowb1YyQnVITV9JbEd6Zm1UelRWeWU4TWQ3U3ByYlZiR3RJS0lOV0R0MENEalRkNHhZRlNkZ1VSekZ5YVBvSmRNNUpCOFdPSkU2WWdEaG8zbmh1UXlXdDE0eV9JQmtseXlpY1haNA?oc=5",
+      "source": "Longview News-Journal",
       "published": "2026-10-19",
-      "query": "Haynesville Shale",
+      "query": "\"Drilling report\" site:news-journal.com",
       "tags": []
     },
     {
@@ -6150,27 +6166,11 @@
       "tags": []
     },
     {
-      "title": "Diamondback, Expand Energy Named Top Picks at Scotiabank",
-      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdVhoUHJaR2RWSGFPdGVjR3dPeFlZT1BKMEFxNmd4V2NjcTlhV25NTjhIU1JsbXotWkw4TXNPUmh3ZXVvZVhkejQwU2FYeDRDTmktc3lSZHZPdmhSZFJfWkhrMmR4ajRZWGdMa3FzS1ppM2JlZFNhc0xEdUFXWnRNdnpFdXNSTUJSYUZRRA?oc=5",
-      "source": "Yahoo Finance Australia",
-      "published": "2026-10-15",
-      "query": "Expand Energy Haynesville",
-      "tags": []
-    },
-    {
       "title": "Centalion Boosts Haynesville Presence with Silver Hill Acquisition",
       "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPM18tOEZfd2dRSlB2eGw2UTJ1cTNrR3VjaHFpM01CMUpOT2NuWlk1Zjh4QTRhSy1zMGoybG9JQ1BnNDZTTnVGRVRqMjJlUjFKSkp6WkY3MkdUT3AwczFDd184eEFsN2pSM3E4blk0cklNSUswelRpQlR1Y0R5TjhycnNIRE1ZUXJmQllBaDB5bVhEb3RsNHFzQUdHbVJSbnRHSmxhTUZKNkt3TENMX212WVU0MlhJb3Npa2JSXzJBbXQ?oc=5",
       "source": "Rigzone",
       "published": "2026-10-14",
       "query": "Haynesville acquisition acres",
-      "tags": []
-    },
-    {
-      "title": "Drilling report: Sept. 27-Oct. 3, 2026",
-      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE43V0J5M2hUdVczcFRrSVRmOGVrcnBoRFgzdUd4S01FbVRQcUhmLVh3ZGZ5anNMTjVHU1VPYVdJZDFKTi15d29MczFWY2EzWldldC05MVJpLUh3d05zNnVFekxvanlpYkI1UU9jaThCVjFleHM4eE5JbHhJVQ?oc=5",
-      "source": "Longview News-Journal",
-      "published": "2026-10-14",
-      "query": "\"Drilling report\" site:news-journal.com",
       "tags": []
     },
     {
@@ -6190,11 +6190,11 @@
       "tags": []
     },
     {
-      "title": "Comstock and SOCAR formalise $1.6bn Haynesville Shale partnership",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPZXZ6OUZseVQyeU5Vc2FXX1hzWlViU1RWbFBrRWNnOTRIT1ptSklZcWpWRm44cFk4VVlXYkFrcndYQzFhRFpiUWdaNm5kSzl6Zjg2SkZJS3p0Mndfc2F6elF1T0MzeDQ0MGVhSjhYeHBDRDVzc3NxUDlJeWZkTi0xb0VEWXJGU21WR19ObVhtcms?oc=5",
-      "source": "Yahoo Finance",
-      "published": "2026-09-29",
-      "query": "Haynesville Shale",
+      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
+      "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPcWd3UHNBZ1BMS2RPOGQyekVtYnNfTzROdF9TbGJHSUxYc09SS2RhNUVYMnZPR2FCaEhNV2JVVl9LUGpvNzZfNmd2Z18wcHRKZFh5TTlPRkZFdXJubnBjb2k5YzlNaDNBbmpyckZESTd1OWJrVjJSUlU2SGo0VUFXM2lOdTVkS1JlNjFKWXVLcVItaENneGZERnZ4Nkl5MWJZcmxSczJyRThmR3pQYThRTXFvbEtIenU1LWdMUzkwdlhlaDg?oc=5",
+      "source": "World Oil",
+      "published": "2026-09-28",
+      "query": "Haynesville site:worldoil.com",
       "tags": []
     },
     {
@@ -6246,11 +6246,11 @@
       "tags": []
     },
     {
-      "title": "Rystad: NatGas Draws New Class of Buyers as LNG, Power Drive Demand",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNVhaaERRMmcwM2ZBSzFKaTBqMTdDNk1hMVlLZWZLN3BpMGh2VzExdFpyd0dTa3lMdHZuVkVyemhiY3ZYU2lHLWF5TDZqRjJ6YkFtNG9ZMzlZVmYyZzd5VnMyNmlLLU5JYWZsRHE1SlNGQXB0YmZxUnBPUEFrSkhzLXFMRDc0bjBhekRjbnBadEplQjRKS0pyQ3JBbWh4ZkpiSkRqVG1mdzNsRGJBVUlUVWNyZw?oc=5",
+      "title": "SUPER DUG: How BPX is Using Rapid Drilling Cycles to Sharpen BP\u2019s Competitive Edge",
+      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPY3B2YTB0eE1sdUFOSGxjTDRWR0ltTE9tdkVROG5qanBYRDVpTmEtbzZpVUQwVU52TzQwS0NZWHNRVmVNV3h3R0NPU1JpejlKRVZtWmZKVUhnT3ZYM0hKUlBkWUhqRFVDWnB6d0tMMDBQdUdYTGRNVnYxM19iMDd0MmMzZGVtT3V4LUZvVHJ3UjlGZUIyNWJ3?oc=5",
       "source": "Hart Energy",
-      "published": "2026-09-11",
-      "query": "Haynesville data center natural gas",
+      "published": "2026-09-15",
+      "query": "BPX Energy Haynesville",
       "tags": []
     },
     {
@@ -6264,17 +6264,9 @@
     {
       "title": "bpx energy",
       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE05M2c4c2RHdWF4Qng1X05oMmxwRDJuS2daVlpoVHNoWV9IR0Y0UGJhVlN4V0IwVEt6OWlzUU05ZlhiVGNFMlNwczRUWUJmN0NiMWJVNllkR0g3TlE1QUJyMEp6bjVVcXZRWjE1UnNCdHNoQ1BKeVE?oc=5",
-      "source": "bp global",
+      "source": "BP",
       "published": "2026-09-09",
       "query": "BPX Energy Haynesville",
-      "tags": []
-    },
-    {
-      "title": "Expand Energy Positioned for Gulf Coast Demand Growth, Twin Eagle Value, RBC Says",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQZmQ0b3JDVDRTLW9tXzZXOGZGNXdNbVkxTV9EdlV2UU9OcjFuN2hkTW1Xem5fN015QjBwbWJwN1RtRE9Nb0dQQUduTTVBSDlJbEJxQmVXY2JBaHJfRWJvTTR5UVEzYlBYYzhrMDU1Y2pqQW1ETnMySUd0MjVoMnZvTjJwNklucXlrN3ptbFBBR200ejRuWVlZ?oc=5",
-      "source": "Yahoo Finance",
-      "published": "2026-09-03",
-      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
@@ -6645,11 +6637,11 @@
       "week_ending": "2026-10-09"
     },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-20T10:20:56",
+    "as_of": "2026-10-21T10:20:30",
     "futures": {
-      "price": 2.983,
-      "change": -0.075,
-      "date": "2026-10-20",
+      "price": 2.842,
+      "change": -0.121,
+      "date": "2026-10-21",
       "label": "NYMEX front month (delayed)"
     }
   },
