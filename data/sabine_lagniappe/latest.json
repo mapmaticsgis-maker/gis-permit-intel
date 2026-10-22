@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-21T10:20:30",
+  "generated": "2026-10-22T10:20:29",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -2218,26 +2218,6 @@
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 2.8,
-          "bearing": "E",
-          "date": "2026-09-30",
-          "operator": "CRAIN ENERGY",
-          "grantor": "YOUNGBLOOD CECIL",
-          "county": "PANOLA (TX)",
-          "state": "TX",
-          "acres": 55.94,
-          "royalty": null,
-          "play": "HAYNESVILLE - TX",
-          "lon": -94.4423002,
-          "lat": 32.3127433,
-          "record": "2026-004865",
-          "score": 52,
-          "tier": "med",
-          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
-        },
-        {
-          "prospect": "Hill",
-          "type": "lease",
           "distance_mi": 2.0,
           "bearing": "E",
           "date": "2026-09-10",
@@ -2254,6 +2234,26 @@
           "score": 49,
           "tier": "med",
           "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+        },
+        {
+          "prospect": "Hill",
+          "type": "lease",
+          "distance_mi": 2.8,
+          "bearing": "E",
+          "date": "2026-09-30",
+          "operator": "CRAIN ENERGY",
+          "grantor": "YOUNGBLOOD CECIL",
+          "county": "PANOLA (TX)",
+          "state": "TX",
+          "acres": 55.94,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.4423002,
+          "lat": 32.3127433,
+          "record": "2026-004865",
+          "score": 47,
+          "tier": "med",
+          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -6110,19 +6110,27 @@
   },
   "news": [
     {
-      "title": "Drilling report: Oct. 3-10, 2026",
-      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBYNnNlVGNZUE1aZzRjYk5vaU5jYUJ2djJKODluSVZISDNFbmVMSFpqTzV3VHB0aTNFeU13M2FuMnN4b3dCaDl6TDA0SmJVbWJvaGpBbnM2eVZiY2dMdXEtcXJYb3dhdFNqb2hVYmZoTWQ5NF9H?oc=5",
-      "source": "Longview News-Journal",
+      "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
+      "source": "EnergyNow.com",
       "published": "2026-10-21",
       "query": "Haynesville Shale",
       "tags": []
     },
     {
-      "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
-      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
-      "source": "EnergyNow.com",
-      "published": "2026-10-20",
+      "title": "Drilling Report: Oct. 3-10, 2026",
+      "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE05RkFtTVdndWxXNXpaZGFYMnplMUtTeW5zVHJXd2NkOVZlTzFJRDZMaEVvLUQxaGFoR291T2kyTTJoYlVOSzFJZGozX2JRN0lDcFpCUzRTaGp4QXc2Y2ZqblE0QWJxSl93WFg0TDRPOEtsZw?oc=5",
+      "source": "Tyler Morning Telegraph",
+      "published": "2026-10-21",
       "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
+      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
+      "source": "EnergyNow.com",
+      "published": "2026-10-21",
+      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
@@ -6131,22 +6139,6 @@
       "source": "The Shreveport-Bossier City Advocate",
       "published": "2026-10-20",
       "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
-      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
-      "source": "EnergyNow.com",
-      "published": "2026-10-20",
-      "query": "Expand Energy Haynesville",
-      "tags": []
-    },
-    {
-      "title": "Business Beat: Komatsu considering major Longview expansion",
-      "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOckdLcjI1Sm1OcFU4QWZJdVJoZW1qdkUxVEZod3ZsX21SVzR1eWxKd0dSbTF1elowb1YyQnVITV9JbEd6Zm1UelRWeWU4TWQ3U3ByYlZiR3RJS0lOV0R0MENEalRkNHhZRlNkZ1VSekZ5YVBvSmRNNUpCOFdPSkU2WWdEaG8zbmh1UXlXdDE0eV9JQmtseXlpY1haNA?oc=5",
-      "source": "Longview News-Journal",
-      "published": "2026-10-19",
-      "query": "\"Drilling report\" site:news-journal.com",
       "tags": []
     },
     {
@@ -6182,19 +6174,19 @@
       "tags": []
     },
     {
-      "title": "Gunvor Rebrands, Takes Large Position in Haynesville Shale",
-      "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOSVZxSG1ua2R0R01ocG5TNnFYdUhPWGdDM29zMWdfYWNxRVBLQXJ0SXZVVFRpSjhrU21YOFV1NTI1YzZfaGRvRVBWbUl5eWs1NnJOUDVZeFpwRG5IV3BTbV9LdlZBWXNwTV9DeEVMTlpTdXo0ejBVakljMGlVVWZQQ0pFamp1NC12QjJxRTJXVE41ZWlsM2c?oc=5",
-      "source": "Natural Gas Intelligence",
+      "title": "Formerly Gunvor Group, Now Centalion, Expands Haynesville Footprint by 300 MMcf/d",
+      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOX1JxRTVtSTJoUHBQU05QTmc3OWs3S0RYQlVtT0stMTF3dGJ5SjFqTDc4YTBPdnBlcDNkWXBGbm5CMUtsOVBXWFA0TGMzeV9NR3RVSHp2YUhzUkdXZkRhR3ZSRzJaaTFTV1kzVFZRR1Y2TkR3WUloNHZRQUJCYjJaUEtwM05QSWUwTmpTS2l5bHBGY21SZDd0VmJyTVE2NU82X1BGSA?oc=5",
+      "source": "Hart Energy",
       "published": "2026-10-06",
-      "query": "Haynesville Shale",
+      "query": "\"Haynesville\" site:hartenergy.com",
       "tags": []
     },
     {
-      "title": "Comstock, SOCAR advance $1.65-billion Haynesville partnership with framework agreement",
-      "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPcWd3UHNBZ1BMS2RPOGQyekVtYnNfTzROdF9TbGJHSUxYc09SS2RhNUVYMnZPR2FCaEhNV2JVVl9LUGpvNzZfNmd2Z18wcHRKZFh5TTlPRkZFdXJubnBjb2k5YzlNaDNBbmpyckZESTd1OWJrVjJSUlU2SGo0VUFXM2lOdTVkS1JlNjFKWXVLcVItaENneGZERnZ4Nkl5MWJZcmxSczJyRThmR3pQYThRTXFvbEtIenU1LWdMUzkwdlhlaDg?oc=5",
-      "source": "World Oil",
-      "published": "2026-09-28",
-      "query": "Haynesville site:worldoil.com",
+      "title": "Comstock and SOCAR formalise $1.6bn Haynesville Shale partnership",
+      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPZXZ6OUZseVQyeU5Vc2FXX1hzWlViU1RWbFBrRWNnOTRIT1ptSklZcWpWRm44cFk4VVlXYkFrcndYQzFhRFpiUWdaNm5kSzl6Zjg2SkZJS3p0Mndfc2F6elF1T0MzeDQ0MGVhSjhYeHBDRDVzc3NxUDlJeWZkTi0xb0VEWXJGU21WR19ObVhtcms?oc=5",
+      "source": "Yahoo Finance",
+      "published": "2026-09-29",
+      "query": "Haynesville Shale",
       "tags": []
     },
     {
@@ -6254,19 +6246,27 @@
       "tags": []
     },
     {
-      "title": "South Shreveport focus of more Haynesville Shale drilling, new APEX request",
-      "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQRjMxSHhldm80dDVkUW16X1NaVFE3cGVrMDNYTTV6Ym0ySlJUY0c5YThsa2xzNE1hdTVlMmsySDBHVks2bkFZelZjWkZFeExNektGZmItVFRTeWhaTjZnTEhpd2V1SGxhQV9JOUlOSWRGNkotTm1qbkxNdGF2SFVIdjdMWkdIUzZBQi1wOXVfNEphd3V3eFhtNjd0Mi1VRGFRTkJ2R24telBGc2FHaDQxR0MxLXV2VE52VjhUc0dnVnh0eVgyaFpCXzJMTEp4Y2hwRHNxcTF5cUN2OXJkX2FGakhmRVA?oc=5",
-      "source": "The Shreveport-Bossier City Advocate",
+      "title": "Rystad: NatGas Draws New Class of Buyers as LNG, Power Drive Demand",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNVhaaERRMmcwM2ZBSzFKaTBqMTdDNk1hMVlLZWZLN3BpMGh2VzExdFpyd0dTa3lMdHZuVkVyemhiY3ZYU2lHLWF5TDZqRjJ6YkFtNG9ZMzlZVmYyZzd5VnMyNmlLLU5JYWZsRHE1SlNGQXB0YmZxUnBPUEFrSkhzLXFMRDc0bjBhekRjbnBadEplQjRKS0pyQ3JBbWh4ZkpiSkRqVG1mdzNsRGJBVUlUVWNyZw?oc=5",
+      "source": "Hart Energy",
       "published": "2026-09-11",
-      "query": "Caddo Parish Haynesville drilling",
+      "query": "Haynesville data center natural gas",
       "tags": []
     },
     {
       "title": "bpx energy",
       "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE05M2c4c2RHdWF4Qng1X05oMmxwRDJuS2daVlpoVHNoWV9IR0Y0UGJhVlN4V0IwVEt6OWlzUU05ZlhiVGNFMlNwczRUWUJmN0NiMWJVNllkR0g3TlE1QUJyMEp6bjVVcXZRWjE1UnNCdHNoQ1BKeVE?oc=5",
-      "source": "BP",
+      "source": "bp global",
       "published": "2026-09-09",
       "query": "BPX Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "2026 Haynesville M&A Deal Dollars Exceeding Permian Bucks\u2014Analysis",
+      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPU09QMXZKdTZTWjVzaGZBQlN3VElWWVUzVzdQd3loZE12dkJnX2lLUlBwdjNxdDhMOUxKeG9XdmNVbE5faGJ2aXFnaEVCRlAzaVdoWk40LXlMWUpFY1BmQTJjRXo4T3NkNmZ4dnJpSjcxa3o1YVh1TnR0YmY0d2ZZNWRJazFWdDVJUF9ELVkyc2pVSV9HcHVqdmhJVzA1Z0JFTjBJQw?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-09-01",
+      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
@@ -6626,22 +6626,22 @@
   ],
   "market": {
     "henry_hub": {
-      "price": 3.22,
-      "change": 0.08,
-      "date": "2026-10-14",
+      "price": 3.1,
+      "change": -0.18,
+      "date": "2026-10-20",
       "units": "$/MMBTU"
     },
     "storage": {
-      "bcf": 3567.0,
-      "change": 67.0,
-      "week_ending": "2026-10-09"
+      "bcf": 3644.0,
+      "change": 77.0,
+      "week_ending": "2026-10-16"
     },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-21T10:20:30",
+    "as_of": "2026-10-22T10:20:29",
     "futures": {
-      "price": 2.842,
-      "change": -0.121,
-      "date": "2026-10-21",
+      "price": 2.816,
+      "change": 0.026,
+      "date": "2026-10-22",
       "label": "NYMEX front month (delayed)"
     }
   },
