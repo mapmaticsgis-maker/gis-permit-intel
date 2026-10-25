@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-24T10:24:42",
+  "generated": "2026-10-25T10:24:45",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
@@ -19,17 +19,17 @@
     },
     {
       "prospect": "Caspiana",
-      "lon": -94.05194,
-      "lat": 32.1973,
+      "lon": -94.05614,
+      "lat": 32.19048,
       "score": 58,
       "tier": "med",
       "stages": [
         "site prep",
         "water"
       ],
-      "n_signals": 4,
+      "n_signals": 3,
       "operator": null,
-      "why": "Emerging: two stages within 1 mi -- site prep: 3.2 ac new clearing (unconfirmed); water: 1 ac new frac/water pond (unconfirmed)."
+      "why": "Emerging: two stages within 1 mi -- site prep: 7.1 ac new clearing (unconfirmed); water: 1.2 ac new frac/water pond (unconfirmed)."
     },
     {
       "prospect": "Caspiana",
@@ -48,7 +48,7 @@
     {
       "prospect": "Caspiana",
       "lon": -94.10228,
-      "lat": 32.15964,
+      "lat": 32.15965,
       "score": 54,
       "tier": "med",
       "stages": [

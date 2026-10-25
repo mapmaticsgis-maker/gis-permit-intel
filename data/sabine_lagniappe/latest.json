@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-24T10:20:32",
+  "generated": "2026-10-25T10:20:30",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -427,7 +427,7 @@
           "lon": -94.102908,
           "lat": 32.061035,
           "record": "2026-004463",
-          "score": 18,
+          "score": 14,
           "tier": "low",
           "why": "41 ac lease 3.8 mi N of Shelby North Area 1. AGIS ENERGY now holds 2 recent leases (89 ac) within 5 mi of Shelby North Area 1."
         }
@@ -2518,26 +2518,6 @@
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 1.7,
-          "bearing": "SW",
-          "date": "2026-09-09",
-          "operator": "SABINE EAST TEXAS BASIN",
-          "grantor": "STRONG GEORGEANN E",
-          "county": "RUSK (TX)",
-          "state": "TX",
-          "acres": 57.93,
-          "royalty": null,
-          "play": "HAYNESVILLE - TX",
-          "lon": -94.532397,
-          "lat": 32.3043436,
-          "record": "2026-275534",
-          "score": 25,
-          "tier": "own",
-          "why": "Sabine-side lease filing, 1.7 mi SW of Hill."
-        },
-        {
-          "prospect": "Hill",
-          "type": "lease",
           "distance_mi": 1.5,
           "bearing": "N",
           "date": "2026-08-14",
@@ -2574,6 +2554,26 @@
           "score": 23,
           "tier": "low",
           "why": "109 ac lease 2.8 mi E of Hill. First recent BASIN EXPL lease near Hill."
+        },
+        {
+          "prospect": "Hill",
+          "type": "lease",
+          "distance_mi": 1.7,
+          "bearing": "SW",
+          "date": "2026-09-09",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "STRONG GEORGEANN E",
+          "county": "RUSK (TX)",
+          "state": "TX",
+          "acres": 57.93,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.532397,
+          "lat": 32.3043436,
+          "record": "2026-275534",
+          "score": 22,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 1.7 mi SW of Hill."
         },
         {
           "prospect": "Hill",
@@ -6110,6 +6110,14 @@
   },
   "news": [
     {
+      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
+      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
+      "source": "EnergyNow.com",
+      "published": "2026-10-24",
+      "query": "Expand Energy Haynesville",
+      "tags": []
+    },
+    {
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
@@ -6123,14 +6131,6 @@
       "source": "Hart Energy",
       "published": "2026-10-23",
       "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
-      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
-      "source": "EnergyNow.com",
-      "published": "2026-10-23",
-      "query": "Expand Energy Haynesville",
       "tags": []
     },
     {
@@ -6171,6 +6171,14 @@
       "source": "Yahoo Finance Australia",
       "published": "2026-10-15",
       "query": "Expand Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Centalion Boosts Haynesville Presence with Silver Hill Acquisition",
+      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPM18tOEZfd2dRSlB2eGw2UTJ1cTNrR3VjaHFpM01CMUpOT2NuWlk1Zjh4QTRhSy1zMGoybG9JQ1BnNDZTTnVGRVRqMjJlUjFKSkp6WkY3MkdUT3AwczFDd184eEFsN2pSM3E4blk0cklNSUswelRpQlR1Y0R5TjhycnNIRE1ZUXJmQllBaDB5bVhEb3RsNHFzQUdHbVJSbnRHSmxhTUZKNkt3TENMX212WVU0MlhJb3Npa2JSXzJBbXQ?oc=5",
+      "source": "Rigzone",
+      "published": "2026-10-14",
+      "query": "Haynesville acquisition acres",
       "tags": []
     },
     {
@@ -6610,7 +6618,7 @@
       "week_ending": "2026-10-16"
     },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-24T10:20:32",
+    "as_of": "2026-10-25T10:20:29",
     "futures": {
       "price": 3.05,
       "change": 0.254,
