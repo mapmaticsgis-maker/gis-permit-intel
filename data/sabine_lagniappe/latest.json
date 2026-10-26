@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-25T10:20:30",
+  "generated": "2026-10-26T10:20:34",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -1555,10 +1555,10 @@
           "bearing": "N",
           "date": "2026-10-07",
           "operator": "SABINE EAST TEXAS BASIN",
-          "grantor": "CAROLINE LOUISE LUCAS TRUST ET AL",
+          "grantor": "CAROLINE LOUISE LUCAS TRUST",
           "county": "RUSK (TX)",
           "state": "TX",
-          "acres": 397.3500061035156,
+          "acres": 397.35,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
           "lon": -94.9123836,
@@ -1598,7 +1598,7 @@
           "grantor": "NACHO MINERALS LLC",
           "county": "RUSK (TX)",
           "state": "TX",
-          "acres": 283.0880126953125,
+          "acres": 283.088,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
           "lon": -94.9123836,
@@ -1618,7 +1618,7 @@
           "grantor": "SOURCING ROCK LLC",
           "county": "RUSK (TX)",
           "state": "TX",
-          "acres": 283.0880126953125,
+          "acres": 283.088,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
           "lon": -94.9123836,
@@ -1638,7 +1638,7 @@
           "grantor": "FAST FEET ENTERPRISES LLC",
           "county": "RUSK (TX)",
           "state": "TX",
-          "acres": 283.0880126953125,
+          "acres": 283.088,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
           "lon": -94.9123836,
@@ -1658,7 +1658,7 @@
           "grantor": "WOODLAWN INVESTMENTS LLC",
           "county": "RUSK (TX)",
           "state": "TX",
-          "acres": 283.0880126953125,
+          "acres": 283.088,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
           "lon": -94.9123836,
@@ -2169,7 +2169,7 @@
           ]
         ]
       ],
-      "item_count": 27,
+      "item_count": 26,
       "items": [
         {
           "prospect": "Hill",
@@ -2218,26 +2218,6 @@
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 2.0,
-          "bearing": "E",
-          "date": "2026-09-10",
-          "operator": "CRAIN ENERGY",
-          "grantor": "FRANCIS CLARA LOU KING",
-          "county": "PANOLA (TX)",
-          "state": "TX",
-          "acres": 79.0,
-          "royalty": null,
-          "play": "HAYNESVILLE - TX",
-          "lon": -94.4573997,
-          "lat": 32.3355442,
-          "record": "2026-004488",
-          "score": 49,
-          "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
-        },
-        {
-          "prospect": "Hill",
-          "type": "lease",
           "distance_mi": 2.8,
           "bearing": "E",
           "date": "2026-09-30",
@@ -2253,7 +2233,7 @@
           "record": "2026-004865",
           "score": 47,
           "tier": "med",
-          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2273,7 +2253,7 @@
           "record": "2026-004644",
           "score": 47,
           "tier": "med",
-          "why": "68 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "68 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2293,7 +2273,27 @@
           "record": "2026-004643",
           "score": 47,
           "tier": "med",
-          "why": "68 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "68 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
+        },
+        {
+          "prospect": "Hill",
+          "type": "lease",
+          "distance_mi": 2.0,
+          "bearing": "E",
+          "date": "2026-09-10",
+          "operator": "CRAIN ENERGY",
+          "grantor": "FRANCIS CLARA LOU KING",
+          "county": "PANOLA (TX)",
+          "state": "TX",
+          "acres": 79.0,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.4573997,
+          "lat": 32.3355442,
+          "record": "2026-004488",
+          "score": 43,
+          "tier": "med",
+          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2311,9 +2311,9 @@
           "lon": -94.4423002,
           "lat": 32.3127433,
           "record": "2026-004486",
-          "score": 47,
+          "score": 41,
           "tier": "med",
-          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2331,29 +2331,9 @@
           "lon": -94.4423002,
           "lat": 32.3127433,
           "record": "2026-004485",
-          "score": 47,
+          "score": 41,
           "tier": "med",
-          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
-        },
-        {
-          "prospect": "Hill",
-          "type": "lease",
-          "distance_mi": 2.0,
-          "bearing": "E",
-          "date": "2026-08-18",
-          "operator": "CRAIN ENERGY",
-          "grantor": "ROGERS JENNIFER ANN",
-          "county": "PANOLA (TX)",
-          "state": "TX",
-          "acres": 79.0,
-          "royalty": null,
-          "play": "HAYNESVILLE - TX",
-          "lon": -94.4573997,
-          "lat": 32.3355442,
-          "record": "2026-004094",
-          "score": 43,
-          "tier": "med",
-          "why": "79 ac lease 2.0 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "56 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2373,7 +2353,7 @@
           "record": "2026-004642",
           "score": 40,
           "tier": "med",
-          "why": "2 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "2 ac lease 2.8 mi E of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2393,7 +2373,7 @@
           "record": "2026-004875",
           "score": 39,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2413,7 +2393,7 @@
           "record": "2026-004652",
           "score": 39,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2433,7 +2413,7 @@
           "record": "2026-004645",
           "score": 39,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2453,7 +2433,7 @@
           "record": "2026-004650",
           "score": 39,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2471,9 +2451,9 @@
           "lon": -94.4135011,
           "lat": 32.2913425,
           "record": "2026-004490",
-          "score": 39,
+          "score": 37,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2491,9 +2471,9 @@
           "lon": -94.4135011,
           "lat": 32.2913425,
           "record": "2026-004489",
-          "score": 39,
+          "score": 37,
           "tier": "med",
-          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 14 recent leases (760 ac) within 5 mi of Hill."
+          "why": "49 ac lease 4.9 mi SE of Hill. CRAIN ENERGY now holds 13 recent leases (681 ac) within 5 mi of Hill."
         },
         {
           "prospect": "Hill",
@@ -2518,42 +2498,42 @@
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 1.5,
-          "bearing": "N",
-          "date": "2026-08-14",
+          "distance_mi": 4.8,
+          "bearing": "S",
+          "date": "2026-10-16",
           "operator": "SABINE EAST TEXAS BASIN",
-          "grantor": "EDWARD F MILLER TRUST",
-          "county": "RUSK (TX)",
+          "grantor": "DEVOS ROYALTIES LP",
+          "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 240.93,
+          "acres": 149.25,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.5207975,
-          "lat": 32.3660455,
-          "record": "2026-274695",
-          "score": 25,
+          "lon": -94.4931984,
+          "lat": 32.2491415,
+          "record": "2026-005158",
+          "score": 24,
           "tier": "own",
-          "why": "Sabine-side lease filing, 1.5 mi N of Hill."
+          "why": "Sabine-side lease filing, 4.8 mi S of Hill."
         },
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 2.8,
-          "bearing": "E",
-          "date": "2026-09-10",
-          "operator": "BASIN EXPL",
-          "grantor": "ELLIOTT LETTIE",
+          "distance_mi": 4.8,
+          "bearing": "S",
+          "date": "2026-10-16",
+          "operator": "SABINE EAST TEXAS BASIN",
+          "grantor": "HILL MINERALS GROUP LTD",
           "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 109.07,
+          "acres": 149.25,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.4423002,
-          "lat": 32.3127433,
-          "record": "2026-004480",
-          "score": 23,
-          "tier": "low",
-          "why": "109 ac lease 2.8 mi E of Hill. First recent BASIN EXPL lease near Hill."
+          "lon": -94.4931984,
+          "lat": 32.2491415,
+          "record": "2026-005157",
+          "score": 24,
+          "tier": "own",
+          "why": "Sabine-side lease filing, 4.8 mi S of Hill."
         },
         {
           "prospect": "Hill",
@@ -2658,22 +2638,42 @@
         {
           "prospect": "Hill",
           "type": "lease",
-          "distance_mi": 4.3,
-          "bearing": "NE",
-          "date": "2026-08-05",
-          "operator": "SABINE EAST TEXAS BASIN",
-          "grantor": "GRUBAUGH ENERGY INVESTMENTS LLC",
-          "county": "HARRISON (TX)",
+          "distance_mi": 2.8,
+          "bearing": "E",
+          "date": "2026-09-10",
+          "operator": "BASIN EXPL",
+          "grantor": "ELLIOTT LETTIE",
+          "county": "PANOLA (TX)",
           "state": "TX",
-          "acres": 199.65,
+          "acres": 109.07,
           "royalty": null,
           "play": "HAYNESVILLE - TX",
-          "lon": -94.4367005,
-          "lat": 32.3803455,
-          "record": "2026-000008960",
-          "score": 21,
-          "tier": "own",
-          "why": "Sabine-side lease filing, 4.3 mi NE of Hill."
+          "lon": -94.4423002,
+          "lat": 32.3127433,
+          "record": "2026-004480",
+          "score": 16,
+          "tier": "low",
+          "why": "109 ac lease 2.8 mi E of Hill. First recent BASIN EXPL lease near Hill."
+        },
+        {
+          "prospect": "Hill",
+          "type": "lease",
+          "distance_mi": 2.8,
+          "bearing": "E",
+          "date": "2026-10-01",
+          "operator": "CRAIN II O&G",
+          "grantor": "OLSEN DAVID ADRIAN JR",
+          "county": "PANOLA (TX)",
+          "state": "TX",
+          "acres": 1.7812,
+          "royalty": null,
+          "play": "HAYNESVILLE - TX",
+          "lon": -94.4423002,
+          "lat": 32.3127433,
+          "record": "2026-004877",
+          "score": 10,
+          "tier": "low",
+          "why": "2 ac lease 2.8 mi E of Hill. First recent CRAIN II O&G lease near Hill."
         }
       ]
     },
@@ -6113,7 +6113,7 @@
       "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
       "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-24",
+      "published": "2026-10-25",
       "query": "Expand Energy Haynesville",
       "tags": []
     },
@@ -6121,7 +6121,7 @@
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-23",
+      "published": "2026-10-24",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -6130,7 +6130,7 @@
       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPSGp1LXZVdGdVVkRROTRFa1Fsb2tTeDZZV3laRG9fQm9Ic2I4WHZpR3NYZGlNX1BUcnRYa3g2M29IajVIemF3NXljVHN6RmFESFNxNlZGRHFxZTVJV2tsMzF1SVI0LWNLTFpoc09ua282dEVBRjJud2F1OXVJQkJQZUhlaDlnY1B0WlE?oc=5",
       "source": "Hart Energy",
       "published": "2026-10-23",
-      "query": "Haynesville Shale",
+      "query": "\"Haynesville\" site:hartenergy.com",
       "tags": []
     },
     {
@@ -6150,22 +6150,6 @@
       "tags": []
     },
     {
-      "title": "Billion dollar changes in the Haynesville Shale, energy prices expected to stay high",
-      "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxORU1sZlE5WmQteXkyRHh0MzZWU2UwY3AzX1E2QkJGNG93dzV1a21OS0JTaDJTMjh2cWNoUzZubGdjMnVaWXZaOEl0aHlnRWVKWmJkYU9xQkZTSmN2VEZibFV1ZEYteEltTXliTjVicHBpTjg1OFdkRjI5VlREdm0zdEhManE3bk1DOTNaTkJBc09mdG9TdnZaRlNlZFQ5c1N4eW0wVXB6d3F1N0NWV2ktbnRCbHVfaFctZkk4VXdVXzNsQVpEQUVWNHI0SG9Obk96V201Q2ZPSHZUYkdDYTYyc0ItR1hoM3FIZ0hVTFgxdmZUNnlYUFlCOXJKcTV1dw?oc=5",
-      "source": "The Advocate",
-      "published": "2026-10-16",
-      "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "South Texas producers have big plans to develop the region's 'mini Haynesville'",
-      "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQU0p5MXhPT0RkazFlUTdSNFByeVJabHRRdGtaU0xSNmZ4eWFlbF9ReHhlV3RncHdwVmZJa3RrTkhQbHQ4Z21RUGZISmFBbjY0anpoWlppVjJZaXY4V2g5X3JrOUlULTk0b0tXdzZBVXA0eGpUcEpjY2cwZU5Ob1VGVkp4N2ZFMW1xOXN0YWFhN0M4SUsyZ2lnbW5ZSDM2TG5BalNNSnRBQnQxVDcwZWlFNXhOVzRsREVJT3k2cjgtekJMX0lJNTFyWWQ1eUxIdU5aejFNdFloWmgxdVRfYXBac0dSMGJheGJ1OEhuTA?oc=5",
-      "source": "S&P Global",
-      "published": "2026-10-16",
-      "query": "\"Haynesville\" site:spglobal.com",
-      "tags": []
-    },
-    {
       "title": "Diamondback, Expand Energy Named Top Picks at Scotiabank",
       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdVhoUHJaR2RWSGFPdGVjR3dPeFlZT1BKMEFxNmd4V2NjcTlhV25NTjhIU1JsbXotWkw4TXNPUmh3ZXVvZVhkejQwU2FYeDRDTmktc3lSZHZPdmhSZFJfWkhrMmR4ajRZWGdMa3FzS1ppM2JlZFNhc0xEdUFXWnRNdnpFdXNSTUJSYUZRRA?oc=5",
       "source": "Yahoo Finance Australia",
@@ -6174,11 +6158,11 @@
       "tags": []
     },
     {
-      "title": "Centalion Boosts Haynesville Presence with Silver Hill Acquisition",
-      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPM18tOEZfd2dRSlB2eGw2UTJ1cTNrR3VjaHFpM01CMUpOT2NuWlk1Zjh4QTRhSy1zMGoybG9JQ1BnNDZTTnVGRVRqMjJlUjFKSkp6WkY3MkdUT3AwczFDd184eEFsN2pSM3E4blk0cklNSUswelRpQlR1Y0R5TjhycnNIRE1ZUXJmQllBaDB5bVhEb3RsNHFzQUdHbVJSbnRHSmxhTUZKNkt3TENMX212WVU0MlhJb3Npa2JSXzJBbXQ?oc=5",
-      "source": "Rigzone",
-      "published": "2026-10-14",
-      "query": "Haynesville acquisition acres",
+      "title": "South Texas producers have big plans to develop the region's 'mini Haynesville'",
+      "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQU0p5MXhPT0RkazFlUTdSNFByeVJabHRRdGtaU0xSNmZ4eWFlbF9ReHhlV3RncHdwVmZJa3RrTkhQbHQ4Z21RUGZISmFBbjY0anpoWlppVjJZaXY4V2g5X3JrOUlULTk0b0tXdzZBVXA0eGpUcEpjY2cwZU5Ob1VGVkp4N2ZFMW1xOXN0YWFhN0M4SUsyZ2lnbW5ZSDM2TG5BalNNSnRBQnQxVDcwZWlFNXhOVzRsREVJT3k2cjgtekJMX0lJNTFyWWQ1eUxIdU5aejFNdFloWmgxdVRfYXBac0dSMGJheGJ1OEhuTA?oc=5",
+      "source": "S&P Global",
+      "published": "2026-10-15",
+      "query": "\"Haynesville\" site:spglobal.com",
       "tags": []
     },
     {
@@ -6190,11 +6174,19 @@
       "tags": []
     },
     {
+      "title": "Momentum Midstream is a Bet on the Haynesville LNG Corridor",
+      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPTklZUi0weE1LVWE5OV9tVHM0UVhZY09zVGFJZkZIbjUzbWNURjJCNHJEQVkyUHpNbGhqM0dDbS1vcExhTGd2elNZZ2duemtpMHJmQ1BpMmVFQ2s5ZzlTOVlLR2FOYUk1ci1oX2tWX01kS2hBMU5IMnV4UWtMd2NZS1NZYThmVndLNjFGd20xQjdfSkkwblBJ?oc=5",
+      "source": "East Daley",
+      "published": "2026-10-13",
+      "query": "Haynesville LNG feed gas",
+      "tags": []
+    },
+    {
       "title": "Rockcliff III Counters Haynesville Inventory Concerns with Shelby Trough Push",
       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPTTZrcVJXbERmNEl2LXUxTWhENmNXbkFHTkpIcjdabTI4bkpqUFJIYktudVFpRVVlUTNCSGhxVTRud2tBU0JkWUluZklpcWNLdXMzdVFYYXBDcEJUNHpTRWpiaGhHU0FuX2cxdWZHRWxwcDJIWTZ2WFA4WXgzQUxrNHhzWVpJNWVQSTVfTUNB?oc=5",
       "source": "Hart Energy",
       "published": "2026-10-12",
-      "query": "Rockcliff Energy Haynesville",
+      "query": "Haynesville Shale",
       "tags": []
     },
     {
@@ -6202,7 +6194,7 @@
       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOX1JxRTVtSTJoUHBQU05QTmc3OWs3S0RYQlVtT0stMTF3dGJ5SjFqTDc4YTBPdnBlcDNkWXBGbm5CMUtsOVBXWFA0TGMzeV9NR3RVSHp2YUhzUkdXZkRhR3ZSRzJaaTFTV1kzVFZRR1Y2TkR3WUloNHZRQUJCYjJaUEtwM05QSWUwTmpTS2l5bHBGY21SZDd0VmJyTVE2NU82X1BGSA?oc=5",
       "source": "Hart Energy",
       "published": "2026-10-06",
-      "query": "\"Haynesville\" site:hartenergy.com",
+      "query": "Haynesville acquisition acres",
       "tags": []
     },
     {
@@ -6267,6 +6259,14 @@
       "source": "Hart Energy",
       "published": "2026-09-15",
       "query": "BPX Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Rystad: NatGas Draws New Class of Buyers as LNG, Power Drive Demand",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNVhaaERRMmcwM2ZBSzFKaTBqMTdDNk1hMVlLZWZLN3BpMGh2VzExdFpyd0dTa3lMdHZuVkVyemhiY3ZYU2lHLWF5TDZqRjJ6YkFtNG9ZMzlZVmYyZzd5VnMyNmlLLU5JYWZsRHE1SlNGQXB0YmZxUnBPUEFrSkhzLXFMRDc0bjBhekRjbnBadEplQjRKS0pyQ3JBbWh4ZkpiSkRqVG1mdzNsRGJBVUlUVWNyZw?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-09-11",
+      "query": "Haynesville data center natural gas",
       "tags": []
     },
     {
@@ -6618,11 +6618,11 @@
       "week_ending": "2026-10-16"
     },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-25T10:20:29",
+    "as_of": "2026-10-26T10:20:34",
     "futures": {
-      "price": 3.05,
-      "change": 0.254,
-      "date": "2026-10-23",
+      "price": 3.028,
+      "change": 0.388,
+      "date": "2026-10-26",
       "label": "NYMEX front month (delayed)"
     }
   },
