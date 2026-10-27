@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-26T10:20:34",
+  "generated": "2026-10-27T10:20:31",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -407,7 +407,7 @@
           "lon": -94.1057077,
           "lat": 32.0405344,
           "record": "2026-004927",
-          "score": 29,
+          "score": 23,
           "tier": "low",
           "why": "48 ac lease 2.3 mi N of Shelby North Area 1. AGIS ENERGY now holds 2 recent leases (89 ac) within 5 mi of Shelby North Area 1."
         },
@@ -6061,7 +6061,7 @@
           "lon": -94.1014083,
           "lat": 32.0774354,
           "record": "2026-004932",
-          "score": 19,
+          "score": 15,
           "tier": "low",
           "why": "50 ac lease 4.6 mi SW of Caspiana. AGIS ENERGY now holds 2 recent leases (100 ac) within 5 mi of Caspiana."
         },
@@ -6081,7 +6081,7 @@
           "lon": -94.1014083,
           "lat": 32.0774354,
           "record": "2026-004928",
-          "score": 19,
+          "score": 15,
           "tier": "low",
           "why": "50 ac lease 4.6 mi SW of Caspiana. AGIS ENERGY now holds 2 recent leases (100 ac) within 5 mi of Caspiana."
         },
@@ -6110,18 +6110,10 @@
   },
   "news": [
     {
-      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
-      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
-      "source": "EnergyNow.com",
-      "published": "2026-10-25",
-      "query": "Expand Energy Haynesville",
-      "tags": []
-    },
-    {
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-24",
+      "published": "2026-10-26",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -6130,7 +6122,7 @@
       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPSGp1LXZVdGdVVkRROTRFa1Fsb2tTeDZZV3laRG9fQm9Ic2I4WHZpR3NYZGlNX1BUcnRYa3g2M29IajVIemF3NXljVHN6RmFESFNxNlZGRHFxZTVJV2tsMzF1SVI0LWNLTFpoc09ua282dEVBRjJud2F1OXVJQkJQZUhlaDlnY1B0WlE?oc=5",
       "source": "Hart Energy",
       "published": "2026-10-23",
-      "query": "\"Haynesville\" site:hartenergy.com",
+      "query": "Haynesville Shale",
       "tags": []
     },
     {
@@ -6146,14 +6138,6 @@
       "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxNWU5Fb3lMc3AxYzl1Mmt6ZnFmNWdmRmg0TXBRYWZTcmVOY2pscXRqMnNkRzhJZnk3VVhMT0xvaHFVMjBUWi0zdTJRQW1aOE10LW5QRzNzZGVzaU1sN3VPdHJtMElqeGdNbTE0S0RxQUNpOHNrbEMzQl83WGY5X0Q4SWU4TldVeEI2Z0I2Z2ZYOWdQUU9vSWMwV21IMTFkVEVCX1RPTE13S19MZ0s3UHFSdU90a1R5dFhOQi1RQzgybUxEYWVTQUpPdVNNTko5bnphdzh0dDNhT2V5SW1sODRkXzgzbm5XaEE?oc=5",
       "source": "The Shreveport-Bossier City Advocate",
       "published": "2026-10-20",
-      "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Diamondback, Expand Energy Named Top Picks at Scotiabank",
-      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOdVhoUHJaR2RWSGFPdGVjR3dPeFlZT1BKMEFxNmd4V2NjcTlhV25NTjhIU1JsbXotWkw4TXNPUmh3ZXVvZVhkejQwU2FYeDRDTmktc3lSZHZPdmhSZFJfWkhrMmR4ajRZWGdMa3FzS1ppM2JlZFNhc0xEdUFXWnRNdnpFdXNSTUJSYUZRRA?oc=5",
-      "source": "Yahoo Finance Australia",
-      "published": "2026-10-15",
       "query": "Expand Energy Haynesville",
       "tags": []
     },
@@ -6166,27 +6150,11 @@
       "tags": []
     },
     {
-      "title": "LNG Exports Call for Gas. The Haynesville Will Answer",
-      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOc1BvTkowQklteXlGX0hzY3EwTWFQd252V1pIblFOSWoyckF4SHdqV3VYcVF6Q1FMUjRodklfbmNiOVdlZkU3cV9KdzlhaE10Ri11ajQ0OGRXZVNkejdPam03TE12RHhyWHlxc1MybEY1VmI3cm9pbWJvbWN3WldRUnVkWWczX3djY0pxdDU3c05reXFubDFYNHd5dVNUWE96WWllSjBxTErSAa4BQVVfeXFMTjAwYkNVZjlaNkwxbk55NjZIMlk4SVUwS0FRcVRvM3owRHhIS3daYnk3OFo5YWc1Qk1vS1VKY05mS083YUhORW5qc25IMVpzZ1Zzd3VRT05OUTZqdDhrNTI3QkRTNUlNRmFUNUdqNFM1Z3VmX25kemM0TTlzRUtESzNtRTRyR2JKVXFvSVJxYy1pMU1rR3RKVTNWOFZ2c1lrTVhqMm40M3BQY2huS0l3?oc=5",
-      "source": "ETF Trends",
-      "published": "2026-10-13",
-      "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Momentum Midstream is a Bet on the Haynesville LNG Corridor",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPTklZUi0weE1LVWE5OV9tVHM0UVhZY09zVGFJZkZIbjUzbWNURjJCNHJEQVkyUHpNbGhqM0dDbS1vcExhTGd2elNZZ2duemtpMHJmQ1BpMmVFQ2s5ZzlTOVlLR2FOYUk1ci1oX2tWX01kS2hBMU5IMnV4UWtMd2NZS1NZYThmVndLNjFGd20xQjdfSkkwblBJ?oc=5",
-      "source": "East Daley",
-      "published": "2026-10-13",
-      "query": "Haynesville LNG feed gas",
-      "tags": []
-    },
-    {
       "title": "Rockcliff III Counters Haynesville Inventory Concerns with Shelby Trough Push",
       "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPTTZrcVJXbERmNEl2LXUxTWhENmNXbkFHTkpIcjdabTI4bkpqUFJIYktudVFpRVVlUTNCSGhxVTRud2tBU0JkWUluZklpcWNLdXMzdVFYYXBDcEJUNHpTRWpiaGhHU0FuX2cxdWZHRWxwcDJIWTZ2WFA4WXgzQUxrNHhzWVpJNWVQSTVfTUNB?oc=5",
       "source": "Hart Energy",
       "published": "2026-10-12",
-      "query": "Haynesville Shale",
+      "query": "Rockcliff Energy Haynesville",
       "tags": []
     },
     {
@@ -6211,6 +6179,14 @@
       "source": "Rigzone",
       "published": "2026-09-25",
       "query": "Haynesville acquisition acres",
+      "tags": []
+    },
+    {
+      "title": "Rockcliff Energy Turns to AI to Unlock East Texas Opportunities",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPbXRVSXQwQUI5US1XWTFQSGxyeFBLX3owR0FrZnZFaWJuR0J5a2tIVGtOR0V1QWhHNXNlLV9sZmFELTN2TERRQTd1alk2STFZZmsxamlOcC1hRXBuUmNOSFJscWxvVDZhTG9WMGZpNlVBbU0xci1GSGRHcm9LeUZ0SXNnQ19tMjA1UWVqV3Y2QTA2UVU5?oc=5",
+      "source": "Hart Energy",
+      "published": "2026-09-24",
+      "query": "Rockcliff Energy Haynesville",
       "tags": []
     },
     {
@@ -6254,14 +6230,6 @@
       "tags": []
     },
     {
-      "title": "SUPER DUG: How BPX is Using Rapid Drilling Cycles to Sharpen BP\u2019s Competitive Edge",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPY3B2YTB0eE1sdUFOSGxjTDRWR0ltTE9tdkVROG5qanBYRDVpTmEtbzZpVUQwVU52TzQwS0NZWHNRVmVNV3h3R0NPU1JpejlKRVZtWmZKVUhnT3ZYM0hKUlBkWUhqRFVDWnB6d0tMMDBQdUdYTGRNVnYxM19iMDd0MmMzZGVtT3V4LUZvVHJ3UjlGZUIyNWJ3?oc=5",
-      "source": "Hart Energy",
-      "published": "2026-09-15",
-      "query": "BPX Energy Haynesville",
-      "tags": []
-    },
-    {
       "title": "Rystad: NatGas Draws New Class of Buyers as LNG, Power Drive Demand",
       "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNVhaaERRMmcwM2ZBSzFKaTBqMTdDNk1hMVlLZWZLN3BpMGh2VzExdFpyd0dTa3lMdHZuVkVyemhiY3ZYU2lHLWF5TDZqRjJ6YkFtNG9ZMzlZVmYyZzd5VnMyNmlLLU5JYWZsRHE1SlNGQXB0YmZxUnBPUEFrSkhzLXFMRDc0bjBhekRjbnBadEplQjRKS0pyQ3JBbWh4ZkpiSkRqVG1mdzNsRGJBVUlUVWNyZw?oc=5",
       "source": "Hart Energy",
@@ -6286,14 +6254,6 @@
       "tags": []
     },
     {
-      "title": "Expand Energy Positioned for Gulf Coast Demand Growth, Twin Eagle Value, RBC Says",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQZmQ0b3JDVDRTLW9tXzZXOGZGNXdNbVkxTV9EdlV2UU9OcjFuN2hkTW1Xem5fN015QjBwbWJwN1RtRE9Nb0dQQUduTTVBSDlJbEJxQmVXY2JBaHJfRWJvTTR5UVEzYlBYYzhrMDU1Y2pqQW1ETnMySUd0MjVoMnZvTjJwNklucXlrN3ptbFBBR200ejRuWVlZ?oc=5",
-      "source": "Yahoo Finance",
-      "published": "2026-09-03",
-      "query": "Expand Energy Haynesville",
-      "tags": []
-    },
-    {
       "title": "Haynesville shale: Calculated re-engagement characterizes operator behavior",
       "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOdk1Eb0lLcTN1MS1CS3pYVnotSXFYdFJ1NEFvLUZ1eFNhcEpxaElvcFNyeFkyVjJPMGlLUC1PMFVKMlhxZGdieTVTdVAtOXV3MnVxUDd2T3ktZ0s1WGtUZ2liT3BMS00xdWNrNFJOdVdSWDNHblhtVTNDRW11RDhVYjlRZE1BalliN2pOVEpFcjFkUVR6LURQbFNjV1YxYmJUeXJKSVIyRVpHUzFZdjFvN2ZGNjZWTWRSMUFIaEtmQ3Npb1NwU0E0NnRR?oc=5",
       "source": "World Oil",
@@ -6303,6 +6263,13 @@
     }
   ],
   "brief_items": [
+    {
+      "title": "Comstock-SOCAR's October 31 definitive-agreement deadline is now 5 days out, with no signed PSA found",
+      "source": "Play Intel",
+      "published": "2026-10-26",
+      "link": null,
+      "kind": "insight"
+    },
     {
       "title": "LA Haynesville: 155 permits, unchanged - but the pad-level data shows the play is anything but quiet",
       "source": "Play Intel",
@@ -6505,104 +6472,6 @@
       "published": "2026-10-08",
       "link": "https://worldoil.com/magazine/2026/august/features/haynesville-shale-calculated-re-engagement-characterizes-operator-behavior/",
       "kind": "news"
-    },
-    {
-      "title": "Comstock Resources is both mid-transaction with a major LNG partner and the single largest lessee in's entire batch",
-      "source": "Play Intel",
-      "published": "2026-10-05",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Apex Natural Gas (Citadel-backed, ex-Paloma) is now confirmed as the play's single most active driller",
-      "source": "Play Intel",
-      "published": "2026-10-05",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Mitsubishi's Adamas Energy has fully closed its Aethon acquisition and is now the play's #2 gas producer",
-      "source": "Play Intel",
-      "published": "2026-10-05",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Expand Energy is pushing the hardest into the western edge of the TX corridor",
-      "source": "Play Intel",
-      "published": "2026-10-05",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Sabine Energy remains TX's largest standing Haynesville filer and picked up fresh leasehold on its home turf",
-      "source": "Play Intel",
-      "published": "2026-10-05",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Silver Hill Energy Partners just closed new capital and is actively rotating acreage between Haynesville and Eagle Ford",
-      "source": "Play Intel",
-      "published": "2026-10-05",
-      "link": null,
-      "kind": "insight"
-    },
-    {
-      "title": "Comstock Announces $1.65 Billion Strategic Partnership with SOCAR",
-      "source": "Comstock Resources Investor Relations",
-      "published": "2026-10-05",
-      "link": "https://investors.comstockresources.com/news-releases/news-release-details/comstock-announces-165-billion-strategic-partnership-socar-and",
-      "kind": "news"
-    },
-    {
-      "title": "Comstock to Double Western Haynesville Wells in 2026, Advances NextEra Data Center Project",
-      "source": "RBN Energy",
-      "published": "2026-10-05",
-      "link": "https://rbnenergy.com/daily-posts/analyst-insight/comstock-double-western-haynesville-wells-2026-advances-nextera-data",
-      "kind": "news"
-    },
-    {
-      "title": "APEX Natural Gas expands in northwest Louisiana with multiple drilling permits",
-      "source": "Shreveport-Bossier Advocate",
-      "published": "2026-10-05",
-      "link": "https://www.shreveportbossieradvocate.com/business/apex-looks-to-sink-multiple-wells-in-north-louisiana-near-caddo/article_8c44530d-6ec6-4143-a759-ab158e0d2d2a.html",
-      "kind": "news"
-    },
-    {
-      "title": "Mitsubishi closes acquisition of Aethon's Haynesville shale assets",
-      "source": "NewsBase",
-      "published": "2026-10-05",
-      "link": "https://newsbase.com/story/mitsubishi-closes-acquisition-of-aethon-s-haynesville-shale-assets-455115",
-      "kind": "news"
-    },
-    {
-      "title": "Adamas Energy's Next Phase: Air Permits Point to Haynesville Development Moving Beyond the Drill Bit",
-      "source": "Oil & Gas Leads",
-      "published": "2026-10-05",
-      "link": "https://oilgasleads.com/adamas-energys-next-phase-air-permits-point-to-haynesville-development-moving-beyond-the-drill-bit/",
-      "kind": "news"
-    },
-    {
-      "title": "Silver Hill Energy Partners Closes Oversubscribed $1.277 Billion Fifth Investment Fund",
-      "source": "BusinessWire",
-      "published": "2026-10-05",
-      "link": "https://www.businesswire.com/news/home/20260716016762/en/Silver-Hill-Energy-Partners-Closes-Oversubscribed-$1.277-Billion-Fifth-Investment-Fund-Focused-on-Premier-U.S.-Oil-and-Gas-Basins",
-      "kind": "news"
-    },
-    {
-      "title": "Haynesville Expansion Pushes into East Texas as Caturus, Aethon Seek New Inventory",
-      "source": "Energy News Beat",
-      "published": "2026-10-05",
-      "link": "https://energynewsbeat.co/exploration-and-production/haynesville-expansion-pushes-into-east-texas-as-caturus-aethon-seek-new-inventory/",
-      "kind": "news"
-    },
-    {
-      "title": "Haynesville basin rig count and gas growth outlook",
-      "source": "The Center Square",
-      "published": "2026-10-05",
-      "link": "https://www.thecentersquare.com/national/article_a06157db-82b2-4eda-9b4c-f98904ee8024.html",
-      "kind": "news"
     }
   ],
   "market": {
@@ -6618,11 +6487,11 @@
       "week_ending": "2026-10-16"
     },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-26T10:20:34",
+    "as_of": "2026-10-27T10:20:31",
     "futures": {
-      "price": 3.028,
-      "change": 0.388,
-      "date": "2026-10-26",
+      "price": 3.015,
+      "change": 0.413,
+      "date": "2026-10-27",
       "label": "NYMEX front month (delayed)"
     }
   },
