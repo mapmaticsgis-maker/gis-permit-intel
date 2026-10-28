@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-27T10:25:13",
+  "generated": "2026-10-28T10:24:49",
   "cluster_miles": 1.0,
   "min_stages": 2,
   "hotspots": [
@@ -19,6 +19,20 @@
     },
     {
       "prospect": "Caspiana",
+      "lon": -94.10198,
+      "lat": 32.1603,
+      "score": 63,
+      "tier": "med",
+      "stages": [
+        "leasing",
+        "water"
+      ],
+      "n_signals": 2,
+      "operator": "TGNR PANOLA LLC",
+      "why": "Emerging: two stages within 1 mi -- leasing: TGNR PANOLA LLC lease, 196 ac; water: 7.2 ac new frac/water pond (unconfirmed)."
+    },
+    {
+      "prospect": "Caspiana",
       "lon": -94.05614,
       "lat": 32.19047,
       "score": 58,
@@ -30,20 +44,6 @@
       "n_signals": 3,
       "operator": null,
       "why": "Emerging: two stages within 1 mi -- site prep: 7 ac new clearing (unconfirmed); water: 1.3 ac new frac/water pond (unconfirmed)."
-    },
-    {
-      "prospect": "Caspiana",
-      "lon": -94.10228,
-      "lat": 32.15964,
-      "score": 54,
-      "tier": "med",
-      "stages": [
-        "leasing",
-        "water"
-      ],
-      "n_signals": 2,
-      "operator": "TGNR PANOLA LLC",
-      "why": "Emerging: two stages within 1 mi -- leasing: TGNR PANOLA LLC lease, 196 ac; water: 7.2 ac new frac/water pond (unconfirmed)."
     }
   ]
 }

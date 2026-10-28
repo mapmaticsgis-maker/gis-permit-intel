@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-27T10:20:31",
+  "generated": "2026-10-28T10:20:33",
   "radius_miles": 5.0,
   "permit_lookback_days": 45,
   "rig_lookback_days": 45,
@@ -6023,8 +6023,74 @@
           ]
         ]
       ],
-      "item_count": 4,
+      "item_count": 7,
       "items": [
+        {
+          "prospect": "Caspiana",
+          "type": "permit",
+          "distance_mi": 2.3,
+          "bearing": "W",
+          "date": "2026-10-26",
+          "operator": "TGNR PANOLA LLC",
+          "county": "PANOLA",
+          "state": "TX",
+          "well": "G14B GRETAL DS",
+          "well_num": "4HH",
+          "trajectory": "HORIZONTAL",
+          "depth_ft": 22000.0,
+          "lon": -94.130444,
+          "lat": 32.1688815,
+          "lateral_ft": 13034.652,
+          "bh_lat": 32.132366,
+          "bh_lon": -94.130431,
+          "score": 78,
+          "tier": "high",
+          "why": "Horizontal permit 2.3 mi W of Caspiana, 13,035 ft lateral. TGNR PANOLA has 4 filings near Caspiana this window."
+        },
+        {
+          "prospect": "Caspiana",
+          "type": "permit",
+          "distance_mi": 2.3,
+          "bearing": "W",
+          "date": "2026-10-26",
+          "operator": "TGNR PANOLA LLC",
+          "county": "PANOLA",
+          "state": "TX",
+          "well": "G14B GRETAL ES",
+          "well_num": "5HH",
+          "trajectory": "HORIZONTAL",
+          "depth_ft": 22000.0,
+          "lon": -94.1305079,
+          "lat": 32.1688788,
+          "lateral_ft": 13052.651,
+          "bh_lat": 32.13239,
+          "bh_lon": -94.133274,
+          "score": 78,
+          "tier": "high",
+          "why": "Horizontal permit 2.3 mi W of Caspiana, 13,053 ft lateral. TGNR PANOLA has 4 filings near Caspiana this window."
+        },
+        {
+          "prospect": "Caspiana",
+          "type": "permit",
+          "distance_mi": 2.3,
+          "bearing": "W",
+          "date": "2026-10-26",
+          "operator": "TGNR PANOLA LLC",
+          "county": "PANOLA",
+          "state": "TX",
+          "well": "G14B GRETAL FS",
+          "well_num": "6HH",
+          "trajectory": "HORIZONTAL",
+          "depth_ft": 22000.0,
+          "lon": -94.1305718,
+          "lat": 32.1688732,
+          "lateral_ft": 13130.014,
+          "bh_lat": 32.132399,
+          "bh_lon": -94.136116,
+          "score": 78,
+          "tier": "high",
+          "why": "Horizontal permit 2.3 mi W of Caspiana, 13,130 ft lateral. TGNR PANOLA has 4 filings near Caspiana this window."
+        },
         {
           "prospect": "Caspiana",
           "type": "lease",
@@ -6041,8 +6107,8 @@
           "lon": -94.1007096,
           "lat": 32.1630377,
           "record": "2026-004251",
-          "score": 23,
-          "tier": "low",
+          "score": 38,
+          "tier": "med",
           "why": "196 ac lease 0.6 mi W of Caspiana. First recent TGNR PANOLA lease near Caspiana."
         },
         {
@@ -6113,8 +6179,32 @@
       "title": "US Natural Gas Supply Outlook Hinges on Three Key Shale Basins: Maguire",
       "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOVHd1cDZxMlE1R21OTV83anNHRk9abEg4ZE9Vdm1QZ0xRNGxmdng5MEdwbVhRYXg2M0dhZjFjb2l5dm5NS2hDMktZVy1heDJPRV9KM0RxRXBiblBnd1FzSlpZamJSM0FWTzdCemFRS09ZWnRUWHFYNXdwTVpuQ0RiQldvd2tkZmluTlVqbFFuZEgyMEttUFhuNWNBbHlnU0hWVlJr?oc=5",
       "source": "EnergyNow.com",
-      "published": "2026-10-26",
+      "published": "2026-10-28",
       "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "Drilling report: Oct. 11-17, 2026",
+      "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5zQjhHQXVlTVBXMDNWYklSLV8zWmtNNEszNXNUWUQwVWxOSkhPMm5NX214ekxqN3M0dFlYVHBrT0NGRE9acTdIdHNUTktWQVByQ1VzbFNEY0laWW5LRFZrMmpRSUtmbi1PQTRNenhiXy1nSEYxQnc?oc=5",
+      "source": "Longview News-Journal",
+      "published": "2026-10-28",
+      "query": "Haynesville Shale",
+      "tags": []
+    },
+    {
+      "title": "M&A: Williams Agrees to Buy Momentum Midstream for $5.5 Billion",
+      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHh5Rkhxdmw3U0lqSFJyQll3NTRmR1gzR2J6M2pxeHhCckRCOWlsdWdHRHdCRDlUZHk2bURFb3RiVXhWOVF0el93andESkVKUkVfZ2V4SUE2QXg0bVdOakxsWWJPRVY3Vkc3dnlzT0FHWGdBaVVrVmJ4VEdFWWFTNXpZb0xVQVhicVl6ZnY4LXRHZw?oc=5",
+      "source": "EnergyNow.com",
+      "published": "2026-10-28",
+      "query": "Expand Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "U.S. natural gas production on track for second straight record",
+      "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNVXBuZVJKekhIZkp2X0VzZ2ZFY0NDTEd0LUhlZTVLSUc4dmpLV18wTzk0Z0tFNXRiRFlvcTJIaFZISmU2cmllN2RhdkNzRVREckwwSXZFcFpraDdaMWpnU3MtNTRTT2hrRTdnbmhzRGFwcWF0WDJyZjdLdTZQNkdiLW9uTk9FRldISkVfbkdwSkRFTXk2V2F1U0FWQVluWnlPSXB6RkwxZk1CTjJsNlBFV0I5dWZhbkw0Vlp2MjFmOU5uOXgxSDVFQWJwZXBRYUo4clFtblZSTXJNcTBFSGc?oc=5",
+      "source": "Pipeline and Gas Journal",
+      "published": "2026-10-27",
+      "query": "Haynesville data center natural gas",
       "tags": []
     },
     {
@@ -6122,14 +6212,6 @@
       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPSGp1LXZVdGdVVkRROTRFa1Fsb2tTeDZZV3laRG9fQm9Ic2I4WHZpR3NYZGlNX1BUcnRYa3g2M29IajVIemF3NXljVHN6RmFESFNxNlZGRHFxZTVJV2tsMzF1SVI0LWNLTFpoc09ua282dEVBRjJud2F1OXVJQkJQZUhlaDlnY1B0WlE?oc=5",
       "source": "Hart Energy",
       "published": "2026-10-23",
-      "query": "Haynesville Shale",
-      "tags": []
-    },
-    {
-      "title": "Drilling Report: Oct. 3-10, 2026",
-      "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE05RkFtTVdndWxXNXpaZGFYMnplMUtTeW5zVHJXd2NkOVZlTzFJRDZMaEVvLUQxaGFoR291T2kyTTJoYlVOSzFJZGozX2JRN0lDcFpCUzRTaGp4QXc2Y2ZqblE0QWJxSl93WFg0TDRPOEtsZw?oc=5",
-      "source": "Tyler Morning Telegraph",
-      "published": "2026-10-21",
       "query": "Haynesville Shale",
       "tags": []
     },
@@ -6155,6 +6237,14 @@
       "source": "Hart Energy",
       "published": "2026-10-12",
       "query": "Rockcliff Energy Haynesville",
+      "tags": []
+    },
+    {
+      "title": "Billion dollar changes in the Haynesville Shale, energy prices expected to stay high",
+      "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOY2NKOGx6VkljbnItYjlWeGl6MzZENEZ3d280TUtoMkJJXzNOeS1qcThyM0lhZjNYZXdDS3NkMmlMM2xTRGdwV1B3bWhrNk9JSkdlZlhKZlJaS3RFRDNyQkx5SUl2SVNqcHM5c1FqMzBIQnI0YWxwYm5QUGUzUDlHVmhIaUtCS1p4Ul81V25FYXNEZnNtWW1FTGtBOEZWbUwwOGJnM0FPS2ZwMjZHQWgwSGF4a1FGaG9TTVBJOUhNdzZISVRheEZDb1g4T0l0LUJpQ2Y2SlRYSGlka0xWTnhLd2ZtLXhPNy11VjZIQkcxSzAzdlExeEhDUHZR?oc=5",
+      "source": "The Shreveport-Bossier City Advocate",
+      "published": "2026-10-08",
+      "query": "Haynesville Shale",
       "tags": []
     },
     {
@@ -6227,14 +6317,6 @@
       "source": "Hart Energy",
       "published": "2026-09-16",
       "query": "BPX Energy Haynesville",
-      "tags": []
-    },
-    {
-      "title": "Rystad: NatGas Draws New Class of Buyers as LNG, Power Drive Demand",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPNVhaaERRMmcwM2ZBSzFKaTBqMTdDNk1hMVlLZWZLN3BpMGh2VzExdFpyd0dTa3lMdHZuVkVyemhiY3ZYU2lHLWF5TDZqRjJ6YkFtNG9ZMzlZVmYyZzd5VnMyNmlLLU5JYWZsRHE1SlNGQXB0YmZxUnBPUEFrSkhzLXFMRDc0bjBhekRjbnBadEplQjRKS0pyQ3JBbWh4ZkpiSkRqVG1mdzNsRGJBVUlUVWNyZw?oc=5",
-      "source": "Hart Energy",
-      "published": "2026-09-11",
-      "query": "Haynesville data center natural gas",
       "tags": []
     },
     {
@@ -6487,11 +6569,11 @@
       "week_ending": "2026-10-16"
     },
     "source": "U.S. EIA \u00b7 NYMEX delayed",
-    "as_of": "2026-10-27T10:20:31",
+    "as_of": "2026-10-28T10:20:33",
     "futures": {
-      "price": 3.015,
-      "change": 0.413,
-      "date": "2026-10-27",
+      "price": 3.056,
+      "change": 0.359,
+      "date": "2026-10-28",
       "label": "NYMEX front month (delayed)"
     }
   },
