@@ -1,0 +1,9 @@
+{
+  "skipped": true,
+  "reason": "source unchanged since 2026-11-05T14:35:24 (64 records)",
+  "source_name": "REST",
+  "written_at": "2026-11-05T16:00:26",
+  "prior_ingested_at": "2026-11-05T14:35:24",
+  "prior_source_name": "REST",
+  "records_parsed": "64"
+}
